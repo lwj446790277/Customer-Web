@@ -1,0 +1,118 @@
+<template>
+	<div class="manage_page fillcontain">
+		<el-row style="height: 100%;">
+	  		<el-col :span="4"  style="min-height: 100%; background-color: #324057;">
+				<el-menu :default-active="defaultActive" style="min-height: 100%;" theme="dark" router>
+					<el-menu-item index="manage"><i class="el-icon-menu"></i>首页</el-menu-item>
+					<el-submenu index="2">
+						<template slot="title"><i class="el-icon-document"></i>订单管理</template>
+						<el-menu-item index="MachineOrder">机审订单</el-menu-item>
+						<el-menu-item index="electricOrder">电销订单</el-menu-item>
+						<el-menu-item index="manualReview">人工复审</el-menu-item>
+						<el-menu-item index="queryOrder">订单查询</el-menu-item>
+					</el-submenu>
+					<el-submenu index="3">
+						<template slot="title"><i class="el-icon-plus"></i>用户管理</template>
+						<el-menu-item index="userList">注册用户信息</el-menu-item>
+						<el-menu-item index="userInteraction">用户互动信息</el-menu-item>
+						<el-menu-item index="blackList">黑名单用户</el-menu-item>
+					</el-submenu>
+					<el-submenu index="4">
+						<template slot="title"><i class="el-icon-star-on"></i>财务管理</template>
+						<el-menu-item index="paymentRecord">支付记录</el-menu-item>
+						<el-menu-item index="repaymentPlan">还款计划</el-menu-item>
+						<el-menu-item index="repaymentRecord">还款记录</el-menu-item>
+						<el-menu-item index="manualTransfer">手动调账</el-menu-item>
+						<el-menu-item index="offlineRepayment">线下还款</el-menu-item>
+						<el-menu-item index="financialOverview">财务总览</el-menu-item>
+					</el-submenu>
+					<el-submenu index="5">
+						<template slot="title"><i class="el-icon-star-on"></i>货后订单管理</template>
+						<el-menu-item index="dateOrder">期限内订单</el-menu-item>
+						<el-menu-item index="returnOrder">已还订单</el-menu-item>
+						<el-menu-item index="overdueOrder">已逾期订单</el-menu-item>
+						<el-menu-item index="badOrder">已坏账订单</el-menu-item>
+						<!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
+					</el-submenu>
+					<el-submenu index="6">
+						<template slot="title"><i class="el-icon-star-on"></i>催收预警及管理</template>
+						<el-menu-item index="collectionOne">已逾期未入催</el-menu-item>
+						<el-menu-item index="collectionTwo">催收订单管理</el-menu-item>
+						<el-menu-item index="collectionThree">催收订单数据统计</el-menu-item>
+						<el-menu-item index="collectionFour">催收员管理</el-menu-item>
+						<el-menu-item index="collectionFive">催收员工作报表
+						</el-menu-item>
+					</el-submenu>
+					<el-submenu index="7">
+						<template slot="title"><i class="el-icon-star-on"></i>运营数据</template>
+						<el-menu-item index="operationalDataOne">平台总数据</el-menu-item>
+						<el-menu-item index="operationalDataTwo">还款数据</el-menu-item>
+						<el-menu-item index="operationalDataThree">逾期数据</el-menu-item>
+						<el-menu-item index="operationalDataFour">收支数据</el-menu-item>
+						<!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
+					</el-submenu>
+					<el-submenu index="8">
+						<template slot="title"><i class="el-icon-star-on"></i>风控数据</template>
+						<el-menu-item index="windControlOne">风控总数据统计</el-menu-item>
+						<el-menu-item index="windControlTwo">风控渠道数据配置</el-menu-item>
+						<el-menu-item index="windControlThree">风控配置</el-menu-item>
+						<!-- <el-menu-item index="newMember">用户数据</el-men-item> -->
+					</el-submenu>
+					<el-submenu index="9">
+						<template slot="title"><i class="el-icon-star-on"></i>渠道管理</template>
+						<el-menu-item index="channelOne">推广渠道管理及扣量</el-menu-item>
+						<el-menu-item index="channelTwo">渠道业务数据</el-menu-item>
+						<el-menu-item index="channelThree">渠道注册数据</el-menu-item>
+						<el-menu-item index="channelFour">渠道对外注册数据及结算</el-menu-item>
+						<!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
+					</el-submenu>
+					<el-submenu index="10">
+						<template slot="title"><i class="el-icon-setting"></i>系统配置</template>
+						<el-menu-item index="systemConfigurationOne">贷款类型配置</el-menu-item>
+						<el-menu-item index="systemConfigurationTwo">轮播图配置</el-menu-item>
+						<el-menu-item index="systemConfigurationThree">客服与联系配置</el-menu-item>
+						<el-menu-item index="systemConfigurationFour">申请条件配置</el-menu-item>
+						<el-menu-item index="systemConfigurationFive">认证信息配置</el-menu-item>
+						<el-menu-item index="systemConfigurationSix">短信配置</el-menu-item>
+						<el-menu-item index="systemConfigurationSeven">角色及用户管理</el-menu-item>
+						<el-menu-item index="systemConfigurationEight">各项协议编辑</el-menu-item>
+						<!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
+					</el-submenu>
+					<el-submenu index="11">
+						<template slot="title"><i class="el-icon-star-on"></i>紧急按钮</template>
+						<el-menu-item index="visitor">暂时未定</el-menu-item>
+						<!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
+					</el-submenu>
+					<el-submenu index="12">
+						<template slot="title"><i class="el-icon-setting"></i>全局说明(技术)</template>
+						<el-menu-item index="adminSet">说明</el-menu-item>
+						<!-- <el-menu-item index="sendMessage">发送通知</el-menu-item> -->
+					</el-submenu>
+				</el-menu>
+			</el-col>
+			<el-col :span="20" style="height: 100%;overflow: auto;">
+				<keep-alive>
+				    <router-view></router-view>
+				</keep-alive>
+			</el-col>
+		</el-row>
+  	</div>
+</template>
+
+<script>
+    export default {
+		computed: {
+			defaultActive: function(){
+				return this.$route.path.replace('/', '');
+			}
+		},
+    }
+</script>
+
+
+<style lang="less" scoped>
+	@import '../style/mixin';
+	.manage_page{
+		
+	}
+</style>
