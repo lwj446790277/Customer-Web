@@ -61,6 +61,7 @@
 				this.$refs[formName].validate(async (valid) => {
 					if (valid) {
 						const res = await login({user_name: this.loginForm.username, password: this.loginForm.password})
+						res.status =1;
 						if (res.status == 1) {
 							this.$message({
 		                        type: 'success',

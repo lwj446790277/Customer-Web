@@ -14,7 +14,7 @@
 					<el-submenu index="3">
 						<template slot="title"><i class="el-icon-plus"></i>用户管理</template>
 						<el-menu-item index="userList">注册用户信息</el-menu-item>
-						<el-menu-item index="userInteraction">用户互动信息</el-menu-item>
+						<el-menu-item index="userInteraction">白名单用户</el-menu-item>
 						<el-menu-item index="blackList">黑名单用户</el-menu-item>
 					</el-submenu>
 					<el-submenu index="4">
@@ -27,7 +27,7 @@
 						<el-menu-item index="financialOverview">财务总览</el-menu-item>
 					</el-submenu>
 					<el-submenu index="5">
-						<template slot="title"><i class="el-icon-star-on"></i>货后订单管理</template>
+						<template slot="title"><i class="el-icon-star-on"></i>贷后订单管理</template>
 						<el-menu-item index="dateOrder">期限内订单</el-menu-item>
 						<el-menu-item index="returnOrder">已还订单</el-menu-item>
 						<el-menu-item index="overdueOrder">已逾期订单</el-menu-item>
@@ -36,12 +36,12 @@
 					</el-submenu>
 					<el-submenu index="6">
 						<template slot="title"><i class="el-icon-star-on"></i>催收预警及管理</template>
-						<el-menu-item index="collectionOne">已逾期未入催</el-menu-item>
-						<el-menu-item index="collectionTwo">催收订单管理</el-menu-item>
-						<el-menu-item index="collectionThree">催收订单数据统计</el-menu-item>
-						<el-menu-item index="collectionFour">催收员管理</el-menu-item>
-						<el-menu-item index="collectionFive">催收员工作报表
-						</el-menu-item>
+						<el-menu-item index="collectionOne">已逾期未分配</el-menu-item>
+						<el-menu-item index="collectionTwo">已逾期已分配</el-menu-item>
+						<el-menu-item index="collectionThree">催收率报表</el-menu-item>
+						<el-menu-item index="collectionFour">催收员工作报表</el-menu-item>	
+						<el-menu-item index="collectionFive">已分配未催收</el-menu-item>
+						<el-menu-item index="collectionSix">已分配已催收</el-menu-item>
 					</el-submenu>
 					<el-submenu index="7">
 						<template slot="title"><i class="el-icon-star-on"></i>运营数据</template>

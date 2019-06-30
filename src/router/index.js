@@ -47,6 +47,7 @@ const collectionTwo = r => require.ensure([], () => r(require('@/page/collection
 const collectionThree = r => require.ensure([], () => r(require('@/page/collectionThree')), 'collectionThree');
 const collectionFour = r => require.ensure([], () => r(require('@/page/collectionFour')), 'collectionFour');
 const collectionFive = r => require.ensure([], () => r(require('@/page/collectionFive')), 'collectionFive');
+const collectionSix = r => require.ensure([], () => r(require('@/page/collectionSix')), 'collectionSix');
 // 这里是运营数据
 const operationalDataOne = r => require.ensure([], () => r(require('@/page/operationalDataOne')), 'operationalDataOne');
 const operationalDataTwo = r => require.ensure([], () => r(require('@/page/operationalDataTwo')), 'operationalDataTwo');
@@ -176,6 +177,10 @@ const routes = [
 			path: '/collectionFive',
 			component: collectionFive,
 			meta: ['催收预警及管理', '催收员工作报表'],
+		},{
+			path: '/collectionSix',
+			component: collectionSix,
+			meta: ['催收预警及管理', '已分配已催收'],
 		},{
 			path: '/operationalDataOne',
 			component: operationalDataOne,
