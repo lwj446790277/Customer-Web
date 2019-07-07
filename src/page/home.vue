@@ -1,22 +1,109 @@
 <template>
     <div>
         <head-top></head-top>
-		<section class="data_section">
-			<header class="section_title">数据统计</header>
-			<el-row :gutter="20" style="margin-bottom: 10px;">
-                <el-col :span="4"><div class="data_list today_head"><span class="data_num head">当日数据：</span></div></el-col>
-				<el-col :span="4"><div class="data_list"><span class="data_num">{{userCount}}</span> 新增用户</div></el-col>
-				<el-col :span="4"><div class="data_list"><span class="data_num">{{orderCount}}</span> 新增订单</div></el-col>
-                <el-col :span="4"><div class="data_list"><span class="data_num">{{adminCount}}</span> 新增管理员</div></el-col>
-			</el-row>
-            <el-row :gutter="20">
-                <el-col :span="4"><div class="data_list all_head"><span class="data_num head">总数据：</span></div></el-col>
-                <el-col :span="4"><div class="data_list"><span class="data_num">{{allUserCount}}</span> 注册用户</div></el-col>
-                <el-col :span="4"><div class="data_list"><span class="data_num">{{allOrderCount}}</span> 订单</div></el-col>
-                <el-col :span="4"><div class="data_list"><span class="data_num">{{allAdminCount}}</span> 管理员</div></el-col>
-            </el-row>
-		</section>
-		<tendency :sevenDate='sevenDate' :sevenDay='sevenDay'></tendency>
+		<el-tabs v-model="activeName" type="card">
+			<el-tab-pane label="综合统计" name="first">
+				<div class="main">
+					<div class="lefts"></div>
+					<span class="today">今日数据</span>
+					<table border="1" cellpadding="25" cellspacing="0" class="bor">
+						<tr>
+							<th>放款金额</th>
+							<th>注册人数</th>
+							<th>申请人数</th>
+							<th>放款人数</th>
+						</tr>
+						<tr>
+							<td>222</td>
+							<td>333</td>
+							<td>444</td>
+							<td>555</td>
+						</tr>
+					</table>
+					<table border="1" cellpadding="25" cellspacing="0" class="bor">
+						<tr>
+							<th>回款金额</th>
+							<th>回款笔数</th>
+							<th>续期笔数</th>
+							<th>逾期还款笔数</th>
+						</tr>
+						<tr>
+							<td>222</td>
+							<td>333</td>
+							<td>444</td>
+							<td>555</td>
+						</tr>
+					</table>
+					<div class="leftl"></div>
+					<span class="today">累计数据</span>
+					<table border="1" cellpadding="25" cellspacing="0" class="bor">
+						<tr>
+							<th>累计放款总金额</th>
+							<th>累计还款总金额</th>
+							<th>用户总数</th>
+							<th>用户申请笔数</th>
+							<th>放款总笔数</th>
+						</tr>
+						<tr>
+							<td>222</td>
+							<td>333</td>
+							<td>444</td>
+							<td>555</td>
+							<td>555</td>
+						</tr>
+					</table>
+					<table border="1" cellpadding="25" cellspacing="0" class="bor">
+						<tr>
+							<th>应收总金额</th>
+							<th>实际收益</th>
+							<th>还款总笔数</th>
+							<th>放款通过率</th>
+							<th>回款率</th>
+						</tr>
+						<tr>
+							<td>222</td>
+							<td>333</td>
+							<td>444</td>
+							<td>555</td>
+							<td>555</td>
+						</tr>
+					</table>
+					<div class="lefts"></div>
+					<span class="today">未到期数据</span>
+					<table border="1" cellpadding="25" cellspacing="0" class="bor">
+						<tr>
+							<th>笔数</th>
+							<th>应收本金</th>
+							<th>应收总金额</th>
+						</tr>
+						<tr>
+							<td>222</td>
+							<td>333</td>
+							<td>444</td>
+						</tr>
+					</table>
+					<div class="leftl"></div>
+					<span class="today">逾期数据</span>
+					<table border="1" cellpadding="25" cellspacing="0" class="bor">
+						<tr>
+							<th>笔数</th>
+							<th>逾期率</th>
+							<th>逾期应收总金额</th>
+						</tr>
+						<tr>
+							<td>222</td>
+							<td>333</td>
+							<td>444</td>
+						</tr>
+					</table>
+				</div>
+			</el-tab-pane>
+			<el-tab-pane label="回收率报表" name="second">
+				<div class="main">
+				
+				</div>
+			</el-tab-pane>
+		</el-tabs>
     </div>
 </template>
 
@@ -28,107 +115,55 @@
     export default {
     	data(){
     		return {
-    			userCount: null,
-    			orderCount: null,
-                adminCount: null,
-                allUserCount: null,
-                allOrderCount: null,
-                allAdminCount: null,
-    			sevenDay: [],
-    			sevenDate: [[],[],[]],
+				activeName: "first"
     		}
     	},
     	components: {
     		headTop,
-    		tendency,
     	},
     	mounted(){
-    		this.initData();
-    		for (let i = 6; i > -1; i--) {
-    			const date = dtime(new Date().getTime() - 86400000*i).format('YYYY-MM-DD')
-    			this.sevenDay.push(date)
-    		}
-    		this.getSevenData();
+    		
     	},
         computed: {
 
         },
     	methods: {
-    		async initData(){
-    			const today = dtime().format('YYYY-MM-DD')
-    			Promise.all([userCount(today), orderCount(today), adminDayCount(today), getUserCount(), getOrderCount(), adminCount()])
-    			.then(res => {
-    				this.userCount = res[0].count;
-    				this.orderCount = res[1].count;
-                    this.adminCount = res[2].count;
-                    this.allUserCount = res[3].count;
-                    this.allOrderCount = res[4].count;
-                    this.allAdminCount = res[5].count;
-    			}).catch(err => {
-    				console.log(err)
-    			})
-    		},
-    		async getSevenData(){
-    			const apiArr = [[],[],[]];
-    			this.sevenDay.forEach(item => {
-    				apiArr[0].push(userCount(item))
-    				apiArr[1].push(orderCount(item))
-                    apiArr[2].push(adminDayCount(item))
-    			})
-    			const promiseArr = [...apiArr[0], ...apiArr[1], ...apiArr[2]]
-    			Promise.all(promiseArr).then(res => {
-    				const resArr = [[],[],[]];
-					res.forEach((item, index) => {
-						if (item.status == 1) {
-							resArr[Math.floor(index/7)].push(item.count)
-						}
-					})
-					this.sevenDate = resArr;
-    			}).catch(err => {
-    				console.log(err)
-    			})
-    		}
+    		
     	}
     }
 </script>
 
 <style lang="less">
 	@import '../style/mixin';
-	.data_section{
+	.main{
 		padding: 20px;
-		margin-bottom: 40px;
-		.section_title{
-			text-align: center;
-			font-size: 30px;
-			margin-bottom: 10px;
-		}
-		.data_list{
-			text-align: center;
-			font-size: 14px;
-			color: #666;
-            border-radius: 6px;
-            background: #E5E9F2;
-            .data_num{
-                color: #333;
-                font-size: 26px;
-
-            }
-            .head{
-                border-radius: 6px;
-                font-size: 22px;
-                padding: 4px 0;
-                color: #fff;
-                display: inline-block;
-            }
-        }
-        .today_head{
-            background: #FF9800;
-        }
-        .all_head{
-            background: #20A0FF;
-        }
 	}
-    .wan{
-        .sc(16px, #333)
-    }
+	.lefts{
+		width: 10px;
+		height: 30px;
+		background-color: blue;
+		margin-right: 10px;
+		float: left;
+	}
+	.leftl{
+		width: 10px;
+		height: 30px;
+		background-color: red;
+		margin-right: 10px;
+		float: left;
+	}
+	.today{
+		font-size: 1.2rem;
+		line-height: 30px;
+	}
+	.bor{
+		width: 90%;
+		margin: 20px auto;
+	}
+	th{
+		background-color: aquamarine;
+	}
+	td{
+		text-align: center;
+	}
 </style>

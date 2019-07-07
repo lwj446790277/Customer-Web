@@ -40,10 +40,10 @@
         </el-table-column>
       </el-table>
       <div class="open" @click="centerDialogVisible = true">
-            <!-- <i class="el-icon-circle-plus-outline"></i> -->
-            <i class="el-icon-plus"></i>
-            <span>添加白名单用户</span>
-          </div>
+          <!-- <i class="el-icon-circle-plus-outline"></i> -->
+          <i class="el-icon-plus"></i>
+          <span>添加白名单用户</span>
+      </div>
       <div class="block">
         <el-pagination
           :current-page="page"
@@ -124,7 +124,7 @@ export default {
 .open {
   width: 99.9%;
   line-height: 60px;
-  border: 1px solid #eee;
+  border: 1px solid #dfe6ec;
   margin-top: -1px;
   cursor: pointer;
   font-size: 1.2rem;

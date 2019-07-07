@@ -4,14 +4,14 @@
         <div class="main">
       <el-form :model="form" :inline="true" class="demo-form-inline">
         <el-form-item>
-          <el-input placeholder="订单编号/姓名/手机号" v-model="form.id"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-select placeholder="贷款方式" v-model="form.dai">
-            <!-- <el-option label="立即贷+分期贷" value="立即贷+分期贷"></el-option> -->
-            <el-option label="立即贷" value="立即贷"></el-option>
-            <el-option label="分期贷" value="分期贷"></el-option>
+          <el-select v-model="form.name" placeholder="订单编号" style="width:150px">
+            <el-option label="订单编号" value="订单编号"></el-option>
+            <el-option label="姓名" value="姓名"></el-option>
+            <el-option label="手机号" value="手机号"></el-option> 
           </el-select>
+        </el-form-item>
+        <el-form-item class="single">
+          <el-input placeholder="单行输入" v-model="form.id"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="warning" @click="Reset">重置</el-button>
@@ -53,17 +53,17 @@
 </template>
 
 <script>
-	import headTop from '../components/headTop'
-    export default {
-    	components: {
+import headTop from '../components/headTop'
+export default {
+  components: {
     		headTop,
-		},
-		data() {
+	},
+	data() {
     return {
       tableData: [],
       form: {
         id: "",
-        dai: ""
+        name: ""
       },
       page: 1,
       pageSize: 10,
@@ -71,7 +71,15 @@
       totalCount: 20
     };
   },
+  created(){
+    this.getData();
+  },
   methods:{
+    getData(){
+      this.axios.get('collection/FenpeiWeiCollection').then(res=>{
+        this.tableData = res.data
+      })
+    },
     sizeChange() {
       //   this.getData(this.page, this.pageSize);
     },
@@ -80,8 +88,8 @@
     },
     clear(){
       this.form = {
-		id: "",
-        dai: ""
+		    id: "",
+        name: ""
       }
     },
     Reset(){

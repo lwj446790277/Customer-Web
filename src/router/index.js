@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import axios from 'axios'
+Vue.prototype.axios=axios;
+
 Vue.use(Router)
 
 const login = r => require.ensure([], () => r(require('@/page/login')), 'login');
@@ -13,7 +16,7 @@ const foodList = r => require.ensure([], () => r(require('@/page/foodList')), 'f
 const orderList = r => require.ensure([], () => r(require('@/page/orderList')), 'orderList');
 const adminList = r => require.ensure([], () => r(require('@/page/adminList')), 'adminList');
 const visitor = r => require.ensure([], () => r(require('@/page/visitor')), 'visitor');
-const newMember = r => require.ensure([], () => r(require('@/page/newMember')), 'newMember');
+// const newMember = r => require.ensure([], () => r(require('@/page/newMember')), 'newMember');
 const uploadImg = r => require.ensure([], () => r(require('@/page/uploadImg')), 'uploadImg');
 const vueEdit = r => require.ensure([], () => r(require('@/page/vueEdit')), 'vueEdit');
 const adminSet = r => require.ensure([], () => r(require('@/page/adminSet')), 'adminSet');
@@ -35,6 +38,7 @@ const repaymentPlan = r => require.ensure([], () => r(require('@/page/repaymentP
 const repaymentRecord = r => require.ensure([], () => r(require('@/page/repaymentRecord')), 'repaymentRecord');
 const manualTransfer = r => require.ensure([], () => r(require('@/page/manualTransfer')), 'manualTransfer');
 const offlineRepayment = r => require.ensure([], () => r(require('@/page/offlineRepayment')), 'offlineRepayment');
+const newMember = r => require.ensure([], () => r(require('@/page/newMember')), 'newMember');
 const financialOverview = r => require.ensure([], () => r(require('@/page/financialOverview')), 'financialOverview');
 // 这里是货后订单管理
 const dateOrder = r => require.ensure([], () => r(require('@/page/dateOrder')), 'dateOrder');
@@ -134,6 +138,10 @@ const routes = [
 			component: offlineRepayment,
 			meta: ['财务管理', '线下还款'],
 		},{
+			path: '/newMember',
+			component: newMember,
+			meta: ['财务管理', '银行卡自动扣款'],
+		},{
 			path: '/financialOverview',
 			component: financialOverview,
 			meta: ['财务管理', '财务总览'],
@@ -200,23 +208,23 @@ const routes = [
 		},{
 			path: '/windControlOne',
 			component: windControlOne,
-			meta: ['风控数据', '风控总数据统计'],
+			meta: ['风控数据', '轮播图设置'],
 		},{
 			path: '/windControlTwo',
 			component: windControlTwo,
-			meta: ['风控数据', '风控渠道数据配置'],
+			meta: ['风控数据', '虚拟宣传页'],
 		},{
 			path: '/windControlThree',
 			component: windControlThree,
-			meta: ['风控数据', '风控配置'],
+			meta: ['风控数据', '联系客服和关于我们'],
 		},{
 			path: '/channelOne',
 			component: channelOne,
-			meta: ['渠道管理', '推广渠道管理及扣量'],
+			meta: ['渠道管理', '渠道数据查询'],
 		},{
 			path: '/channelTwo',
 			component: channelTwo,
-			meta: ['渠道管理', '渠道业务数据'],
+			meta: ['渠道管理', '渠道设置管理'],
 		},{
 			path: '/channelThree',
 			component: channelThree,
@@ -232,11 +240,11 @@ const routes = [
 		},{
 			path: '/systemConfigurationTwo',
 			component: systemConfigurationTwo,
-			meta: ['系统配置', '轮播图配置'],
+			meta: ['系统配置', '第三方接口设置'],
 		},{
 			path: '/systemConfigurationThree',
 			component: systemConfigurationThree,
-			meta: ['系统配置', '客服与联系配置'],
+			meta: ['系统配置', '风控设置管理'],
 		},{
 			path: '/systemConfigurationFour',
 			component: systemConfigurationFour,
@@ -248,11 +256,11 @@ const routes = [
 		},{
 			path: '/systemConfigurationSix',
 			component: systemConfigurationSix,
-			meta: ['系统配置', '短信配置'],
+			meta: ['系统配置', '逾期等级设置'],
 		},{
 			path: '/systemConfigurationSeven',
 			component: systemConfigurationSeven,
-			meta: ['系统配置', '角色及用户管理'],
+			meta: ['系统配置', '角色权限管理'],
 		},{
 			path: '/systemConfigurationEight',
 			component: systemConfigurationEight,

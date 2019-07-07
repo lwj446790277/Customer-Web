@@ -4,7 +4,24 @@
     <div class="main">
       <el-form :model="form" :inline="true" class="demo-form-inline">
         <el-form-item>
-          <el-col :span="11">
+          <el-select v-model="form.name" placeholder="订单编号" style="width:150px">
+            <el-option label="订单编号" value="订单编号"></el-option>
+            <el-option label="姓名" value="姓名"></el-option>
+            <el-option label="手机号" value="手机号"></el-option> 
+          </el-select>
+        </el-form-item>
+        <el-form-item class="single">
+          <el-input placeholder="单行输入" v-model="form.id"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-select v-model="form.time" placeholder="订单时间" style="width:150px">
+            <el-option label="订单时间" value="订单时间"></el-option>
+            <el-option label="延借时间" value="延借时间"></el-option>
+            <el-option label="延期后应还" value="延期后应还"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-col :span="11" class="single">
             <el-date-picker type="date" placeholder="起始时间" v-model="form.start"></el-date-picker>
           </el-col>
         </el-form-item>
@@ -12,16 +29,6 @@
           <el-col :span="11">
             <el-date-picker type="date" placeholder="结束时间" v-model="form.end"></el-date-picker>
           </el-col>
-        </el-form-item>
-        <el-form-item>
-          <el-input placeholder="订单编号/姓名/手机号" v-model="form.id"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-select placeholder="贷款方式" v-model="form.dai">
-            <!-- <el-option label="立即贷+分期贷" value="立即贷+分期贷"></el-option> -->
-            <el-option label="立即贷" value="立即贷"></el-option>
-            <el-option label="分期贷" value="分期贷"></el-option>
-          </el-select>
         </el-form-item>
         <el-form-item>
           <el-select placeholder="逾期等级" v-model="form.level">
@@ -93,6 +100,7 @@ export default {
     return {
       tableData: [],
       form: {
+        time: "",
         start: "",
         end: "",
         id: "",
@@ -105,7 +113,15 @@ export default {
       totalCount: 20
     };
   },
+  created(){
+    this.getData();
+  },
   methods: {
+    getData(){
+      this.axios.get('collection/YiCollection').then(res=>{
+        this.tableData = res.data
+      })
+    },
     sizeChange() {
       //   this.getData(this.page, this.pageSize);
     },
@@ -114,6 +130,7 @@ export default {
     },
     clear() {
       this.form = {
+        time: "",
         start: "",
         end: "",
         id: "",
@@ -124,7 +141,9 @@ export default {
     Reset() {
       this.clear();
     },
-    Search() {}
+    Search() {
+      
+    }
   }
 };
 </script>

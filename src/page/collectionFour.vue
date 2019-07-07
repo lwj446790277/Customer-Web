@@ -4,6 +4,13 @@
         <div class="main">
       <el-form :model="form" :inline="true" class="demo-form-inline">
         <el-form-item>
+          <el-select v-model="form.time" placeholder="订单时间" style="width:150px">
+            <el-option label="订单时间" value="订单时间"></el-option>
+            <el-option label="延借时间" value="延借时间"></el-option>
+            <el-option label="延期后应还" value="延期后应还"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item class="single">
           <el-col :span="11">
             <el-date-picker type="date" placeholder="起始时间" v-model="form.start"></el-date-picker>
           </el-col>
@@ -13,15 +20,8 @@
             <el-date-picker type="date" placeholder="结束时间" v-model="form.end"></el-date-picker>
           </el-col>
         </el-form-item>
-		<el-form-item>
+		    <el-form-item>
           <el-select placeholder="催收员姓名" v-model="form.name">
-            <el-option label="立即贷+分期贷" value="立即贷+分期贷"></el-option>
-            <el-option label="立即贷" value="立即贷"></el-option>
-            <el-option label="分期贷" value="分期贷"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-select placeholder="立即贷+分期贷" v-model="form.dai">
             <el-option label="立即贷+分期贷" value="立即贷+分期贷"></el-option>
             <el-option label="立即贷" value="立即贷"></el-option>
             <el-option label="分期贷" value="分期贷"></el-option>
@@ -70,10 +70,10 @@
     return {
       tableData: [],
       form: {
+        time: "",
         start: "",
-		end: "",
-		name: "",
-        dai: ""
+		    end: "",
+		    name: ""
       },
       page: 1,
       pageSize: 10,
@@ -90,10 +90,10 @@
     },
     clear(){
       this.form = {
-		start: "",
-		end: "",
-		name: "",
-        dai: ""
+		    time: "",
+        start: "",
+		    end: "",
+		    name: ""
       }
     },
     Reset(){

@@ -4,25 +4,24 @@
     <!-- <p class="explain_text">这里是已逾期未入催</p> -->
     <div class="main">
       <el-form :model="form" :inline="true" class="demo-form-inline">
-        <el-form-item>
+        <el-form-item class="time">
+          <el-select v-model="form.name" placeholder="订单编号" style="width:150px">
+            <el-option label="订单编号" value="订单编号"></el-option>
+            <el-option label="姓名" value="姓名"></el-option>
+            <el-option label="手机号" value="手机号"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item class="single">
           <el-input placeholder="订单编号/姓名/手机号" v-model="form.id" class="input"></el-input>
         </el-form-item>
-        <!-- <el-form-item>
-          <el-select placeholder="立即贷+分期贷" v-model="form.dai">
-            <el-option label="立即贷+分期贷" value="立即贷+分期贷"></el-option>
-            <el-option label="立即贷" value="立即贷"></el-option>
-            <el-option label="分期贷" value="分期贷"></el-option>
-          </el-select>
-        </el-form-item>-->
         <el-form-item>
           <el-button type="warning" @click="Reset">重置</el-button>
           <el-button type="primary" @click="Search">搜索</el-button>
+          <el-button type="success" @click="Onekey">一键分配</el-button>
         </el-form-item>
         <el-form-item class="right">
           <el-select placeholder="分配催收员" v-model="form.person">
-            <el-option label="立即贷+分期贷" value="立即贷+分期贷"></el-option>
-            <el-option label="立即贷" value="立即贷"></el-option>
-            <el-option label="分期贷" value="分期贷"></el-option>
+            <el-option v-for="item in person" :key="item.value" :label="item.reallyName" :value="item.collectionMemberId"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -43,11 +42,11 @@
         <el-table-column prop="address" label="应还时间" align="center"></el-table-column>
         <el-table-column prop="address" label="逾期天数" align="center"></el-table-column>
         <el-table-column prop="address" label="逾期罚金/含逾应还总金额" align="center"></el-table-column>
-        <el-table-column align="center">
-          <template slot="header" slot-scope="scope">
-            <!-- <el-button type="success" @click="Onekey(scope)" size="mini">一键分配</el-button> -->
+        <el-table-column label="操作" align="center">
+          <!-- <template slot="header" slot-scope="scope">
+            <el-button type="success" @click="Onekey(scope)" size="mini">一键分配</el-button>
             <button>2222</button>
-          </template>
+          </template> -->
           <template slot-scope="scope">
             <el-popover placement="bottom-end" width="300" trigger="click">
               <div v-if="show">
@@ -63,8 +62,7 @@
             </el-popover>
           </template>
         </el-table-column>
-      </el-table> 
-        
+      </el-table>
       <div class="block">
         <el-pagination
           :current-page.sync="page"
@@ -77,6 +75,11 @@
           @current-change="currentChange"
         ></el-pagination>
       </div>
+      <!-- <div>
+        <p>{{ones}}</p>
+        <p>{{two}}</p>
+        <p>{{three}}</p>
+      </div> -->
     </div>
   </div>
 </template>
@@ -89,11 +92,15 @@ export default {
   },
   data() {
     return {
-      tableData: [{ id: 1 }, { id: 2 }, { id: 3 }],
+      ones: 12,
+      two: 2,
+      tableData: [
+        { id: 1 }
+      ],
+      person: [],
       form: {
-        id: "",
-        dai: "",
-        person: ""
+        name: "",
+        id: ""
       },
       multipleSelection: [],
       String: [],
@@ -106,12 +113,31 @@ export default {
       hidden: false
     };
   },
+  created(){
+    // this.getData();
+    // this.getPerson();
+  },
   methods: {
+    getData( page, pageSize ){
+      this.axios.get('collection/BeoverdueCollection',{
+        params:{
+            page,
+            pageSize
+        }
+      }).then(res=>{
+        this.tableData = res.data.id
+      })
+    },
+    getPerson(){
+      this.axios.get('collection/collectionmember').then(res=>{
+        this.person = res.data
+      })
+    },
     sizeChange() {
-      //   this.getData(this.page, this.pageSize);
+        this.getData(this.page, this.pageSize);
     },
     currentChange() {
-      //   this.getData(this.page, this.pageSize);
+        this.getData(this.page, this.pageSize);
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
@@ -120,15 +146,26 @@ export default {
     },
     clear() {
       this.form = {
-        id: "",
-        dai: "",
-        person: ""
+        name: "",
+        id: ""
       };
     },
     Reset() {
       this.clear();
     },
-    Search() {},
+    Search() {
+      this.axios.get('collection/BeoverdueCollection',{
+        params:{
+            page,
+            pageSize,
+            Name: this.form.id,
+            Phone: this.form.id,
+            Id: this.form.id
+        }
+      }).then(res=>{
+        this.tableData = res.data.id
+      })
+    },
     see(id) {
       if (this.form.person != "") {
         this.show = false;
@@ -141,7 +178,15 @@ export default {
     close() {},
     confire() {
       this.visible = false;
+    },
+    Onekey(){
+      
     }
+  },
+  computed:{
+    // three(){
+    //   return this.ones*(this.two/100)
+    // }
   }
 };
 </script>

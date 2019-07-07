@@ -1,15 +1,217 @@
 <template>
     <div class="fillcontain">
-        newMember
+        <head-top></head-top>
+        <!-- <p class="explain_text">这里是银行卡自动扣款</p> -->
+        <el-tabs v-model="activeName" type="card">
+            <el-tab-pane label="一键扣款" name="first">
+                <div class="main">
+                    <el-form :model="form" :inline="true" class="demo-form-inline">
+                        <el-form-item>
+                            <el-select v-model="form.name" placeholder="订单编号" style="width:150px">
+                                <el-option label="订单编号" value="订单编号"></el-option>
+                                <el-option label="姓名" value="姓名"></el-option>
+                                <el-option label="手机号" value="手机号"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item class="single">
+                            <el-input placeholder="订单编号/姓名/手机号" v-model="form.id" class="input"></el-input>
+                        </el-form-item>
+                        <el-form-item class="time">
+                            <el-select v-model="form.time" placeholder="订单时间" style="width:150px">
+                                <el-option label="订单时间" value="订单时间"></el-option>
+                                <el-option label="延借时间" value="延借时间"></el-option>
+                                <el-option label="延期后应还" value="延期后应还"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item class="single">
+                            <el-col :span="11">
+                                <el-date-picker type="date" placeholder="起始时间" v-model="form.start"></el-date-picker>
+                            </el-col>
+                        </el-form-item>
+                        <el-form-item class="single">
+                            <el-col :span="11">
+                                <el-date-picker type="date" placeholder="结束时间" v-model="form.end"></el-date-picker>
+                            </el-col>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-select v-model="form.number" placeholder="已扣款次数" style="width:150px">
+                                <!-- <el-option label="订单编号" value="订单编号"></el-option>
+                                <el-option label="姓名" value="姓名"></el-option>
+                                <el-option label="手机号" value="手机号"></el-option> -->
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item class="single">
+                            <el-input placeholder="请输入整数" v-model="form.num" class="input"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-select v-model="form.level" placeholder="逾期等级" style="width:200px">
+                                <el-option label="M1" value="M1"></el-option>
+                                <el-option label="M2" value="M2"></el-option>
+                                <el-option label="M3" value="M3"></el-option>
+                                <el-option label="M4" value="M4"></el-option>
+                                <el-option label="M5" value="M5"></el-option>
+                                <el-option label="M6" value="M6"></el-option>
+                                <el-option label="M7" value="M7"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="warning" @click="Reset">重置</el-button>
+                            <el-button type="primary" @click="Search">搜索</el-button>
+                            <el-button type="success" @click="Onekey">一键扣款</el-button>
+                        </el-form-item>
+                    </el-form>
+                    <el-table border :data="tableData" tooltip-effect="dark" @selection-change="handleSelectionChange" style="width: 100%">
+                        <el-table-column type="selection" width="55"></el-table-column>
+						<el-table-column prop="name" label="编号" align="center"></el-table-column>
+						<el-table-column prop="name" label="姓名" align="center"></el-table-column>
+						<el-table-column prop="address" label="手机号" align="center"></el-table-column>
+						<el-table-column prop="address" label="银行卡号" align="center"></el-table-column>
+						<el-table-column prop="address" label="贷款方式" align="center"></el-table-column>
+						<el-table-column prop="address" label="还款期数" align="center"></el-table-column>
+						<el-table-column prop="address" label="实借时间" align="center"></el-table-column>
+						<el-table-column prop="address" label="实借/放款总金额" align="center"></el-table-column>
+                        <el-table-column prop="address" label="延期后应还时间" align="center"></el-table-column>
+                        <el-table-column prop="address" label="逾期等级" align="center"></el-table-column>
+                        <el-table-column prop="address" label="逾期天数" align="center"></el-table-column>
+                        <el-table-column prop="address" label="逾期罚金/含逾应还总金额" width="120" align="center"></el-table-column>
+                        <el-table-column prop="address" label="电话催收次数" align="center"></el-table-column>
+                        <el-table-column prop="address" label="财务是否线上减免" align="center"></el-table-column>
+                        <el-table-column prop="address" label="已扣款次数和详情" align="center"></el-table-column>
+                        <el-table-column prop="address" label="剩余未还/实还金额" align="center"></el-table-column>
+                        <el-table-column prop="address" label="操作" align="center"></el-table-column>
+					</el-table>
+					<div class="block">
+						<el-pagination
+						:current-page.sync="page"
+						:page-sizes="[10, 15, 20, 25]"
+						:page-size.sync="pageSize"
+						layout="total, sizes, prev, pager, next, jumper"
+						:page-count="totalPageCount"
+						:total="totalCount"
+						@size-change="sizeChange"
+						@current-change="currentChange"
+						></el-pagination>
+					</div>
+                </div>
+            </el-tab-pane>
+            <el-tab-pane label="扣款记录表" name="second">
+                <div class="main">
+                    <el-form :model="formList" :inline="true" class="demo-form-inline">
+                        <el-form-item class="time">
+                            <el-select v-model="formList.time" placeholder="订单时间" style="width:150px">
+                                <el-option label="订单时间" value="订单时间"></el-option>
+                                <el-option label="延借时间" value="延借时间"></el-option>
+                                <el-option label="延期后应还" value="延期后应还"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item class="single">
+                            <el-col :span="11">
+                                <el-date-picker type="date" placeholder="起始时间" v-model="formList.start"></el-date-picker>
+                            </el-col>
+                        </el-form-item>
+                        <el-form-item class="single">
+                            <el-col :span="11">
+                                <el-date-picker type="date" placeholder="结束时间" v-model="formList.end"></el-date-picker>
+                            </el-col>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="Search">搜索</el-button>
+                        </el-form-item>
+                    </el-form>
+                    <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
+						<el-table-column prop="name" label="操作时间" align="center"></el-table-column>
+						<el-table-column prop="name" label="操作人" align="center"></el-table-column>
+						<el-table-column prop="address" label="扣款比例(%)" align="center"></el-table-column>
+						<el-table-column prop="address" label="第三方服务总支出费" align="center"></el-table-column>
+						<el-table-column prop="address" label="已选扣款用户总数" align="center"></el-table-column>
+						<el-table-column prop="address" label="扣款失败用户数" align="center"></el-table-column>
+						<el-table-column prop="address" label="成功扣款用户数" align="center"></el-table-column>
+						<el-table-column prop="address" label="成功扣款用户比率(%)" align="center"></el-table-column>
+                        <el-table-column prop="address" label="成功扣款总金额" align="center"></el-table-column>
+                        <el-table-column prop="address" label="查看扣款清单" align="center"></el-table-column>
+					</el-table>
+					<div class="block">
+						<el-pagination
+						:current-page.sync="page"
+						:page-sizes="[10, 15, 20, 25]"
+						:page-size.sync="pageSize"
+						layout="total, sizes, prev, pager, next, jumper"
+						:page-count="totalPageCount"
+						:total="totalCount"
+						@size-change="sizeChange"
+						@current-change="currentChange"
+						></el-pagination>
+					</div>
+                </div>
+            </el-tab-pane>
+        </el-tabs>
     </div>
 </template>
 
 <script>
+	import headTop from '../components/headTop'
     export default {
-    	
+    	components: {
+    		headTop,
+        },
+        data(){
+            return{
+                tableData: [],
+                activeName: "first",
+                form: {
+                    name: "",
+                    id: "",
+                    time: "",
+                    start: "",
+                    end: "",
+                    number: "",
+                    num: "",
+                    level: ""
+                },
+                formList: {
+                    time: "",
+                    start: "",
+                    end: ""
+                },
+                page: 1,
+                pageSize: 10,
+                totalPageCount: 0,
+                totalCount: 20,
+            }
+        },
+        methods:{
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            },
+            Reset(){
+
+            },
+            Search(){
+
+            },
+            Onekey(){
+                 
+            }
+        }
     }
 </script>
 
 <style lang="less">
 	@import '../style/mixin';
+	.explain_text{
+		margin-top: 20px;
+		text-align: center;
+		font-size: 20px;
+		color: #333;
+    }
+    .main{
+        padding: 20px;
+    }
+    .single {
+        margin-left: -15px;
+    }
+    .block {
+		padding-top: 20px;
+		text-align: center;
+	}
 </style>

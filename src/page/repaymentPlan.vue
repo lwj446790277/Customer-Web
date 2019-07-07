@@ -6,10 +6,10 @@
         <el-form-item>
           <el-input placeholder="订单号" v-model="form.id"></el-input>
         </el-form-item>
-		<el-form-item>
+        <el-form-item>
           <el-input placeholder="姓名" v-model="form.name"></el-input>
         </el-form-item>
-		<el-form-item>
+        <el-form-item>
           <el-input placeholder="手机号" v-model="form.phone"></el-input>
         </el-form-item>
         <el-form-item>
@@ -19,7 +19,7 @@
             <el-option label="未还款" value="未还款"></el-option>
           </el-select>
         </el-form-item>
-		<el-form-item>
+        <el-form-item>
           <el-select v-model="form.date" placeholder="应还款日期" style="width:150px">
             <el-option label="应还款日期" value="应还款日期"></el-option>
             <!-- <el-option label="应还时间" value="应还时间"></el-option>
@@ -74,12 +74,12 @@ export default {
     return {
       tableData: [],
       form: {
-		id: "",
-		name: "",
-		phone: "",
+        id: "",
+        name: "",
+        phone: "",
         type: "",
-		date: "",
-		time: ""
+        date: "",
+        time: ""
       },
       page: 1,
       pageSize: 10,
@@ -97,11 +97,11 @@ export default {
     clear() {
       this.form = {
         id: "",
-		name: "",
-		phone: "",
+        name: "",
+        phone: "",
         type: "",
-		date: "",
-		time: ""
+        date: "",
+        time: ""
       };
     },
     Reset() {

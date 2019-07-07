@@ -14,13 +14,6 @@
           </el-col>
         </el-form-item>
         <el-form-item>
-          <el-select placeholder="立即贷+分期贷" v-model="form.dai">
-            <el-option label="立即贷+分期贷" value="立即贷+分期贷"></el-option>
-            <el-option label="立即贷" value="立即贷"></el-option>
-            <el-option label="分期贷" value="分期贷"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
           <el-button type="warning" @click="Reset">重置</el-button>
           <el-button type="primary" @click="Search">搜索</el-button>
         </el-form-item>

@@ -62,7 +62,7 @@
         <el-table-column prop="address" label="还款状态" width="93" align="center"></el-table-column>
         <el-table-column prop="address" label="实还时间" width="93" align="center"></el-table-column>
         <el-table-column prop="address" label="剩余未还金额/实还总金额" width="130" align="center"></el-table-column>
-        <el-table-column prop="address" label="操作" show-overflow-tooltip align="center"></el-table-column>
+        <el-table-column prop="address" label="操作" align="center"></el-table-column>
       </el-table>
       <div class="block">
         <el-pagination

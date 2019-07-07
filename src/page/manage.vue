@@ -24,6 +24,7 @@
 						<el-menu-item index="repaymentRecord">还款记录</el-menu-item>
 						<el-menu-item index="manualTransfer">手动调账</el-menu-item>
 						<el-menu-item index="offlineRepayment">线下还款</el-menu-item>
+						<el-menu-item index="newMember">银行卡自动扣款</el-menu-item>
 						<el-menu-item index="financialOverview">财务总览</el-menu-item>
 					</el-submenu>
 					<el-submenu index="5">
@@ -52,30 +53,30 @@
 						<!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
 					</el-submenu>
 					<el-submenu index="8">
-						<template slot="title"><i class="el-icon-star-on"></i>风控数据</template>
-						<el-menu-item index="windControlOne">风控总数据统计</el-menu-item>
-						<el-menu-item index="windControlTwo">风控渠道数据配置</el-menu-item>
-						<el-menu-item index="windControlThree">风控配置</el-menu-item>
+						<template slot="title"><i class="el-icon-star-on"></i>APP管理设置</template>
+						<el-menu-item index="windControlOne">轮播图设置</el-menu-item>
+						<el-menu-item index="windControlTwo">虚拟宣传页</el-menu-item>
+						<el-menu-item index="windControlThree">联系客服和关于我们</el-menu-item>
 						<!-- <el-menu-item index="newMember">用户数据</el-men-item> -->
 					</el-submenu>
 					<el-submenu index="9">
 						<template slot="title"><i class="el-icon-star-on"></i>渠道管理</template>
-						<el-menu-item index="channelOne">推广渠道管理及扣量</el-menu-item>
-						<el-menu-item index="channelTwo">渠道业务数据</el-menu-item>
-						<el-menu-item index="channelThree">渠道注册数据</el-menu-item>
-						<el-menu-item index="channelFour">渠道对外注册数据及结算</el-menu-item>
+						<el-menu-item index="channelOne">渠道数据查询</el-menu-item>
+						<el-menu-item index="channelTwo">渠道设置管理</el-menu-item>
+						<!-- <el-menu-item index="channelThree">渠道注册数据</el-menu-item>
+						<el-menu-item index="channelFour">渠道对外注册数据及结算</el-menu-item> -->
 						<!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
 					</el-submenu>
 					<el-submenu index="10">
 						<template slot="title"><i class="el-icon-setting"></i>系统配置</template>
 						<el-menu-item index="systemConfigurationOne">贷款类型配置</el-menu-item>
-						<el-menu-item index="systemConfigurationTwo">轮播图配置</el-menu-item>
-						<el-menu-item index="systemConfigurationThree">客服与联系配置</el-menu-item>
+						<el-menu-item index="systemConfigurationTwo">第三方接口设置</el-menu-item>
+						<el-menu-item index="systemConfigurationThree">风控设置管理</el-menu-item>
 						<el-menu-item index="systemConfigurationFour">申请条件配置</el-menu-item>
 						<el-menu-item index="systemConfigurationFive">认证信息配置</el-menu-item>
-						<el-menu-item index="systemConfigurationSix">短信配置</el-menu-item>
-						<el-menu-item index="systemConfigurationSeven">角色及用户管理</el-menu-item>
-						<el-menu-item index="systemConfigurationEight">各项协议编辑</el-menu-item>
+						<el-menu-item index="systemConfigurationSix">逾期等级设置</el-menu-item>
+						<el-menu-item index="systemConfigurationSeven">角色权限管理</el-menu-item>
+						<!-- <el-menu-item index="systemConfigurationEight">各项协议编辑</el-menu-item> -->
 						<!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
 					</el-submenu>
 					<el-submenu index="11">
