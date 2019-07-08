@@ -7,8 +7,8 @@
 					<el-submenu index="2">
 						<template slot="title"><i class="el-icon-document"></i>订单管理</template>
 						<el-menu-item index="MachineOrder">机审订单</el-menu-item>
-						<el-menu-item index="electricOrder">电销订单</el-menu-item>
-						<el-menu-item index="manualReview">人工复审</el-menu-item>
+						<el-menu-item index="electricOrder">机审拒绝未人审</el-menu-item>
+						<el-menu-item index="manualReview">已机审已人审</el-menu-item>
 						<el-menu-item index="queryOrder">订单查询</el-menu-item>
 					</el-submenu>
 					<el-submenu index="3">

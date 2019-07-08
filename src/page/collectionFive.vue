@@ -76,7 +76,11 @@ export default {
   },
   methods:{
     getData(){
-      this.axios.get('collection/FenpeiWeiCollection').then(res=>{
+      this.axios.get('collection/FenpeiWeiCollection',{
+        params:{
+          companyId: 3
+        }
+      }).then(res=>{
         this.tableData = res.data
       })
     },

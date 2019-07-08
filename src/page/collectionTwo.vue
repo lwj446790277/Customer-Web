@@ -92,9 +92,19 @@
         <el-table-column prop="address" label="催收状态" width="95" align="center"></el-table-column>
         <el-table-column prop="address" label="剩余未还金额/实还金额" width="125" align="center"></el-table-column>
         <el-table-column prop="address" label="催收记录" width="120" align="center">
-          <span class="cont">查看催收</span>
+          <template scope="scope">
+            <span class="cont" @click="open(scope.row.id)">查看催收</span>
+          </template>
         </el-table-column>
       </el-table>
+      <el-dialog :title="title" :visible.sync="dialogTableVisible">
+        <el-table :data="gridData">
+          <el-table-column property="collection_time" label="催收时间"></el-table-column>
+          <el-table-column property="user_type" label="用户状态"></el-table-column>
+          <el-table-column property="collectionmoney" label="承诺还款金额"></el-table-column>
+          <el-table-column property="user_neir" label="订单状态"></el-table-column>
+        </el-table>
+      </el-dialog>
       <div class="block">
         <el-pagination
           :current-page.sync="page"
@@ -122,6 +132,7 @@ export default {
       tableData: [
         { id:1 }
       ],
+      gridData: [],
       page: 1,
       pageSize: 10,
       totalPageCount: 0,
@@ -134,7 +145,9 @@ export default {
         time: "",
         lever: "",
         person: ""
-      }
+      },
+      title: "",
+      dialogTableVisible: false
     };
   },
   created(){
@@ -169,7 +182,19 @@ export default {
     Reset() {
       this.clear();
     },
-    Search() {}
+    Search() {
+
+    },
+    open(id){
+      this.dialogTableVisible = true
+      this.axios.get('collection/Alldetails',{
+        params:{
+          orderId: id
+        }
+      }).then(res=>{
+        this.gridData = res.data
+      })
+    }
   }
 };
 </script>
