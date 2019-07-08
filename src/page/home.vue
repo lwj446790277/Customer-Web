@@ -7,7 +7,7 @@
 					<div class="lefts"></div>
 					<span class="today">今日数据</span>
 					<table border="1" cellpadding="25" cellspacing="0" class="bor">
-						<tr>
+						<tr class="trone">
 							<th>放款金额</th>
 							<th>注册人数</th>
 							<th>申请人数</th>
@@ -21,7 +21,7 @@
 						</tr>
 					</table>
 					<table border="1" cellpadding="25" cellspacing="0" class="bor">
-						<tr>
+						<tr class="trtwo">
 							<th>回款金额</th>
 							<th>回款笔数</th>
 							<th>续期笔数</th>
@@ -37,7 +37,7 @@
 					<div class="leftl"></div>
 					<span class="today">累计数据</span>
 					<table border="1" cellpadding="25" cellspacing="0" class="bor">
-						<tr>
+						<tr class="trone">
 							<th>累计放款总金额</th>
 							<th>累计还款总金额</th>
 							<th>用户总数</th>
@@ -53,7 +53,7 @@
 						</tr>
 					</table>
 					<table border="1" cellpadding="25" cellspacing="0" class="bor">
-						<tr>
+						<tr class="trtwo">
 							<th>应收总金额</th>
 							<th>实际收益</th>
 							<th>还款总笔数</th>
@@ -71,7 +71,7 @@
 					<div class="lefts"></div>
 					<span class="today">未到期数据</span>
 					<table border="1" cellpadding="25" cellspacing="0" class="bor">
-						<tr>
+						<tr class="trone">
 							<th>笔数</th>
 							<th>应收本金</th>
 							<th>应收总金额</th>
@@ -85,7 +85,7 @@
 					<div class="leftl"></div>
 					<span class="today">逾期数据</span>
 					<table border="1" cellpadding="25" cellspacing="0" class="bor">
-						<tr>
+						<tr class="trtwo">
 							<th>笔数</th>
 							<th>逾期率</th>
 							<th>逾期应收总金额</th>
@@ -139,16 +139,16 @@
 		padding: 20px;
 	}
 	.lefts{
-		width: 10px;
+		width: 8px;
 		height: 30px;
-		background-color: blue;
+		background-color: #3278f9;
 		margin-right: 10px;
 		float: left;
 	}
 	.leftl{
-		width: 10px;
+		width: 8px;
 		height: 30px;
-		background-color: red;
+		background-color: #fb8b39;
 		margin-right: 10px;
 		float: left;
 	}
@@ -157,13 +157,23 @@
 		line-height: 30px;
 	}
 	.bor{
-		width: 90%;
+		width: 80%;
 		margin: 20px auto;
+		border: 1px solid #eee;
 	}
 	th{
-		background-color: aquamarine;
+		line-height: 0px;
+		border: 1px solid #eee;
 	}
 	td{
 		text-align: center;
+		line-height: 0px;
+		border: 1px solid #eee;
+	}
+	.trone{
+		background-color: #e0e8f5;
+	}
+	.trtwo{
+		background-color: #fbe9d0;
 	}
 </style>

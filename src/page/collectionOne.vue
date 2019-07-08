@@ -21,6 +21,7 @@
         </el-form-item>
         <el-form-item class="right">
           <el-select placeholder="分配催收员" v-model="form.person">
+            <el-option label="reallyName" value="reallyName"></el-option>
             <el-option v-for="item in person" :key="item.value" :label="item.reallyName" :value="item.collectionMemberId"></el-option>
           </el-select>
         </el-form-item>
@@ -51,11 +52,11 @@
             <el-popover placement="bottom-end" width="300" trigger="click">
               <div v-if="show">
                 <p>请选择催收员，再分配催单</p>
-                <el-button class="confire" type="success" @click="close(scope.row)">知道了</el-button>
+                <!-- <el-button class="confire" type="success" @click="close(scope.row)">知道了</el-button> -->
               </div>
               <div v-if="hidden">
                 <p>确定要把催单分配给该催收员吗？</p>
-                <el-button @click="visible = !visible">返回</el-button>
+                <!-- <el-button @click="visible = !visible">返回</el-button> -->
                 <el-button class="confire" type="success" @click="confire(scope.row)">是的</el-button>
               </div>
               <span class="content" slot="reference" @click="see(scope.row)">分配催单</span>
@@ -95,12 +96,14 @@ export default {
       ones: 12,
       two: 2,
       tableData: [
-        { id: 1 }
+        { id: 1 },
+        { id: 2 }
       ],
       person: [],
       form: {
         name: "",
-        id: ""
+        id: "",
+        person: ""
       },
       multipleSelection: [],
       String: [],
@@ -114,8 +117,8 @@ export default {
     };
   },
   created(){
-    // this.getData();
-    // this.getPerson();
+    this.getData();
+    this.getPerson();
   },
   methods: {
     getData( page, pageSize ){
@@ -168,7 +171,7 @@ export default {
     },
     see(id) {
       if (this.form.person != "") {
-        this.show = false;
+        this.show = false;  
         this.hidden = true;
       } else {
         this.show = true;

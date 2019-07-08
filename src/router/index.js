@@ -95,11 +95,11 @@ const routes = [
 		},{
 			path: '/electricOrder',
 			component: electricOrder,
-			meta: ['订单管理', '电销订单'],
+			meta: ['订单管理', '机审拒绝未人审'],
 		},{
 			path: '/manualReview',
 			component: manualReview,
-			meta: ['订单管理', '人工复审'],
+			meta: ['订单管理', '已机审已人审'],
 		},{
 			path: '/queryOrder',
 			component: queryOrder,
