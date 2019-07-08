@@ -3,7 +3,7 @@
 	  	<transition name="form-fade" mode="in-out">
 	  		<section class="form_contianer" v-show="showLogin">
 		  		<div class="manage_tip">
-		  			<p>elm后台管理系统</p>
+		  			<p>后台管理系统</p>
 		  		</div>
 		    	<el-form :model="loginForm" :rules="rules" ref="loginForm">
 					<el-form-item prop="username">
@@ -16,9 +16,6 @@
 				    	<el-button type="primary" @click="submitForm('loginForm')" class="submit_btn">登陆</el-button>
 				  	</el-form-item>
 				</el-form>
-				<p class="tip">温馨提示：</p>
-				<p class="tip">未登录过的新用户，自动注册</p>
-				<p class="tip">注册过的用户可凭账号密码登录</p>
 	  		</section>
 	  	</transition>
   	</div>
@@ -58,9 +55,25 @@
 		methods: {
 			...mapActions(['getAdminData']),
 			async submitForm(formName) {
-				this.$refs[formName].validate(async (valid) => {
+                this.axios.get('login/loginap', {
+                    params: {account: this.loginForm.username, pwd: this.loginForm.password}
+                }).then(res => {
+                    if (!res.data.loginStatus) {
+                        this.$message({
+                            type: 'error',
+                            message: res.data.msg
+                        });
+                    } else {
+                        this.$message({
+                            type: 'success',
+                            message: '登陆成功'
+                        });
+                        this.$router.push('manage')
+                    }
+                })
+				/*this.$refs[formName].validate(async (valid) => {
 					if (valid) {
-						const res = await login({user_name: this.loginForm.username, password: this.loginForm.password})
+
 						res.status =1;
 						if (res.status == 1) {
 							this.$message({
@@ -82,10 +95,10 @@
 						});
 						return false;
 					}
-				});
+				});*/
 			},
 		},
-		watch: {
+		/*watch: {
 			adminInfo: function (newValue){
 				if (newValue.id) {
 					this.$message({
@@ -95,7 +108,7 @@
 					this.$router.push('manage')
 				}
 			}
-		}
+		}*/
 	}
 </script>
 
