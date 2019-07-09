@@ -1,13 +1,12 @@
 <template>
   <div class="fillcontain">
     <head-top></head-top>
-    <el-tabs v-model="activeName" type="card">
+    <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
       <el-tab-pane label="未逾期未分配" name="first">
         <div class="main">
+          <el-button type="success" @click="oneKey">一键分配</el-button>
           <el-select placeholder="分配催收员" v-model="person" class="right">
-            <el-option label="立即贷+分期贷" value="立即贷+分期贷"></el-option>
-            <el-option label="立即贷" value="立即贷"></el-option>
-            <el-option label="分期贷" value="分期贷"></el-option>
+            <el-option v-for="item in per" :key="item.value" :label="item.reallyName" :value="item.collectionMemberId"></el-option>
           </el-select>
           <el-table
             border
@@ -16,35 +15,35 @@
             style="width: 100%"
             @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center"></el-table-column>
-            <el-table-column prop="name" label="订单编号" width="120" align="center"></el-table-column>
+            <el-table-column prop="orderNumber" label="订单编号" width="120" align="center"></el-table-column>
             <el-table-column prop="name" label="姓名" width="120" align="center"></el-table-column>
-            <el-table-column prop="address" label="手机号" align="center"></el-table-column>
-            <el-table-column prop="address" label="贷款方式" align="center"></el-table-column>
-            <el-table-column prop="address" label="还款期数" align="center"></el-table-column>
-            <el-table-column prop="address" label="实借时间" align="center"></el-table-column>
-            <el-table-column prop="address" label="实借总金额/放款总金额" align="center"></el-table-column>
-            <el-table-column prop="address" label="延期前应还时间" align="center"></el-table-column>
-            <el-table-column prop="address" label="应还利息/应还金额" align="center"></el-table-column>
-            <el-table-column prop="address" label="每次延期天数" align="center"></el-table-column>
-            <el-table-column prop="address" label="延期后应还时间" align="center"></el-table-column>
+            <el-table-column prop="Phone" label="手机号" align="center"></el-table-column>
+            <el-table-column prop="borrowMoneyWay" label="贷款方式" align="center"></el-table-column>
+            <el-table-column prop="Daysofrepayment" label="还款期数" align="center"></el-table-column>
+            <el-table-column prop="orderCreateTime" label="实借时间" align="center"></el-table-column>
+            <el-table-column prop="realityBorrowMoney/makeLoans" label="实借总金额/放款总金额" align="center"></el-table-column>
+            <el-table-column prop="deferBeforeReturntime" label="延期前应还时间" align="center"></el-table-column>
+            <el-table-column prop="interestOnArrears/" label="应还利息/应还金额" align="center"></el-table-column>
+            <el-table-column prop="onceDeferredDay" label="每次延期天数" align="center"></el-table-column>
+            <el-table-column prop="deferAfterReturntime" label="延期后应还时间" align="center"></el-table-column>
             <el-table-column prop="address" label="延期次数/延期金额" align="center"></el-table-column>
-            <el-table-column align="center">
-              <template slot="header" slot-scope="scope">
-                <!-- <el-button type="success" @click="Onekey(scope)" size="mini">一键分配</el-button> -->
+            <el-table-column label="操作" align="center">
+              <!-- <template slot="header" slot-scope="scope">
+                <el-button type="success" @click="Onekey(scope)" size="mini">一键分配</el-button>
                 <button>2222</button>
-              </template>
+              </template> -->
               <template slot-scope="scope">
                 <el-popover placement="bottom-end" width="300" trigger="click">
                   <div v-if="show">
                     <p>请选择催收员，再分配催单</p>
-                    <el-button class="confire" type="success" @click="close(scope.row)">知道了</el-button>
+                    <!-- <el-button class="confire" type="success" @click="close(scope.row)">知道了</el-button> -->
                   </div>
                   <div v-if="hidden">
                     <p>确定要把催单分配给该催收员吗？</p>
-                    <el-button @click="visible = !visible">返回</el-button>
-                    <el-button class="confire" type="success" @click="confire(scope.row)">是的</el-button>
+                    <!-- <el-button @click="visible = !visible">返回</el-button> -->
+                    <el-button class="confire" type="success" @click="confire(scope.row.CollectionMemberId)">是的</el-button>
                   </div>
-                  <span class="content" slot="reference" @click="see(scope.row)">分配催单</span>
+                  <span class="content" slot="reference" @click="see(scope.row.CollectionMemberId)">分配催单</span>
                 </el-popover>
               </template>
             </el-table-column>
@@ -88,22 +87,22 @@
             </el-form-item>
           </el-form>
           <el-table border :data="tableDataTwo" style="width: 100%">
-            <el-table-column prop="name" label="订单编号" width="93" align="center"></el-table-column>
-            <el-table-column prop="name" label="姓名" align="center"></el-table-column>
-            <el-table-column prop="address" label="手机号" align="center"></el-table-column>
-            <el-table-column prop="address" label="贷款方式" width="93" align="center"></el-table-column>
-            <el-table-column prop="address" label="还款期数" width="93" align="center"></el-table-column>
-            <el-table-column prop="address" label="实借时间" width="93" align="center"></el-table-column>
-            <el-table-column prop="address" label="实借总金额/放款总金额" width="120" align="center"></el-table-column>
-            <el-table-column prop="address" label="延期前应还时间" width="100" align="center"></el-table-column>
-            <el-table-column prop="address" label="应还利息/应还金额" width="110" align="center"></el-table-column>
-            <el-table-column prop="address" label="每次延期天数" width="90" align="center"></el-table-column>
-            <el-table-column prop="address" label="延期后应还时间" width="100" align="center"></el-table-column>
+            <el-table-column prop="orderNumber" label="订单编号" width="93" align="center"></el-table-column>
+            <el-table-column prop="Name" label="姓名" align="center"></el-table-column>
+            <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
+            <el-table-column prop="borrowMoneyWay" label="贷款方式" width="93" align="center"></el-table-column>
+            <el-table-column prop="daysofrepayment" label="还款期数" width="93" align="center"></el-table-column>
+            <el-table-column prop="orderCreateTime" label="实借时间" width="93" align="center"></el-table-column>
+            <el-table-column prop="realityBorrowMoney/makeLoans" label="实借总金额/放款总金额" width="120" align="center"></el-table-column>
+            <el-table-column prop="deferBeforeReturntime" label="延期前应还时间" width="100" align="center"></el-table-column>
+            <el-table-column prop="interestOnArrears" label="应还利息/应还金额" width="110" align="center"></el-table-column>
+            <el-table-column prop="onceDeferredDay" label="每次延期天数" width="90" align="center"></el-table-column>
+            <el-table-column prop="deferAfterReturntime" label="延期后应还时间" width="100" align="center"></el-table-column>
             <el-table-column prop="address" label="延期次数/延期金额" width="110" align="center"></el-table-column>
-            <el-table-column prop="address" label="催收人" align="center"></el-table-column>
-            <el-table-column prop="address" label="分配催收时间" align="center"></el-table-column>
-            <el-table-column prop="address" label="用户状态" width="93" align="center"></el-table-column>
-            <el-table-column prop="address" label="还款结果" width="93" align="center"></el-table-column>
+            <el-table-column prop="reallyName" label="催收人" align="center"></el-table-column>
+            <el-table-column prop="collectionTime" label="分配催收时间" align="center"></el-table-column>
+            <el-table-column prop="collectionStatus" label="用户状态" width="93" align="center"></el-table-column>
+            <el-table-column prop="borrowMoneyState" label="还款结果" width="93" align="center"></el-table-column>
           </el-table>
           <div class="block">
             <el-pagination
@@ -139,14 +138,14 @@
             </el-form-item>
           </el-form>
           <el-table border :data="tableDataThree" show-summary style="width: 100%">
-            <el-table-column prop="name" label="日期" align="center"></el-table-column>
-            <el-table-column prop="name" label="未分配总数" align="center"></el-table-column>
-            <el-table-column prop="address" label="未拨打数" align="center"></el-table-column>
-            <el-table-column prop="address" label="电话未接通数" align="center"></el-table-column>
-            <el-table-column prop="address" label="电话已接通数" align="center"></el-table-column>
-            <el-table-column prop="address" label="当天未还款数" align="center"></el-table-column>
-            <el-table-column prop="address" label="当天已还款数" align="center"></el-table-column>
-            <el-table-column prop="address" label="当天还款率(%)" align="center"></el-table-column>
+            <el-table-column prop="collectionTime" label="日期" align="center"></el-table-column>
+            <el-table-column prop="collection_count" label="未分配总数" align="center"></el-table-column>
+            <el-table-column prop="dialNum" label="未拨打数" align="center"></el-table-column>
+            <el-table-column prop="Notconnected" label="电话未接通数" align="center"></el-table-column>
+            <el-table-column prop="Connected" label="电话已接通数" align="center"></el-table-column>
+            <el-table-column prop="Sameday" label="当天未还款数" align="center"></el-table-column>
+            <el-table-column prop="Paymentmade" label="当天已还款数" align="center"></el-table-column>
+            <el-table-column prop="PaymentmadeData" label="当天还款率(%)" align="center"></el-table-column>
           </el-table>
           <div class="block">
             <el-pagination
@@ -182,34 +181,34 @@
             </el-form-item>
           </el-form>
           <el-table border :data="tableDataFour" show-summary style="width: 100%">
-            <el-table-column prop="name" label="日期" align="center"></el-table-column>
-            <el-table-column prop="name" label="催收员" align="center"></el-table-column>
-            <el-table-column prop="name" label="未分配总数" align="center"></el-table-column>
-            <el-table-column prop="address" label="未拨打数" align="center"></el-table-column>
-            <el-table-column prop="address" label="电话未接通数" align="center"></el-table-column>
-            <el-table-column prop="address" label="电话已接通数" align="center"></el-table-column>
-            <el-table-column prop="address" label="当天未还款数" align="center"></el-table-column>
-            <el-table-column prop="address" label="当天已还款数" align="center"></el-table-column>
-            <el-table-column prop="address" label="当天还款率(%)" align="center"></el-table-column>
+            <el-table-column prop="collectionTime" label="日期" align="center"></el-table-column>
+            <el-table-column prop="reallyName" label="催收员" align="center"></el-table-column>
+            <el-table-column prop="collection_count" label="未分配总数" align="center"></el-table-column>
+            <el-table-column prop="dialNum" label="未拨打数" align="center"></el-table-column>
+            <el-table-column prop="Notconnected" label="电话未接通数" align="center"></el-table-column>
+            <el-table-column prop="Connected" label="电话已接通数" align="center"></el-table-column>
+            <el-table-column prop="Sameday" label="当天未还款数" align="center"></el-table-column>
+            <el-table-column prop="Paymentmade" label="当天已还款数" align="center"></el-table-column>
+            <el-table-column prop="PaymentmadeData" label="当天还款率(%)" align="center"></el-table-column>
           </el-table>
         </div>
       </el-tab-pane>
       <el-tab-pane label="我的逾前催收订单" name="fifth">
         <div class="main">
           <el-table border :data="tableDataFive" style="width: 100%">
-            <el-table-column prop="name" label="订单编号" align="center"></el-table-column>
-            <el-table-column prop="name" label="姓名" align="center"></el-table-column>
-            <el-table-column prop="name" label="手机号" align="center"></el-table-column>
-            <el-table-column prop="address" label="贷款方式" align="center"></el-table-column>
+            <el-table-column prop="orderNumber" label="订单编号" align="center"></el-table-column>
+            <el-table-column prop="Name" label="姓名" align="center"></el-table-column>
+            <el-table-column prop="Phone" label="手机号" align="center"></el-table-column>
+            <el-table-column prop="borrowMoneyWay" label="贷款方式" align="center"></el-table-column>
             <el-table-column prop="address" label="还款期数" align="center"></el-table-column>
-            <el-table-column prop="address" label="实借时间" align="center"></el-table-column>
-            <el-table-column prop="address" label="实借总金额/放款总金额" width="120" align="center"></el-table-column>
-            <el-table-column prop="address" label="延期前应还时间" align="center"></el-table-column>
+            <el-table-column prop="orderCreateTime" label="实借时间" align="center"></el-table-column>
+            <el-table-column prop="realityBorrowMoney/makeLoans" label="实借总金额/放款总金额" width="120" align="center"></el-table-column>
+            <el-table-column prop="deferBeforeReturntime" label="延期前应还时间" align="center"></el-table-column>
             <el-table-column prop="address" label="应还利息/应还金额" align="center"></el-table-column>
-            <el-table-column prop="address" label="每次延期天数" align="center"></el-table-column>
-            <el-table-column prop="address" label="延期后应还时间" align="center"></el-table-column>
+            <el-table-column prop="onceDeferredDay" label="每次延期天数" align="center"></el-table-column>
+            <el-table-column prop="deferAfterReturntime" label="延期后应还时间" align="center"></el-table-column>
             <el-table-column prop="address" label="延期次数/延期金额" align="center"></el-table-column>
-            <el-table-column prop="address" label="分配催收时间" align="center"></el-table-column>
+            <el-table-column prop="collectionTime" label="分配催收时间" align="center"></el-table-column>
             <el-table-column prop="address" label="电话状态" align="center"></el-table-column>
             <el-table-column prop="address" label="操作" align="center"></el-table-column>
           </el-table>
@@ -239,12 +238,14 @@ export default {
   },
   data() {
     return {
-      tableData: [],
+      tableData: [{}],
+      per: [],
+      String: [],
       tableDataTwo: [],
       tableDataThree: [],
       tableDataFour: [],
       tableDataFive: [],
-      activeName: "fifth",
+      activeName: "first",
       person: "",
       form: {
         single: "",
@@ -262,10 +263,95 @@ export default {
       page: 1,
       pageSize: 10,
       totalPageCount: 0,
-      totalCount: 20
+      totalCount: 20,
+      show: true,
+      hidden: false
     };
   },
+  created(){
+    this.getData()
+  },
   methods: {
+    getData(page,Pagesize){
+      this.axios.get('postloanor/postOrders',{
+        params:{
+          companyId: "3",
+          page,
+          Pagesize
+        }
+      }).then(res=>{
+        this.tableData = res.data
+      })
+
+      this.axios.get('collection/collectionmember',{
+        params:{
+          companyId: "3"
+        }
+      }).then(res=>{
+        this.per = res.data
+      })
+    },
+    getTwo(page,Pagesize){
+      this.axios.get('postloanor/NoCollection',{
+          params:{
+            companyId: "3",
+            page,
+            Pagesize
+          }
+        }).then(res=>{
+          this.tableDataTwo = res.data
+        })
+    },
+    getThree(page,Pagesize){
+      this.axios.get('postloanor/CollectionRecoveryrate',{
+          params:{
+            companyId: "3",
+            page,
+            Pagesize
+          }
+        }).then(res=>{
+          this.tableDataThree = res.data
+        })
+    },
+    getFour(page,Pagesize){
+      this.axios.get('postloanor/CollectionRecoveryrate',{
+          params:{
+            companyId: "3",
+            page,
+            Pagesize
+          }
+        }).then(res=>{
+          this.tableDataFour = res.data
+        })
+    },
+    getFive(page,Pagesize){
+      this.axios.get('postloanor/MyOverdue',{
+          params:{
+            companyId: "3",
+            page,
+            Pagesize
+          }
+        }).then(res=>{
+          this.tableDataFive = res.data
+        })
+    },
+    handleClick(tab, event) {
+      console.log(this.activeName);
+      if( this.activeName == "second" ){
+        this.getTwo()
+      }else{
+        if( this.activeName == "third" ){
+          this.getThree()
+        }else{
+          if( this.activeName == "fourth" ){
+            this.getFour()
+          }
+        }
+      }
+      if( this.activeName == "fifth" ){
+        this.getFive()
+      }
+    },
     sizeChange() {
       //   this.getData(this.page, this.pageSize);
     },
@@ -274,20 +360,47 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
+      this.String = val.map(item => item.id);
     },
-    clear() {
-      this.formList = {
-        name: "",
-        single: "",
-        type: "",
-        id: "",
-        time: ""
-      };
+    Search() {
+
     },
-    Reset() {
-      this.clear();
+    see(id) {
+      if (this.person != "") {
+        this.show = false;  
+        this.hidden = true;
+      } else {
+        this.show = true;
+        this.hidden = false;
+      }
     },
-    Search() {}
+    confire(CollectionMemberId){
+      this.axios.get('postloanor/UpdateOver',{
+        params:{
+          ids: this.String,
+          CollectionMemberId
+        }
+      }).then(res=>{
+        this.$alert("分配成功")
+      })
+    },
+    oneKey(){
+      if(this.form.person == ""){
+        this.$alert('请选择催收员', '提示', {
+          type: 'warning',
+          center: true
+        })
+      }else{
+        this.axios.get('postloanor/UpdateOver',{
+          params:{
+            ids: this.String,
+            CollectionMemberId
+          }
+        }).then(res=>{
+          this.$alert("分配成功")
+        })
+      }
+    }
   }
 };
 </script>
@@ -317,5 +430,18 @@ export default {
 }
 .single {
   margin-left: -15px;
+}
+p {
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.confire {
+  float: right;
+}
+.content {
+  color: blue;
+  cursor: pointer;
 }
 </style>

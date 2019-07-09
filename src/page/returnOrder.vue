@@ -4,45 +4,48 @@
     <div class="main">
       <el-form :model="formList" :inline="true" class="demo-form-inline">
         <el-form-item>
-          <el-select v-model="formList.name" placeholder="金额类型" style="width:150px">
+          <el-select v-model="formList.name" placeholder="订单编号" style="width:150px">
             <!-- <el-option label="金额类型" value="金额类型"></el-option> -->
-            <el-option label="实借总金额" value="实借总金额"></el-option>
-            <el-option label="放贷总金额" value="预期罚金"></el-option>
-            <el-option label="本期应还利息" value="含逾应还总金额"></el-option>
-            <el-option label="本期应还金额" value="剩余未还金额"></el-option>
-            <el-option label="本期实还金额" value="实还金额"></el-option>
+            <el-option label="订单编号" value="订单编号"></el-option>
+            <el-option label="姓名" value="姓名"></el-option>
+            <el-option label="手机号" value="手机号"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item class="single">
-          <el-input placeholder="请输入数字" v-model="formList.single" class="input-with-select"></el-input>
+          <el-input placeholder="单行输入" v-model="formList.single" class="input-with-select"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-select v-model="formList.type" placeholder="还款状态" style="width:150px">
-            <!-- <el-option label="还款状态" value="还款状态"></el-option> -->
-            <el-option label="未还款" value="未还款"></el-option>
-            <el-option label="已还款" value="已还款"></el-option>
+          <el-select v-model="formList.type" placeholder="还款方式" style="width:150px">
+            <el-option label="未逾期主动还款" value="未逾期主动还款"></el-option>
+            <el-option label="逾期后主动还款" value="逾期后主动还款"></el-option>
+            <el-option label="财务线上减免主动还款" value="财务线上减免主动还款"></el-option>
+            <el-option label="无减免自动还款" value="无减免自动还款"></el-option>
+            <el-option label="财务线上减免自动还款" value="财务线上减免自动还款"></el-option>
+            <el-option label="财务线下减免主动还款" value="财务线下减免主动还款"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-input placeholder="编号/姓名/手机号" v-model="formList.id" class="input-with-select"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-select v-model="formList.name" placeholder="时间查询" style="width:150px">
+          <el-select v-model="formList.time" placeholder="订单时间" style="width:150px">
             <el-option label="实借时间" value="实借时间"></el-option>
-            <el-option label="应还时间" value="应还时间"></el-option>
+            <el-option label="延期前应还时间" value="延期前应还时间"></el-option>
+            <el-option label="延期后应还时间" value="延期后应还时间"></el-option>
             <el-option label="实还时间" value="实还时间"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item class="single">
           <el-col :span="11">
-            <el-date-picker type="date" placeholder="起始时间" v-model="formList.date"></el-date-picker>
+            <el-date-picker type="date" placeholder="起始时间" v-model="formList.start"></el-date-picker>
+          </el-col>
+        </el-form-item>
+        <el-form-item class="single">
+          <el-col :span="11">
+            <el-date-picker type="date" placeholder="结束时间" v-model="formList.end"></el-date-picker>
           </el-col>
         </el-form-item>
         <el-form-item>
-          <el-select placeholder="立即贷+分期贷" v-model="formList.person">
-            <el-option label="立即贷+分期贷" value="立即贷+分期贷"></el-option>
-            <el-option label="立即贷" value="立即贷"></el-option>
-            <el-option label="分期贷" value="分期贷"></el-option>
+          <el-select placeholder="是否全部还清" v-model="formList.person">
+            <el-option label="是" value="是"></el-option>
+            <el-option label="否" value="否"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -97,9 +100,9 @@ export default {
         name: "",
         single: "",
         type: "",
-        id: "",
         time: "",
-        person: ""
+        start: "",
+        end: ""
       },
       page: 1,
       pageSize: 10,
@@ -122,9 +125,9 @@ export default {
         name: "",
         single: "",
         type: "",
-        id: "",
         time: "",
-        person: ""
+        start: "",
+        end: ""
       };
     },
     Reset() {

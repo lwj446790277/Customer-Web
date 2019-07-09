@@ -57,22 +57,35 @@
         </ul>
       </div>
       <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
-        <el-table-column prop="name" label="订单编号" width="93" align="center"></el-table-column>
-        <el-table-column prop="name" label="真实姓名" width="93" align="center"></el-table-column>
-        <el-table-column prop="address" label="手机号" align="center"></el-table-column>
-        <el-table-column prop="address" label="贷款方式" width="93" align="center"></el-table-column>
-        <el-table-column prop="address" label="还款期数" width="93" align="center"></el-table-column>
-        <el-table-column prop="address" label="实借总金额" width="90" align="center"></el-table-column>
-        <el-table-column prop="address" label="逾期天数" width="93" align="center"></el-table-column>
-        <el-table-column prop="address" label="逾期等级" width="93" align="center"></el-table-column>
-        <el-table-column prop="address" label="逾期罚金/含逾应还总金额" width="125" align="center"></el-table-column>
-        <el-table-column prop="address" label="分配时间" width="93" align="center"></el-table-column>
-        <el-table-column prop="address" label="用户状态" width="93" align="center"></el-table-column>
-        <el-table-column prop="address" label="承诺还清部分金额" width="110" align="center"></el-table-column>  
-        <el-table-column prop="address" label="催收次数" width="93" align="center"></el-table-column>
-        <el-table-column prop="address" label="订单状态" width="93" align="center"></el-table-column>
+        <el-table-column prop="orderNumber" label="订单编号" align="center"></el-table-column>
+        <el-table-column prop="Name" label="真实姓名" align="center"></el-table-column>
+        <el-table-column prop="Phone" label="手机号" align="center"></el-table-column>
+        <el-table-column prop="borrowMoneyWay" label="贷款方式" align="center"></el-table-column>
+        <el-table-column prop="repaymentPeriods" label="还款期数" align="center"></el-table-column>
+        <el-table-column prop="realityBorrowMoney" label="实借总金额" width="90" align="center"></el-table-column>
+        <el-table-column prop="overdueNumberOfDays" label="逾期天数" align="center"></el-table-column>
+        <el-table-column prop="Grade" label="逾期等级" align="center"></el-table-column>
+        <el-table-column prop="shouldReapyMoney" label="逾期罚金/含逾应还总金额" width="125" align="center"></el-table-column>
+        <el-table-column prop="collectionTime" label="分配时间" align="center"></el-table-column>
+        <el-table-column prop="user_neir" label="用户状态" align="center"></el-table-column>
+        <el-table-column prop="promise_money" label="承诺还清部分金额" width="100" align="center"></el-table-column>
+        <el-table-column prop="address" label="催收次数" align="center"></el-table-column>
+        <el-table-column prop="borrowMoneyState" label="订单状态" align="center"></el-table-column>
         <el-table-column prop="address" label="剩余还款金额/实还金额" width="120" align="center"></el-table-column>
-        <el-table-column prop="address" label="操作" align="center"></el-table-column>
+        <el-table-column prop="address" label="新增催收" width="93" align="center">
+          <template slot-scope="scope">
+            <span class="blue" @click="newAdd(scope.row)">新增催收</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="address" label="结束催收" width="93" align="center">
+          <template slot-scope="scope">
+                <el-popover placement="bottom-end" width="400" trigger="click">
+                    <p>确定结束催收该用户吗？</p>
+                    <el-button type="success" class="confire" @click="confire(scope.row)">是的</el-button>
+                    <span class="blue" slot="reference">结束催收</span>
+                </el-popover>
+            </template>
+        </el-table-column>
       </el-table>
       <div class="block">
         <el-pagination
@@ -98,7 +111,7 @@ export default {
   },
   data() {
     return {
-      tableData: [],
+      tableData: [{}],
       form: {
         time: "",
         start: "",
@@ -143,6 +156,16 @@ export default {
     },
     Search() {
       
+    },
+    confire(){
+      this.axios.get('collection/AddCollection',{
+        params:{
+          ids,
+          CollectionMemberId
+        }
+      }).then(res=>{
+
+      })
     }
   }
 };
@@ -185,5 +208,18 @@ export default {
   margin-left: -1px;
   margin-right: -1px;
   color: red;
+}
+.confire {
+  float: right;
+}
+p {
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.blue{
+  color: blue;
+  cursor: pointer;
 }
 </style>

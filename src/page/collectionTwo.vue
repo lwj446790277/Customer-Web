@@ -77,21 +77,21 @@
       </div>
       <el-table border :data="tableData" style="width: 100%">
         <el-table-column prop="name" label="订单编号" width="95" align="center"></el-table-column>
-        <el-table-column prop="name" label="姓名" width="65" align="center"></el-table-column>
-        <el-table-column prop="address" label="手机号" width="80" align="center"></el-table-column>
-        <el-table-column prop="address" label="贷款方式" width="95" align="center"></el-table-column>
-        <el-table-column prop="address" label="还款期数" width="95" align="center"></el-table-column>
+        <el-table-column prop="Name" label="姓名" width="65" align="center"></el-table-column>
+        <el-table-column prop="Phone" label="手机号" width="80" align="center"></el-table-column>
+        <el-table-column prop="borrowMoneyWay" label="贷款方式" width="95" align="center"></el-table-column>
+        <el-table-column prop="repaymentPeriods" label="还款期数" width="95" align="center"></el-table-column>
         <el-table-column prop="address" label="实借时间" width="95" align="center"></el-table-column>
-        <el-table-column prop="address" label="实借总金额" align="center"></el-table-column>
+        <el-table-column prop="realityBorrowMoney" label="实借总金额" align="center"></el-table-column>
         <el-table-column prop="address" label="应还时间" width="95" align="center"></el-table-column>
-        <el-table-column prop="address" label="逾期天数" width="95" align="center"></el-table-column>
-        <el-table-column prop="address" label="逾期等级" width="95" align="center"></el-table-column>
-        <el-table-column prop="address" label="逾期罚金/含逾应还总金额" width="125" align="center"></el-table-column>
-        <el-table-column prop="address" label="催收人" width="80" align="center"></el-table-column>
-        <el-table-column prop="address" label="催收时间" width="95" align="center"></el-table-column>
-        <el-table-column prop="address" label="催收状态" width="95" align="center"></el-table-column>
-        <el-table-column prop="address" label="剩余未还金额/实还金额" width="125" align="center"></el-table-column>
-        <el-table-column prop="address" label="催收记录" width="120" align="center">
+        <el-table-column prop="overdueNumberOfDays" label="逾期天数" width="95" align="center"></el-table-column>
+        <el-table-column prop="Grade" label="逾期等级" width="95" align="center"></el-table-column>
+        <el-table-column prop="interestPenaltySum" label="逾期罚金/含逾应还总金额" width="125" align="center"></el-table-column>
+        <el-table-column prop="reallyName" label="催收人" width="80" align="center"></el-table-column>
+        <el-table-column prop="collectionTime" label="催收时间" width="95" align="center"></el-table-column>
+        <el-table-column prop="collectionStatus" label="催收状态" width="95" align="center"></el-table-column>
+        <el-table-column prop="shouldReapyMoney" label="剩余未还金额/实还金额" width="125" align="center"></el-table-column>
+        <el-table-column label="催收记录" width="120" align="center">
           <template scope="scope">
             <span class="cont" @click="open(scope.row.id)">查看催收</span>
           </template>
@@ -129,9 +129,7 @@ export default {
   },
   data() {
     return {
-      tableData: [
-        { id:1 }
-      ],
+      tableData: [],
       gridData: [],
       page: 1,
       pageSize: 10,
