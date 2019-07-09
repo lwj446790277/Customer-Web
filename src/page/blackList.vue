@@ -99,6 +99,7 @@
             <el-form-item>
               <el-button type="primary" @click="Search">搜索</el-button>
             </el-form-item>
+            <el-button type="success" @click="batch" class="confire">批量导入</el-button>
           </el-form>
           <el-table border :data="tableData" style="width: 100%">
             <el-table-column prop="name" label="序号" align="center"></el-table-column>
@@ -115,18 +116,41 @@
             <el-table-column prop="address" label="删除" align="center">
               <template slot-scope="scope">
                 <el-popover placement="bottom-end" width="300" trigger="click">
-                  <span class="content">确认删除该轮播图吗？</span>
+                  <span class="content">确认删除吗？</span>
                   <el-button class="confire" type="success" @click="confire(scope.row)">是的</el-button>
                   <el-button type="danger" slot="reference" @click="delet(scope.row)">删除</el-button>
                 </el-popover>
               </template>
             </el-table-column>
           </el-table>
-          <div class="open" @click="centerDialogVisible = true">
+          <div class="open" @click="dialogTableVisible = true">
             <!-- <i class="el-icon-circle-plus-outline"></i> -->
             <i class="el-icon-plus"></i>
             <span>添加黑名单用户</span>
           </div>
+          <el-dialog title="新增/编辑黑名单" :visible.sync="dialogTableVisible" customClass="customWidthe">
+            <table border="1" cellspacing="0" cellpadding="15" class="bode">
+              <tr>
+                <th>姓名</th>
+                <td>
+                  <el-input placeholder="请输入姓名" v-model="name"></el-input>
+                </td>
+              </tr>
+              <tr>
+                <th>手机号</th>
+                <td>
+                  <el-input placeholder="请输入手机号" v-model="phone"></el-input>
+                </td>
+              </tr>
+              <tr>
+                <th>身份证号</th>
+                <td>
+                  <el-input placeholder="请输入身份证号" v-model="cardId"></el-input>
+                </td>
+              </tr>
+            </table>
+            <el-button type="primary" class="confire" @click="save">保存</el-button>
+          </el-dialog>
           <div class="block">
             <el-pagination
               :current-page="page"
@@ -153,7 +177,7 @@ export default {
   },
   data() {
     return {
-      activeName: "second",
+      activeName: "first",
       form: {
         name: "",
         input: "",
@@ -166,7 +190,11 @@ export default {
       pageSize: 10,
       totalPageCount: 0,
       totalCount: 20,
-      visible: false
+      visible: false,
+      dialogTableVisible: false,
+      name: "",
+      phone: "",
+      cardId: ""
     };
   },
   methods: {
@@ -189,8 +217,14 @@ export default {
       this.clear();
     },
     Search() {},
+    batch(){
+
+    },
     confire() {
       this.visible = false;
+    },
+    save(){
+
     }
   }
 };
@@ -239,5 +273,15 @@ export default {
   cursor: pointer;
   font-size: 1.2rem;
   text-align: center;
+}
+.customWidthe {
+  width: 25%;
+  text-align: center;
+  padding-bottom: 20px;
+}
+.bode {
+  width: 98%;
+  margin: 20px auto;
+  border-color: #dfe6ec;
 }
 </style>

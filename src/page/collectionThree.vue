@@ -71,7 +71,19 @@
       totalCount: 20
     };
   },
-  methods:{
+  created(){
+    this.getData();
+  },  
+  methods:{ 
+    getData(){
+      this.axios.get('collection/CollectionLv',{
+        params:{
+          companyId: "3"
+        }
+      }).then(res=>{
+        this.tableData = res.data
+      })
+    },
     sizeChange() {
       //   this.getData(this.page, this.pageSize);
     },

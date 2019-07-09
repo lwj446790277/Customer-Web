@@ -33,16 +33,16 @@
         style="width: 100%"
         @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column prop="name" label="订单编号" width="120" align="center"></el-table-column>
-        <el-table-column prop="name" label="姓名" width="120" align="center"></el-table-column>
-        <el-table-column prop="address" label="手机号" align="center"></el-table-column>
-        <el-table-column prop="address" label="贷款方式" align="center"></el-table-column>
-        <el-table-column prop="address" label="还款期数" align="center"></el-table-column>
+        <el-table-column prop="orderNumber" label="订单编号" width="120" align="center"></el-table-column>
+        <el-table-column prop="Name" label="姓名" width="120" align="center"></el-table-column>
+        <el-table-column prop="Phone" label="手机号" align="center"></el-table-column>
+        <el-table-column prop="borrowMoneyWay" label="贷款方式" align="center"></el-table-column>
+        <el-table-column prop="repaymentPeriods" label="还款期数" align="center"></el-table-column>
         <el-table-column prop="address" label="实借时间" align="center"></el-table-column>
-        <el-table-column prop="address" label="实借总金额" align="center"></el-table-column>
+        <el-table-column prop="realityBorrowMoney" label="实借总金额" align="center"></el-table-column>
         <el-table-column prop="address" label="应还时间" align="center"></el-table-column>
-        <el-table-column prop="address" label="逾期天数" align="center"></el-table-column>
-        <el-table-column prop="address" label="逾期罚金/含逾应还总金额" align="center"></el-table-column>
+        <el-table-column prop="overdueNumberOfDays" label="逾期天数" align="center"></el-table-column>
+        <el-table-column prop="interestPenaltySum" label="逾期罚金/含逾应还总金额" align="center"></el-table-column>
         <el-table-column label="操作" align="center">
           <!-- <template slot="header" slot-scope="scope">
             <el-button type="success" @click="Onekey(scope)" size="mini">一键分配</el-button>
@@ -178,12 +178,33 @@ export default {
         this.hidden = false;
       }
     },
-    close() {},
     confire() {
       this.visible = false;
+      this.axios.get('collection/AddCollection',{
+        params:{
+          ids: this.String,
+          CollectionMemberId: this.form.person
+        }
+      }).then(res=>{
+        
+      })
     },
     Onekey(){
-      
+      if(this.form.person == ""){
+        this.$alert('请选择催收员', '提示', {
+          type: 'warning',
+          center: true
+        })
+      }else{
+        this.axios.get('collection/AddCollection',{
+          params:{
+            ids: this.String,
+            CollectionMemberId: this.form.person
+          }
+        }).then(res=>{
+          this.$alert("分配成功")
+        })
+      }
     }
   },
   computed:{

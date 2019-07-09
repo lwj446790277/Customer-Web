@@ -126,7 +126,7 @@
 						<el-table-column prop="address" label="已选扣款用户总数" align="center"></el-table-column>
 						<el-table-column prop="address" label="扣款失败用户数" align="center"></el-table-column>
 						<el-table-column prop="address" label="成功扣款用户数" align="center"></el-table-column>
-						<el-table-column prop="address" label="成功扣款用户比率(%)" align="center"></el-table-column>
+						<el-table-column prop="address" label="成功扣款用户比率(%)" align="center"></el-table-column> 
                         <el-table-column prop="address" label="成功扣款总金额" align="center"></el-table-column>
                         <el-table-column prop="address" label="查看扣款清单" align="center"></el-table-column>
 					</el-table>

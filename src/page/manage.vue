@@ -40,7 +40,7 @@
 						<el-menu-item index="collectionOne">已逾期未分配</el-menu-item>
 						<el-menu-item index="collectionTwo">已逾期已分配</el-menu-item>
 						<el-menu-item index="collectionThree">催收率报表</el-menu-item>
-						<el-menu-item index="collectionFour">催收员工作报表</el-menu-item>	
+						<el-menu-item index="collectionFour">催收员工作报表</el-menu-item>
 						<el-menu-item index="collectionFive">已分配未催收</el-menu-item>
 						<el-menu-item index="collectionSix">已分配已催收</el-menu-item>
 					</el-submenu>

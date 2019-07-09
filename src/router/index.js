@@ -164,27 +164,27 @@ const routes = [
 		},{
 			path: '/collectionOne',
 			component: collectionOne,
-			meta: ['催收预警及管理', '已逾期未入催'],
+			meta: ['催收预警及管理', '已逾期未分配'],
 		}
 		,{
 			path: '/collectionTwo',
 			component: collectionTwo,
-			meta: ['催收预警及管理', '催收订单管理'],
+			meta: ['催收预警及管理', '已逾期已分配'],
 		}
 		,{
 			path: '/collectionThree',
 			component: collectionThree,
-			meta: ['催收预警及管理', '催收订单数据统计'],
+			meta: ['催收预警及管理', '催收率报表'],
 		}
 		,{
 			path: '/collectionFour',
 			component: collectionFour,
-			meta: ['催收预警及管理', '催收员管理'],
+			meta: ['催收预警及管理', '催收员工作报表'],
 		}
 		,{
 			path: '/collectionFive',
 			component: collectionFive,
-			meta: ['催收预警及管理', '催收员工作报表'],
+			meta: ['催收预警及管理', '已分配未催收'],
 		},{
 			path: '/collectionSix',
 			component: collectionSix,
