@@ -10,7 +10,7 @@ Vue.config.productionTip = false;
 import axios from 'axios'
 Vue.prototype.$axios=axios;
 
-axios.defaults.baseURL='http://192.168.0.169:8080/zhita_xiaodai_admin/'
+axios.defaults.baseURL='http://192.168.0.161:8080/zhita_xiaodai_admin/'
 
 Vue.use(ElementUI);
 

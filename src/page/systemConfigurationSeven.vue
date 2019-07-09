@@ -532,38 +532,70 @@
                     <tr>
                         <th>用户名</th>
                         <td>
-                            <el-input v-model="name" placeholder="请输入用户名"></el-input>
+                            <el-input v-model="addUserObject.account" placeholder="请输入用户名"></el-input>
                         </td>
                     </tr>
                     <tr>
                         <th>密码</th>
                         <td>
-                            <el-input v-model="pass" placeholder="请输入密码"></el-input>
+                            <el-input v-model="addUserObject.pwd" placeholder="请输入密码"></el-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>手机号</th>
+                        <td>
+                            <el-input v-model="addUserObject.phone" placeholder="请输入手机号"></el-input>
                         </td>
                     </tr>
                     <tr>
                         <th>角色名称</th>
                         <td>
-                            <el-select v-model="person" placeholder="选择角色" style="width: 100%;">
-                                <el-option label="管理员" value="管理员"></el-option>
-                                <el-option label="财务" value="财务"></el-option>
-                                <el-option label="催收员" value="催收员"></el-option>
-                            </el-select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>账号状态</th>
-                        <td>
-                            <el-select v-model="state" placeholder="选择状态" style="width: 100%;">
-                                <el-option label="开启" value="开启"></el-option>
-                                <el-option label="禁用" value="禁用"></el-option>
+                            <el-select v-model="addUserObject.listRoleIdString" placeholder="选择角色" style="width: 100%;">
+                                <el-option v-for="role in roleList" :label="role.rolename"
+                                           :value="role.roleid"></el-option>
                             </el-select>
                         </td>
                     </tr>
                 </table>
                 <div style="float: right;margin-bottom: 5px">
                     <el-button type="warning" @click="centerDialogVisibles = false">取消</el-button>
-                    <el-button type="primary" @click="centerDialogVisibles = false">保存</el-button>
+                    <el-button type="primary" @click="addUser()">保存</el-button>
+                </div>
+            </el-dialog>
+            <el-dialog title="编辑用户" :visible.sync="editUserDialogVisibles" customClass="customWidths" center>
+                <table border="0" cellspacing="0" cellpadding="20" class="table" center>
+                    <tr>
+                        <th>用户名</th>
+                        <td>
+                            <el-input v-model="editUserObject.account" placeholder="请输入用户名"></el-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>密码</th>
+                        <td>
+                            <el-input v-model="editUserObject.pwd" placeholder="请输入密码"></el-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>手机号</th>
+                        <td>
+                            <el-input v-model="editUserObject.phone" placeholder="请输入手机号"></el-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>角色名称</th>
+                        <td>
+                            <el-select v-model="editUserObject.listRoleIdString" placeholder="选择角色"
+                                       style="width: 100%;">
+                                <el-option v-for="role in roleList" :label="role.rolename"
+                                           :value="role.roleid"></el-option>
+                            </el-select>
+                        </td>
+                    </tr>
+                </table>
+                <div style="float: right;margin-bottom: 5px">
+                    <el-button type="warning" @click="editUserDialogVisibles = false">取消</el-button>
+                    <el-button type="primary" @click="editUser">保存</el-button>
                 </div>
             </el-dialog>
             <el-tab-pane label="账号列表" name="second">
@@ -584,27 +616,27 @@
                         </el-form-item>
                     </el-form>
                     <el-table border :data="tableDatas" style="width: 100%;line-height: 60px;">
-                        <el-table-column prop="roleName" label="角色名称" align="center"></el-table-column>
+                        <el-table-column prop="rolestr" label="角色名称" align="center"></el-table-column>
                         <el-table-column prop="account" label="用户名称" align="center"></el-table-column>
                         <el-table-column prop="loginstate" label="登录状态" align="center"></el-table-column>
                         <el-table-column prop="logintime" label="登录时间" align="center"></el-table-column>
                         <el-table-column prop="status" label="账号状态" align="center"></el-table-column>
                         <el-table-column prop="address" label="编辑" align="center">
                             <template slot-scope="scope">
-                                <el-button type="primary" @click="edit(scope.row)">编辑</el-button>
+                                <el-button type="primary" @click="openEditUserDialog(scope.row)">编辑</el-button>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="address" label="删除" align="center">
+                        <el-table-column prop="address" label="修改状态" align="center">
                             <template slot-scope="scope">
                                 <el-popover placement="bottom-end" width="300" trigger="click">
-                                    <span class="content">确认删除该轮播图吗？</span>
-                                    <el-button class="confire" type="success" @click="confire(scope.row)">是的</el-button>
-                                    <el-button type="danger" slot="reference" @click="delet(scope.row)">删除</el-button>
+                                    <span class="content">确认修改用户当前状态吗？</span>
+                                    <el-button class="confire" type="success" @click="deleteUser(scope.row.userid,scope.row.status)">是的</el-button>
+                                    <el-button type="danger" slot="reference" @click="">修改状态</el-button>
                                 </el-popover>
                             </template>
                         </el-table-column>
                     </el-table>
-                    <div class="open" @click="centerDialogVisibles = true">
+                    <div class="open" @click="openAddUserDialog()">
                         <!-- <i class="el-icon-circle-plus-outline"></i> -->
                         <i class="el-icon-plus"></i>
                         <span>新增用户</span>
@@ -624,10 +656,14 @@
         },
         data() {
             return {
+                addUserObject: {},
+                editUserObject: {},
+                roleList: [],
                 title: "新增/编辑权限",
                 centerDialogVisible: false,
                 titles: "新增用户",
                 centerDialogVisibles: false,
+                editUserDialogVisibles: false,
                 checked: true,
                 name: "",
                 pass: "",
@@ -690,11 +726,80 @@
                     params: param
                 }).then(res => {
                     that.tableDatas = res.data.sysuserlist;
-                    for (var i = 0; i <  that.tableDatas.length; i++) {
-                        that.tableDatas[i].roleName = that.tableDatas[i].listrole[0].rolename;
+                    for (var i = 0; i < that.tableDatas.length; i++) {
+                        that.tableDatas[i].loginstate = that.tableDatas[i].loginstate == 1 ? '登陆' : '未登陆';
+                        that.tableDatas[i].logintime = that.tableDatas[i].logintime == 0 ? '暂无登录记录' : that.tableDatas[i].logintime;
+                        that.tableDatas[i].status = that.tableDatas[i].status == 1 ? '开启' : '关闭';
                     }
                 })
-            }
+            },
+            addUser() {
+                var that = this;
+                var param = that.addUserObject;
+                param.companyid = 3
+                that.axios.get('/sysuser/insert', {
+                    params: param
+                }).then(res => {
+                    this.$message({
+                        type: 'success',
+                        message: '添加成功'
+                    });
+                    this.Search();
+                    that.centerDialogVisibles = false;
+                })
+            },
+            editUser() {
+                var that = this;
+                var param = that.editUserObject;
+                param.companyid = 3
+                that.axios.get('/sysuser/updateByPrimaryKey', {
+                    params: param
+                }).then(res => {
+                    this.$message({
+                        type: 'success',
+                        message: '修改成功'
+                    });
+                    this.Search();
+                    that.editUserDialogVisibles = false;
+                })
+            },
+            deleteUser(id, currentState) {
+                var that = this;
+                var status = currentState == '开启' ? 2: 1;
+                    that.axios.get('/sysuser/updateStatus', {
+                        params: {id: id, status: status}
+                    }).then(res => {
+                        this.$message({
+                            type: 'success',
+                            message: '修改用户状态成功成功'
+                        });
+                        this.Search();
+                    })
+            },
+            openAddUserDialog() {
+                var that = this;
+                that.centerDialogVisibles = true;
+                that.axios.get('/sysuser/queryAllCompany', {
+                    params: null
+                }).then(res => {
+                    that.roleList = res.data.listrole;
+                })
+            },
+            openEditUserDialog(object) {
+                var that = this;
+                if (!that.roleList || that.roleList.length == 0) {
+                    that.axios.get('/sysuser/queryAllCompany', {
+                        params: null
+                    }).then(res => {
+                        that.roleList = res.data.listrole;
+                        that.editUserObject = object;
+                        that.editUserDialogVisibles = true;
+                    })
+                } else {
+                    that.editUserObject = object;
+                    that.editUserDialogVisibles = true;
+                }
+            },
         }
     }
 </script>
