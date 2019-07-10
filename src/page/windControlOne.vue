@@ -1,155 +1,295 @@
 <template>
-  <div class="fillcontain">
-    <head-top></head-top>
-    <!-- <p class="explain_text">风控1</p> -->
-    <div class="main">
-      <el-table :data="tableData" border style="width: 100%;line-height: 60px">
-        <el-table-column prop="id" label="排序" align="center"></el-table-column>
-        <el-table-column prop="corporate_name" label="图片" align="center">
-          <template>
-            <img
-              src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
-              class="img"
-            >
-          </template>
-        </el-table-column>
-        <el-table-column prop="customer_name" label="更新时间" align="center"></el-table-column>
-        <el-table-column label="编辑" align="center">
-          <template slot-scope="scope">
-            <el-button type="primary" @click="edit(scope.row)">编辑</el-button>
-          </template>
-        </el-table-column>
-        <el-table-column label="删除" align="center">
-          <template slot-scope="scope">
-            <el-popover placement="bottom-end" width="300" trigger="click">
-              <span class="content">确认删除该轮播图吗？</span>
-              <el-button class="confire" type="success" @click="confire(scope.row)">是的</el-button>
-              <el-button type="danger" slot="reference" @click="delet(scope.row)">删除</el-button>
-            </el-popover>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-dialog :title="title" :visible.sync="centerDialogVisible" width="30%" center>
-        <div class="blocks" v-if="block">
-          <i class="el-icon-picture"></i>
-        </div>
-        <img :src="src" v-if="hidden" class="hidden">
-        <el-upload class="upload-demo" :on-success="upfileSuccess" action accept=".jpg, .png">
-          <el-button size="small" type="primary" class="upload">点击上传</el-button>
-          <span>(支持jpg/png格式)</span>
-        </el-upload>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="centerDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+    <div class="fillcontain">
+        <head-top></head-top>
+        <!-- <p class="explain_text">风控1</p> -->
+        <div class="main">
+            <el-table :data="tableData" border style="width: 100%;line-height: 60px">
+                <el-table-column prop="sort" label="排序" align="center"></el-table-column>
+                <el-table-column prop="viewpagerpicture" label="图片" align="center">
+                    <template scope="scope">
+                        <img :src="scope.row.viewpagerpicture" width="40" height="40" class="head_pic"/>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="updatetime" label="更新时间" align="center"></el-table-column>
+                <el-table-column label="编辑" align="center">
+                    <template slot-scope="scope">
+                        <el-button type="primary" @click="openEditBannerDialog(scope.row)">编辑</el-button>
+                    </template>
+                </el-table-column>
+                <el-table-column label="删除" align="center">
+                    <template slot-scope="scope">
+                        <el-popover placement="bottom-end" width="300" trigger="click">
+                            <span class="content">确认删除该轮播图吗？</span>
+                            <el-button class="confire" type="success" @click="deleteBanner(scope.row.id)">是的</el-button>
+                            <el-button type="danger" slot="reference" @click="deleteAlert(scope.row)">删除</el-button>
+                        </el-popover>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <el-dialog title="添加轮播图" :visible.sync="addBannerDialogVisible" width="30%" center>
+                <table border="0" cellspacing="0" cellpadding="20" class="table" center>
+                    <tr>
+                        <th>排序</th>
+                        <td>
+                            <el-input v-model="addBannerObject.sort" placeholder="请输入排序"></el-input>
+                        </td>
+                    </tr>
+                </table>
+                <div class="blocks" v-if="block">
+                    <i class="el-icon-picture"></i>
+                </div>
+                <img :src="src" v-if="hidden" class="hidden">
+                <el-upload class="upload-demo" :on-success="uploadFileSuccess"
+                           action="http://192.168.0.161:8080/zhita_xiaodai_admin/homepage/PictureUpload"
+                           accept=".jpg, .png">
+                    <el-button size="small" type="primary" class="upload">点击上传</el-button>
+                    <span>(支持jpg/png格式)</span>
+                </el-upload>
+                <span slot="footer" class="dialog-footer">
+          <el-button @click="addBannerDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="addBanner()">确 定</el-button>
         </span>
-      </el-dialog>
-      <div class="open" @click="centerDialogVisible = true">
-        <!-- <i class="el-icon-circle-plus-outline"></i> -->
-        <i class="el-icon-plus"></i>
-        <span>添加轮播图</span>
-      </div>
+            </el-dialog>
+            <el-dialog title="编辑轮播图" :visible.sync="editBannerDialogVisible" width="30%" center>
+                <table border="0" cellspacing="0" cellpadding="20" class="table" center>
+                    <tr>
+                        <th>排序</th>
+                        <td>
+                            <el-input v-model="editBannerObject.sort" placeholder="请输入排序"></el-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>是否置顶</th>
+                        <td>
+                            <el-select v-model="editBannerObject.isstick" placeholder="极速贷">
+                                <el-option label="置顶" value="1"></el-option>
+                                <el-option label="不置顶" value="0"></el-option>
+                            </el-select>
+                        </td>
+                    </tr>
+                </table>
+                <div class="blocks" v-if="block2">
+                    <i class="el-icon-picture"></i>
+                </div>
+                <img :src="src2" v-if="hidden2" class="hidden">
+                <el-upload class="upload-demo" :on-success="uploadFileSuccess2"
+                           action="http://192.168.0.161:8080/zhita_xiaodai_admin/homepage/PictureUpload"
+                           accept=".jpg, .png">
+                    <el-button size="small" type="primary" class="upload">点击上传</el-button>
+                    <span>(支持jpg/png格式)</span>
+                </el-upload>
+                <span slot="footer" class="dialog-footer">
+          <el-button @click="editBannerDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="editBanner()">确 定</el-button>
+        </span>
+            </el-dialog>
+            <div class="open" @click="addBannerDialogVisible = true">
+                <!-- <i class="el-icon-circle-plus-outline"></i> -->
+                <i class="el-icon-plus"></i>
+                <span>添加轮播图</span>
+            </div>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
-import headTop from "../components/headTop";
-export default {
-  components: {
-    headTop
-  },
-  data() {
-    return {
-      tableData: [{ id: 1 }, { id: 2 }],
-      fileList: [],
-      title: "添加/编辑轮播图",
-      centerDialogVisible: false,
-      visible: false,
-      src: "",
-      block: true,
-      hidden: false
+    import headTop from "../components/headTop";
+
+    export default {
+        components: {
+            headTop
+        },
+        data() {
+            return {
+                addBannerObject: {},
+                editBannerObject:{},
+                tableData: [],
+                fileList: [],
+                addBannerDialogVisible: false,
+                editBannerDialogVisible: false,
+                visible: false,
+                src: "",
+                src2:"",
+                block: true,
+                block2:false,
+                hidden: false,
+                hidden2: true,
+            };
+        },
+        beforeCreate(){
+            var that = this;
+            that.axios.get('/homepage/queryAll', {
+                params: {companyId:3}
+            }).then(res => {
+                that.tableData = res.data;
+            })
+        },
+        methods: {
+            uploadFileSuccess(res) {
+                var that = this;
+                if (!!res.success) {
+                    this.block = false;
+                    this.hidden = true;
+                    this.src = res.success;
+                    that.addBannerObject.viewpagerpicture = res.success;
+                    this.$message({
+                        type: 'success',
+                        message: '图片上传成功'
+                    });
+                } else {
+                    this.$message({
+                        type: 'error',
+                        message: res.msg
+                    });
+                }
+            },
+            uploadFileSuccess2(res) {
+                var that = this;
+                if (!!res.success) {
+                    this.block2 = false;
+                    this.hidden2 = true;
+                    this.src2 = res.success;
+                    that.editBannerObject.viewpagerpicture = res.success;
+                    this.$message({
+                        type: 'success',
+                        message: '图片上传成功'
+                    });
+                } else {
+                    this.$message({
+                        type: 'error',
+                        message: res.msg
+                    });
+                }
+            },
+            openEditBannerDialog(object) {
+                var that = this;
+                that.editBannerObject = object;
+
+                that.src2 = that.editBannerObject.viewpagerpicture;
+                that.editBannerDialogVisible = true
+            },
+            Search(){
+                var that = this;
+                that.axios.get('/homepage/queryAll', {
+                    params: {companyId:3}
+                }).then(res => {
+                    that.tableData = res.data;
+                })
+            },
+            addBanner() {
+                var that = this;
+                that.addBannerObject.companyid = 3;
+                that.axios.get('/homepage/insert', {
+                    params: that.addBannerObject
+                }).then(res => {
+                    this.$message({
+                        type: 'success',
+                        message: '添加成功'
+                    });
+                    this.Search();
+                    that.addBannerDialogVisible = false;
+                })
+            },
+            editBanner(){
+                var that = this;
+                that.editBannerObject.companyid = 3;
+                that.axios.get('/homepage/updateByPrimaryKey', {
+                    params: that.editBannerObject
+                }).then(res => {
+                    this.$message({
+                        type: 'success',
+                        message: '编辑成功'
+                    });
+                    this.Search();
+                    that.editBannerDialogVisible = false;
+                })
+            },
+            deleteBanner(id){
+                var that = this;
+                that.axios.get('/homepage/updateFalDel', {
+                    params: {id:id}
+                }).then(res => {
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功'
+                    });
+                    this.Search();
+                })
+            },
+            deleteAlert(){}
+        }
     };
-  },
-  methods: {
-    upfileSuccess(res) {
-      //上传文件成功处理函数
-      console.log(res.desc);
-      if (res.code == 200) {
-        this.block = false;
-        this.hidden = true;
-        this.src = res.desc;
-      } else {
-        this.$alert(res.desc, "提示", {
-          center: true
-        });
-      }
-    },
-    edit(){
-      this.centerDialogVisible = true
-    }
-  }
-};
 </script>
 
 <style lang="less">
-@import "../style/mixin";
-// .explain_text{
-// 	margin-top: 20px;
-// 	text-align: center;
-// 	font-size: 20px;
-// 	color: #333;
-// }
-.main {
-  padding: 20px;
-}
-.img {
-  width: 100px;
-  height: 60px;
-  vertical-align: middle;
-  margin: 10px;
-}
-.open {
-  width: 99.9%;
-  line-height: 60px;
-  border: 1px solid #eee;
-  margin-top: -1px;
-  cursor: pointer;
-  font-size: 1.2rem;
-  text-align: center;
-}
-.el-dialog__title {
-  margin-left: 37%;
-}
-.el-dialog--small {
-  width: 30%;
-}
-.blocks {
-  margin: 10px auto;
-  width: 70%;
-  line-height: 200px;
-  background-color: #eee;
-  text-align: center;
-}
-.hidden {
-  margin: 10px auto;
-  width: 70%;
-  height: 200px;
-}
-i.el-icon-picture {
-  font-size: 1.6rem;
-}
-.upload {
-  margin-left: 80px;
-  margin-top: 15px;
-}
-.content{
-  font-size: 1.1rem;
-  text-align: center;
-  display: block;
-  margin-bottom: 15px;
-  margin-top: 15px;
-}
-.confire {
-  float: right;
-}
+    @import "../style/mixin";
+    // .explain_text{
+    // 	margin-top: 20px;
+    // 	text-align: center;
+    // 	font-size: 20px;
+    // 	color: #333;
+    // }
+    .main {
+        padding: 20px;
+    }
+
+    .img {
+        width: 100px;
+        height: 60px;
+        vertical-align: middle;
+        margin: 10px;
+    }
+
+    .open {
+        width: 99.9%;
+        line-height: 60px;
+        border: 1px solid #eee;
+        margin-top: -1px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        text-align: center;
+    }
+
+    .el-dialog__title {
+        margin-left: 37%;
+    }
+
+    .el-dialog--small {
+        width: 30%;
+    }
+
+    .blocks {
+        margin: 10px auto;
+        width: 70%;
+        line-height: 200px;
+        background-color: #eee;
+        text-align: center;
+    }
+
+    .hidden {
+        margin: 10px auto;
+        width: 70%;
+        height: 200px;
+    }
+
+    i.el-icon-picture {
+        font-size: 1.6rem;
+    }
+
+    .upload {
+        margin-left: 80px;
+        margin-top: 15px;
+    }
+
+    .content {
+        font-size: 1.1rem;
+        text-align: center;
+        display: block;
+        margin-bottom: 15px;
+        margin-top: 15px;
+    }
+
+    .confire {
+        float: right;
+    }
 </style>

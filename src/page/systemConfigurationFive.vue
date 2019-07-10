@@ -32,6 +32,11 @@
   						<el-radio v-model="radio4" label="2">免认证</el-radio>
 					</td>
 				</tr>
+                <tr>
+                    <td colspan="2">
+                        <center><el-button type="primary" @click="save()">保存</el-button></center>
+                    </td>
+                </tr>
 			</table>
 		</div>
     </div>
@@ -50,7 +55,24 @@
 				radio3: '1',
 				radio4: '1'
 			}
-		}
+		},
+        beforeCreate(){
+            var that = this;
+            that.axios.get('/autheninfor/queryAll', {
+                params: {companyId: 3}
+            }).then(res => {
+                that.editObject = res.data[0];
+            })
+        },
+        methods:{
+    	    Search(){
+
+            },
+            save(){
+
+            }
+        }
+
     }
 </script>
 

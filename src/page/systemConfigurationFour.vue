@@ -7,21 +7,21 @@
 				<tr>
 					<th>身份证判定可申请最小年龄段</th>
 					<td>
-						<el-input v-model="small" placeholder="请输入整数"></el-input>
+						<el-input v-model="editObject.minimumage" placeholder="请输入整数"></el-input>
 					</td>
 				</tr>
 				<tr>
 					<th>身份证判定可申请最大年龄段</th>
 					<td>
-						<el-input v-model="big" placeholder="请输入整数"></el-input>
+						<el-input v-model="editObject.maximumage" placeholder="请输入整数"></el-input>
 					</td>
 				</tr>
 				<tr>
 					<th>拒绝申请的省份
-						<p>(用"/"符号隔开)</p>
+						<p>(用"/"符号隔开,例如'浙江省/四川省')</p>
 					</th>
 					<td>
-						<el-input type="textarea" v-model="refuse" placeholder="台湾/香港/澳门"></el-input>
+						<el-input type="textarea" v-model="editObject.refuseapplyprovince" placeholder="台湾/香港/澳门"></el-input>
 					</td>
 				</tr>
 				<tr>
@@ -29,9 +29,14 @@
 						<p>(用"/"符号隔开)</p>
 					</th>
 					<td>
-						<el-input type="textarea" v-model="allow" placeholder="中国银行/中国农业银行"></el-input>
+						<el-input type="textarea" v-model="editObject.allowsigningidcard" placeholder="中国银行/中国农业银行"></el-input>
 					</td>
 				</tr>
+                <tr>
+                    <td colspan="2">
+                        <center><el-button type="primary" @click="save()">保存</el-button></center>
+                    </td>
+                </tr>
 			</table>
 		</div>
     </div>
@@ -45,12 +50,39 @@
 		},
 		data(){
 			return{
-				small: "",
-				big: "",
-				refuse: "",
-				allow: ""
+                editObject:{}
 			}
-		}
+		},
+        beforeCreate(){
+    	    var that = this;
+            that.axios.get('/applycondition/queryAll', {
+                params: {companyId: 3}
+            }).then(res => {
+                that.editObject = res.data[0];
+            })
+        },
+        methods:{
+    	    Search(){
+                var that = this;
+                that.axios.get('/applycondition/queryAll', {
+                    params: {companyId: 3}
+                }).then(res => {
+                    that.editObject = res.data[0];
+                })
+            },
+            save(){
+    	        var that = this;
+                that.axios.get('/applycondition/updateByPrimaryKey', {
+                    params: that.editObject
+                }).then(res => {
+                    this.$message({
+                        type: 'success',
+                        message: '编辑成功'
+                    });
+                that.Search();
+                })
+            },
+        }
     }
 </script>
 

@@ -20,7 +20,7 @@
                     <template slot-scope="scope">
                         <el-popover placement="bottom-end" width="300" trigger="click">
                             <span class="content">确认删除该渠道吗？</span>
-                            <el-button class="confire" type="success" @click="confire(scope.row)">是的</el-button>
+                            <el-button class="confire" type="success" @click="deleteChannel(scope.row)">是的</el-button>
                             <el-button type="danger" slot="reference" @click="delet(scope.row)">删除</el-button>
                         </el-popover>
                     </template>
@@ -127,7 +127,7 @@
                     </tr>
                 </table>
                 <div style="float: right;margin-bottom: 5px">
-                    <el-button type="warning" @click="addChannelDialogVisible = false">取消</el-button>
+                    <el-button type="warning" @click="editChannelDialogVisible = false">取消</el-button>
                     <el-button type="primary" @click="editChannel()">保存</el-button>
                 </div>
             </el-dialog>
@@ -179,8 +179,17 @@
             edit() {
 
             },
-            confire() {
-
+            deleteChannel(object) {
+                var that = this;
+                that.axios.get('/source/updateFalDel', {
+                    params: {id:object.id}
+                }).then(res => {
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功'
+                    });
+                    this.Search();
+                })
             },
             delet() {
 
@@ -214,7 +223,6 @@
             editChannel(){
                 var that = this;
                 that.editChannelObject.companyid = 3;
-                that.editChannelObject.discount = that.editChannelObject.discount + '%';
                 that.axios.get('/source/updateByPrimaryKey', {
                     params: that.editChannelObject
                 }).then(res => {
@@ -223,7 +231,7 @@
                         message: '添加成功'
                     });
                     this.Search();
-                    that.centerDialogVisibles = false;
+                    that.editChannelDialogVisible = false;
                 })
             },
             openAddChannelDialog() {
