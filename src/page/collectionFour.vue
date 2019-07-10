@@ -4,10 +4,8 @@
         <div class="main">
       <el-form :model="form" :inline="true" class="demo-form-inline">
         <el-form-item>
-          <el-select v-model="form.time" placeholder="订单时间" style="width:150px">
-            <el-option label="订单时间" value="订单时间"></el-option>
-            <el-option label="延借时间" value="延借时间"></el-option>
-            <el-option label="延期后应还" value="延期后应还"></el-option>
+          <el-select v-model="form.time" placeholder="日期" style="width:150px">
+            <el-option label="日期" value="日期"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item class="single">
@@ -22,9 +20,7 @@
         </el-form-item>
 		    <el-form-item>
           <el-select placeholder="催收员姓名" v-model="form.name">
-            <el-option label="立即贷+分期贷" value="立即贷+分期贷"></el-option>
-            <el-option label="立即贷" value="立即贷"></el-option>
-            <el-option label="分期贷" value="分期贷"></el-option>
+            <el-option v-for="item in person" :key="item.value" :label="item.reallyName" :value="item.collectionMemberId"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -33,21 +29,21 @@
         </el-form-item>
       </el-form>
       <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%;line-height: 60px">
-        <el-table-column prop="name" label="日期" align="center"></el-table-column>
-        <el-table-column prop="name" label="催收员姓名" align="center"></el-table-column>
-        <el-table-column prop="address" label="分配订单数" align="center"></el-table-column>
-        <el-table-column prop="address" label="承诺还款订单数" align="center"></el-table-column>
-        <el-table-column prop="address" label="成功订单数" align="center"></el-table-column>
-        <el-table-column prop="address" label="未还清订单数" align="center"></el-table-column>
-        <el-table-column prop="address" label="坏账订单数" align="center"></el-table-column>
-        <el-table-column prop="address" label="催收次数" align="center"></el-table-column>
-        <el-table-column prop="address" label="催回率(%)" align="center"></el-table-column>
+        <el-table-column prop="collectionTime" label="日期" align="center"></el-table-column>
+        <el-table-column prop="reallyName" label="催收员姓名" align="center"></el-table-column>
+        <el-table-column prop="collection_count" label="分配订单数" align="center"></el-table-column>
+        <el-table-column prop="sameday" label="承诺还款订单数" align="center"></el-table-column>
+        <!-- <el-table-column prop="address" label="成功订单数" align="center"></el-table-column> -->
+        <el-table-column prop="paymentmade" label="未还清订单数" align="center"></el-table-column>
+        <el-table-column prop="connected" label="坏账订单数" align="center"></el-table-column>
+        <!-- <el-table-column prop="address" label="催收次数" align="center"></el-table-column> -->
+        <el-table-column prop="collNumdata" label="催回率(%)" align="center"></el-table-column>
       </el-table>
       <div class="block">
         <el-pagination
           :current-page.sync="page"
           :page-sizes="[10, 15, 20, 25]"
-          :page-size.sync="pageSize"
+          :page-size.sync="Pagesize"
           layout="total, sizes, prev, pager, next, jumper"
           :page-count="totalPageCount"
           :total="totalCount"
@@ -56,8 +52,7 @@
         ></el-pagination>
       </div>
     </div>
- 
-    </div>
+  </div>
 </template>
 
 <script>
@@ -75,13 +70,36 @@
 		    end: "",
 		    name: ""
       },
+      person: [],
       page: 1,
-      pageSize: 10,
+      Pagesize: 10,
       totalPageCount: 0,
       totalCount: 20
     };
   },
+  created(){
+    this.getData(this.page,this.Pagesize);
+  }, 
   methods:{
+    getData(page,Pagesize){
+      this.axios.get('collection/CollectionUserLv',{
+        params:{
+          companyId: "3",
+          // page,
+          // Pagesize
+        }
+      }).then(res=>{
+        this.tableData = res.data.Collections
+      })
+
+      this.axios.get('collection/collectionmember',{
+        params:{
+          companyId: "3"
+        }
+      }).then(res=>{
+        this.person = res.data.collection_member
+      })
+    },
     sizeChange() {
       //   this.getData(this.page, this.pageSize);
     },
@@ -100,7 +118,17 @@
       this.clear()
     },
     Search(){
-
+      this.axios.get('collection/CollectionUserLv',{
+        params:{
+          start_time: this.form.start,
+          end_time: this.form.end,
+          collectionMemberId: this.form.name.value,
+          page: this.page,
+          Pagesize: this.Pagesize
+        }
+      }).then(res=>{
+        this.tableData = res.data
+      })
     }
   }
     }

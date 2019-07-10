@@ -42,7 +42,7 @@
           <el-button type="primary" @click="Search">搜索</el-button>
         </el-form-item>
       </el-form>
-      <div class="statistics">
+      <!-- <div class="statistics">
         <ul>
           <li>分配订单总数</li>
           <li class="num">10</li>
@@ -55,23 +55,31 @@
           <li>坏账订单数</li>
           <li class="num">10</li>
         </ul>
-      </div>
+      </div> -->
       <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
         <el-table-column prop="orderNumber" label="订单编号" align="center"></el-table-column>
-        <el-table-column prop="Name" label="真实姓名" align="center"></el-table-column>
-        <el-table-column prop="Phone" label="手机号" align="center"></el-table-column>
+        <el-table-column prop="name" label="真实姓名" align="center"></el-table-column>
+        <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
         <el-table-column prop="borrowMoneyWay" label="贷款方式" align="center"></el-table-column>
-        <el-table-column prop="repaymentPeriods" label="还款期数" align="center"></el-table-column>
+        <el-table-column prop="borrowTimeLimit" label="还款期数" align="center"></el-table-column>
         <el-table-column prop="realityBorrowMoney" label="实借总金额" width="90" align="center"></el-table-column>
         <el-table-column prop="overdueNumberOfDays" label="逾期天数" align="center"></el-table-column>
-        <el-table-column prop="Grade" label="逾期等级" align="center"></el-table-column>
-        <el-table-column prop="shouldReapyMoney" label="逾期罚金/含逾应还总金额" width="125" align="center"></el-table-column>
+        <el-table-column prop="overdueGrade" label="逾期等级" align="center"></el-table-column>
+        <el-table-column prop="shouldReapyMoney" label="逾期罚金/含逾应还总金额" width="125" align="center">
+          <template slot-scope="scope">
+            <span>{{scope.row.interestPenaltySum}}/{{scope.row.order_money}}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="collectionTime" label="分配时间" align="center"></el-table-column>
-        <el-table-column prop="user_neir" label="用户状态" align="center"></el-table-column>
+        <el-table-column prop="collectionStatus" label="用户状态" align="center"></el-table-column>
         <el-table-column prop="promise_money" label="承诺还清部分金额" width="100" align="center"></el-table-column>
-        <el-table-column prop="address" label="催收次数" align="center"></el-table-column>
-        <el-table-column prop="borrowMoneyState" label="订单状态" align="center"></el-table-column>
-        <el-table-column prop="address" label="剩余还款金额/实还金额" width="120" align="center"></el-table-column>
+        <el-table-column prop="collNum" label="催收次数" align="center"></el-table-column>
+        <el-table-column prop="orderStatus" label="订单状态" align="center"></el-table-column>
+        <el-table-column prop="address" label="剩余还款金额/实还金额" width="120" align="center">
+          <template slot-scope="scope">
+            <span>{{scope.row.surplus_money}}/{{scope.row.realityAccount}}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="address" label="新增催收" width="93" align="center">
           <template slot-scope="scope">
             <span class="blue" @click="newAdd(scope.row)">新增催收</span>
@@ -131,8 +139,12 @@ export default {
   },
   methods: {
     getData(){
-      this.axios.get('collection/YiCollection').then(res=>{
-        this.tableData = res.data
+      this.axios.get('collection/YiCollection',{
+        params:{
+          companyId: "3"
+        }
+      }).then(res=>{
+        this.tableData = res.data.Orderdetails
       })
     },
     sizeChange() {

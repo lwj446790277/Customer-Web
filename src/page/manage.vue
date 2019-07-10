@@ -19,11 +19,11 @@
 					</el-submenu>
 					<el-submenu index="4">
 						<template slot="title"><i class="el-icon-star-on"></i>财务管理</template>
-						<el-menu-item index="paymentRecord">支付记录</el-menu-item>
-						<el-menu-item index="repaymentPlan">还款计划</el-menu-item>
-						<el-menu-item index="repaymentRecord">还款记录</el-menu-item>
-						<el-menu-item index="manualTransfer">手动调账</el-menu-item>
-						<el-menu-item index="offlineRepayment">线下还款</el-menu-item>
+						<el-menu-item index="paymentRecord">放款实时流水</el-menu-item>
+						<el-menu-item index="repaymentPlan">还款实时流水</el-menu-item>
+						<el-menu-item index="repaymentRecord">延期和扣款查询</el-menu-item>
+						<el-menu-item index="manualTransfer">线上手工调账</el-menu-item>
+						<el-menu-item index="offlineRepayment">线下手工调账</el-menu-item>
 						<el-menu-item index="newMember">银行卡自动扣款</el-menu-item>
 						<el-menu-item index="financialOverview">财务总览</el-menu-item>
 					</el-submenu>
@@ -49,7 +49,7 @@
 						<el-menu-item index="operationalDataOne">平台总数据</el-menu-item>
 						<el-menu-item index="operationalDataTwo">还款数据</el-menu-item>
 						<el-menu-item index="operationalDataThree">逾期数据</el-menu-item>
-						<el-menu-item index="operationalDataFour">收支数据</el-menu-item>
+						<!-- <el-menu-item index="operationalDataFour">收支数据</el-menu-item> -->
 						<!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
 					</el-submenu>
 					<el-submenu index="8">
