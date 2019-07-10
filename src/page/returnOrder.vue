@@ -14,7 +14,7 @@
         <el-form-item class="single">
           <el-input placeholder="单行输入" v-model="formList.single" class="input-with-select"></el-input>
         </el-form-item>
-        <el-form-item>
+        <!-- <el-form-item>
           <el-select v-model="formList.type" placeholder="还款方式" style="width:150px">
             <el-option label="未逾期主动还款" value="未逾期主动还款"></el-option>
             <el-option label="逾期后主动还款" value="逾期后主动还款"></el-option>
@@ -23,7 +23,7 @@
             <el-option label="财务线上减免自动还款" value="财务线上减免自动还款"></el-option>
             <el-option label="财务线下减免主动还款" value="财务线下减免主动还款"></el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-select v-model="formList.time" placeholder="订单时间" style="width:150px">
             <el-option label="实借时间" value="实借时间"></el-option>
@@ -42,40 +42,58 @@
             <el-date-picker type="date" placeholder="结束时间" v-model="formList.end"></el-date-picker>
           </el-col>
         </el-form-item>
-        <el-form-item>
-          <el-select placeholder="是否全部还清" v-model="formList.person">
-            <el-option label="是" value="是"></el-option>
-            <el-option label="否" value="否"></el-option>
+        <!-- <el-form-item>
+          <el-select placeholder="订单状态" v-model="formList.person">
+            <el-option label="期限中" value="0"></el-option>
+            <el-option label="已逾期" value="1"></el-option>
+            <el-option label="已延期" value="2"></el-option>
+            <el-option label="已还款" value="3"></el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-button type="warning" @click="Reset">重置</el-button>
           <el-button type="primary" @click="Search">搜索</el-button>
         </el-form-item>
       </el-form>
       <el-table border :data="tableData" style="width: 100%">
-        <el-table-column prop="name" label="订单编号" width="93" align="center"></el-table-column>
+        <el-table-column prop="orderNumber" label="订单编号" width="93" align="center"></el-table-column>
         <el-table-column prop="name" label="姓名" align="center"></el-table-column>
-        <el-table-column prop="address" label="手机号" align="center"></el-table-column>
-        <el-table-column prop="address" label="贷款方式" width="93" align="center"></el-table-column>
-        <el-table-column prop="address" label="还款期数" width="93" align="center"></el-table-column>
-        <el-table-column prop="address" label="实借时间" width="93" align="center"></el-table-column>
-        <el-table-column prop="address" label="实借总金额/放贷总金额" width="125" align="center"></el-table-column>
-        <el-table-column prop="address" label="应还时间" width="93" align="center"></el-table-column>
-        <el-table-column prop="address" label="本期应还利息/本期应还金额" width="130" align="center"></el-table-column>
-		<el-table-column prop="address" label="逾期天数" width="93" align="center"></el-table-column>
-		<el-table-column prop="address" label="逾期罚金/应还总金额" width="110" align="center"></el-table-column>
-		<el-table-column prop="address" label="催收员" align="center"></el-table-column>
-        <el-table-column prop="address" label="还款状态" width="93" align="center"></el-table-column>
-        <el-table-column prop="address" label="实还时间" width="93" align="center"></el-table-column>
-        <el-table-column prop="address" label="剩余未还金额/实还总金额" width="130" align="center"></el-table-column>
-        <el-table-column prop="address" label="操作" align="center"></el-table-column>
+        <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
+        <el-table-column prop="borrowMoneyWay" label="贷款方式" width="93" align="center"></el-table-column>
+        <el-table-column prop="borrowTimeLimit" label="还款期数" width="93" align="center"></el-table-column>
+        <el-table-column prop="orderCreateTime" label="实借时间" width="93" align="center"></el-table-column>
+        <el-table-column label="实借总金额/放贷总金额" width="125" align="center">
+          <template slot-scope="scope">
+            <span>{{scope.row.realityBorrowMoney}}/{{scope.row.makeLoans}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="deferBeforeReturntime" label="应还时间" width="93" align="center"></el-table-column>
+        <el-table-column label="本期应还利息/本期应还金额" width="130" align="center">
+          <template slot-scope="scope">
+            <span>{{scope.row.interestOnArrears}}/{{scope.row.makeLoans}}</span>
+          </template>
+        </el-table-column>
+		    <el-table-column prop="overdueNumberOfDays" label="逾期天数" width="93" align="center"></el-table-column>
+		    <el-table-column label="逾期罚金/应还总金额" width="110" align="center">
+          <template slot-scope="scope">
+            <span>{{scope.row.interestPenaltySum}}/{{scope.row.order_money}}</span>
+          </template>
+        </el-table-column>
+		    <el-table-column prop="reallyName" label="催收员" align="center"></el-table-column>
+        <el-table-column prop="collectionStatus" label="还款状态" width="93" align="center"></el-table-column>
+        <el-table-column prop="realtime" label="实还时间" width="93" align="center"></el-table-column>
+        <el-table-column label="剩余未还金额/实还总金额" width="130" align="center">
+          <template slot-scope="scope">
+            <span>{{scope.row.surplus_money}}/{{scope.row.realityAccount}}</span>
+          </template>
+        </el-table-column>
+        <!-- <el-table-column prop="address" label="操作" align="center"></el-table-column> -->
       </el-table>
       <div class="block">
         <el-pagination
           :current-page="page"
           :page-sizes="[10, 15, 20, 25]"
-          :page-size.sync="pageSize"
+          :page-size.sync="Pagesize"
           layout="total, sizes, prev, pager, next, jumper"
           :page-count="totalPageCount"
           :total="totalCount"
@@ -105,12 +123,26 @@ export default {
         end: ""
       },
       page: 1,
-      pageSize: 10,
+      Pagesize: 10,
       totalPageCount: 0,
       totalCount: 20
     };
   },
+  created(){
+    this.getData(this.page, this.Pagesize)
+  },
   methods: {
+    getData(page,Pagesize){
+      this.axios.get('postloanor/YihuanOrders',{
+        params:{
+          companyId: "3",
+          // page,
+          // Pagesize
+        }
+      }).then(res=>{
+        this.tableData = res.data.Orderdetails
+      })
+    },
     sizeChange() {
       //   this.getData(this.page, this.pageSize);
     },
@@ -119,23 +151,23 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
-	},
-	clear() {
-      this.formList = {
-        name: "",
-        single: "",
-        type: "",
-        time: "",
-        start: "",
-        end: ""
-      };
+    },
+    clear() {
+        this.formList = {
+          name: "",
+          single: "",
+          type: "",
+          time: "",
+          start: "",
+          end: ""
+        };
     },
     Reset() {
-		this.clear();
-	},
-	Search(){
+      this.clear();
+    },
+    Search(){
 
-	}
+    }
   }
 };
 </script>

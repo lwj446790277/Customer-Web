@@ -4,32 +4,31 @@
     <div class="main">
       <el-form :model="form" :inline="true" class="demo-form-inline">
         <el-form-item>
-          <el-input placeholder="订单号" v-model="form.id"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-input placeholder="姓名" v-model="form.name"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-input placeholder="手机号" v-model="form.phone"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-select placeholder="还款状态" v-model="form.type">
-            <!-- <el-option label="立即贷+分期贷" value="立即贷+分期贷"></el-option> -->
-            <el-option label="已还款" value="已还款"></el-option>
-            <el-option label="未还款" value="未还款"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-select v-model="form.date" placeholder="应还款日期" style="width:150px">
-            <el-option label="应还款日期" value="应还款日期"></el-option>
-            <!-- <el-option label="应还时间" value="应还时间"></el-option>
-            <el-option label="实还时间" value="实还时间"></el-option>-->
+          <el-select v-model="form.name" placeholder="放款流水号" style="width:150px">
+            <el-option label="放款流水号" value="放款流水号"></el-option>
+            <el-option label="订单编号" value="订单编号"></el-option>
+            <el-option label="姓名" value="姓名"></el-option>
+            <el-option label="手机号" value="手机号"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item class="single">
+          <el-input placeholder="单行输入" v-model="form.input"></el-input>
+        </el-form-item>
+        <el-form-item>
           <el-col :span="11">
-            <el-date-picker type="date" placeholder="起始时间" v-model="form.time"></el-date-picker>
+            <el-date-picker type="date" placeholder="起始时间" v-model="form.start"></el-date-picker>
           </el-col>
+        </el-form-item>
+        <el-form-item class="single">
+          <el-col :span="11">
+            <el-date-picker type="date" placeholder="结束时间" v-model="form.end"></el-date-picker>
+          </el-col>
+        </el-form-item>
+        <el-form-item>
+          <el-select v-model="form.qudao" placeholder="放款渠道" style="width:150px">
+            <el-option label="放款渠道甲" value="放款渠道甲"></el-option>
+            <el-option label="放款渠道乙" value="放款渠道乙"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item>
           <el-button type="warning" @click="Reset">重置</el-button>
@@ -37,22 +36,20 @@
         </el-form-item>
       </el-form>
       <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
-        <el-table-column prop="name" label="订单号" align="center"></el-table-column>
-        <el-table-column prop="name" label="真实姓名" align="center"></el-table-column>
-        <el-table-column prop="address" label="手机号" align="center"></el-table-column>
-        <el-table-column prop="address" label="借款金额" align="center"></el-table-column>
-        <el-table-column prop="address" label="逾期天数" align="center"></el-table-column>
-        <el-table-column prop="address" label="逾期金额" align="center"></el-table-column>
-        <el-table-column prop="address" label="应还款金额" align="center"></el-table-column>
-        <el-table-column prop="address" label="应还款日期" align="center"></el-table-column>
-        <el-table-column prop="address" label="还款状态" align="center"></el-table-column>
-        <el-table-column prop="address" label="操作" align="center"></el-table-column>
+        <el-table-column prop="orderCreateTime" label="流水号时间" align="center"></el-table-column>
+        <el-table-column prop="name" label="还款渠道" align="center"></el-table-column>
+        <el-table-column prop="address" label="还款流水号" align="center"></el-table-column>
+        <el-table-column prop="address" label="还款金额" align="center"></el-table-column>
+        <el-table-column prop="orderNumber" label="订单编号" align="center"></el-table-column>
+        <el-table-column prop="name" label="姓名" align="center"></el-table-column>
+        <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
+        <!-- <el-table-column prop="address" label="操作" align="center"></el-table-column> -->
       </el-table>
       <div class="block">
         <el-pagination
           :current-page.sync="page"
           :page-sizes="[10, 15, 20, 25]"
-          :page-size.sync="pageSize"
+          :page-size.sync="Pagesize"
           layout="total, sizes, prev, pager, next, jumper"
           :page-count="totalPageCount"
           :total="totalCount"
@@ -74,20 +71,33 @@ export default {
     return {
       tableData: [],
       form: {
-        id: "",
         name: "",
-        phone: "",
-        type: "",
-        date: "",
-        time: ""
+        input: "",
+        start: "",
+        end: "",
+        qudao: ""
       },
       page: 1,
-      pageSize: 10,
+      Pagesize: 10,
       totalPageCount: 0,
       totalCount: 20
     };
   },
+  created(){
+    this.getData(this.page,this.Pagesize)
+  },
   methods: {
+    getData( page, Pagesize ){
+      this.axios.get('fina/PaymentOrder',{
+        params:{
+          companyId: "3",
+          // page,
+          // Pagesize
+        }
+      }).then(res=>{
+        this.tableData = res.data.Orderdetails
+      })
+    },
     sizeChange() {
       //   this.getData(this.page, this.pageSize);
     },

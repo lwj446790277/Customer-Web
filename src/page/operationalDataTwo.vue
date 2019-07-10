@@ -18,13 +18,13 @@
         </el-form-item>
       </el-form>
       <el-table border :data="tableData" show-summary tooltip-effect="dark" style="width: 100%">
-        <el-table-column prop="name" label="日期" align="center"></el-table-column>
-        <el-table-column prop="name" label="还款笔数" align="center"></el-table-column>
-        <el-table-column prop="address" label="逾期还款笔数" align="center"></el-table-column>
-        <el-table-column prop="address" label="逾期还款占比(%)" align="center"></el-table-column>
-        <el-table-column prop="address" label="还款金额" align="center"></el-table-column>
-        <el-table-column prop="address" label="放款笔数" align="center"></el-table-column>
-        <el-table-column prop="address" label="逾期罚息" align="center"></el-table-column>
+        <el-table-column prop="operator_time" label="日期" align="center"></el-table-column>
+        <el-table-column prop="repayment_Count" label="还款笔数" align="center"></el-table-column>
+        <el-table-column prop="Collection_count" label="逾期还款笔数" align="center"></el-table-column>
+        <el-table-column prop="repaymeny_collectiondata" label="逾期还款占比(%)" align="center"></el-table-column>
+        <el-table-column prop="repaymentSumMoney" label="还款金额" align="center"></el-table-column>
+        <!-- <el-table-column prop="address" label="放款笔数" align="center"></el-table-column> -->
+        <el-table-column prop="collection_money" label="逾期金额" align="center"></el-table-column>
       </el-table>
       <div class="block">
         <el-pagination
@@ -63,7 +63,21 @@ export default {
       totalCount: 20
     };
   },
+  created(){
+    this.getData(this.page, this.Pagesize)
+  },
   methods: {
+    getData(page,Pagesize){
+      this.axios.get('operation/HuanKuandata',{
+        params:{
+          companyId: "3",
+          // page,
+          // Pagesize
+        }
+      }).then(res=>{
+        this.tableData = res.data.Repayment
+      })
+    },
     sizeChange() {
       //   this.getData(this.page, this.pageSize);
     },

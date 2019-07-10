@@ -61,7 +61,7 @@
           <el-button type="primary" @click="Search">搜索</el-button>
         </el-form-item>
       </el-form>
-      <div class="statistics">
+      <!-- <div class="statistics">
         <ul>
           <li>分配订单总数</li>
           <li class="num">10</li>
@@ -74,23 +74,27 @@
           <li>坏账订单数</li>
           <li class="num">10</li>
         </ul>
-      </div>
+      </div> -->
       <el-table border :data="tableData" style="width: 100%">
-        <el-table-column prop="name" label="订单编号" width="95" align="center"></el-table-column>
-        <el-table-column prop="Name" label="姓名" width="65" align="center"></el-table-column>
-        <el-table-column prop="Phone" label="手机号" width="80" align="center"></el-table-column>
+        <el-table-column prop="orderNumber" label="订单编号" width="95" align="center"></el-table-column>
+        <el-table-column prop="name" label="姓名" width="65" align="center"></el-table-column>
+        <el-table-column prop="phone" label="手机号" width="80" align="center"></el-table-column>
         <el-table-column prop="borrowMoneyWay" label="贷款方式" width="95" align="center"></el-table-column>
-        <el-table-column prop="repaymentPeriods" label="还款期数" width="95" align="center"></el-table-column>
-        <el-table-column prop="address" label="实借时间" width="95" align="center"></el-table-column>
+        <el-table-column prop="borrowTimeLimit" label="还款期数" width="95" align="center"></el-table-column>
+        <el-table-column prop="orderCreateTime" label="实借时间" width="95" align="center"></el-table-column>
         <el-table-column prop="realityBorrowMoney" label="实借总金额" align="center"></el-table-column>
-        <el-table-column prop="address" label="应还时间" width="95" align="center"></el-table-column>
+        <el-table-column prop="shouldReturnTime" label="应还时间" width="95" align="center"></el-table-column>
         <el-table-column prop="overdueNumberOfDays" label="逾期天数" width="95" align="center"></el-table-column>
-        <el-table-column prop="Grade" label="逾期等级" width="95" align="center"></el-table-column>
+        <el-table-column prop="overdueGrade" label="逾期等级" width="95" align="center"></el-table-column>
         <el-table-column prop="interestPenaltySum" label="逾期罚金/含逾应还总金额" width="125" align="center"></el-table-column>
         <el-table-column prop="reallyName" label="催收人" width="80" align="center"></el-table-column>
         <el-table-column prop="collectionTime" label="催收时间" width="95" align="center"></el-table-column>
         <el-table-column prop="collectionStatus" label="催收状态" width="95" align="center"></el-table-column>
-        <el-table-column prop="shouldReapyMoney" label="剩余未还金额/实还金额" width="125" align="center"></el-table-column>
+        <el-table-column prop="realityAccount" label="剩余未还金额/实还金额" width="125" align="center">
+          <template scope="scope">
+            <span>{{scope.row.surplus_money}}/{{scope.row.realityAccount}}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="催收记录" width="120" align="center">
           <template scope="scope">
             <span class="cont" @click="open(scope.row.id)">查看催收</span>
@@ -153,8 +157,14 @@ export default {
   },
   methods: {
     getData(){
-      this.axios.get('collection/BeoverdueYifenp').then(res=>{
-        this.tableData = res.data
+      this.axios.get('collection/BeoverdueYifenp',{
+        params:{
+          companyId: "3",
+          // page,
+          // Pagesize
+        }
+      }).then(res=>{
+        this.tableData = res.data.Orderdetails
       })
     },
     sizeChange() {

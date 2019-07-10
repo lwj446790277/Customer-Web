@@ -120,23 +120,23 @@ const routes = [
 		},{
 			path: '/paymentRecord',
 			component: paymentRecord,
-			meta: ['财务管理', '支付记录'],
+			meta: ['财务管理', '放款实时流水'],
 		},{
 			path: '/repaymentPlan',
 			component: repaymentPlan,
-			meta: ['财务管理', '还款计划'],
+			meta: ['财务管理', '还款实时流水'],
 		},{
 			path: '/repaymentRecord',
 			component: repaymentRecord,
-			meta: ['财务管理', '还款记录'],
+			meta: ['财务管理', '延期和扣款查询'],
 		},{
 			path: '/manualTransfer',
 			component: manualTransfer,
-			meta: ['财务管理', '手动调账'],
+			meta: ['财务管理', '线上手工调账'],
 		},{
 			path: '/offlineRepayment',
 			component: offlineRepayment,
-			meta: ['财务管理', '线下还款'],
+			meta: ['财务管理', '线下手工调账'],
 		},{
 			path: '/newMember',
 			component: newMember,

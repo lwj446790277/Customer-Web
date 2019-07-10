@@ -19,21 +19,25 @@
         </el-form-item>
       </el-form>
       <el-table border :data="tableData" tooltip-effect="dark" show-summary style="width: 100%;line-height: 60px">
-        <el-table-column prop="time" label="日期" align="center"></el-table-column>
-        <el-table-column prop="number" label="累计订单总数" align="center"></el-table-column>
-        <el-table-column prop="num" label="累计分配订单数" align="center"></el-table-column>
-        <el-table-column prop="address" label="累计承诺还款订单数" align="center"></el-table-column>
-        <el-table-column prop="address" label="累计成功订单数" align="center"></el-table-column>
-        <el-table-column prop="address" label="累计未还清订单数" align="center"></el-table-column>
-        <el-table-column prop="address" label="累计坏账订单数" align="center"></el-table-column>
-        <el-table-column prop="address" label="累计催收次数" align="center"></el-table-column>
-        <el-table-column prop="ress" label="累计催回率(%)" align="center"></el-table-column>
+        <el-table-column prop="orderCreateTime" label="日期" align="center"></el-table-column>
+        <el-table-column prop="orderNum" label="累计订单总数" align="center"></el-table-column>
+        <el-table-column prop="collection_count" label="累计分配订单数" align="center"></el-table-column>
+        <el-table-column prop="sameday" label="累计承诺还款订单数" align="center"></el-table-column>
+        <!-- <el-table-column prop="address" label="累计成功订单数" align="center"></el-table-column> -->
+        <el-table-column prop="paymentmade" label="累计未还清订单数" align="center"></el-table-column>
+        <el-table-column prop="connected" label="累计坏账订单数" align="center"></el-table-column>
+        <!-- <el-table-column prop="address" label="累计催收次数" align="center"></el-table-column> -->
+        <el-table-column prop="collNumdata" label="累计催回率(%)" align="center">
+          <template scope="scope">
+            <span>{{scope.row.collNumdata}}%</span>
+          </template>
+        </el-table-column>
       </el-table>
       <div class="block">
         <el-pagination
           :current-page.sync="page"
           :page-sizes="[10, 15, 20, 25]"
-          :page-size.sync="pageSize"
+          :page-size.sync="Pagesize"
           layout="total, sizes, prev, pager, next, jumper"
           :page-count="totalPageCount"
           :total="totalCount"
@@ -54,47 +58,43 @@
 		},
 		data() {
     return {
-      tableData: [
-        { id:1, number: 2, num: 5, ress: "10%" },
-        { id:2, number: 2, num: 5, ress: "10%" },
-        { id:3, number: 2, num: 5, ress: "10%" },
-        { id:4, number: 2, num: 5, ress: "10%" },
-      ],
+      tableData: [],
       form: {
         start: "",
-        end: "",
-        dai: ""
+        end: ""
       },
       page: 1,
-      pageSize: 10,
+      Pagesize: 10,
       totalPageCount: 0,
       totalCount: 20
     };
   },
   created(){
-    this.getData();
+    this.getData(this.page,this.Pagesize);
   },  
   methods:{ 
-    getData(){
+    getData(page,Pagesize){
       this.axios.get('collection/CollectionLv',{
         params:{
-          companyId: "3"
+          companyId: "3",
+          // page,
+          // Pagesize
         }
       }).then(res=>{
-        this.tableData = res.data
+        this.tableData = res.data.Collection
       })
     },
-    sizeChange() {
-      //   this.getData(this.page, this.pageSize);
+    sizeChange(val) {
+      //   this.getData(this.page, this.Pagesize);
+      this.Pagesize = val
     },
     currentChange() {
-      //   this.getData(this.page, this.pageSize);
+      //   this.getData(this.page, this.Pagesize);
     },
     clear(){
       this.form = {
-		start: "",
-		end: "",
-        dai: ""
+		    start: "",
+		    end: ""
       }
     },
     Reset(){

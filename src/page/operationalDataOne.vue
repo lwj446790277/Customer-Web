@@ -28,26 +28,26 @@
         </el-form-item>
       </el-form>
       <el-table border :data="tableData" show-summary tooltip-effect="dark" style="width: 100%">
-        <el-table-column prop="name" label="日期" align="center"></el-table-column>
-        <el-table-column prop="name" label="用户申请数" width="125" align="center"></el-table-column>
-        <el-table-column prop="address" label="风控模型分数" width="125" align="center"></el-table-column>
-        <el-table-column prop="address" label="放款通过笔数" width="125" align="center"></el-table-column>
-        <el-table-column prop="address" label="实际借款笔数" width="125" align="center"></el-table-column>
-        <el-table-column prop="address" label="放款通过笔数通过率(%)" width="120" align="center"></el-table-column>
-        <el-table-column prop="address" label="逾期笔数" align="center"></el-table-column>
-        <el-table-column prop="address" label="催款次数" align="center"></el-table-column>
-        <el-table-column prop="address" label="坏账笔数" align="center"></el-table-column>
+        <el-table-column prop="operator_time" label="日期" align="center"></el-table-column>
+        <el-table-column prop="collection_count" label="用户申请数" width="125" align="center"></el-table-column>
+        <el-table-column prop="address" label="风控模型" width="125" align="center"></el-table-column>
+        <el-table-column prop="ordersdata" label="放款通过笔数" width="125" align="center"></el-table-column>
+        <el-table-column prop="loancount" label="实际借款笔数" width="125" align="center"></el-table-column>
+        <el-table-column prop="passrate" label="放款通过笔数通过率(%)" width="120" align="center"></el-table-column>
+        <el-table-column prop="beoverdue" label="逾期笔数" align="center"></el-table-column>
+        <el-table-column prop="pressformoney" label="催款次数" align="center"></el-table-column>
+        <el-table-column prop="baddebt" label="坏账笔数" align="center"></el-table-column>
         <el-table-column prop="address" label="放款金额" align="center"></el-table-column>
-        <el-table-column prop="address" label="还款金额" align="center"></el-table-column>
+        <el-table-column prop="realreturn" label="还款金额" align="center"></el-table-column>
         <el-table-column prop="address" label="逾期金额" align="center"></el-table-column>  
         <el-table-column prop="address" label="罚息金额" align="center"></el-table-column>
-        <el-table-column prop="address" label="坏账金额" align="center"></el-table-column>
+        <el-table-column prop="amountofbaddebts" label="坏账金额" align="center"></el-table-column>
       </el-table>
       <div class="block">
         <el-pagination
           :current-page.sync="page"
           :page-sizes="[10, 15, 20, 25]"
-          :page-size.sync="pageSize"
+          :page-size.sync="Pagesize"
           layout="total, sizes, prev, pager, next, jumper"
           :page-count="totalPageCount"
           :total="totalCount"
@@ -76,12 +76,26 @@ export default {
         platform: ""
       },
       page: 1,
-      pageSize: 10,
+      Pagesize: 10,
       totalPageCount: 0,
       totalCount: 20
     };
   },
+  created(){
+    this.getData(this.page, this.Pagesize)
+  },
   methods: {
+    getData(page,Pagesize){
+      this.axios.get('operation/platformsNum',{
+        params:{
+          companyId: "3",
+          // page,
+          // Pagesize
+        }
+      }).then(res=>{
+        this.tableData = res.data.Orders
+      })
+    },
     sizeChange() {
       //   this.getData(this.page, this.pageSize);
     },
