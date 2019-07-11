@@ -37,27 +37,30 @@
 				</el-form-item>
 			</el-form>
 			<el-table border :data="tableData" tooltip-effect="dark" style="width: 100%;line-height: 60px">
-				<el-table-column prop="name" label="编号" align="center"></el-table-column>
-				<el-table-column prop="name" label="姓名" align="center"></el-table-column>
-				<el-table-column prop="address" label="手机号" align="center"></el-table-column>
+				<el-table-column prop="orderNumber" label="编号" align="center"></el-table-column>
+				<el-table-column prop="user.name" label="姓名" align="center"></el-table-column>
+				<el-table-column prop="user.phone" label="手机号" align="center"></el-table-column>
 				<el-table-column prop="address" label="机审时间" align="center"></el-table-column>
-				<el-table-column prop="address" label="风控模型/分数" align="center"></el-table-column>
-				<el-table-column prop="address" label="贷款方式" align="center"></el-table-column>
-				<el-table-column prop="address" label="还款期数" align="center"></el-table-column>
+                <el-table-column prop="riskcontrolname" label="风控" align="center"></el-table-column>
+                <el-table-column prop="riskmanagementFraction" label="分数" align="center"></el-table-column>
+				<el-table-column prop="borrowMoneyWay" label="贷款方式" align="center"></el-table-column>
+				<el-table-column prop="borrowTimeLimit" label="还款期数" align="center"></el-table-column>
 				<el-table-column prop="address" label="第几次借款" align="center"></el-table-column>
-				<el-table-column prop="address" label="放款金额" align="center"></el-table-column>
-				<el-table-column prop="address" label="认证信息详情" align="center"></el-table-column>
-				<el-table-column prop="address" label="借款信息详情" align="center"></el-table-column>
+				<el-table-column prop="orderdetails.makeLoans" label="放款金额" align="center"></el-table-column>
+                <el-table-column  label="认证信息详情" align="center">
+                    <el-button type="primary" @click="orderDetailShow()">查看</el-button>
+                </el-table-column>
+                <el-table-column  label="借款信息详情" align="center">
+                    <el-button type="primary" @click="orderDetailShow()">查看</el-button>
+                </el-table-column>
 			</el-table>
 			<div class="block">
 				<el-pagination
 				:current-page.sync="page"
-				:page-sizes="[10, 15, 20, 25]"
 				:page-size.sync="pageSize"
-				layout="total, sizes, prev, pager, next, jumper"
+				layout="total,  prev, pager, next, jumper"
 				:page-count="totalPageCount"
 				:total="totalCount"
-				@size-change="sizeChange"
 				@current-change="currentChange"
 				></el-pagination>
 			</div>
@@ -87,6 +90,14 @@
 				}
 			}
 		},
+        beforeCreate() {
+            var that = this;
+            that.axios.get('/order/queryroaOrders', {
+                params: {companyid:3,page:1}
+            }).then(res => {
+                that.tableData = res.data.listorderto;
+            })
+        },
 		methods:{
 			Reset(){
 				this.form = {
@@ -100,7 +111,10 @@
 			},
 			Search(){
 
-			}
+			},
+            orderDetailShow(){},
+            currentChange() {
+            },
 		} 
     }
 </script>
