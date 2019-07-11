@@ -67,71 +67,71 @@
           </li>
           <li>
             <span>手机号:</span>
-            <span>{{name}}</span>
+            <span>{{phone}}</span>
           </li>
           <li>
             <span>注册时间:</span>
-            <span>{{name}}</span>
+            <span>{{register}}</span>
           </li>
           <li>
             <span>订单时间:</span>
-            <span>{{name}}</span>
+            <span>{{order}}</span>
           </li>
           <li>
             <span>引流渠道:</span>
-            <span>{{name}}</span>
+            <span>{{drainage}}</span>
           </li>
           <li>
             <span>机审时间:</span>
-            <span>{{name}}</span>
+            <span>{{audit}}</span>
           </li>
           <li>
             <span>风控模型/分数:</span>
-            <span>{{name}}</span>
+            <span>{{risk}}/{{grade}}</span>
           </li>
           <li>
             <span>人审时间:</span>
-            <span>{{name}}</span>
+            <span>{{trial}}</span>
           </li>
           <li>
             <span>审核人员:</span>
-            <span>{{name}}</span>
+            <span>{{examine}}</span>
           </li>
           <li>
             <span>贷款方式:</span>
-            <span>{{name}}</span>
+            <span>{{loan}}</span>
           </li>
           <li>
             <span>还款期数:</span>
-            <span>{{name}}</span>
+            <span>{{repayment}}</span>
           </li>
           <li>
             <span>实借/放款:</span>
-            <span>{{name}}</span>
+            <span>{{real}}/{{discharge}}</span>
           </li>
           <li>
             <span>借款时间:</span>
-            <span>{{name}}</span>
+            <span>{{borr}}</span>
           </li>
           <li>
             <span>总利息/总还款:</span>
-            <span>{{name}}</span>
+            <span>{{interest}}/{{still}}</span>
           </li>
           <li>
             <span>延期次数/延期金额:</span>
-            <span>{{name}}</span>
+            <span>{{num}}/{{money}}</span>
           </li>
           <li>
             <span>每次延期天数:</span>
-            <span>{{name}}</span>
+            <span>{{date}}</span>
           </li>
           <li>
             <span>延期前还款时间:</span>
-            <span>{{name}}</span>
+            <span>{{betime}}</span>
           </li>
           <li>
             <span>延期后还款时间:</span>
-            <span>{{name}}</span>
+            <span>{{aftime}}</span>
           </li>
         </ul>
       </el-dialog>
@@ -160,7 +160,7 @@ export default {
   data() {
     return {
       tableData: [],
-      borrow: '1',
+      borrow: [],
       form: {
         name: "",
         input: "",
@@ -172,7 +172,30 @@ export default {
       Pagesize: 10,
       totalPageCount: 0,
       totalCount: 20,
-      centerDialogVisible: false
+      centerDialogVisible: false,
+      id: "",
+      name: "",
+      phone: "",
+      register: "",
+      order:"",
+      drainage: "",
+      audit: "",
+      risk: "",
+      grade: "",
+      trial: "",
+      examine: "",
+      loan: "",
+      repayment: "",
+      real: "",
+      discharge: "",
+      borr: "",
+      interest: "",
+      still: "",
+      num: "",
+      money: "",
+      date: "",
+      betime: "",
+      aftime: ""
     };
   },
   created(){
@@ -211,6 +234,29 @@ export default {
         }
       }).then(res=>{
         this.borrow = res.data.Orderdetails
+        this.id = res.data.Orderdetails.orderNumber                          //订单编号
+        this.name = res.data.Orderdetails.name                               //姓名
+        this.phone = res.data.Orderdetails.phone                             //手机号
+        this.register = res.data.Orderdetails.registeTime                    //注册时间
+        this.order = res.data.Orderdetails.orderCreateTime                   //订单时间
+        this.drainage = res.data.Orderdetails.drainageOfPlatformName         //引流渠道
+        this.audit = res.data.Orderdetails.phone                             //机审时间
+        this.risk = res.data.Orderdetails.phone                              //风控模型
+        this.grade = res.data.Orderdetails.riskmanagementFraction            //分数
+        this.trial = res.data.Orderdetails.phone                             //人审时间
+        this.examine = res.data.Orderdetails.phone                           //审核人员
+        this.loan = res.data.Orderdetails.phone                              //贷款方式
+        this.repayment = res.data.Orderdetails.phone                         //还款期数
+        this.real = res.data.Orderdetails.realityBorrowMoney                 //实借
+        this.discharge = res.data.Orderdetails.makeLoans                     //放款
+        this.borr = res.data.Orderdetails.phone                              //借款时间
+        this.interest = res.data.Orderdetails.interestInAll                  //总利息
+        this.still = res.data.Orderdetails.phone                             //总还款
+        this.num = res.data.Orderdetails.phone                               //延期次数   
+        this.money = res.data.Orderdetails.phone                             //延期金额
+        this.date = res.data.Orderdetails.phone                              //每次延期天数
+        this.betime = res.data.Orderdetails.phone                            //延期前还款时间
+        this.aftime = res.data.Orderdetails.phone                            //延期后还款时间
       })
     }
   }
@@ -250,7 +296,20 @@ export default {
   text-align: center;
   width: 30%;
 }
+.ul{
+  width: 100%;
+}
 .ul li{
+  width: 100%;
   margin-bottom: 20px;
+}
+.ul li span{
+  width: 50%;
+}
+.ul li span:first-child{
+  margin-right: 5px;
+}
+.ul li span:last-child{
+  margin-left: 5px;
 }
 </style>
