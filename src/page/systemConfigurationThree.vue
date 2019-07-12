@@ -38,7 +38,7 @@
                     <tr>
                         <th>机审拒绝需人审分数段</th>
                         <td>
-                            <el-input v-model="editObject.roatnptfractionalsegment" ></el-input>
+                            <el-input v-model="editObject.roatnptfractionalsegment"></el-input>
                         </td>
                     </tr>
                     <tr>
@@ -67,11 +67,11 @@
         data() {
             return {
                 tableData: [],
-                editDialogVisible:false,
-                editObject:{},
+                editDialogVisible: false,
+                editObject: {},
             }
         },
-        beforeCreate(){
+        beforeCreate() {
             var that = this;
             that.axios.get('/manconsettings/queryAll', {
                 params: {companyId: 3}
@@ -88,12 +88,12 @@
                     that.tableData = res.data;
                 });
             },
-            openEditDialog(object){
+            openEditDialog(object) {
                 var that = this;
                 that.editObject = object;
                 that.editDialogVisible = true;
             },
-            edit(){
+            edit() {
                 var that = this;
                 that.axios.get('/manconsettings/updateByPrimaryKey', {
                     params: that.editObject
