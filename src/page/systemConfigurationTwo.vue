@@ -7,32 +7,44 @@
                 <tr>
                     <th>身份证及人脸认证</th>
                     <td>
-                        <el-select v-model="one" placeholder="极速贷">
-                            <el-option label="极速贷" value="极速贷"></el-option>
+                        <el-select v-model="editObject.idcardfaceauthentication">
+                            <el-option v-for="face in facelist" :label="face.name"
+                                       :value="face.name"></el-option>
                         </el-select>
                     </td>
                 </tr>
                 <tr>
                     <th>运营商认证</th>
                     <td>
-                        <el-select v-model="two" placeholder="极速贷">
-                            <el-option label="极速贷" value="极速贷"></el-option>
+                        <el-select v-model="editObject.operatorsauthentication">
+                            <el-option v-for="opera in operalist" :label="opera.name"
+                                       :value="opera.name"></el-option>
                         </el-select>
                     </td>
                 </tr>
                 <tr>
-                    <th>机审风控</th>
+                    <th>借款渠道</th>
                     <td>
-                        <el-select v-model="three" placeholder="极速贷">
-                            <el-option label="极速贷" value="极速贷"></el-option>
-                        </el-select>
+                        <el-checkbox-group v-model="editObject.loansource">
+                            <el-checkbox v-for="(loan, index) in loanlist" :label="loan.name" :value="loan.name">
+                            </el-checkbox>
+                        </el-checkbox-group>
                     </td>
                 </tr>
                 <tr>
-                    <th>第三方支付</th>
+                    <th>收款渠道</th>
                     <td>
-                        <el-radio v-model="radio" label="1">需认证</el-radio>
-                        <el-radio v-model="radio" label="2">免认证</el-radio>
+                        <el-checkbox-group v-model="editObject.repaymentsource">
+                            <el-checkbox v-for="(repay, index) in repaylist" :label="repay.name" :value="repay.name">
+                            </el-checkbox>
+                        </el-checkbox-group>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <center>
+                            <el-button type="primary" @click="save()">保存</el-button>
+                        </center>
                     </td>
                 </tr>
             </table>
@@ -49,22 +61,67 @@
         },
         data() {
             return {
-                one: "",
-                two: "",
-                three: "",
-                radio: "1",
-                searchObject:{},
+                editObject: {loansource: [], repaymentsource: []},
+                facelist: [],
+                operalist: [],
+                loanlist: [],
+                repaylist: [],
             }
+        },
+        beforeCreate() {
+            var that = this;
+            that.axios.get('/thirdpartyint/queryAllCompany', {
+                params: {companyId: 3}
+            }).then(res => {
+                that.facelist = res.data.facelist;
+                that.operalist = res.data.operalist;
+                that.loanlist = res.data.loanlist;
+                that.repaylist = res.data.repaylist;
+                that.axios.get('/thirdpartyint/queryAll', {
+                    params: {companyId: 3}
+                }).then(res => {
+                    that.editObject = res.data[0];
+                    that.editObject.loansource = that.editObject.loansource.split(',');
+                    that.editObject.repaymentsource = that.editObject.repaymentsource.split(',');
+                });
+            });
         },
         methods: {
             Search() {
                 var that = this;
-                that.axios.get('/thirdpartyint/queryAll', {
+                that.axios.get('/thirdpartyint/queryAllCompany', {
                     params: {companyId: 3}
                 }).then(res => {
-                    that.searchObject = res.data[0];
+                    that.facelist = res.data.facelist;
+                    that.operalist = res.data.operalist;
+                    that.loanlist = res.data.loanlist;
+                    that.repaylist = res.data.repaylist;
+                    that.axios.get('/thirdpartyint/queryAll', {
+                        params: {companyId: 3}
+                    }).then(res => {
+                        that.editObject = res.data[0];
+                    });
                 });
             },
+            save() {
+                var that = this;
+                var param = {};
+                param.id = that.editObject.id;
+                param.companyid = that.editObject.companyid;
+                param.idcardfaceauthentication = that.editObject.idcardfaceauthentication;
+                param.operatorsauthentication = that.editObject.operatorsauthentication;
+                param.loansource = that.editObject.loansource.join(',');
+                param.repaymentsource = that.editObject.repaymentsource.join(',');
+                that.axios.get('/thirdpartyint/updateByPrimaryKey', {
+                    params: param
+                }).then(res => {
+                    this.$message({
+                        type: 'success',
+                        message: '编辑成功'
+                    });
+                    that.Search();
+                })
+            }
         },
     }
 </script>

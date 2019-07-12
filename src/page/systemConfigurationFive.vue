@@ -7,29 +7,38 @@
 				<tr>
 					<th>个人信息</th>
 					<td>
-						<el-radio v-model="radio1" label="1">需认证</el-radio>
-  						<el-radio v-model="radio1" label="2">免认证</el-radio>
+                        <el-radio-group v-model="tableList[0].ifauthentication">
+                            <el-radio label="1">需认证</el-radio>
+                            <el-radio label="2">免认证</el-radio>
+                        </el-radio-group>
+
 					</td>
 				</tr>
 				<tr>
 					<th>收款银行卡</th>
 					<td>
-						<el-radio v-model="radio2" label="1">需认证</el-radio>
-  						<el-radio v-model="radio2" label="2">免认证</el-radio>
+                        <el-radio-group v-model="tableList[1].ifauthentication">
+                            <el-radio label="1">需认证</el-radio>
+                            <el-radio label="2">免认证</el-radio>
+                        </el-radio-group>
 					</td>
 				</tr>
 				<tr>
 					<th>手机运营商</th>
 					<td>
-						<el-radio v-model="radio3" label="1">需认证</el-radio>
-  						<el-radio v-model="radio3" label="2">免认证</el-radio>
+                        <el-radio-group v-model="tableList[2].ifauthentication">
+                            <el-radio label="1">需认证</el-radio>
+                            <el-radio label="2">免认证</el-radio>
+                        </el-radio-group>
 					</td>
 				</tr>
 				<tr>
 					<th>芝麻授信</th>
 					<td>
-						<el-radio v-model="radio4" label="1">需认证</el-radio>
-  						<el-radio v-model="radio4" label="2">免认证</el-radio>
+                        <el-radio-group v-model="tableList[3].ifauthentication">
+                            <el-radio label="1">需认证</el-radio>
+                            <el-radio label="2">免认证</el-radio>
+                        </el-radio-group>
 					</td>
 				</tr>
                 <tr>
@@ -50,10 +59,7 @@
 		},
 		data(){
 			return{
-				radio1: '1',
-				radio2: '1',
-				radio3: '1',
-				radio4: '1'
+                tableList:[{ifauthentication:''},{ifauthentication:''},{ifauthentication:''},{ifauthentication:''}],
 			}
 		},
         beforeCreate(){
@@ -61,15 +67,38 @@
             that.axios.get('/autheninfor/queryAll', {
                 params: {companyId: 3}
             }).then(res => {
-                that.editObject = res.data[0];
+                that.tableList = res.data;
             })
         },
         methods:{
     	    Search(){
-
+                var that = this;
+                that.axios.get('/autheninfor/queryAll', {
+                    params: {companyId: 3}
+                }).then(res => {
+                    that.tableList = res.data;
+                })
             },
             save(){
-
+                var that = this;
+                var param = {};
+                param.id1 = that.tableList[0].id;
+                param.value1 = that.tableList[0].ifauthentication;
+                param.id2 = that.tableList[1].id;
+                param.value2 = that.tableList[1].ifauthentication;
+                param.id3 = that.tableList[2].id;
+                param.value3 = that.tableList[2].ifauthentication;
+                param.id4 = that.tableList[3].id;
+                param.value4 = that.tableList[3].ifauthentication;
+                that.axios.get('/autheninfor/updateByPrimaryKey', {
+                    params: param
+                }).then(res => {
+                    this.$message({
+                        type: 'success',
+                        message: '编辑成功'
+                    });
+                    that.Search();
+                })
             }
         }
 
