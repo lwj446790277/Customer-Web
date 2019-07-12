@@ -4,8 +4,8 @@
     <div class="main">
       <el-form :model="form" :inline="true" class="demo-form-inline">
         <el-form-item>
-          <el-select v-model="form.name" placeholder="放款流水号" style="width:150px">
-            <el-option label="放款流水号" value="放款流水号"></el-option>
+          <el-select v-model="form.name" placeholder="还款流水号" style="width:150px">
+            <el-option label="还款流水号" value="还款流水号"></el-option>
             <el-option label="订单编号" value="订单编号"></el-option>
             <el-option label="姓名" value="姓名"></el-option>
             <el-option label="手机号" value="手机号"></el-option>
@@ -25,21 +25,20 @@
           </el-col>
         </el-form-item>
         <el-form-item>
-          <el-select v-model="form.qudao" placeholder="放款渠道" style="width:150px">
-            <el-option label="放款渠道甲" value="放款渠道甲"></el-option>
-            <el-option label="放款渠道乙" value="放款渠道乙"></el-option>
+          <el-select v-model="form.qudao" placeholder="还款渠道" style="width:150px" @change="change">
+            <el-option v-for="item in Thirdparty_interface" :key="item.value" :label="item.repaymentSource" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
           <el-button type="warning" @click="Reset">重置</el-button>
-          <el-button type="primary" @click="Search">搜索</el-button>
+          <el-button type="primary" @click="Search">搜索</el-button>  
         </el-form-item>
       </el-form>
       <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
-        <el-table-column prop="orderCreateTime" label="流水号时间" align="center"></el-table-column>
-        <el-table-column prop="name" label="还款渠道" align="center"></el-table-column>
-        <el-table-column prop="address" label="还款流水号" align="center"></el-table-column>
-        <el-table-column prop="address" label="还款金额" align="center"></el-table-column>
+        <el-table-column prop="remittanceTime" label="流水号时间" align="center"></el-table-column>
+        <el-table-column prop="loanSource" label="还款渠道" align="center"></el-table-column>
+        <el-table-column prop="pipelinenumber" label="还款流水号" align="center"></el-table-column>
+        <el-table-column prop="paymentmoney" label="还款金额" align="center"></el-table-column>
         <el-table-column prop="orderNumber" label="订单编号" align="center"></el-table-column>
         <el-table-column prop="name" label="姓名" align="center"></el-table-column>
         <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
@@ -70,6 +69,8 @@ export default {
   data() {
     return {
       tableData: [],
+      Thirdparty_interface: [],
+      id: "",
       form: {
         name: "",
         input: "",
@@ -84,18 +85,37 @@ export default {
     };
   },
   created(){
+    this.get()
     this.getData(this.page,this.Pagesize)
   },
   methods: {
+    get(){
+				this.axios.get('fina/ThirdpatyAll',{
+					params:{
+						compayId: "3"
+					}
+				}).then(res=>{
+					this.Thirdparty_interface = res.data.Thirdparty_interface
+				})
+			},
     getData( page, Pagesize ){
-      this.axios.get('fina/PaymentOrder',{
+      this.axios.get('fina/HuanKuan',{
         params:{
           companyId: "3",
           // page,
           // Pagesize
         }
       }).then(res=>{
-        this.tableData = res.data.Orderdetails
+        this.tableData = res.data.Repayment
+      })
+    },
+    change(id){
+      console.log(id)
+      let selectedWorkName = {};
+      this.id = id
+      selectedWorkName = this.Thirdparty_interface.find((item)=>{//这里的chargingWorkNameList就是上面遍历的数据源
+         return item.id === this.id;
+         //筛选出匹配数据，是对应数据的整个对象
       })
     },
     sizeChange() {
@@ -106,18 +126,72 @@ export default {
     },
     clear() {
       this.form = {
-        id: "",
         name: "",
-        phone: "",
-        type: "",
-        date: "",
-        time: ""
+        input: "",
+        start: "",
+        end: "",
+        qudao: ""
       };
     },
     Reset() {
       this.clear();
     },
-    Search() {}
+    Search() {
+      if(this.form.name == "手机号"){
+        this.axios.get('fina/HuanKuan',{
+          params:{
+            // companyId: "3",
+            phone: this.form.input,
+            start_time: this.form.start,
+            end_time: this.form.end,
+            thirdparty_id: this.id
+          }
+        }).then(res=>{
+          this.tableData = res.data.Repayment
+        })
+      }else{
+        if(this.form.name == "订单编号"){
+          this.axios.get('fina/HuanKuan',{
+            params:{
+              // companyId: "3",
+              orderNumber: this.form.input,
+              start_time: this.form.start,
+              end_time: this.form.end,
+              thirdparty_id: this.id
+            }
+          }).then(res=>{
+            this.tableData = res.data.Repayment
+          })
+        }else{
+          if(this.form.name == "姓名"){
+            this.axios.get('fina/HuanKuan',{
+              params:{
+                // companyId: "3",
+                name: this.form.input,
+                start_time: this.form.start,
+                end_time: this.form.end,
+                thirdparty_id: this.id
+              }
+            }).then(res=>{
+              this.tableData = res.data.Repayment
+            })
+          }else{
+            this.axios.get('fina/HuanKuan',{
+              params:{
+                // companyId: "3",
+                pipelinenumber: this.form.input,
+                start_time: this.form.start,
+                end_time: this.form.end,
+                thirdparty_id: this.id
+              }
+            }).then(res=>{
+              this.tableData = res.data.Repayment
+            })
+          }
+        }
+      }
+      
+    }
   }
 };
 </script>

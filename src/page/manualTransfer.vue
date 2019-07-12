@@ -2,19 +2,17 @@
     <div class="fillcontain">
         <head-top></head-top>
         <!-- <p class="explain_text">这里是手动调账</p> -->
-		<el-tabs v-model="activeName" type="card">
+		<el-tabs v-model="activeName" type="card" @tab-click="handleClick">
 			<el-tab-pane label="新增线上调账" name="first">
 				<div class="main">
 					<el-form :model="form" :inline="true" class="demo-form-inline">
-						<el-form-item>
+						<!-- <el-form-item>
 							<el-select v-model="form.time" placeholder="订单编号" style="width:150px">
-								<!-- <el-option label="订单时间" value="订单时间"></el-option>
-								<el-option label="延借时间" value="延借时间"></el-option>
-								<el-option label="延期后应还" value="延期后应还"></el-option> -->
+								<el-option label="订单编号" value="订单编号"></el-option>
 							</el-select>
-						</el-form-item>
-						<el-form-item class="single">
-							<el-input placeholder="订单编号/姓名/手机号" v-model="form.id"></el-input>
+						</el-form-item> -->
+						<el-form-item>
+							<el-input placeholder="订单编号" v-model="form.id"></el-input>
 						</el-form-item>
 						<el-form-item>
 							<el-button type="primary" @click="Search">搜索</el-button>
@@ -23,89 +21,89 @@
 					<table border="1" cellpadding="20" cellspacing="0" class="tab">
 						<tr>
 							<th>订单编号</th>  
-							<td>102563258966</td>
+							<td>{{orderNumber}}</td>
 						</tr>
 						<tr>
 							<th>姓名</th>
-							<td></td>
+							<td>{{name}}</td>
 						</tr>
 						<tr>
 							<th>手机号</th>
-							<td></td>
+							<td>{{phone}}</td>
 						</tr>
 						<tr>
 							<th>贷款方式</th>
-							<td></td>
+							<td>{{borrowMoneyWay}}</td>
 						</tr> 
 						<tr>
 							<th>还款期数</th>
-							<td></td>
+							<td>{{borrowTimeLimit}}</td>
 						</tr>
 						<tr>
 							<th>实借时间</th>
-							<td></td>
+							<td>{{orderCreateTime}}</td>
 						</tr>
 						<tr>
 							<th>借款总金额/放款总金额</th>
-							<td></td>
+							<td class="red">{{realityBorrowMoney}}/{{makeLoans}}</td>
 						</tr>
 						<tr>
 							<th>延期后应还时间</th>
-							<td></td>
+							<td>{{deferAfterReturntime}}</td>
 						</tr>
 						<tr>
 							<th>逾期天数</th>
-							<td></td>
+							<td>{{overdueNumberOfDays}}</td>
 						</tr>
 						<tr>
 							<th>含逾总利息/扣款后应还总金额</th>
-							<td></td>
+							<td class="red">{{interestPenaltySum}}/{{realityBorrowMoney}}</td>
 						</tr>
 						<tr>
 							<th>放款流水号</th>
-							<td></td>
+							<td>{{pipelinenumber}}</td>
 						</tr>
 					</table>
 					<table border="1" cellpadding="20" cellspacing="0" class="tabs">
 						<tr>
 							<th>还款渠道</th>
 							<td>
-								<el-select v-model="qudao" placeholder="收款渠道甲" class="inpu">
-									<el-option label="收款渠道甲" value="收款渠道甲"></el-option>
-									<el-option label="收款渠道乙" value="收款渠道乙"></el-option>
+								<el-select v-model="qudao" placeholder="还款渠道" class="inpu">
+									<el-option v-for="item in Thirdparty_interface" :key="item.value" :label="item.repaymentSource" :value="item.id"></el-option>
 								</el-select>
 							</td>
 						</tr>
 						<tr>
 							<th>输入减免金额</th>
 							<td>
-								<el-input class="inpu"></el-input>
+								<el-input class="inpu" v-model="amountmoney" @blur="blur"></el-input>
 							</td>
 						</tr>
 						<tr>
 							<th>减免后应还总金额</th>
-							<td>1000</td>
+							<td class="red">{{totalMoney}}</td>
 						</tr>
 						<tr>
 							<th>还款备注</th>
 							<td>
-								<el-input class="inpu"></el-input>
+								<el-input class="inpu" v-model="remarks"></el-input>
 							</td>
 						</tr>
 						<tr>
 							<th>减免后应还时间</th>
 							<td>
-								<el-input class="inpu"></el-input>
+								<!-- <el-input class="inpu" v-model="accounttime"></el-input> -->
+								<el-date-picker class="inpu" v-model="accounttime" type="date" placeholder="选择日期"></el-date-picker>
 							</td>
 						</tr>
 						<tr>
 							<th>减免后应还延期天数</th>
 							<td>
-								<el-input class="inpu"></el-input>
+								<el-input class="inpu" v-model="beoverdue"></el-input>
 							</td>
 						</tr>
 					</table>
-					<el-button type="primary" class="save">添加并保存</el-button>
+					<el-button type="primary" class="save" @click="save">添加并保存</el-button>
 				</div>
 			</el-tab-pane>
 			<el-tab-pane label="线上延期内订单" name="second">
@@ -113,9 +111,9 @@
 					<el-form :model="formOne" :inline="true" class="demo-form-inline">
 						<el-form-item>
 							<el-select v-model="formOne.type" placeholder="订单编号" style="width:150px">
-								<!-- <el-option label="订单时间" value="订单时间"></el-option>
-								<el-option label="延借时间" value="延借时间"></el-option>
-								<el-option label="延期后应还" value="延期后应还"></el-option> -->
+								<el-option label="订单编号" value="订单编号"></el-option>
+								<el-option label="姓名" value="姓名"></el-option>
+								<el-option label="手机号" value="手机号"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item class="single">
@@ -124,8 +122,7 @@
 						<el-form-item>
 							<el-select v-model="formOne.time" placeholder="订单时间" style="width:150px">
 								<el-option label="订单时间" value="订单时间"></el-option>
-								<el-option label="延借时间" value="延借时间"></el-option>
-								<el-option label="延期后应还" value="延期后应还"></el-option>
+								<el-option label="调账时间" value="调账时间"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item class="single">
@@ -140,8 +137,7 @@
 						</el-form-item>
 						<el-form-item>
 							<el-select v-model="formOne.qudao" placeholder="选择还款渠道" style="width:150px">
-								<el-option label="还款渠道甲" value="还款渠道甲"></el-option>
-								<el-option label="还款渠道乙" value="还款渠道乙"></el-option>
+								<el-option v-for="item in Thirdparty_interface" :key="item.value" :label="item.repaymentSource" :value="item.id"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item>
@@ -149,7 +145,7 @@
 							<el-button type="primary" @click="Search">搜索</el-button>
 						</el-form-item>
 					</el-form>
-					<div class="statistics">
+					<!-- <div class="statistics">
 						<ul>
 							<li>累计调账总笔数</li>
 							<li class="num">10</li>
@@ -158,19 +154,19 @@
 							<li>累计延期内未还金额</li>
 							<li class="num">10</li>
 						</ul>
-					</div>
+					</div> -->
 					<el-table border :data="tableData" tooltip-effect="dark" style="width: 100%;line-height: 60px">
-						<el-table-column prop="name" label="订单编号" align="center"></el-table-column>
+						<el-table-column prop="orderNumber" label="订单编号" align="center"></el-table-column>
 						<el-table-column prop="name" label="姓名" align="center"></el-table-column>
-						<el-table-column prop="address" label="手机号" align="center"></el-table-column>
-						<el-table-column prop="address" label="调账时间" align="center"></el-table-column>
-						<el-table-column prop="address" label="还款渠道" align="center"></el-table-column>
-						<el-table-column prop="address" label="调账减免金额" align="center"></el-table-column>
-						<el-table-column prop="address" label="减免后应还总金额" align="center"></el-table-column>
-						<el-table-column prop="address" label="还款备注" align="center"></el-table-column>
-						<el-table-column prop="address" label="减免后应还时间" align="center"></el-table-column>
-						<el-table-column prop="address" label="减免后应还延期天数" align="center"></el-table-column>
-						<el-table-column prop="address" label="操作" align="center"></el-table-column>
+						<el-table-column prop="phone" label="手机号" align="center"></el-table-column>
+						<el-table-column prop="amou_time" label="调账时间" align="center"></el-table-column>
+						<el-table-column prop="repaymentSource" label="还款渠道" align="center"></el-table-column>
+						<el-table-column prop="amountmoney" label="调账减免金额" align="center"></el-table-column>
+						<el-table-column prop="totalamount" label="减免后应还总金额" align="center"></el-table-column>
+						<el-table-column prop="remarks" label="还款备注" align="center"></el-table-column>
+						<el-table-column prop="accounttime" label="减免后应还时间" align="center"></el-table-column>
+						<el-table-column prop="beoverdue" label="减免后应还延期天数" align="center"></el-table-column>
+						<!-- <el-table-column prop="address" label="操作" align="center"></el-table-column> -->
 					</el-table>
 					<div class="block">
 						<el-pagination
@@ -191,9 +187,9 @@
 					<el-form :model="formTwo" :inline="true" class="demo-form-inline">
 						<el-form-item>
 							<el-select v-model="formTwo.type" placeholder="订单编号" style="width:150px">
-								<!-- <el-option label="订单时间" value="订单时间"></el-option>
-								<el-option label="延借时间" value="延借时间"></el-option>
-								<el-option label="延期后应还" value="延期后应还"></el-option> -->
+								<el-option label="订单编号" value="订单编号"></el-option>
+								<el-option label="姓名" value="姓名"></el-option>
+								<el-option label="手机号" value="手机号"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item class="single">
@@ -202,8 +198,7 @@
 						<el-form-item>
 							<el-select v-model="formTwo.time" placeholder="订单时间" style="width:150px">
 								<el-option label="订单时间" value="订单时间"></el-option>
-								<el-option label="延借时间" value="延借时间"></el-option>
-								<el-option label="延期后应还" value="延期后应还"></el-option>
+								<el-option label="调账时间" value="调账时间"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item class="single">
@@ -229,21 +224,21 @@
 							<li class="num">10</li>
 						</ul>
 					</div>
-					<el-table border :data="tableData" tooltip-effect="dark" style="width: 100%;line-height: 60px">
-						<el-table-column prop="name" label="订单编号" align="center"></el-table-column>
+					<el-table border :data="tableOne" tooltip-effect="dark" style="width: 100%;line-height: 60px">
+						<el-table-column prop="orderNumber" label="订单编号" align="center"></el-table-column>
 						<el-table-column prop="name" label="姓名" align="center"></el-table-column>
-						<el-table-column prop="address" label="手机号" align="center"></el-table-column>
-						<el-table-column prop="address" label="调账时间" align="center"></el-table-column>
-						<el-table-column prop="address" label="还款渠道" align="center"></el-table-column>
+						<el-table-column prop="phone" label="手机号" align="center"></el-table-column>
+						<el-table-column prop="amou_time" label="调账时间" align="center"></el-table-column>
+						<el-table-column prop="repaymentSource" label="还款渠道" align="center"></el-table-column>
 						<el-table-column prop="address" label="还款流水号" align="center"></el-table-column>
-						<el-table-column prop="address" label="调账减免金额" align="center"></el-table-column>
-						<el-table-column prop="address" label="减免后应还总金额" align="center"></el-table-column>
-						<el-table-column prop="address" label="还款备注" align="center"></el-table-column>
-						<el-table-column prop="address" label="减免后应还时间" align="center"></el-table-column>
-						<el-table-column prop="address" label="减免后应还延期天数" align="center"></el-table-column>
+						<el-table-column prop="amountmoney" label="调账减免金额" align="center"></el-table-column>
+						<el-table-column prop="totalamount" label="减免后应还总金额" align="center"></el-table-column>
+						<el-table-column prop="remarks" label="还款备注" align="center"></el-table-column>
+						<el-table-column prop="accounttime" label="减免后应还时间" align="center"></el-table-column>
+						<!-- <el-table-column prop="address" label="减免后应还延期天数" align="center"></el-table-column> -->
 						<el-table-column prop="address" label="减免后实还时间" align="center"></el-table-column>
 						<el-table-column prop="address" label="减免后实还金额" align="center"></el-table-column>
-						<el-table-column prop="address" label="操作" align="center"></el-table-column>
+						<!-- <el-table-column prop="address" label="操作" align="center"></el-table-column> -->
 					</el-table>
 					<div class="block">
 						<el-pagination
@@ -264,9 +259,9 @@
 					<el-form :model="formThree" :inline="true" class="demo-form-inline">
 						<el-form-item>
 							<el-select v-model="formThree.type" placeholder="订单编号" style="width:150px">
-								<!-- <el-option label="订单时间" value="订单时间"></el-option>
-								<el-option label="延借时间" value="延借时间"></el-option>
-								<el-option label="延期后应还" value="延期后应还"></el-option> -->
+								<el-option label="订单编号" value="订单编号"></el-option>
+								<el-option label="姓名" value="姓名"></el-option>
+								<el-option label="手机号" value="手机号"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item class="single">
@@ -275,8 +270,7 @@
 						<el-form-item>
 							<el-select v-model="formThree.time" placeholder="订单时间" style="width:150px">
 								<el-option label="订单时间" value="订单时间"></el-option>
-								<el-option label="延借时间" value="延借时间"></el-option>
-								<el-option label="延期后应还" value="延期后应还"></el-option>
+								<el-option label="调账时间" value="调账时间"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item class="single">
@@ -302,19 +296,19 @@
 							<li class="num">10</li>
 						</ul>
 					</div>
-					<el-table border :data="tableData" tooltip-effect="dark" style="width: 100%;line-height: 60px">
-						<el-table-column prop="name" label="订单编号" align="center"></el-table-column>
+					<el-table border :data="tableTwo" tooltip-effect="dark" style="width: 100%;line-height: 60px">
+						<el-table-column prop="orderNumber" label="订单编号" align="center"></el-table-column>
 						<el-table-column prop="name" label="姓名" align="center"></el-table-column>
-						<el-table-column prop="address" label="手机号" align="center"></el-table-column>
-						<el-table-column prop="address" label="调账时间" align="center"></el-table-column>
-						<el-table-column prop="address" label="还款渠道" align="center"></el-table-column>
-						<el-table-column prop="address" label="调账减免金额" align="center"></el-table-column>
-						<el-table-column prop="address" label="减免后应还总金额" align="center"></el-table-column>
-						<el-table-column prop="address" label="还款备注" align="center"></el-table-column>
-						<el-table-column prop="address" label="减免后应还时间" align="center"></el-table-column>
-						<el-table-column prop="address" label="减免后应还延期天数" align="center"></el-table-column>
-						<el-table-column prop="address" label="逾期天数" align="center"></el-table-column>
-						<el-table-column prop="address" label="操作" align="center"></el-table-column>
+						<el-table-column prop="phone" label="手机号" align="center"></el-table-column>
+						<el-table-column prop="amou_time" label="调账时间" align="center"></el-table-column>
+						<el-table-column prop="repaymentSource" label="还款渠道" align="center"></el-table-column>
+						<el-table-column prop="amountmoney" label="调账减免金额" align="center"></el-table-column>
+						<el-table-column prop="totalamount" label="减免后应还总金额" align="center"></el-table-column>
+						<el-table-column prop="remarks" label="还款备注" align="center"></el-table-column>
+						<el-table-column prop="accounttime" label="减免后应还时间" align="center"></el-table-column>
+						<!-- <el-table-column prop="beoverdue" label="减免后应还延期天数" align="center"></el-table-column> -->
+						<el-table-column prop="overdueNumberOfDays" label="逾期天数" align="center"></el-table-column>
+						<!-- <el-table-column prop="address" label="操作" align="center"></el-table-column> -->
 					</el-table>
 					<div class="block">
 						<el-pagination
@@ -343,6 +337,8 @@
 		data(){
 			return{
 				tableData: [],
+				tableOne: [],
+				tableTwo: [],
 				page: 1,
 				pageSize: 10,
 				totalPageCount: 0,
@@ -352,6 +348,23 @@
 					time: "",
 					id: ""
 				},
+				orderId: "",
+				orderNumber: "",
+				name: "",
+				phone: "",
+				borrowMoneyWay: "",
+				borrowTimeLimit: "",
+				orderCreateTime: "",
+				realityBorrowMoney: "",
+				makeLoans: "",
+				deferAfterReturntime: "",
+				overdueNumberOfDays: "",
+				interestPenaltySum: "",
+				realityBorrowMoney: "",
+				pipelinenumber: "",
+				totalMoney: "系统自动算出",
+				Thirdparty_interface: [],
+				qudao: "",
 				formOne: {
 					type: "",
 					id: "",
@@ -373,21 +386,99 @@
 					time: "",
 					start: "",
 					end: ""
-				}
+				},
+				amountmoney: "",
+				remarks: "",
+				accounttime: "",
+				beoverdue: "",
+				page: 1,
+				Pagesize: 10,
+				totalPageCount: 0,
+				totalCount: 20,
 			}
 		},
 		created(){
-
+			this.get()
 		},
 		methods:{
+			get(){
+				this.axios.get('fina/ThirdpatyAll',{
+					params:{
+						compayId: "3"
+					}
+				}).then(res=>{
+					this.Thirdparty_interface = res.data.Thirdparty_interface
+				})
+			},
+			getData( page, Pagesize ){
+				this.axios.get('fina/SelectOrderAccount',{
+					params:{
+					companyId: "3",
+					// page,
+					// Pagesize
+					}
+				}).then(res=>{
+					this.tableData = res.data.Accountadjustment
+				})
+			},
+			getOne( page, Pagesize ){
+				this.axios.get('fina/SelectNoMoney',{
+					params:{
+					companyId: "3",
+					// page,
+					// Pagesize
+					}
+				}).then(res=>{
+					this.tableOne = res.data.Accountadjustment
+				})
+			},
+			getTwo( page, Pagesize ){
+				this.axios.get('fina/SelectOkMoney',{
+					params:{
+					companyId: "3",
+					// page,
+					// Pagesize
+					}
+				}).then(res=>{
+					this.tableTwo = res.data.Accountadjustment
+				})
+			},
+			handleClick(tab, event) {
+				if(this.activeName == "second"){
+					this.getData(this.page,this.Pagesize)
+				}else{
+					if(this.activeName == "third") this.getOne(this.page,this.Pagesize);
+					if(this.activeName == "fourth") this.getTwo(this.page,this.Pagesize);
+				}
+			},
 			sizeChange() {
-			//   this.getData(this.page, this.pageSize);
+				//   this.getData(this.page, this.pageSize);
 			},
 			currentChange() {
-			//   this.getData(this.page, this.pageSize);
+				//   this.getData(this.page, this.pageSize);
 			},
 			Search(){
-
+				this.axios.get('fina/OrderAcount',{
+					params:{
+						orderNumber:this.form.id,
+						companyId: "3"
+					}
+				}).then(res=>{
+					this.orderId = res.data.Orderdetails.orderId
+					this.orderNumber = res.data.Orderdetails.orderNumber
+					this.name = res.data.Orderdetails.name
+					this.phone = res.data.Orderdetails.phone
+					this.borrowMoneyWay = res.data.Orderdetails.borrowMoneyWay
+					this.borrowTimeLimit = res.data.Orderdetails.borrowTimeLimit
+					this.orderCreateTime = res.data.Orderdetails.orderCreateTime
+					this.realityBorrowMoney = res.data.Orderdetails.realityBorrowMoney
+					this.makeLoans = res.data.Orderdetails.makeLoans
+					this.deferAfterReturntime = res.data.Orderdetails.deferAfterReturntime
+					this.overdueNumberOfDays = res.data.Orderdetails.overdueNumberOfDays
+					this.interestPenaltySum = res.data.Orderdetails.interestPenaltySum
+					this.realityBorrowMoney = res.data.Orderdetails.realityBorrowMoney
+					this.pipelinenumber = res.data.Orderdetails.pipelinenumber
+				})
 			},
 			Reset(){
 				this.formOne = {
@@ -398,7 +489,33 @@
 					end: "",
 					qudao: ""
 				}
+			},
+			save(){
+				this.axios.get('fina/AddAcount',{
+					params:{
+						orderId: this.orderId,
+						repaymentSource: this.qudao,
+						totalamount: this.totalamount,
+						amountmoney: this.amountmoney,
+						remarks: this.remarks,
+						accounttime: this.accounttime,
+						beoverdue: this.beoverdue
+					}
+				}).then(res=>{
+					if(res.data.code==200){
+						this.$confirm(res.data.desc, '提示', {
+                            type: 'warning',
+                            center: true
+                    	})
+					}
+				})
+			},
+			blur(){
+				this.totalMoney = this.realityBorrowMoney - this.amountmoney
 			}
+		},
+		computed:{
+			
 		}
     }
 </script>
@@ -426,6 +543,9 @@
 	.tabs{
 		width: 50%;
 		border-color: #dfe6ec;
+	}
+	.tab th{
+		width: 50%;
 	}
 	td{
 		text-align: center;
@@ -477,5 +597,8 @@
 	.block {
 		padding-top: 20px;
 		text-align: center;
+	}
+	.red{
+		color: red;
 	}
 </style>

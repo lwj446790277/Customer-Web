@@ -2,14 +2,14 @@
     <div class="fillcontain">
         <head-top></head-top>
         <!-- <p class="explain_text">这里是线下还款</p> -->
-		<el-tabs v-model="activeName" type="card">
+		<el-tabs v-model="activeName" type="card" @tab-click="handleClick">
 			<el-tab-pane label="新增线下调账" name="first">
 				<div class="main">
 					<table border="1" cellpadding="30" cellspacing="0" class="tabe">
 						<tr>
 							<th>项目名</th>  
 							<td>
-								<el-input></el-input>
+								<el-input v-model="program"></el-input>
 							</td>
 						</tr>
 						<tr>
@@ -25,25 +25,30 @@
 							<th>还款渠道</th>
 							<td>
 								<el-select v-model="qudao" placeholder="选择还款渠道" style="width:100%">
-									<el-option label="还款渠道甲" value="还款渠道甲"></el-option>
-									<el-option label="还款渠道乙" value="还款渠道乙"></el-option>
+									<el-option v-for="item in Thirdparty_interface" :key="item.value" :label="item.repaymentSource" :value="item.id"></el-option>
 								</el-select>
 							</td>
 						</tr>
 						<tr>
 							<th>还款流水号</th>
 							<td>
-								<el-input></el-input>
+								<el-input v-model="huan"></el-input>
 							</td>
 						</tr>
 						<tr>
 							<th>输入金额</th>
 							<td>
-								<el-input></el-input>
+								<el-input v-model="money"></el-input>
+							</td>
+						</tr>
+						<tr>
+							<th>备注</th>
+							<td>
+								<el-input v-model="remarks"></el-input>
 							</td>
 						</tr>
 					</table>
-					<el-button type="primary" class="add">添加并保存</el-button>
+					<el-button type="primary" class="add" @click="add">添加并保存</el-button>
 				</div>
 			</el-tab-pane>
 			<el-tab-pane label="线下调账记录表" name="second">
@@ -58,14 +63,14 @@
 						<el-form-item class="single">
 							<el-input placeholder="单行输入" v-model="form.id"></el-input>
 						</el-form-item>
-						<el-form-item>
+						<!-- <el-form-item>
 							<el-select v-model="form.time" placeholder="操作日期" style="width:150px">
 								<el-option label="订单时间" value="订单时间"></el-option>
 								<el-option label="延借时间" value="延借时间"></el-option>
 								<el-option label="延期后应还" value="延期后应还"></el-option>
 							</el-select>
-						</el-form-item>
-						<el-form-item class="single">
+						</el-form-item> -->
+						<el-form-item>
 							<el-col :span="11">
 								<el-date-picker type="date" placeholder="起始时间" v-model="form.start"></el-date-picker>
 							</el-col>
@@ -80,23 +85,23 @@
 							<el-button type="primary" @click="Search">搜索</el-button>
 						</el-form-item>
 					</el-form>
-					<div class="statistics">
+					<!-- <div class="statistics">
 						<ul>
 							<li>线下调账总收入</li>
 							<li class="num">10</li>
 							<li>线下调账总支出</li>
 							<li class="num">10</li>
 						</ul>
-					</div>
+					</div> -->
 					<el-table border :data="tableData" tooltip-effect="dark" style="width: 100%;line-height: 60px">
-						<el-table-column prop="name" label="日期" align="center"></el-table-column>
-						<el-table-column prop="name" label="财务操作人" align="center"></el-table-column>
-						<el-table-column prop="address" label="项目名" align="center"></el-table-column>
-						<el-table-column prop="address" label="放款/还款渠道" align="center"></el-table-column>
-						<el-table-column prop="address" label="放款/还款流水号" align="center"></el-table-column>
-						<el-table-column prop="address" label="收入" align="center"></el-table-column>
-						<el-table-column prop="address" label="支出" align="center"></el-table-column>
-						<el-table-column prop="address" label="备注" align="center"></el-table-column>
+						<el-table-column prop="underthe_time" label="日期" align="center"></el-table-column>
+						<el-table-column prop="account" label="财务操作人" align="center"></el-table-column>
+						<el-table-column prop="project_name" label="项目名" align="center"></el-table-column>
+						<el-table-column prop="repayment" label="放款/还款渠道" align="center"></el-table-column>
+						<el-table-column prop="repaymentnumber" label="放款/还款流水号" align="center"></el-table-column>
+						<el-table-column prop="income" label="收入" align="center"></el-table-column>
+						<el-table-column prop="expenditure" label="支出" align="center"></el-table-column>
+						<el-table-column prop="remarks" label="备注" align="center"></el-table-column>
 					</el-table>
 					<div class="block">
 						<el-pagination
@@ -125,9 +130,14 @@
 		data(){
 			return{
 				tableData: [],
+				Thirdparty_interface: [],
 				activeName: "first",
+				program: "",
 				receive: "",
 				qudao: "",
+				huan: "",
+				money: "",
+				remarks: "",
 				page: 1,
 				pageSize: 10,
 				totalPageCount: 0,
@@ -135,18 +145,93 @@
 				form: {
 					type: "",
 					id: "",
-					time: "",
 					start: "",
 					end: ""
 				}
 			}
 		},
+		created(){
+			this.get()
+		},
 		methods:{
+			handleClick(tab, event) {
+				if(this.activeName == "second"){
+					this.getData(this.page,this.Pagesize)
+				}
+			},
+			get(){
+				this.axios.get('fina/ThirdpatyAll',{
+					params:{
+						compayId: "3"
+					}
+				}).then(res=>{
+					this.Thirdparty_interface = res.data.Thirdparty_interface
+				})
+			},
+			getData( page, Pagesize ){
+				this.axios.get('fina/Orderoffline',{
+					params:{
+						companyId: "3",
+						// page,
+						// Pagesize
+					}
+				}).then(res=>{
+					this.tableData = res.data.Undertheline
+				})
+    		},
+			add(){
+				if(this.receive=="收入"){
+					this.axios.get('fina/AddUndert',{
+						params:{
+							finance_id: "3",
+							project_name: this.program,
+							repayment: this.qudao,
+							income: this.money,
+							repaymentnumber: this.huan,
+							remarks: this.remarks
+						}
+					}).then(res=>{
+						this.$confirm(res.data.desc, '提示', {
+                            type: 'warning',
+                            center: true
+                    	})
+					})
+				}else{
+					this.axios.get('fina/AddUndert',{
+						params:{
+							finance_id: "3",
+							project_name: this.program,
+							repayment: this.qudao,
+							expenditure: this.money,
+							repaymentnumber: this.huan,
+							remarks: this.remarks
+						}
+					}).then(res=>{
+						this.$confirm(res.data.desc, '提示', {
+                            type: 'warning',
+                            center: true
+                    	})
+					})
+				}
+			},
 			Reset(){
-
+				this.form = {
+					type: "",
+					id: "",
+					start: "",
+					end: ""
+				}
 			},
 			Search(){
-
+				this.axios.get('fina/Orderoffline',{
+					params:{
+						repaymentnumber: this.form.id,
+						start_time: this.form.start,
+						end_time: this.form.end
+					}
+				}).then(res=>{
+					this.tableData = res.data.PaymentRecord
+				})
 			}
 		}
     }

@@ -27,8 +27,7 @@
         </el-form-item>
         <el-form-item>
           <el-select v-model="form.qudao" placeholder="放款渠道" style="width:150px">
-            <el-option label="放款渠道甲" value="放款渠道甲"></el-option>
-            <el-option label="放款渠道乙" value="放款渠道乙"></el-option>
+            <el-option v-for="item in Thirdparty_interface" :key="item.value" :label="item.repaymentSource" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -54,7 +53,7 @@
         title="借款信息"
         :visible.sync="centerDialogVisible"
         width="30%"
-        customClass="customWidth"
+        customClass="custom"
         center>
         <ul class="ul">
           <li>
@@ -81,22 +80,22 @@
             <span>引流渠道:</span>
             <span>{{drainage}}</span>
           </li>
-          <li>
+          <!-- <li>
             <span>机审时间:</span>
             <span>{{audit}}</span>
-          </li>
+          </li> -->
           <li>
             <span>风控模型/分数:</span>
             <span>{{risk}}/{{grade}}</span>
           </li>
-          <li>
+          <!-- <li>
             <span>人审时间:</span>
             <span>{{trial}}</span>
-          </li>
-          <li>
+          </li> -->
+          <!-- <li>
             <span>审核人员:</span>
             <span>{{examine}}</span>
-          </li>
+          </li> -->
           <li>
             <span>贷款方式:</span>
             <span>{{loan}}</span>
@@ -161,6 +160,7 @@ export default {
     return {
       tableData: [],
       borrow: [],
+      Thirdparty_interface: [],
       form: {
         name: "",
         input: "",
@@ -213,6 +213,15 @@ export default {
         this.tableData = res.data.PaymentRecord
       })
     },
+    get(){
+				this.axios.get('fina/ThirdpatyAll',{
+					params:{
+						compayId: "3"
+					}
+				}).then(res=>{
+					this.Thirdparty_interface = res.data.Thirdparty_interface
+				})
+			},
     sizeChange() {
       //   this.getData(this.page, this.pageSize);
     },
@@ -240,23 +249,23 @@ export default {
         this.register = res.data.Orderdetails.registeTime                    //注册时间
         this.order = res.data.Orderdetails.orderCreateTime                   //订单时间
         this.drainage = res.data.Orderdetails.drainageOfPlatformName         //引流渠道
-        this.audit = res.data.Orderdetails.phone                             //机审时间
-        this.risk = res.data.Orderdetails.phone                              //风控模型
+        // this.audit = res.data.Orderdetails.phone                          //机审时间
+        this.risk = res.data.Orderdetails.riskcontrolname                    //风控模型
         this.grade = res.data.Orderdetails.riskmanagementFraction            //分数
-        this.trial = res.data.Orderdetails.phone                             //人审时间
-        this.examine = res.data.Orderdetails.phone                           //审核人员
-        this.loan = res.data.Orderdetails.phone                              //贷款方式
-        this.repayment = res.data.Orderdetails.phone                         //还款期数
+        // this.trial = res.data.Orderdetails.phone                          //人审时间
+        // this.examine = res.data.Orderdetails.phone                        //审核人员
+        this.loan = res.data.Orderdetails.borrowMoneyWay                     //贷款方式
+        this.repayment = res.data.Orderdetails.borrowTimeLimit               //还款期数
         this.real = res.data.Orderdetails.realityBorrowMoney                 //实借
         this.discharge = res.data.Orderdetails.makeLoans                     //放款
-        this.borr = res.data.Orderdetails.phone                              //借款时间
-        this.interest = res.data.Orderdetails.interestInAll                  //总利息
-        this.still = res.data.Orderdetails.phone                             //总还款
-        this.num = res.data.Orderdetails.phone                               //延期次数   
-        this.money = res.data.Orderdetails.phone                             //延期金额
-        this.date = res.data.Orderdetails.phone                              //每次延期天数
-        this.betime = res.data.Orderdetails.phone                            //延期前还款时间
-        this.aftime = res.data.Orderdetails.phone                            //延期后还款时间
+        this.borr = res.data.Orderdetails.orderCreateTime                    //借款时间
+        this.interest = res.data.Orderdetails.interestSum                    //总利息
+        this.still = res.data.Orderdetails.Order_money                       //总还款
+        this.num = res.data.Orderdetails.defeNum                             //延期次数   
+        this.money = res.data.Orderdetails.interestOnArrears                 //延期金额
+        this.date = res.data.Orderdetails.onceDeferredDay                    //每次延期天数
+        this.betime = res.data.Orderdetails.deferBeforeReturntime            //延期前还款时间
+        this.aftime = res.data.Orderdetails.deferAfterReturntime             //延期后还款时间
       })
     }
   }
@@ -292,7 +301,7 @@ export default {
   color: blue;
   cursor: pointer;
 }
-.customWidth{
+.custom{
   text-align: center;
   width: 30%;
 }

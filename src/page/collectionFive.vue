@@ -53,9 +53,9 @@
               <div v-if="hidden">
                 <p>该用户的状态可在"已分配已催收"中查看</p>
                 <!-- <el-button @click="visible = !visible">返回</el-button> -->
-                <el-button class="confire" type="success" @click="confire(scope.row)">好的</el-button>
+                <el-button class="confire" type="success" @click="confire(scope.row.ismg)">好的</el-button>
               </div>
-              <span class="blue" slot="reference" @click="see(scope.row.ismg)">完成联系</span>
+              <span class="blue" slot="reference" @click="see(scope.row.ismg,scope.row.promise_money,scope.row.orderId)">完成联系</span>
             </el-popover>
           </template>
         </el-table-column>
@@ -133,7 +133,33 @@ export default {
       this.clear()
     },
     Search(){
-
+      if(this.form.name == "姓名"){
+        this.axios.get('collection/FenpeiWeiCollection',{
+          params:{
+            name: this.form.id,
+          }
+        }).then(res=>{
+          this.tableData = res.data.Orderdetails
+        })
+      }else{
+        if(this.form.name == "手机号"){
+          this.axios.get('collection/FenpeiWeiCollection',{
+            params:{
+              phone: this.form.id,
+            }
+          }).then(res=>{
+            this.tableData = res.data.Orderdetails
+          })
+        }else{
+          this.axios.get('collection/FenpeiWeiCollection',{
+            params:{
+              orderNumber: this.form.id,
+            }
+          }).then(res=>{
+            this.tableData = res.data.Orderdetails
+          })
+        }
+      }
     },
     see(ismg) {
       console.log(ismg)
@@ -145,6 +171,17 @@ export default {
         this.hidden = false;
       }
     },
+    confire(ismg,promise_money,orderId){
+      this.axios.get('collection/AddCollectiondertilas',{
+        params:{
+          user_type: ismg,
+          Collectionmoney: promise_money,
+          orderId: orderId
+        }
+      }).then(res=>{
+        this.tableData = res.data.Orderdetails
+      })
+    }
   }
 }
 </script>

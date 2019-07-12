@@ -143,14 +143,14 @@
       <el-tab-pane label="逾前催收率报表" name="third">
         <div class="main">
           <el-form :model="formThree" :inline="true" class="demo-form-inline">
-            <el-form-item>
+            <!-- <el-form-item>
               <el-select v-model="formThree.time" placeholder="日期" style="width:150px">
                 <el-option label="日期" value="日期"></el-option>
-                <!-- <el-option label="应还时间" value="应还时间"></el-option>
-                <el-option label="实还时间" value="实还时间"></el-option>-->
+                <el-option label="应还时间" value="应还时间"></el-option>
+                <el-option label="实还时间" value="实还时间"></el-option>
               </el-select>
-            </el-form-item>
-            <el-form-item class="single">
+            </el-form-item> -->
+            <el-form-item>
               <el-col :span="11">
                 <el-date-picker type="date" placeholder="起始时间" v-model="formThree.start"></el-date-picker>
               </el-col>

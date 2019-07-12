@@ -19,7 +19,7 @@
         </el-form-item>
       </el-form>
       <el-table border :data="tableData" tooltip-effect="dark" show-summary style="width: 100%;line-height: 60px">
-        <el-table-column prop="orderCreateTime" label="日期" align="center"></el-table-column>
+        <el-table-column prop="orderCreateTime" label="日期" align="center" class="red"></el-table-column>
         <el-table-column prop="orderNum" label="累计订单总数" align="center"></el-table-column>
         <el-table-column prop="collection_count" label="累计分配订单数" align="center"></el-table-column>
         <el-table-column prop="sameday" label="累计承诺还款订单数" align="center"></el-table-column>
@@ -70,7 +70,7 @@
     };
   },
   created(){
-    this.getData(this.page,this.Pagesize);
+    // this.getData(this.page,this.Pagesize);
   },  
   methods:{ 
     getData(page,Pagesize){
@@ -101,10 +101,17 @@
       this.clear()
     },
     Search(){
-
+      this.axios.get('collection/CollectionLv',{
+        params:{
+          startu_time: this.form.start,
+          end_time: this.form.end
+        }
+      }).then(res=>{
+        this.tableData = res.data.Collection
+      })
     }
   }
-    }
+}
 </script>
 
 <style lang="less">
@@ -126,4 +133,14 @@
 .single{
     margin-left: -15px;
 }
+.red{
+  background-color: red !important;
+}
+.el-table th{
+  // background-color: red !important;
+  // background-color:transparent;
+}
+// .cell{
+//   background-color: red;
+// }
 </style>

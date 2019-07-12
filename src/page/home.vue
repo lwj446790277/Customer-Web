@@ -6,7 +6,7 @@
 				<div class="main">
 					<div class="lefts"></div>
 					<span class="today">今日数据</span>
-					<table border="1" cellpadding="25" cellspacing="0" class="bor">
+					<table border="1" cellpadding="25" cellspacing="0" class="bors">
 						<tr class="trone">
 							<th>放款金额</th>
 							<th>注册人数</th>
@@ -20,7 +20,7 @@
 							<td>555</td>
 						</tr>
 					</table>
-					<table border="1" cellpadding="25" cellspacing="0" class="bor">
+					<table border="1" cellpadding="25" cellspacing="0" class="bors">
 						<tr class="trtwo">
 							<th>回款金额</th>
 							<th>回款笔数</th>
@@ -36,7 +36,7 @@
 					</table>
 					<div class="leftl"></div>
 					<span class="today">累计数据</span>
-					<table border="1" cellpadding="25" cellspacing="0" class="bor">
+					<table border="1" cellpadding="25" cellspacing="0" class="borone">
 						<tr class="trone">
 							<th>累计放款总金额</th>
 							<th>累计还款总金额</th>
@@ -52,7 +52,7 @@
 							<td>555</td>
 						</tr>
 					</table>
-					<table border="1" cellpadding="25" cellspacing="0" class="bor">
+					<table border="1" cellpadding="25" cellspacing="0" class="borone">
 						<tr class="trtwo">
 							<th>应收总金额</th>
 							<th>实际收益</th>
@@ -70,7 +70,7 @@
 					</table>
 					<div class="lefts"></div>
 					<span class="today">未到期数据</span>
-					<table border="1" cellpadding="25" cellspacing="0" class="bor">
+					<table border="1" cellpadding="25" cellspacing="0" class="bortwo">
 						<tr class="trone">
 							<th>笔数</th>
 							<th>应收本金</th>
@@ -84,7 +84,7 @@
 					</table>
 					<div class="leftl"></div>
 					<span class="today">逾期数据</span>
-					<table border="1" cellpadding="25" cellspacing="0" class="bor">
+					<table border="1" cellpadding="25" cellspacing="0" class="bortwo">
 						<tr class="trtwo">
 							<th>笔数</th>
 							<th>逾期率</th>
@@ -100,7 +100,41 @@
 			</el-tab-pane>
 			<el-tab-pane label="回收率报表" name="second">
 				<div class="main">
-				
+					<el-date-picker type="date" placeholder="起始时间" v-model="start"></el-date-picker>
+					<el-date-picker type="date" placeholder="结束时间" v-model="end" class="picker"></el-date-picker>
+					<el-button type="primary" @click="Search">搜索</el-button>
+					<el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
+						<el-table-column prop="name" label="应还日期" width="93" align="center"></el-table-column>
+						<el-table-column prop="name" label="应还订单" width="93" align="center"></el-table-column>
+						<el-table-column prop="address" label="逾前未还" width="93" align="center"></el-table-column>
+						<el-table-column prop="address" label="逾前已还" width="93" align="center"></el-table-column>
+						<el-table-column prop="address" label="逾后未还" width="93" align="center"></el-table-column>
+						<el-table-column prop="address" label="逾后已还" width="93" align="center"></el-table-column>
+						<el-table-column prop="address" label="已坏账" align="center"></el-table-column>
+						<el-table-column prop="address" label="应还金额" width="93" align="center"></el-table-column>
+						<el-table-column prop="address" label="实还金额" width="93" align="center"></el-table-column>
+						<el-table-column prop="address" label="延期费" align="center"></el-table-column>
+						<el-table-column prop="address" label="减免金额" width="93" align="center"></el-table-column>
+						<el-table-column prop="address" label="银行扣款金额" align="center"></el-table-column>
+						<el-table-column prop="address" label="待还金额" width="93" align="center"></el-table-column>
+						<el-table-column prop="address" label="逾期率" align="center"></el-table-column>
+						<el-table-column prop="address" label="1天回收率" align="center"></el-table-column>
+						<el-table-column prop="address" label="3天回收率" align="center"></el-table-column>
+						<el-table-column prop="address" label="7天回收率" align="center"></el-table-column>
+						<el-table-column prop="address" label="15天回收率" align="center"></el-table-column>
+					</el-table>
+					<div class="block">
+						<el-pagination
+						:current-page.sync="page"
+						:page-sizes="[10, 15, 20, 25]"
+						:page-size.sync="pageSize"
+						layout="total, sizes, prev, pager, next, jumper"
+						:page-count="totalPageCount"
+						:total="totalCount"
+						@size-change="sizeChange"
+						@current-change="currentChange"
+						></el-pagination>
+					</div>
 				</div>
 			</el-tab-pane>
 		</el-tabs>
@@ -114,20 +148,29 @@
     export default {
     	data(){
     		return {
-				activeName: "first"
+				tableData: [],
+				activeName: "first",
+				start: "",
+				end: "",
+				page: 1,
+				pageSize: 10,
+				totalPageCount: 0,
+				totalCount: 20
     		}
     	},
     	components: {
     		headTop,
     	},
-    	mounted(){
-    		
-    	},
-        computed: {
-
-        },
     	methods: {
-    		
+    		sizeChange() {
+			//   this.getData(this.page, this.pageSize);
+			},
+			currentChange() {
+			//   this.getData(this.page, this.pageSize);
+			},
+			Search(){
+
+			}
     	}
     }
 </script>
@@ -138,6 +181,7 @@
 		padding: 20px;
 	}
 	.lefts{
+		width: 100%;
 		width: 8px;
 		height: 30px;
 		background-color: #3278f9;
@@ -145,6 +189,7 @@
 		float: left;
 	}
 	.leftl{
+		width: 100%;
 		width: 8px;
 		height: 30px;
 		background-color: #fb8b39;
@@ -155,16 +200,35 @@
 		font-size: 1.2rem;
 		line-height: 30px;
 	}
-	.bor{
+	.bors{
 		width: 80%;
 		margin: 20px auto;
 		border: 1px solid #eee;
 	}
-	th{
+	.bors th{
+		width: 25%;
+	}
+	.borone{
+		width: 80%;
+		margin: 20px auto;
+		border: 1px solid #eee;
+	}
+	.borone th{
+		width: 20%;
+	}
+	.bortwo{
+		width: 80%;
+		margin: 20px auto;
+		border: 1px solid #eee;
+	}
+	.bortwo th{
+		width: 34%;
+	}
+	.bors th,.borone th,.bortwo th{
 		line-height: 0px;
 		border: 1px solid #eee;
 	}
-	td{
+	.bors td,.borone td,.bortwo td{
 		text-align: center;
 		line-height: 0px;
 		border: 1px solid #eee;
@@ -174,5 +238,14 @@
 	}
 	.trtwo{
 		background-color: #fbe9d0;
+	}
+	.picker{
+		margin-left: -5px;
+		margin-right: 20px;
+		margin-bottom: 20px;
+	}
+	.block {
+		padding-top: 20px;
+		text-align: center;
 	}
 </style>

@@ -18,9 +18,9 @@
         </el-form-item>
       </el-form>
       <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
-        <el-table-column prop="name" label="时间" align="center"></el-table-column>
-        <el-table-column prop="name" label="延期笔数" align="center"></el-table-column>
-        <el-table-column prop="address" label="延期费" align="center"></el-table-column>
+        <el-table-column prop="deferAfterReturntime" label="时间" align="center"></el-table-column>
+        <el-table-column prop="orderNum" label="延期笔数" align="center"></el-table-column>
+        <el-table-column prop="interestOnArrearsSum" label="延期费" align="center"></el-table-column>
         <el-table-column prop="address" label="银行扣款笔数" align="center"></el-table-column>
         <el-table-column prop="address" label="银行扣款金额" align="center"></el-table-column>
       </el-table>
@@ -36,7 +36,7 @@
           @current-change="currentChange"
         ></el-pagination>
       </div>
-      <p>{{this.tableData.id}}</p>
+      <!-- <p>{{this.tableData.id}}</p> -->
     </div>
   </div>
 </template>
@@ -49,7 +49,7 @@ export default {
   },
   data() {
     return {
-      tableData: [{ id: 1 }, { id: 2 }],
+      tableData: [],
       form: {
         start: "",
         end: ""
@@ -62,16 +62,19 @@ export default {
       totalCount: 20
     };
   },
+  created(){
+    this.getData()
+  },
   methods: {
     getData( page, Pagesize ){
-      this.axios.get('fina/Allpayment_record',{
+      this.axios.get('fina/DelayStatistics',{
         params:{
           companyId: "3",
           // page,
           // Pagesize
         }
       }).then(res=>{
-        this.tableData = res.data.Orderdetails
+        this.tableData = res.data.Bankdeduction
       })
     },
     sizeChange() {
@@ -93,7 +96,14 @@ export default {
       this.clear();
     },
     Search() {
-      // return
+      this.axios.get('fina/DelayStatistics',{
+        params:{
+          startu_time: this.form.start,
+          end_time: this.form.end
+        }
+      }).then(res=>{
+        this.tableData = res.data.Bankdeduction
+      })
     },
     confire() {
       this.visible = false;

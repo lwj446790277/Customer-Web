@@ -14,7 +14,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item class="single">
-                            <el-input placeholder="订单编号/姓名/手机号" v-model="form.id" class="input"></el-input>
+                            <el-input placeholder="订单编号/姓名/手机号" v-model="form.id"></el-input>
                         </el-form-item>
                         <el-form-item class="time">
                             <el-select v-model="form.time" placeholder="订单时间" style="width:150px">
@@ -41,7 +41,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item class="single">
-                            <el-input placeholder="请输入整数" v-model="form.num" class="input"></el-input>
+                            <el-input placeholder="请输入整数" v-model="form.num"></el-input>
                         </el-form-item>
                         <el-form-item>
                             <el-select v-model="form.level" placeholder="逾期等级" style="width:200px">

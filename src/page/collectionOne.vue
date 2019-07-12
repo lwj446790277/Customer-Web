@@ -4,7 +4,7 @@
     <!-- <p class="explain_text">这里是已逾期未入催</p> -->
     <div class="main">
       <el-form :model="form" :inline="true" class="demo-form-inline">
-        <el-form-item class="time">
+        <el-form-item>
           <el-select v-model="form.name" placeholder="订单编号" style="width:150px">
             <el-option label="订单编号" value="订单编号"></el-option>
             <el-option label="姓名" value="姓名"></el-option>
@@ -12,7 +12,7 @@
           </el-select>
         </el-form-item>
         <el-form-item class="single">
-          <el-input placeholder="订单编号/姓名/手机号" v-model="form.id" class="input"></el-input>
+          <el-input placeholder="订单编号/姓名/手机号" v-model="form.id"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="warning" @click="Reset">重置</el-button>
@@ -166,17 +166,33 @@ export default {
       this.clear();
     },
     Search() {
-      this.axios.get('collection/BeoverdueCollection',{
-        params:{
-            // page,
-            // pageSize,
-            Name: this.form.id,
-            Phone: this.form.id,
-            Id: this.form.id
+      if(this.form.name == "姓名"){
+        this.axios.get('collection/BeoverdueCollection',{
+          params:{
+            name: this.form.id,
+          }
+        }).then(res=>{
+          this.tableData = res.data.Orderdetails
+        })
+      }else{
+        if(this.form.name == "手机号"){
+          this.axios.get('collection/BeoverdueCollection',{
+            params:{
+              phone: this.form.id,
+            }
+          }).then(res=>{
+            this.tableData = res.data.Orderdetails
+          })
+        }else{
+          this.axios.get('collection/BeoverdueCollection',{
+            params:{
+              orderNumber: this.form.id,
+            }
+          }).then(res=>{
+            this.tableData = res.data.Orderdetails
+          })
         }
-      }).then(res=>{
-        this.tableData = res.data.id
-      })
+      }
     },
     see(id) {
       if (this.form.person != "") {

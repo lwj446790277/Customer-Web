@@ -15,9 +15,9 @@
         </el-form-item>
         <el-form-item>
           <el-select v-model="form.time" placeholder="订单时间" style="width:150px">
-            <el-option label="订单时间" value="订单时间"></el-option>
-            <el-option label="延借时间" value="延借时间"></el-option>
-            <el-option label="延期后应还" value="延期后应还"></el-option>
+            <!-- <el-option label="订单时间" value="订单时间"></el-option> -->
+            <el-option label="实借时间" value="实借时间"></el-option>
+            <el-option label="延期后应还时间" value="延期后应还时间"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -57,12 +57,14 @@
         </ul>
       </div> -->
       <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
-        <el-table-column prop="orderNumber" label="订单编号" align="center"></el-table-column>
-        <el-table-column prop="name" label="真实姓名" align="center"></el-table-column>
+        <el-table-column prop="orderNumber" label="订单编号" width="70" align="center"></el-table-column>
+        <el-table-column prop="name" label="姓名" align="center"></el-table-column>
         <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
         <el-table-column prop="borrowMoneyWay" label="贷款方式" align="center"></el-table-column>
         <el-table-column prop="borrowTimeLimit" label="还款期数" align="center"></el-table-column>
-        <el-table-column prop="realityBorrowMoney" label="实借总金额" width="90" align="center"></el-table-column>
+        <el-table-column prop="orderCreateTime" label="实借时间" align="center"></el-table-column>
+        <el-table-column prop="realityBorrowMoney" label="实借总金额" width="80" align="center"></el-table-column>
+        <el-table-column prop="deferAfterReturntime" label="延期后应还时间" width="93" align="center"></el-table-column>
         <el-table-column prop="overdueNumberOfDays" label="逾期天数" align="center"></el-table-column>
         <el-table-column prop="overdueGrade" label="逾期等级" align="center"></el-table-column>
         <el-table-column prop="shouldReapyMoney" label="逾期罚金/含逾应还总金额" width="125" align="center">
@@ -70,12 +72,11 @@
             <span>{{scope.row.interestPenaltySum}}/{{scope.row.order_money}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="collectionTime" label="分配时间" align="center"></el-table-column>
         <el-table-column prop="collectionStatus" label="用户状态" align="center"></el-table-column>
-        <el-table-column prop="promise_money" label="承诺还清部分金额" width="100" align="center"></el-table-column>
+        <el-table-column prop="promise_money" label="承诺还清部分金额" width="95" align="center"></el-table-column>
         <el-table-column prop="collNum" label="催收次数" align="center"></el-table-column>
         <el-table-column prop="orderStatus" label="订单状态" align="center"></el-table-column>
-        <el-table-column prop="address" label="剩余还款金额/实还金额" width="120" align="center">
+        <el-table-column prop="address" label="剩余还款金额/实还金额" width="115" align="center">
           <template slot-scope="scope">
             <span>{{scope.row.surplus_money}}/{{scope.row.realityAccount}}</span>
           </template>
@@ -119,7 +120,7 @@ export default {
   },
   data() {
     return {
-      tableData: [{}],
+      tableData: [],
       form: {
         time: "",
         start: "",

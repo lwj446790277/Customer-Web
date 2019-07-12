@@ -68,7 +68,7 @@
                 </el-form-item>
             </el-form>
             <el-table border :data="tableData" style="width: 100%">
-                <el-table-column prop="name" label="注册时间" align="center"></el-table-column>
+                <el-table-column prop="name" label="注册时间" align="center" sortable></el-table-column>
                 <el-table-column prop="name" label="姓名" align="center"></el-table-column>
                 <el-table-column prop="address" label="手机号" align="center"></el-table-column>
                 <el-table-column prop="address" label="个人信用" width="130" align="center"></el-table-column>

@@ -27,9 +27,9 @@
         </el-form-item>
         <el-form-item class="time">
           <el-select v-model="formList.time" placeholder="订单时间" style="width:150px">
-            <el-option label="订单时间" value="订单时间"></el-option>
-            <el-option label="延借时间" value="延借时间"></el-option>
-            <el-option label="延期后应还" value="延期后应还"></el-option>
+            <!-- <el-option label="订单时间" value="订单时间"></el-option> -->
+            <el-option label="实借时间" value="实借时间"></el-option>
+            <el-option label="延期后应还时间" value="延期后应还时间"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item class="single">
@@ -51,9 +51,7 @@
         </el-form-item>
         <el-form-item>
           <el-select placeholder="催收员" v-model="formList.person">
-            <el-option label="M1" value="M1"></el-option>
-            <el-option label="M2" value="M2"></el-option>
-            <el-option label="M3" value="M3"></el-option>
+            <el-option v-for="item in person" :key="item.value" :label="item.reallyName" :value="item.collectionMemberId"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -134,6 +132,7 @@ export default {
   data() {
     return {
       tableData: [],
+      person: [],
       gridData: [],
       page: 1,
       pageSize: 10,
@@ -153,7 +152,8 @@ export default {
     };
   },
   created(){
-    this.getData();
+    this.getData()
+    this.getPerson()
   },
   methods: {
     getData(){
@@ -165,6 +165,15 @@ export default {
         }
       }).then(res=>{
         this.tableData = res.data.Orderdetails
+      })
+    },
+    getPerson(){
+      this.axios.get('collection/collectionmember',{
+        params:{
+          companyId: "3"
+        }
+      }).then(res=>{
+        this.person = res.data.collection_member
       })
     },
     sizeChange() {
