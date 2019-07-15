@@ -14,18 +14,23 @@
           </el-col>
         </el-form-item>
         <el-form-item>
+          <el-select placeholder="引流渠道" v-model="form.platform">
+            <el-option v-for="item in platform" :key="item.value" :label="item.drainageOfPlatformName" :value="item.id"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
           <el-button type="primary" @click="Search">搜索</el-button>
         </el-form-item>
       </el-form>
-      <el-table border :data="tableData" show-summary tooltip-effect="dark" style="width: 100%">
+      <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
         <el-table-column prop="orderCreateTime" label="日期" align="center"></el-table-column>
         <el-table-column prop="collection_count" label="逾期笔数" align="center"></el-table-column>
-        <el-table-column prop="interestPenaltySum" label="逾期金额" align="center"></el-table-column>
-		    <!-- <el-table-column prop="address" label="逾期罚息" align="center"></el-table-column> -->
-        <el-table-column prop="numberofreminders" label="催收笔数" align="center"></el-table-column>
-        <el-table-column prop="numberCollection" label="催收次数" align="center"></el-table-column>
-        <el-table-column prop="collectionSuccess" label="催收成功数" align="center"></el-table-column>
-		    <el-table-column prop="address" label="催收成功率(%)" align="center"></el-table-column>
+        <el-table-column prop="makeLoans" label="逾期金额" align="center"></el-table-column>
+		    <el-table-column prop="interestPenaltySum" label="逾期罚息" align="center"></el-table-column>
+        <el-table-column prop="beoverdue" label="催收笔数" align="center"></el-table-column>
+        <el-table-column prop="passrate" label="催收次数" align="center"></el-table-column>
+        <el-table-column prop="chenggNum" label="催收成功数" align="center"></el-table-column>
+		    <el-table-column prop="chenggData" label="催收成功率(%)" align="center"></el-table-column>
         <el-table-column prop="baddebt" label="坏账数" align="center"></el-table-column>
       </el-table>
       <div class="block">
@@ -52,12 +57,12 @@ export default {
   },
   data() {
     return {
-      tableData: [
-		  { id: 1 }
-	  ],
+      tableData: [],
+      platform: [],
       form: {
         start: "",
-        end: ""
+        end: "",
+        platform: ""
       },
       page: 1,
       pageSize: 10,
@@ -67,6 +72,7 @@ export default {
   },
   created(){
     this.getData(this.page, this.Pagesize)
+    this.get()
   },
   methods: {
     getData(page,Pagesize){
@@ -80,13 +86,33 @@ export default {
         this.tableData = res.data.Orderdetails
       })
     },
+    get(){
+      this.axios.get('operation/AllDrainage',{
+        params:{
+          companyId: "3",
+        }
+      }).then(res=>{
+        this.platform = res.data.Drainage_of_platform
+      })
+    },
     sizeChange() {
       //   this.getData(this.page, this.pageSize);
     },
     currentChange() {
       //   this.getData(this.page, this.pageSize);
     },
-    Search() {}
+    Search() {
+      this.axios.get('operation/CollectionData',{
+        params:{
+          companyId: "3",
+          start_time: this.form.start,
+          end_time: this.form.end,
+          drainageOfPlatformId: this.form.platform
+        }
+      }).then(res=>{
+        this.tableData = res.data.Orderdetails
+      })
+    }
   }
 };
 </script>

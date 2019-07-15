@@ -11,11 +11,11 @@
           </el-select>
         </el-form-item>
         <el-form-item class="single">
-          <el-input placeholder="请输入数字" v-model="formList.single" class="input-with-select"></el-input>
+          <el-input placeholder="单行输入" v-model="formList.single" class="input-with-select"></el-input>
         </el-form-item>
-        <el-form-item>
+        <!-- <el-form-item>
           <el-input placeholder="编号/姓名/手机号" v-model="formList.id" class="input-with-select"></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-select v-model="formList.type" placeholder="催收状态" style="width:150px">
             <el-option label="催收成功" value="催收成功"></el-option>
@@ -25,9 +25,8 @@
             <el-option label="无人催收已还清" value="无人催收已还清"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item class="time">
+        <!-- <el-form-item class="time">
           <el-select v-model="formList.time" placeholder="订单时间" style="width:150px">
-            <!-- <el-option label="订单时间" value="订单时间"></el-option> -->
             <el-option label="实借时间" value="实借时间"></el-option>
             <el-option label="延期后应还时间" value="延期后应还时间"></el-option>
           </el-select>
@@ -41,12 +40,10 @@
           <el-col :span="11">
             <el-date-picker type="date" placeholder="结束时间" v-model="formList.end"></el-date-picker>
           </el-col>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-select placeholder="逾期等级" v-model="formList.level">
-            <el-option label="M1" value="M1"></el-option>
-            <el-option label="M2" value="M2"></el-option>
-            <el-option label="M3" value="M3"></el-option>
+            <el-option v-for="item in level" :key="item.value" :label="item.grade" :value="item.grade"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -101,10 +98,10 @@
       </el-table>
       <el-dialog :title="title" :visible.sync="dialogTableVisible">
         <el-table :data="gridData">
-          <el-table-column property="collection_time" label="催收时间"></el-table-column>
-          <el-table-column property="user_type" label="用户状态"></el-table-column>
-          <el-table-column property="collectionmoney" label="承诺还款金额"></el-table-column>
-          <el-table-column property="user_neir" label="订单状态"></el-table-column>
+          <el-table-column property="collection_time" label="催收时间" align="center"></el-table-column>
+          <el-table-column property="user_type" label="用户状态" align="center"></el-table-column>
+          <el-table-column property="collectionmoney" label="承诺还款金额" align="center"></el-table-column>
+          <el-table-column property="user_neir" label="订单状态" align="center"></el-table-column>
         </el-table>
       </el-dialog>
       <div class="block">
@@ -134,17 +131,17 @@ export default {
       tableData: [],
       person: [],
       gridData: [],
+      level: [],
       page: 1,
       pageSize: 10,
       totalPageCount: 0,
       totalCount: 20,
       formList: {
-        id: "",
         name: "",
         single: "",
         type: "",
         time: "",
-        lever: "",
+        level: "",
         person: ""
       },
       title: "",
@@ -154,6 +151,7 @@ export default {
   created(){
     this.getData()
     this.getPerson()
+    this.get()
   },
   methods: {
     getData(){
@@ -165,6 +163,15 @@ export default {
         }
       }).then(res=>{
         this.tableData = res.data.Orderdetails
+      })
+    },
+    get(){
+      this.axios.get('operation/YuqiM',{
+        params:{
+          companyId: "3"
+        }
+      }).then(res=>{
+        this.level = res.data.OverdueClass
       })
     },
     getPerson(){
@@ -187,12 +194,11 @@ export default {
     },
     clear() {
       this.formList = {
-        id: "",
         name: "",
         single: "",
         type: "",
         time: "",
-        lever: "",
+        level: "",
         person: ""
       };
     },
@@ -200,16 +206,54 @@ export default {
       this.clear();
     },
     Search() {
-
+      if(this.formList.name=="姓名"){
+        this.axios.get('collection/BeoverdueYifenp',{
+          params:{
+            companyId: "3",
+            name: this.formList.single,
+            overdueGrade: this.formList.level,
+            collectionStatus: this.formList.type,
+            collectionMemberId: this.formList.person
+          }
+        }).then(res=>{
+          this.tableData = res.data.Orderdetails
+        })
+      }else{
+        if(this.formList.name=="手机号"){
+          this.axios.get('collection/BeoverdueYifenp',{
+            params:{
+              companyId: "3",
+              phone: this.formList.single,
+              overdueGrade: this.formList.level,
+              collectionStatus: this.formList.type,
+              collectionMemberId: this.formList.person
+            }
+          }).then(res=>{
+            this.tableData = res.data.Orderdetails
+          })
+        }else{
+          this.axios.get('collection/BeoverdueYifenp',{
+            params:{
+              companyId: "3",
+              orderNumber: this.formList.single,
+              overdueGrade: this.formList.level,
+              collectionStatus: this.formList.type,
+              collectionMemberId: this.formList.person
+            }
+          }).then(res=>{
+            this.tableData = res.data.Orderdetails
+          })
+        }
+      }
     },
     open(id){
       this.dialogTableVisible = true
-      this.axios.get('collection/Alldetails',{
+      this.axios.get('collection/Collectiondetails',{
         params:{
           orderId: id
         }
       }).then(res=>{
-        this.gridData = res.data
+        this.gridData = res.data.Orderdetails
       })
     }
   }

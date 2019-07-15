@@ -61,7 +61,7 @@
               <div v-if="hidden">
                 <p>确定要把催单分配给该催收员吗？</p>
                 <!-- <el-button @click="visible = !visible">返回</el-button> -->
-                <el-button class="confire" type="success" @click="confire(scope.row)">是的</el-button>
+                <el-button class="confire" type="success" @click="confire(scope.row.orderId)">是的</el-button>
               </div>
               <span class="content" slot="reference" @click="see(scope.row)">分配催单</span>
             </el-popover>
@@ -169,6 +169,7 @@ export default {
       if(this.form.name == "姓名"){
         this.axios.get('collection/BeoverdueCollection',{
           params:{
+            companyId: "3",
             name: this.form.id,
           }
         }).then(res=>{
@@ -178,6 +179,7 @@ export default {
         if(this.form.name == "手机号"){
           this.axios.get('collection/BeoverdueCollection',{
             params:{
+              companyId: "3",
               phone: this.form.id,
             }
           }).then(res=>{
@@ -186,6 +188,7 @@ export default {
         }else{
           this.axios.get('collection/BeoverdueCollection',{
             params:{
+              companyId: "3",
               orderNumber: this.form.id,
             }
           }).then(res=>{
@@ -203,11 +206,13 @@ export default {
         this.hidden = false;
       }
     },
-    confire() {
+    confire(orderId) {
       this.visible = false;
+      var order = []
+      order.push(orderId)
       this.axios.get('collection/AddCollection',{
         params:{
-          ids: this.String,
+          orderIds: order.join(','),
           CollectionMemberId: this.form.person.collectionMemberId
         }
       }).then(res=>{
@@ -223,7 +228,7 @@ export default {
       }else{
         this.axios.get('collection/AddCollection',{
           params:{
-            ids: this.String,
+            orderIds: this.String.join(','),
             CollectionMemberId: this.form.person.collectionMemberId
           }
         }).then(res=>{

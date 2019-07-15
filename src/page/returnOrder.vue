@@ -15,16 +15,6 @@
           <el-input placeholder="单行输入" v-model="formList.single" class="input-with-select"></el-input>
         </el-form-item>
         <!-- <el-form-item>
-          <el-select v-model="formList.type" placeholder="还款方式" style="width:150px">
-            <el-option label="未逾期主动还款" value="未逾期主动还款"></el-option>
-            <el-option label="逾期后主动还款" value="逾期后主动还款"></el-option>
-            <el-option label="财务线上减免主动还款" value="财务线上减免主动还款"></el-option>
-            <el-option label="无减免自动还款" value="无减免自动还款"></el-option>
-            <el-option label="财务线上减免自动还款" value="财务线上减免自动还款"></el-option>
-            <el-option label="财务线下减免主动还款" value="财务线下减免主动还款"></el-option>
-          </el-select>
-        </el-form-item> -->
-        <el-form-item>
           <el-select v-model="formList.time" placeholder="订单时间" style="width:150px">
             <el-option label="实借时间" value="实借时间"></el-option>
             <el-option label="延期前应还时间" value="延期前应还时间"></el-option>
@@ -41,14 +31,6 @@
           <el-col :span="11">
             <el-date-picker type="date" placeholder="结束时间" v-model="formList.end"></el-date-picker>
           </el-col>
-        </el-form-item>
-        <!-- <el-form-item>
-          <el-select placeholder="订单状态" v-model="formList.person">
-            <el-option label="期限中" value="0"></el-option>
-            <el-option label="已逾期" value="1"></el-option>
-            <el-option label="已延期" value="2"></el-option>
-            <el-option label="已还款" value="3"></el-option>
-          </el-select>
         </el-form-item> -->
         <el-form-item>
           <el-button type="warning" @click="Reset">重置</el-button>
@@ -166,7 +148,36 @@ export default {
       this.clear();
     },
     Search(){
-
+      if(this.formList.name=="姓名"){
+        this.axios.get('postloanor/YihuanOrders',{
+          params:{
+            companyId: "3",
+            name: this.formList.single,
+          }
+        }).then(res=>{
+          this.tableData = res.data.Orderdetails
+        })
+      }else{
+        if(this.formList.name=="手机号"){
+          this.axios.get('postloanor/YihuanOrders',{
+            params:{
+              companyId: "3",
+              phone: this.formList.single,
+            }
+          }).then(res=>{
+            this.tableData = res.data.Orderdetails
+          })
+        }else{
+          this.axios.get('postloanor/YihuanOrders',{
+            params:{
+              companyId: "3",
+              orderNumber: this.formList.single,
+            }
+          }).then(res=>{
+            this.tableData = res.data.Orderdetails
+          })
+        }
+      }
     }
   }
 };

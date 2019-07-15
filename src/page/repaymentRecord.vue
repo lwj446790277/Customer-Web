@@ -102,7 +102,7 @@ export default {
           end_time: this.form.end
         }
       }).then(res=>{
-        this.tableData = res.data.Bankdeduction
+        this.tableData = res.data.Bankdeduction 
       })
     },
     confire() {

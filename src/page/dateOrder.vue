@@ -21,7 +21,7 @@
             <el-table-column prop="borrowMoneyWay" label="贷款方式" align="center"></el-table-column>
             <el-table-column prop="borrowTimeLimit" label="还款期数" align="center"></el-table-column>
             <el-table-column prop="orderCreateTime" label="实借时间" align="center"></el-table-column>
-            <el-table-column prop="realityBorrowMoney/makeLoans" label="实借总金额/放款总金额" align="center">
+            <el-table-column prop="realityBorrowMoney/makeLoans" label="实借总金额/放款总金额" width="120" align="center">
               <template slot-scope="scope">
                 <span>{{scope.row.realityBorrowMoney}}/{{scope.row.makeLoans}}</span>
               </template>
@@ -53,9 +53,9 @@
                   <div v-if="hidden">
                     <p>确定要把催单分配给该催收员吗？</p>
                     <!-- <el-button @click="visible = !visible">返回</el-button> -->
-                    <el-button class="confire" type="success" @click="confire(scope.row.CollectionMemberId)">是的</el-button>
+                    <el-button class="confire" type="success" @click="confire(scope.row.orderId)">是的</el-button>
                   </div>
-                  <span class="content" slot="reference" @click="see(scope.row.CollectionMemberId)">分配催单</span>
+                  <span class="content" slot="reference" @click="see(scope.row.orderId)">分配催单</span>
                 </el-popover>
               </template>
             </el-table-column>
@@ -161,7 +161,7 @@
               </el-col>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="Search">搜索</el-button>
+              <el-button type="primary" @click="SearchThird">搜索</el-button>
             </el-form-item>
           </el-form>
           <el-table border :data="tableDataThree" show-summary style="width: 100%">
@@ -207,7 +207,7 @@
               </el-col>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="Search">搜索</el-button>
+              <el-button type="primary" @click="SearchForth">搜索</el-button>
             </el-form-item>
           </el-form>
           <el-table border :data="tableDataFour" show-summary style="width: 100%">
@@ -253,7 +253,7 @@
             <el-table-column prop="collectionTime" label="分配催收时间" align="center"></el-table-column>
             <el-table-column prop="address" label="电话状态" align="center">
               <template slot-scope="scope">
-                <el-select v-model="scope.row.type" placeholder="请选择">
+                <el-select v-model="scope.row.type" placeholder="请选择" @change="change">
                     <el-option label="已接通" value="已接通"></el-option>
                     <el-option label="未接通" value="未接通"></el-option>
                 </el-select>
@@ -269,7 +269,7 @@
                   <div v-if="hide">
                     <p>确认完成该联系吗？</p>
                     <!-- <el-button @click="visible = !visible">返回</el-button> -->
-                    <el-button class="confire" type="success" @click="confi(scope.row)">好的</el-button>
+                    <el-button class="confire" type="success" @click="confi(scope.row.type,scope.row.orderId)">好的</el-button>
                   </div>
                   <span class="blue" slot="reference" @click="watch(scope.row.type)">完成联系</span>
                 </el-popover>
@@ -430,13 +430,73 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
       this.String = val.map(item => item.id);
+      for(var i=0;i<val.length;i++){
+        // this.multipleSelection.push(val[i].orderId)
+        console.log(val[i].orderId)
+      }
+      // console.log(this.multipleSelection)
     },
     Search() {
-
+      if(this.form.id == "姓名"){
+        this.axios.get('postloanor/NoCollection',{
+          params:{
+            companyId: "3",
+            name: this.form.single,
+          }
+        }).then(res=>{
+          this.tableDataTwo = res.data.Orderdetails
+        })
+      }else{
+        if(this.form.id == "手机号"){
+          this.axios.get('postloanor/NoCollection',{
+            params:{
+              companyId: "3",
+              phone: this.form.single,
+            }
+          }).then(res=>{
+            this.tableDtableDataTwoata = res.data.Orderdetails
+          })
+        }else{
+          this.axios.get('postloanor/NoCollection',{
+            params:{
+              companyId: "3",
+              orderNumber: this.form.single,
+            }
+          }).then(res=>{
+            this.tableDataTwo = res.data.Orderdetails
+          })
+        }
+      }
+    },
+    SearchThird(){
+      this.axios.get('postloanor/CollectionRecoveryrate',{
+        params:{
+          companyId: "3",
+          start_time: this.formThree.start,
+          end_time: this.formThree.end
+          // page,
+          // Pagesize
+        }
+      }).then(res=>{
+        this.tableDataThree = res.data.Collection
+      })
+    },
+    SearchForth(){
+      this.axios.get('postloanor/OverdueUser',{
+        params:{
+          companyId: "3",
+          start_time: this.formFour.start,
+          end_time: this.formFour.end
+          // page,
+          // Pagesize
+        }
+      }).then(res=>{
+        this.tableDataFour = res.data.Collection
+      })
     },
     see(id) {
       if (this.person != "") {
-        this.show = false;  
+        this.show = false;
         this.hidden = true;
       } else {
         this.show = true;
@@ -453,18 +513,52 @@ export default {
         this.hide = false;
       }
     },
-    confire(CollectionMemberId){
+    change(id){
+      console.log(id)
+      this.id = id
+    },
+    confire(orderId){
+      // console.log(orderId)
+      var order = []
+      order.push(orderId)
+      // var orders=order.join("")
+      console.log(order)
       this.axios.get('postloanor/UpdateOver',{
         params:{
-          ids: this.String,
-          CollectionMemberId
+          orderIds: order.join(','),
+          collectionMemberId: this.person
         }
       }).then(res=>{
-        this.$alert("分配成功")
+        this.$confirm(res.data.desc, '提示', {
+          type: 'warning',
+          center: true
+        })
+      })
+    },
+    confi(type,orderId){
+      this.axios.get('postloanor/Wancheng',{
+        params:{
+          overdue_phonestaus: type,
+          collectionMemberId: "1",
+          orderId
+        }
+      }).then(res=>{
+        if(res.data.code==200){
+          this.$confirm(res.data.desc, '提示', {
+            type: 'warning',
+            center: true
+          })
+          this.getFive(this.page, this.Pagesize)
+        }else{
+          this.$confirm(res.data.desc, '提示', {
+            type: 'warning',
+            center: true
+          })
+        }
       })
     },
     oneKey(){
-      if(this.form.person == ""){
+      if(this.form.person == undefined){
         this.$alert('请选择催收员', '提示', {
           type: 'warning',
           center: true
@@ -472,11 +566,14 @@ export default {
       }else{
         this.axios.get('postloanor/UpdateOver',{
           params:{
-            ids: this.String,
-            CollectionMemberId
+            orderIds: this.String.join(','),
+            collectionMemberId: this.person
           }
         }).then(res=>{
-          this.$alert("分配成功")
+          this.$confirm(res.data.desc, '提示', {
+            type: 'warning',
+            center: true
+          })
         })
       }
     }

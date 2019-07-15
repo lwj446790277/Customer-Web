@@ -22,8 +22,8 @@
 						<el-menu-item index="paymentRecord">放款实时流水</el-menu-item>
 						<el-menu-item index="repaymentPlan">还款实时流水</el-menu-item>
 						<el-menu-item index="repaymentRecord">延期和扣款查询</el-menu-item>
-						<el-menu-item index="manualTransfer">线上手工调账</el-menu-item>
-						<el-menu-item index="offlineRepayment">线下手工调账</el-menu-item>
+						<el-menu-item index="manualTransfer">线上减免调账</el-menu-item>
+						<el-menu-item index="offlineRepayment">线下调账</el-menu-item>
 						<el-menu-item index="newMember">银行卡自动扣款</el-menu-item>
 						<el-menu-item index="financialOverview">财务总览</el-menu-item>
 					</el-submenu>
@@ -33,6 +33,7 @@
 						<el-menu-item index="returnOrder">已还订单</el-menu-item>
 						<el-menu-item index="overdueOrder">已逾期订单</el-menu-item>
 						<el-menu-item index="badOrder">已坏账订单</el-menu-item>
+						<!-- <el-menu-item index="channelThree">逾前短信提醒</el-menu-item> -->
 						<!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
 					</el-submenu>
 					<el-submenu index="6">
@@ -79,16 +80,16 @@
 						<!-- <el-menu-item index="systemConfigurationEight">各项协议编辑</el-menu-item> -->
 						<!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
 					</el-submenu>
-					<el-submenu index="11">
+					<!-- <el-submenu index="11">
 						<template slot="title"><i class="el-icon-star-on"></i>紧急按钮</template>
-						<el-menu-item index="visitor">暂时未定</el-menu-item>
+						<el-menu-item index="visitor">暂时未定</el-menu-item> -->
 						<!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
-					</el-submenu>
+					<!-- </el-submenu>
 					<el-submenu index="12">
 						<template slot="title"><i class="el-icon-setting"></i>全局说明(技术)</template>
-						<el-menu-item index="adminSet">说明</el-menu-item>
+						<el-menu-item index="adminSet">说明</el-menu-item> -->
 						<!-- <el-menu-item index="sendMessage">发送通知</el-menu-item> -->
-					</el-submenu>
+					<!-- </el-submenu> -->
 				</el-menu>
 			</el-col>
 			<el-col :span="20" style="height: 100%;overflow: auto;">
@@ -111,7 +112,7 @@
 </script>
 
 
-<style lang="less" scoped>
+<style lang="less">
 	@import '../style/mixin';
 	.manage_page{
 		
