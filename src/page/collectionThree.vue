@@ -28,9 +28,9 @@
         <el-table-column prop="connected" label="累计坏账订单数" align="center"></el-table-column>
         <!-- <el-table-column prop="address" label="累计催收次数" align="center"></el-table-column> -->
         <el-table-column prop="collNumdata" label="累计催回率(%)" align="center">
-          <template scope="scope">
+          <!-- <template scope="scope">
             <span>{{scope.row.collNumdata}}%</span>
-          </template>
+          </template> -->
         </el-table-column>
       </el-table>
       <div class="block">
@@ -46,8 +46,7 @@
         ></el-pagination>
       </div>
     </div>
- 
-    </div>
+  </div>
 </template>
 
 <script>
@@ -70,7 +69,7 @@
     };
   },
   created(){
-    // this.getData(this.page,this.Pagesize);
+    this.getData(this.page,this.Pagesize);
   },  
   methods:{ 
     getData(page,Pagesize){
@@ -103,6 +102,7 @@
     Search(){
       this.axios.get('collection/CollectionLv',{
         params:{
+          companyId: "3",
           startu_time: this.form.start,
           end_time: this.form.end
         }
@@ -134,7 +134,7 @@
     margin-left: -15px;
 }
 .red{
-  background-color: red !important;
+  // background-color: red !important;
 }
 .el-table th{
   // background-color: red !important;

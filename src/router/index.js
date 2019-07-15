@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+// import 'element-ui/lib/theme-chalk/index.css';
 
 import axios from 'axios'
 Vue.prototype.axios=axios;
@@ -132,11 +133,11 @@ const routes = [
 		},{
 			path: '/manualTransfer',
 			component: manualTransfer,
-			meta: ['财务管理', '线上手工调账'],
+			meta: ['财务管理', '线上减免调账'],
 		},{
 			path: '/offlineRepayment',
 			component: offlineRepayment,
-			meta: ['财务管理', '线下手工调账'],
+			meta: ['财务管理', '线下调账'],
 		},{
 			path: '/newMember',
 			component: newMember,
@@ -148,19 +149,23 @@ const routes = [
 		},{
 			path: '/dateOrder',
 			component: dateOrder,
-			meta: ['货后订单管理', '期限内订单'],
+			meta: ['贷后订单管理', '期限内订单'],
 		},{
 			path: '/returnOrder',
 			component: returnOrder,
-			meta: ['货后订单管理', '已还订单'],
+			meta: ['贷后订单管理', '已还订单'],
 		},{
 			path: '/overdueOrder',
 			component: overdueOrder,
-			meta: ['货后订单管理', '已逾期订单'],
+			meta: ['贷后订单管理', '已逾期订单'],
 		},{
 			path: '/badOrder',
 			component: badOrder,
-			meta: ['货后订单管理', '已坏账订单'],
+			meta: ['贷后订单管理', '已坏账订单'],
+		},{
+			path: '/channelThree',
+			component: channelThree,
+			meta: ['贷后订单管理', '逾前短信提醒'],
 		},{
 			path: '/collectionOne',
 			component: collectionOne,

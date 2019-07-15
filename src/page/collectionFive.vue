@@ -136,6 +136,7 @@ export default {
       if(this.form.name == "姓名"){
         this.axios.get('collection/FenpeiWeiCollection',{
           params:{
+            companyId: "3",
             name: this.form.id,
           }
         }).then(res=>{
@@ -145,6 +146,7 @@ export default {
         if(this.form.name == "手机号"){
           this.axios.get('collection/FenpeiWeiCollection',{
             params:{
+              companyId: "3",
               phone: this.form.id,
             }
           }).then(res=>{
@@ -153,6 +155,7 @@ export default {
         }else{
           this.axios.get('collection/FenpeiWeiCollection',{
             params:{
+              companyId: "3",
               orderNumber: this.form.id,
             }
           }).then(res=>{

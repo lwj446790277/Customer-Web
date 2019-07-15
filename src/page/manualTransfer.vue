@@ -90,23 +90,23 @@
 							</td>
 						</tr>
 						<tr>
-							<th>减免后应还时间</th>
+							<th>减免后最迟应还时间</th>
 							<td>
 								<!-- <el-input class="inpu" v-model="accounttime"></el-input> -->
 								<el-date-picker class="inpu" v-model="accounttime" type="date" placeholder="选择日期"></el-date-picker>
 							</td>
 						</tr>
-						<tr>
+						<!-- <tr>
 							<th>减免后应还延期天数</th>
 							<td>
 								<el-input class="inpu" v-model="beoverdue"></el-input>
 							</td>
-						</tr>
+						</tr> -->
 					</table>
 					<el-button type="primary" class="save" @click="save">添加并保存</el-button>
 				</div>
 			</el-tab-pane>
-			<el-tab-pane label="线上延期内订单" name="second">
+			<el-tab-pane label="线上期限内订单" name="second">
 				<div class="main">
 					<el-form :model="formOne" :inline="true" class="demo-form-inline">
 						<el-form-item>
@@ -216,14 +216,14 @@
 							<el-button type="primary" @click="Search">搜索</el-button>
 						</el-form-item>
 					</el-form>
-					<div class="statistic">
+					<!-- <div class="statistic">
 						<ul>
 							<li>累计实还总笔数</li>
 							<li class="num">10</li>
 							<li>累计减免后实还总金额</li>
 							<li class="num">10</li>
 						</ul>
-					</div>
+					</div> -->
 					<el-table border :data="tableOne" tooltip-effect="dark" style="width: 100%;line-height: 60px">
 						<el-table-column prop="orderNumber" label="订单编号" align="center"></el-table-column>
 						<el-table-column prop="name" label="姓名" align="center"></el-table-column>
@@ -288,14 +288,14 @@
 							<el-button type="primary" @click="Search">搜索</el-button>
 						</el-form-item>
 					</el-form>
-					<div class="statistic">
+					<!-- <div class="statistic">
 						<ul>
 							<li>累计逾期未还总笔数</li>
 							<li class="num">10</li>
 							<li>累计逾期未还金额</li>
 							<li class="num">10</li>
 						</ul>
-					</div>
+					</div> -->
 					<el-table border :data="tableTwo" tooltip-effect="dark" style="width: 100%;line-height: 60px">
 						<el-table-column prop="orderNumber" label="订单编号" align="center"></el-table-column>
 						<el-table-column prop="name" label="姓名" align="center"></el-table-column>

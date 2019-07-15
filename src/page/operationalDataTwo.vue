@@ -14,16 +14,21 @@
           </el-col>
         </el-form-item>
         <el-form-item>
+          <el-select placeholder="引流渠道" v-model="form.platform">
+            <el-option v-for="item in platform" :key="item.value" :label="item.drainageOfPlatformName" :value="item.id"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
           <el-button type="primary" @click="Search">搜索</el-button>
         </el-form-item>
       </el-form>
-      <el-table border :data="tableData" show-summary tooltip-effect="dark" style="width: 100%">
-        <el-table-column prop="operator_time" label="日期" align="center"></el-table-column>
+      <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
+        <el-table-column prop="orderCreateTime" label="日期" align="center"></el-table-column>
         <el-table-column prop="repayment_Count" label="还款笔数" align="center"></el-table-column>
-        <el-table-column prop="Collection_count" label="逾期还款笔数" align="center"></el-table-column>
+        <el-table-column prop="collection_count" label="逾期还款笔数" align="center"></el-table-column>
         <el-table-column prop="repaymeny_collectiondata" label="逾期还款占比(%)" align="center"></el-table-column>
-        <el-table-column prop="repaymentSumMoney" label="还款金额" align="center"></el-table-column>
-        <!-- <el-table-column prop="address" label="放款笔数" align="center"></el-table-column> -->
+        <el-table-column prop="realityAccount" label="总还款金额" align="center"></el-table-column>
+        <el-table-column prop="couNum" label="总放款笔数" align="center"></el-table-column>
         <el-table-column prop="collection_money" label="逾期金额" align="center"></el-table-column>
       </el-table>
       <div class="block">
@@ -50,12 +55,12 @@ export default {
   },
   data() {
     return {
-      tableData: [
-		  { id: 1 }
-	  ],
+      tableData: [],
+      platform: [],
       form: {
         start: "",
-        end: ""
+        end: "",
+        platform: ""
       },
       page: 1,
       pageSize: 10,
@@ -65,6 +70,7 @@ export default {
   },
   created(){
     this.getData(this.page, this.Pagesize)
+    this.get()
   },
   methods: {
     getData(page,Pagesize){
@@ -78,13 +84,33 @@ export default {
         this.tableData = res.data.Repayment
       })
     },
+    get(){
+      this.axios.get('operation/AllDrainage',{
+        params:{
+          companyId: "3",
+        }
+      }).then(res=>{
+        this.platform = res.data.Drainage_of_platform
+      })
+    },
     sizeChange() {
       //   this.getData(this.page, this.pageSize);
     },
     currentChange() {
       //   this.getData(this.page, this.pageSize);
     },
-    Search() {}
+    Search() {
+      this.axios.get('operation/HuanKuandata',{
+        params:{
+          companyId: "3",
+          start_time: this.form.start,
+          end_time: this.form.end,
+          drainageOfPlatformId: this.form.platform
+        }
+      }).then(res=>{
+        this.tableData = res.data.Repayment
+      })
+    }
   }
 };
 </script>

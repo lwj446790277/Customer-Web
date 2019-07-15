@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {getAdminInfo} from '@/api/getData'
+// import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.use(Vuex)
 

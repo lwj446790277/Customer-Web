@@ -13,7 +13,7 @@
         <el-form-item class="single">
           <el-input placeholder="请输入数字" v-model="formList.single" class="input-with-select"></el-input>
         </el-form-item>
-        <el-form-item>
+        <!-- <el-form-item>
           <el-select v-model="formList.time" placeholder="订单时间" style="width:150px">
             <el-option label="实借时间" value="实借时间"></el-option>
             <el-option label="延期前应还时间" value="延期前应还时间"></el-option>
@@ -25,36 +25,19 @@
           <el-col :span="11">
             <el-date-picker type="date" placeholder="起始时间" v-model="formList.date"></el-date-picker>
           </el-col>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-select placeholder="逾期等级" v-model="formList.level">
-            <el-option label="M1" value="M1"></el-option>
-            <el-option label="M2" value="M2"></el-option>
-            <el-option label="M3" value="M3"></el-option>
-            <el-option label="M4" value="M4"></el-option>
+            <el-option v-for="item in level" :key="item.value" :label="item.grade" :value="item.grade"></el-option>
           </el-select>
         </el-form-item>
-        <!-- <el-form-item>
-          <el-select v-model="formList.type" placeholder="财务减免方式" style="width:150px">
-            <el-option label="无减免全额还款" value="无减免全额还款"></el-option>
-            <el-option label="财务线上减免还款" value="财务线上减免还款"></el-option>
-            <el-option label="财务线下减免还款" value="财务线下减免还款"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-select placeholder="用户类型" v-model="formList.person">
-            <el-option label="正常用户" value="正常用户"></el-option>
-            <el-option label="黑名单用户" value="黑名单用户"></el-option>
-            <el-option label="白名单用户" value="白名单用户"></el-option>
-          </el-select>
-        </el-form-item> -->
         <el-form-item>
           <el-button type="warning" @click="Reset">重置</el-button>
           <el-button type="primary" @click="Search">搜索</el-button>
         </el-form-item>
       </el-form>
       <el-table border :data="tableData" style="width: 100%">
-        <el-table-column prop="name" label="订单编号" width="93" align="center"></el-table-column>
+        <el-table-column prop="orderNumber" label="订单编号" width="93" align="center"></el-table-column>
         <el-table-column prop="name" label="姓名" align="center"></el-table-column>
         <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
         <el-table-column prop="borrowMoneyWay" label="贷款方式" width="93" align="center"></el-table-column>
@@ -71,6 +54,7 @@
             <span>{{scope.row.interestOnArrears}}/{{scope.row.makeLoans}}</span>
           </template>
         </el-table-column>
+        <el-table-column prop="overdueGrade" label="逾期等级" width="93" align="center"></el-table-column>
         <el-table-column prop="overdueNumberOfDays" label="逾期天数" width="93" align="center"></el-table-column>
         <el-table-column prop="address" label="逾期罚金/应还总金额" width="110" align="center">
           <template slot-scope="scope">
@@ -112,6 +96,7 @@ export default {
   data() {
     return {
       tableData: [],
+      level: [],
       formList: {
         name: "",
         single: "",
@@ -128,6 +113,7 @@ export default {
   },
   created(){
     this.getData(this.page, this.Pagesize)
+    this.get()
   },
   methods: {
     getData(page,Pagesize){
@@ -139,6 +125,15 @@ export default {
         }
       }).then(res=>{
         this.tableData = res.data.Orderdetails
+      })
+    },
+    get(){
+      this.axios.get('operation/YuqiM',{
+        params:{
+          companyId: "3"
+        }
+      }).then(res=>{
+        this.level = res.data.OverdueClass
       })
     },
     sizeChange() {
@@ -163,7 +158,41 @@ export default {
     Reset() {
       this.clear();
     },
-    Search() {}
+    Search() {
+      if(this.formList.name=="姓名"){
+        this.axios.get('postloanor/HuaiZhangOrders',{
+          params:{
+            companyId: "3",
+            name: this.formList.single,
+            overdueGrade: this.formList.level,
+          }
+        }).then(res=>{
+          this.tableData = res.data.Orderdetails
+        })
+      }else{
+        if(this.formList.name=="手机号"){
+          this.axios.get('postloanor/HuaiZhangOrders',{
+            params:{
+              companyId: "3",
+              phone: this.formList.single,
+              overdueGrade: this.formList.level,
+            }
+          }).then(res=>{
+            this.tableData = res.data.Orderdetails
+          })
+        }else{
+          this.axios.get('postloanor/HuaiZhangOrders',{
+            params:{
+              companyId: "3",
+              orderNumber: this.formList.single,
+              overdueGrade: this.formList.level,
+            }
+          }).then(res=>{
+            this.tableData = res.data.Orderdetails
+          })
+        }
+      }
+    }
   }
 };
 </script>

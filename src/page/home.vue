@@ -1,101 +1,107 @@
 <template>
     <div>
         <head-top></head-top>
-		<el-tabs v-model="activeName" type="card">
+		<el-tabs v-model="activeName" type="card" class="firstcon">
 			<el-tab-pane label="综合统计" name="first">
 				<div class="main">
-					<div class="lefts"></div>
-					<span class="today">今日数据</span>
-					<table border="1" cellpadding="25" cellspacing="0" class="bors">
-						<tr class="trone">
-							<th>放款金额</th>
-							<th>注册人数</th>
-							<th>申请人数</th>
-							<th>放款人数</th>
-						</tr>
-						<tr>
-							<td>222</td>
-							<td>333</td>
-							<td>444</td>
-							<td>555</td>
-						</tr>
-					</table>
-					<table border="1" cellpadding="25" cellspacing="0" class="bors">
-						<tr class="trtwo">
-							<th>回款金额</th>
-							<th>回款笔数</th>
-							<th>续期笔数</th>
-							<th>逾期还款笔数</th>
-						</tr>
-						<tr>
-							<td>222</td>
-							<td>333</td>
-							<td>444</td>
-							<td>555</td>
-						</tr>
-					</table>
-					<div class="leftl"></div>
-					<span class="today">累计数据</span>
-					<table border="1" cellpadding="25" cellspacing="0" class="borone">
-						<tr class="trone">
-							<th>累计放款总金额</th>
-							<th>累计还款总金额</th>
-							<th>用户总数</th>
-							<th>用户申请笔数</th>
-							<th>放款总笔数</th>
-						</tr>
-						<tr>
-							<td>222</td>
-							<td>333</td>
-							<td>444</td>
-							<td>555</td>
-							<td>555</td>
-						</tr>
-					</table>
-					<table border="1" cellpadding="25" cellspacing="0" class="borone">
-						<tr class="trtwo">
-							<th>应收总金额</th>
-							<th>实际收益</th>
-							<th>还款总笔数</th>
-							<th>放款通过率</th>
-							<th>回款率</th>
-						</tr>
-						<tr>
-							<td>222</td>
-							<td>333</td>
-							<td>444</td>
-							<td>555</td>
-							<td>555</td>
-						</tr>
-					</table>
-					<div class="lefts"></div>
-					<span class="today">未到期数据</span>
-					<table border="1" cellpadding="25" cellspacing="0" class="bortwo">
-						<tr class="trone">
-							<th>笔数</th>
-							<th>应收本金</th>
-							<th>应收总金额</th>
-						</tr>
-						<tr>
-							<td>222</td>
-							<td>333</td>
-							<td>444</td>
-						</tr>
-					</table>
-					<div class="leftl"></div>
-					<span class="today">逾期数据</span>
-					<table border="1" cellpadding="25" cellspacing="0" class="bortwo">
-						<tr class="trtwo">
-							<th>笔数</th>
-							<th>逾期率</th>
-							<th>逾期应收总金额</th>
-						</tr>
-						<tr>
-							<td>222</td>
-							<td>333</td>
-							<td>444</td>
-						</tr>
-					</table>
+					<div class="background">
+						<div class="lefts"></div>
+						<span class="today">今日数据统计</span>
+						<table class="all">
+							<tr>
+								<td>今日放款总额</td>
+								<td>今日放款人数</td>
+								<td>今日注册人数</td>
+								<td>今日申请人数</td>
+							</tr>
+							<tr>
+								<th>{{one}}</th>
+								<th>{{two}}</th>
+								<th>{{three}}</th>
+								<th>{{four}}</th>
+							</tr>
+						</table>
+						<table class="all fif">
+							<tr>
+								<td>今日回款总额</td>
+								<td>今日还款人数</td>
+								<td>今日延期笔数</td>
+								<td>今日逾后已还笔数</td>
+								<td>今日逾期已还金额</td>
+							</tr>
+							<tr>
+								<th>{{one}}</th>
+								<th>{{two}}</th>
+								<th>{{three}}</th>
+								<th>{{four}}</th>
+								<th>{{four}}</th>
+							</tr>
+						</table>
+						<div class="leftl"></div>
+						<span class="today">累计数据统计</span>
+						<table class="all fif">
+							<tr>
+								<td>累计放款总金额</td>
+								<td>累计回款总金额</td>
+								<td>已注册用户总数</td>
+								<td>用户申请笔数</td>
+								<td>放款总笔数</td>
+							</tr>
+							<tr>
+								<th>{{one}}</th>
+								<th>{{two}}</th>
+								<th>{{three}}</th>
+								<th>{{four}}</th>
+								<th>{{four}}</th>
+							</tr>
+						</table>
+						<table class="all fif">
+							<tr>
+								<td>累计应收总金额</td>
+								<td>累计实际收益</td>
+								<td>回款总笔数</td>
+								<td>放款通过率</td>
+								<td>订单回款率</td>
+							</tr>
+							<tr>
+								<th>{{one}}</th>
+								<th>{{two}}</th>
+								<th>{{three}}</th>
+								<th>{{four}}</th>
+								<th>{{four}}</th>
+							</tr>
+						</table>
+						<div class="lef">
+							<div class="lefts"></div>
+							<span class="today">期限内数据</span>
+							<table class="all alls">
+								<tr>
+									<td>逾前未还笔数</td>
+									<td>逾前应收总金额</td>
+								</tr>
+								<tr>
+									<th>{{one}}</th>
+									<th>{{two}}</th>
+								</tr>
+							</table>
+						</div>
+						<div class="righ">
+							<div class="leftl"></div>
+							<span class="today">逾期数据</span>
+							<table class="all alls">
+								<tr>
+									<td>逾后未还笔数</td>
+									<td>逾期率</td>
+									<td>逾期应收总金额</td>
+								</tr>
+								<tr>
+									<th>{{one}}</th>
+									<th>{{two}}</th>
+									<th>{{four}}</th>
+								</tr>
+							</table>
+						</div>
+					</div>
 				</div>
 			</el-tab-pane>
 			<el-tab-pane label="回收率报表" name="second">
@@ -155,7 +161,11 @@
 				page: 1,
 				pageSize: 10,
 				totalPageCount: 0,
-				totalCount: 20
+				totalCount: 20,
+				one: "123",
+				two: "123",
+				three: "123",
+				four: "123",
     		}
     	},
     	components: {
@@ -178,66 +188,75 @@
 <style lang="less">
 	@import '../style/mixin';
 	.main{
-		padding: 20px;
+		padding: 20px;	
+	}
+	.background{
+		// background-color: #eff2f7;
 	}
 	.lefts{
-		width: 100%;
-		width: 8px;
-		height: 30px;
+		width: 10px;
+		height: 10px;
+		border-radius: 5px;
+		margin-top: 10px;
 		background-color: #3278f9;
 		margin-right: 10px;
 		float: left;
 	}
 	.leftl{
-		width: 100%;
-		width: 8px;
-		height: 30px;
+		width: 10px;
+		height: 10px;
+		border-radius: 5px;
 		background-color: #fb8b39;
+		margin-top: 10px;
 		margin-right: 10px;
 		float: left;
 	}
 	.today{
-		font-size: 1.2rem;
+		font-size: 1.1rem;
 		line-height: 30px;
 	}
-	.bors{
+	.all{
+		width: 100%;
+		margin: 10px auto;
+		box-shadow: #ccc 0px 0px 5px;
+		padding-top: 15px;
+		padding-bottom: 15px;
+		margin-top: 15px;
+		margin-bottom: 20px;
+		background-color: #fff;
+	}
+	.alls{
 		width: 80%;
-		margin: 20px auto;
-		border: 1px solid #eee;
+		margin: 10px 0;
 	}
-	.bors th{
-		width: 25%;
+	.all tr th{
+		line-height: 40px;
+		font-size: 1.4rem;
+		color: #3278f9;
 	}
-	.borone{
-		width: 80%;
-		margin: 20px auto;
-		border: 1px solid #eee;
+	.all tr td{
+		line-height: 40px;
+		color: #999;
+		text-align: center;
 	}
-	.borone th{
+	.fif tr th{
 		width: 20%;
 	}
-	.bortwo{
-		width: 80%;
-		margin: 20px auto;
-		border: 1px solid #eee;
+	.lef{
+		width: 48%;
+		float: left;
 	}
-	.bortwo th{
-		width: 34%;
+	.righ{
+		width: 48%;
+		float: left;
 	}
-	.bors th,.borone th,.bortwo th{
-		line-height: 0px;
-		border: 1px solid #eee;
-	}
-	.bors td,.borone td,.bortwo td{
-		text-align: center;
-		line-height: 0px;
-		border: 1px solid #eee;
-	}
-	.trone{
-		background-color: #e0e8f5;
-	}
-	.trtwo{
-		background-color: #fbe9d0;
+	// .el-tabs__content:nth-child(2){
+	// 	margin-top: -15px;
+	// 	background-color: #eff2f7;
+	// }
+	.firstcon .el-tabs__content:nth-last-child(2):first-child{
+		margin-top: -15px;
+		background-color: #eff2f7;
 	}
 	.picker{
 		margin-left: -5px;

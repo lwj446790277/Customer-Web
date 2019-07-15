@@ -13,9 +13,8 @@
         <el-form-item class="single">
           <el-input placeholder="单行输入" v-model="form.id"></el-input>
         </el-form-item>
-        <el-form-item>
+        <!-- <el-form-item>
           <el-select v-model="form.time" placeholder="订单时间" style="width:150px">
-            <!-- <el-option label="订单时间" value="订单时间"></el-option> -->
             <el-option label="实借时间" value="实借时间"></el-option>
             <el-option label="延期后应还时间" value="延期后应还时间"></el-option>
           </el-select>
@@ -29,12 +28,10 @@
           <el-col :span="11">
             <el-date-picker type="date" placeholder="结束时间" v-model="form.end"></el-date-picker>
           </el-col>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-select placeholder="逾期等级" v-model="form.level">
-            <el-option label="M1" value="M1"></el-option>
-            <el-option label="M2" value="M2"></el-option>
-            <el-option label="M3" value="M3"></el-option>
+            <el-option v-for="item in level" :key="item.value" :label="item.grade" :value="item.grade"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -57,22 +54,28 @@
         </ul>
       </div> -->
       <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
-        <el-table-column prop="orderNumber" label="订单编号" width="70" align="center"></el-table-column>
+        <el-table-column prop="orderNumber" label="订单编号" width="70" align="center" class="black"></el-table-column>
         <el-table-column prop="name" label="姓名" align="center"></el-table-column>
         <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
-        <el-table-column prop="borrowMoneyWay" label="贷款方式" align="center"></el-table-column>
-        <el-table-column prop="borrowTimeLimit" label="还款期数" align="center"></el-table-column>
+        <el-table-column prop="borrowMoneyWay" label="贷款方式" width="70" align="center"></el-table-column>
+        <el-table-column prop="borrowTimeLimit" label="还款期数" width="70" align="center"></el-table-column>
         <el-table-column prop="orderCreateTime" label="实借时间" align="center"></el-table-column>
         <el-table-column prop="realityBorrowMoney" label="实借总金额" width="80" align="center"></el-table-column>
-        <el-table-column prop="deferAfterReturntime" label="延期后应还时间" width="93" align="center"></el-table-column>
+        <el-table-column prop="deferAfterReturntime" label="延期后应还时间" width="83" align="center"></el-table-column>
         <el-table-column prop="overdueNumberOfDays" label="逾期天数" align="center"></el-table-column>
         <el-table-column prop="overdueGrade" label="逾期等级" align="center"></el-table-column>
-        <el-table-column prop="shouldReapyMoney" label="逾期罚金/含逾应还总金额" width="125" align="center">
+        <el-table-column prop="shouldReapyMoney" label="逾期罚金/含逾应还总金额" width="85" align="center">
           <template slot-scope="scope">
             <span>{{scope.row.interestPenaltySum}}/{{scope.row.order_money}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="collectionStatus" label="用户状态" align="center"></el-table-column>
+        <el-table-column prop="collectionStatus" label="用户状态" width="93" align="center">
+          <!-- <template slot-scope="scope">
+                <el-select v-model="scope.row.ismg">
+                    <el-option v-for="item in tableDatas" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                </el-select>
+            </template> -->
+        </el-table-column>
         <el-table-column prop="promise_money" label="承诺还清部分金额" width="95" align="center"></el-table-column>
         <el-table-column prop="collNum" label="催收次数" align="center"></el-table-column>
         <el-table-column prop="orderStatus" label="订单状态" align="center"></el-table-column>
@@ -83,19 +86,43 @@
         </el-table-column>
         <el-table-column prop="address" label="新增催收" width="93" align="center">
           <template slot-scope="scope">
-            <span class="blue" @click="newAdd(scope.row)">新增催收</span>
+            <span class="blue" @click="newAdd(scope.row.orderId,scope.row.name)">新增催收</span>
           </template>
         </el-table-column>
         <el-table-column prop="address" label="结束催收" width="93" align="center">
           <template slot-scope="scope">
                 <el-popover placement="bottom-end" width="400" trigger="click">
                     <p>确定结束催收该用户吗？</p>
-                    <el-button type="success" class="confire" @click="confire(scope.row)">是的</el-button>
+                    <el-button type="success" class="confire" @click="confire(scope.row.orderId)">是的</el-button>
                     <span class="blue" slot="reference">结束催收</span>
                 </el-popover>
             </template>
         </el-table-column>
       </el-table>
+      <el-dialog :title="title" :visible.sync="dialogTableVisible" center>
+        <el-form :model="formList" :inline="true" class="demo-form-inline">
+          <el-form-item>
+            <el-select v-model="formList.type" placeholder="选择状态" style="width:150px">
+              <el-option label="承诺还款" value="承诺还款"></el-option>
+              <el-option label="承诺还清一部分" value="承诺还清一部分"></el-option>
+              <el-option label="电话无人接听" value="电话无人接听"></el-option>
+              <el-option label="态度恶劣" value="态度恶劣"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-input placeholder="输入金额" v-model="formList.money"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="add">添加记录</el-button>
+          </el-form-item>
+        </el-form>
+        <el-table border :data="gridData">
+          <el-table-column property="collection_time" label="催收时间" align="center"></el-table-column>
+          <el-table-column property="user_type" label="用户状态" align="center"></el-table-column>
+          <el-table-column property="collectionmoney" label="承诺还款金额" align="center"></el-table-column>
+          <el-table-column property="orderStatus" label="订单状态" align="center"></el-table-column>
+        </el-table>
+      </el-dialog>
       <div class="block">
         <el-pagination
           :current-page.sync="page"
@@ -120,7 +147,19 @@ export default {
   },
   data() {
     return {
-      tableData: [],
+      tableData: [{}],
+      tableDatas: [
+        { id: 1, label: "承诺还款", value: "承诺还款" },
+        { id: 2, label: "承诺还清一部分", value: "承诺还清一部分" },
+        { id: 3, label: "电话无人接听", value: "电话无人接听" },
+        { id: 4, label: "态度恶劣", value: "态度恶劣" },
+      ],
+      gridData: [],
+      level: [],
+      dialogTableVisible: false,
+      title: "",
+      orderId: "",
+      collectionMemberId: "",
       form: {
         time: "",
         start: "",
@@ -129,6 +168,10 @@ export default {
         dai: "",
         level: ""
       },
+      formList: {
+        type: "",
+        money: ""
+      },
       page: 1,
       pageSize: 10,
       totalPageCount: 0,
@@ -136,7 +179,8 @@ export default {
     };
   },
   created(){
-    this.getData();
+    this.getData()
+    this.get()
   },
   methods: {
     getData(){
@@ -146,6 +190,41 @@ export default {
         }
       }).then(res=>{
         this.tableData = res.data.Orderdetails
+      })
+    },
+    get(){
+      this.axios.get('operation/YuqiM',{
+        params:{
+          companyId: "3"
+        }
+      }).then(res=>{
+        this.level = res.data.OverdueClass
+      })
+    },
+    newAdd(orderId,name){
+      this.dialogTableVisible = true
+      this.orderId = orderId
+      this.title = name
+      this.axios.get('collection/Collectiondetails',{
+        params:{
+          orderId
+        }
+      }).then(res=>{
+        this.gridData = res.data.Orderdetails
+        this.collectionMemberId = res.data.Orderdetails.collectionMemberId
+      })
+    },
+    add(){
+      console.log(this.collectionMemberId)
+      this.axios.get('collection/Collectiondetails',{
+        params:{
+          orderId: this.orderId,
+          collectionMemberId: this.collectionMemberId,
+          user_type: this.formList.type,
+          collectionmoney: this.formList.money
+        }
+      }).then(res=>{
+        this.gridData = res.data.Orderdetails
       })
     },
     sizeChange() {
@@ -168,16 +247,51 @@ export default {
       this.clear();
     },
     Search() {
-      
+      if(this.form.name=="姓名"){
+        this.axios.get('collection/YiCollection',{
+          params:{
+            companyId: "3",
+            name: this.form.id,
+            overdueGrade: this.form.level
+          }
+        }).then(res=>{
+          this.tableData = res.data.Orderdetails
+        })
+      }else{
+        if(this.form.name=="手机号"){
+          this.axios.get('collection/YiCollection',{
+            params:{
+              companyId: "3",
+              phone: this.form.id,
+              overdueGrade: this.form.level
+            }
+          }).then(res=>{
+            this.tableData = res.data.Orderdetails
+          })
+        }else{
+          this.axios.get('collection/YiCollection',{
+            params:{
+              companyId: "3",
+              orderNumber: this.form.id,
+              overdueGrade: this.form.level
+            }
+          }).then(res=>{
+            this.tableData = res.data.Orderdetails
+          })
+        }
+      }
     },
-    confire(){
-      this.axios.get('collection/AddCollection',{
+    confire(orderId){
+      this.axios.get('collection/JieShu',{
         params:{
-          ids,
-          CollectionMemberId
+          orderId
         }
       }).then(res=>{
-
+        this.$confirm(res.data.desc, '提示', {
+          type: 'warning',
+          center: true
+        })
+        this.getData();
       })
     }
   }
@@ -234,5 +348,12 @@ p {
 .blue{
   color: blue;
   cursor: pointer;
+}
+.black{
+  background-color: black;
+}
+.el-table .cell, .el-table th>div{
+  padding-left: 0;
+  padding-right: 0;
 }
 </style>
