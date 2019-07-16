@@ -71,14 +71,14 @@
         beforeCreate() {
             var that = this;
             that.axios.get('/thirdpartyint/queryAllCompany', {
-                params: {companyId: 3}
+                params: {companyId: }
             }).then(res => {
                 that.facelist = res.data.facelist;
                 that.operalist = res.data.operalist;
                 that.loanlist = res.data.loanlist;
                 that.repaylist = res.data.repaylist;
                 that.axios.get('/thirdpartyint/queryAll', {
-                    params: {companyId: 3}
+                    params: {companyId: window.localStorage.getItem("companyid")}
                 }).then(res => {
                     that.editObject = res.data[0];
                     that.editObject.loansource = that.editObject.loansource.split(',');
@@ -90,14 +90,14 @@
             Search() {
                 var that = this;
                 that.axios.get('/thirdpartyint/queryAllCompany', {
-                    params: {companyId: 3}
+                    params: {companyId: window.localStorage.getItem("companyid")}
                 }).then(res => {
                     that.facelist = res.data.facelist;
                     that.operalist = res.data.operalist;
                     that.loanlist = res.data.loanlist;
                     that.repaylist = res.data.repaylist;
                     that.axios.get('/thirdpartyint/queryAll', {
-                        params: {companyId: 3}
+                        params: {companyId: window.localStorage.getItem("companyid")}
                     }).then(res => {
                         that.editObject = res.data[0];
                     });

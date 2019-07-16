@@ -68,6 +68,9 @@
                             type: 'success',
                             message: '登陆成功'
                         });
+                        window.localStorage.setItem("companyid", res.data.companyid)
+                        window.localStorage.setItem("account", res.data.account)
+                        window.localStorage.setItem("userid", res.data.userid)
                         this.$router.push('manage')
                     }
                 })

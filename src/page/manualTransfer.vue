@@ -418,7 +418,7 @@
 			get(){
 				this.axios.get('fina/ThirdpatyAll',{
 					params:{
-						compayId: "3"
+						compayId: window.localStorage.getItem("companyid")
 					}
 				}).then(res=>{
 					this.Thirdparty_interface = res.data.Thirdparty_interface
@@ -427,7 +427,7 @@
 			getData( page, Pagesize ){
 				this.axios.get('fina/SelectOrderAccount',{
 					params:{
-					companyId: "3",
+					companyId: window.localStorage.getItem("companyid"),
 					// page,
 					// Pagesize
 					}
@@ -438,7 +438,7 @@
 			getOne( page, Pagesize ){
 				this.axios.get('fina/SelectNoMoney',{
 					params:{
-					companyId: "3",
+					companyId: window.localStorage.getItem("companyid"),
 					// page,
 					// Pagesize
 					}
@@ -449,7 +449,7 @@
 			getTwo( page, Pagesize ){
 				this.axios.get('fina/SelectOkMoney',{
 					params:{
-					companyId: "3",
+					companyId: window.localStorage.getItem("companyid"),
 					// page,
 					// Pagesize
 					}
@@ -475,7 +475,7 @@
 				this.axios.get('fina/OrderAcount',{
 					params:{
 						orderNumber:this.form.id,
-						companyId: "3"
+						companyId: window.localStorage.getItem("companyid")
 					}
 				}).then(res=>{
 					this.orderId = res.data.Orderdetails.orderId

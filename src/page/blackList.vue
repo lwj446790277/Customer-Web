@@ -260,7 +260,7 @@
             save() {
                 var that = this;
                 that.addObject.companyid = 3;
-                that.addObject.operator = "张三1";
+                that.addObject.operator =  window.localStorage.getItem("userid");
                 that.axios.get('/blacklistuser/insert', {
                     params: that.addObject
                 }).then(res => {
