@@ -429,12 +429,12 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
-      this.String = val.map(item => item.id);
+      this.String = val.map(item => item.orderId);
       for(var i=0;i<val.length;i++){
         // this.multipleSelection.push(val[i].orderId)
         console.log(val[i].orderId)
       }
-      // console.log(this.multipleSelection)
+      console.log(this.String)
     },
     Search() {
       if(this.form.id == "姓名"){

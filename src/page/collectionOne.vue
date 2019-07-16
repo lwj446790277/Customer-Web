@@ -63,7 +63,7 @@
                 <!-- <el-button @click="visible = !visible">返回</el-button> -->
                 <el-button class="confire" type="success" @click="confire(scope.row.orderId)">是的</el-button>
               </div>
-              <span class="content" slot="reference" @click="see(scope.row)">分配催单</span>
+              <span class="content" slot="reference" @click="see(scope.row.orderId)">分配催单</span>
             </el-popover>
           </template>
         </el-table-column>
@@ -97,12 +97,9 @@ export default {
   },
   data() {
     return {
-      ones: 12,
-      two: 2,
-      tableData: [
-        { id: 1 },
-        { id: 2 }
-      ],
+      // ones: 12,
+      // two: 2,
+      tableData: [],
       person: [],
       form: {
         name: "",
@@ -153,7 +150,7 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
-      this.String = val.map(item => item.id);
+      this.String = val.map(item => item.orderId);
       console.log(this.multipleSelection, this.String);
     },
     clear() {
@@ -197,7 +194,7 @@ export default {
         }
       }
     },
-    see(id) {
+    see(orderId) {
       if (this.form.person != "") {
         this.show = false;  
         this.hidden = true;
@@ -213,15 +210,21 @@ export default {
       this.axios.get('collection/AddCollection',{
         params:{
           orderIds: order.join(','),
-          CollectionMemberId: this.form.person.collectionMemberId
+          CollectionMemberId: this.form.person
         }
       }).then(res=>{
-        
+        this.$confirm(res.data.desc, '提示', {
+            type: 'warning',
+            center: true
+        }).then(()=>{
+          this.getData(this.page,this.Pagesize);
+        })
       })
     },
     Onekey(){
+      // console.log(this.form.person)
       if(this.form.person == ""){
-        this.$alert('请选择催收员', '提示', {
+        this.$confirm(res.data.desc, '提示', {
           type: 'warning',
           center: true
         })
@@ -229,10 +232,15 @@ export default {
         this.axios.get('collection/AddCollection',{
           params:{
             orderIds: this.String.join(','),
-            CollectionMemberId: this.form.person.collectionMemberId
+            CollectionMemberId: this.form.person
           }
         }).then(res=>{
-          this.$alert("分配成功")
+          this.$confirm(res.data.desc, '提示', {
+            type: 'warning',
+            center: true
+          }).then(()=>{
+            this.getData(this.page,this.Pagesize);
+          })
         })
       }
     }
@@ -242,7 +250,7 @@ export default {
     //   return this.ones*(this.two/100)
     // }
   }
-};
+}
 </script>
 
 <style lang="less">

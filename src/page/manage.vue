@@ -33,7 +33,7 @@
 						<el-menu-item index="returnOrder">已还订单</el-menu-item>
 						<el-menu-item index="overdueOrder">已逾期订单</el-menu-item>
 						<el-menu-item index="badOrder">已坏账订单</el-menu-item>
-						<!-- <el-menu-item index="channelThree">逾前短信提醒</el-menu-item> -->
+						<el-menu-item index="channelThree">逾前短信提醒</el-menu-item>
 						<!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
 					</el-submenu>
 					<el-submenu index="6">
