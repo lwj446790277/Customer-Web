@@ -99,10 +99,22 @@
                 params: {companyId: 3, page: 1}
             }).then(res => {
                 that.tableData = res.data.listsourcepage;
+                that.page = res.data.pageutil.page;
+                that.totalPageCount = res.data.pageutil.totalPageCount;
+                that.totalCount = res.data.pageutil.totalCount;
             })
         },
         methods: {
             Search() {
+                var that = this;
+                that.axios.get('/sourcetongji/queryByToday', {
+                    params: {companyId: 3, page: 1}
+                }).then(res => {
+                    that.tableData = res.data.listsourcepage;
+                    that.page = res.data.pageutil.page;
+                    that.totalPageCount = res.data.pageutil.totalPageCount;
+                    that.totalCount = res.data.pageutil.totalCount;
+                })
             },
             currentChange() {
             },

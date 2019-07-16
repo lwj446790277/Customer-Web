@@ -60,7 +60,8 @@
                     <tr>
                         <th>风控模型</th>
                         <td>
-                            <el-select v-model="addChannelObject.managecontrolid" placeholder="选择风控" style="width: 100%;">
+                            <el-select v-model="addChannelObject.managecontrolid" placeholder="选择风控"
+                                       style="width: 100%;">
                                 <el-option v-for="model in modelList" :label="model.rmmodlename"
                                            :value="model.id"></el-option>
                             </el-select>
@@ -92,7 +93,7 @@
                     <tr>
                         <th>折扣率%</th>
                         <td>
-                            <el-input  v-model="editChannelObject.discount" placeholder="请输入折扣率"></el-input>
+                            <el-input v-model="editChannelObject.discount" placeholder="请输入折扣率"></el-input>
                         </td>
                     </tr>
                     <tr>
@@ -110,7 +111,8 @@
                     <tr>
                         <th>风控模型</th>
                         <td>
-                            <el-select v-model="editChannelObject.managecontrolid" placeholder="选择风控" style="width: 100%;">
+                            <el-select v-model="editChannelObject.managecontrolid" placeholder="选择风控"
+                                       style="width: 100%;">
                                 <el-option v-for="model in modelList" :label="model.rmmodlename"
                                            :value="model.id"></el-option>
                             </el-select>
@@ -157,12 +159,12 @@
                 templateList: [],
                 modelList: [],
                 addChannelObject: {},
-                editChannelObject:{},
+                editChannelObject: {},
                 tableData: [],
                 page: 1,
                 pageSize: 10,
                 totalPageCount: 0,
-                totalCount: 20,
+                totalCount: 0,
                 addChannelDialogVisible: false,
                 editChannelDialogVisible: false
             }
@@ -173,16 +175,16 @@
                 params: {companyId: 3, page: 1}
             }).then(res => {
                 that.tableData = res.data.sourcelist;
+                that.page = res.data.pageutil.page;
+                that.totalPageCount = res.data.pageutil.totalPageCount;
+                that.totalCount = res.data.pageutil.totalCount;
             })
         },
         methods: {
-            edit() {
-
-            },
             deleteChannel(object) {
                 var that = this;
                 that.axios.get('/source/updateFalDel', {
-                    params: {id:object.id}
+                    params: {id: object.id}
                 }).then(res => {
                     this.$message({
                         type: 'success',
@@ -191,18 +193,21 @@
                     this.Search();
                 })
             },
-            delet() {
-
-            },
             currentChange() {
 
             },
-            Search() {
+            Search(page) {
                 var that = this;
+                if (!page) {
+                    page = 1;
+                }
                 that.axios.get('/source/queryAll', {
-                    params: {companyId: 3, page: 1}
+                    params: {companyId: 3, page: page}
                 }).then(res => {
                     that.tableData = res.data.sourcelist;
+                    that.page = res.data.pageutil.page;
+                    that.totalPageCount = res.data.pageutil.totalPageCount;
+                    that.totalCount = res.data.pageutil.totalCount;
                 })
             },
             addChannel() {
@@ -220,7 +225,7 @@
                     that.addChannelDialogVisible = false;
                 })
             },
-            editChannel(){
+            editChannel() {
                 var that = this;
                 that.editChannelObject.companyid = 3;
                 that.axios.get('/source/updateByPrimaryKey', {
@@ -245,7 +250,7 @@
                 })
                 that.addChannelDialogVisible = true;
             },
-            openEditChannelDialog(object){
+            openEditChannelDialog(object) {
                 var that = this;
                 that.axios.get('/source/queryAllCompany', {
                     params: {companyId: 3}
