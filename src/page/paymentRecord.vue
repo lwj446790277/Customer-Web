@@ -205,7 +205,7 @@ export default {
     getData( page, Pagesize ){
       this.axios.get('fina/Allpayment_record',{
         params:{
-          companyId: "3",
+          companyId: window.localStorage.getItem("companyid"),
           // page,
           // Pagesize
         }
@@ -216,7 +216,7 @@ export default {
     get(){
 				this.axios.get('fina/ThirdpatyAll',{
 					params:{
-						compayId: "3"
+						compayId: window.localStorage.getItem("companyid")
 					}
 				}).then(res=>{
 					this.Thirdparty_interface = res.data.Thirdparty_interface
@@ -238,7 +238,7 @@ export default {
       this.centerDialogVisible = true
       this.axios.get('fina/PaymentOrder',{
         params:{
-          companyId: "3",
+          companyId: window.localStorage.getItem("companyid"),
           orderNumber
         }
       }).then(res=>{

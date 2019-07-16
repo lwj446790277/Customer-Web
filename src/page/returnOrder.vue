@@ -117,7 +117,7 @@ export default {
     getData(page,Pagesize){
       this.axios.get('postloanor/YihuanOrders',{
         params:{
-          companyId: "3",
+          companyId: window.localStorage.getItem("companyid"),
           // page,
           // Pagesize
         }
@@ -151,7 +151,7 @@ export default {
       if(this.formList.name=="姓名"){
         this.axios.get('postloanor/YihuanOrders',{
           params:{
-            companyId: "3",
+            companyId: window.localStorage.getItem("companyid"),
             name: this.formList.single,
           }
         }).then(res=>{
@@ -161,7 +161,7 @@ export default {
         if(this.formList.name=="手机号"){
           this.axios.get('postloanor/YihuanOrders',{
             params:{
-              companyId: "3",
+              companyId: window.localStorage.getItem("companyid"),
               phone: this.formList.single,
             }
           }).then(res=>{
@@ -170,7 +170,7 @@ export default {
         }else{
           this.axios.get('postloanor/YihuanOrders',{
             params:{
-              companyId: "3",
+              companyId: window.localStorage.getItem("companyid"),
               orderNumber: this.formList.single,
             }
           }).then(res=>{

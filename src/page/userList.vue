@@ -135,7 +135,7 @@
         beforeCreate() {
             var that = this;
             that.axios.get('/user/queryUserList', {
-                params: {companyId: 3, page: 1}
+                params: {companyId: window.localStorage.getItem("companyid"), page: 1}
             }).then(res => {
                 that.tableData = res.data.userlist;
                 for (var i = 0; i < that.tableData.length; i++) {
@@ -168,7 +168,7 @@
             Search() {
                 var that = this;
                 that.axios.get('/user/queryUserList', {
-                    params: {companyId: 3, page: 1}
+                    params: {companyId: window.localStorage.getItem("companyid"), page: 1}
                 }).then(res => {
                     that.tableData = res.data.userlist;
                     for (var i = 0; i < that.tableData.length; i++) {
@@ -182,7 +182,7 @@
                 var that = this;
 
                 that.axios.get('/user/insertBlacklist', {
-                    params: {userId:id,companyId:3,operator: window.localStorage.getItem("userid")}
+                    params: {userId:id,companyId:window.localStorage.getItem("companyid"),operator: window.localStorage.getItem("userid")}
                 }).then(res => {
                     this.$message({
                         type: 'success',

@@ -109,7 +109,7 @@
         beforeCreate() {
             var that = this;
             that.axios.get('/order/queryroasOrders', {
-                params: {companyid: 3, page: 1}
+                params: {companyid: window.localStorage.getItem("companyid"), page: 1}
             }).then(res => {
                 that.tableData = res.data.listorderto;
                 that.page = res.data.pageutil.page;
@@ -132,7 +132,7 @@
             Search() {
                 var that = this;
                 var param = that.form;
-                param.companyid = 3;
+                param.companyid = window.localStorage.getItem("companyid");
                 param.page = that.page;
                 that.axios.get('/order/queryroasOrders', {
                     params: param

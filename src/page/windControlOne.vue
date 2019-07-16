@@ -119,7 +119,7 @@
         beforeCreate(){
             var that = this;
             that.axios.get('/homepage/queryAll', {
-                params: {companyId:3}
+                params: {companyId:window.localStorage.getItem("companyid")}
             }).then(res => {
                 that.tableData = res.data;
             })
@@ -171,14 +171,14 @@
             Search(){
                 var that = this;
                 that.axios.get('/homepage/queryAll', {
-                    params: {companyId:3}
+                    params: {companyId:window.localStorage.getItem("companyid")}
                 }).then(res => {
                     that.tableData = res.data;
                 })
             },
             addBanner() {
                 var that = this;
-                that.addBannerObject.companyid = 3;
+                that.addBannerObject.companyid = window.localStorage.getItem("companyid");
                 that.axios.get('/homepage/insert', {
                     params: that.addBannerObject
                 }).then(res => {
@@ -192,7 +192,7 @@
             },
             editBanner(){
                 var that = this;
-                that.editBannerObject.companyid = 3;
+                that.editBannerObject.companyid = window.localStorage.getItem("companyid");
                 that.axios.get('/homepage/updateByPrimaryKey', {
                     params: that.editBannerObject
                 }).then(res => {

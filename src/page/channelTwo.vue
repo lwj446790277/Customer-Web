@@ -172,7 +172,7 @@
         beforeCreate() {
             var that = this;
             that.axios.get('/source/queryAll', {
-                params: {companyId: 3, page: 1}
+                params: {companyId: window.localStorage.getItem("companyid"), page: 1}
             }).then(res => {
                 that.tableData = res.data.sourcelist;
                 that.page = res.data.pageutil.page;
@@ -202,7 +202,7 @@
                     page = 1;
                 }
                 that.axios.get('/source/queryAll', {
-                    params: {companyId: 3, page: page}
+                    params: {companyId: window.localStorage.getItem("companyid"), page: page}
                 }).then(res => {
                     that.tableData = res.data.sourcelist;
                     that.page = res.data.pageutil.page;
@@ -212,7 +212,7 @@
             },
             addChannel() {
                 var that = this;
-                that.addChannelObject.companyid = 3;
+                that.addChannelObject.companyid = window.localStorage.getItem("companyid");
                 that.addChannelObject.discount = that.addChannelObject.discount + '%';
                 that.axios.get('/source/insert', {
                     params: that.addChannelObject
@@ -227,7 +227,7 @@
             },
             editChannel() {
                 var that = this;
-                that.editChannelObject.companyid = 3;
+                that.editChannelObject.companyid = window.localStorage.getItem("companyid");
                 that.axios.get('/source/updateByPrimaryKey', {
                     params: that.editChannelObject
                 }).then(res => {
@@ -242,7 +242,7 @@
             openAddChannelDialog() {
                 var that = this;
                 that.axios.get('/source/queryAllCompany', {
-                    params: {companyId: 3}
+                    params: {companyId: window.localStorage.getItem("companyid")}
                 }).then(res => {
                     that.templateList = res.data.listtemp;
                     that.modelList = res.data.listmanage;
@@ -253,7 +253,7 @@
             openEditChannelDialog(object) {
                 var that = this;
                 that.axios.get('/source/queryAllCompany', {
-                    params: {companyId: 3}
+                    params: {companyId: window.localStorage.getItem("companyid")}
                 }).then(res => {
                     that.templateList = res.data.listtemp;
                     that.modelList = res.data.listmanage;

@@ -710,7 +710,7 @@
             Search() {
                 var that = this;
                 var url = '';
-                var param = {page: that.page, companyId: 3};
+                var param = {page: that.page, companyId: window.localStorage.getItem("companyid")};
                 if (!that.formList.account && !that.formList.status) {
                     url = '/sysuser/queryAll';
                 } else {
@@ -719,7 +719,7 @@
                         page: that.page,
                         status: that.formList.status,
                         account: that.formList.account,
-                        companyId: 3
+                        companyId: window.localStorage.getItem("companyid")
                     }
                 }
                 that.axios.get(url, {
@@ -736,7 +736,7 @@
             addUser() {
                 var that = this;
                 var param = that.addUserObject;
-                param.companyid = 3
+                param.companyid = window.localStorage.getItem("companyid")
                 that.axios.get('/sysuser/insert', {
                     params: param
                 }).then(res => {
@@ -751,7 +751,7 @@
             editUser() {
                 var that = this;
                 var param = that.editUserObject;
-                param.companyid = 3
+                param.companyid = window.localStorage.getItem("companyid")
                 that.axios.get('/sysuser/updateByPrimaryKey', {
                     params: param
                 }).then(res => {

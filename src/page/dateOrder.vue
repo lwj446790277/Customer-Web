@@ -343,7 +343,7 @@ export default {
     getData(page,Pagesize){
       this.axios.get('postloanor/postOrders',{
         params:{
-          companyId: "3",
+          companyId: window.localStorage.getItem("companyid"),
           // page,
           // Pagesize
         }
@@ -353,7 +353,7 @@ export default {
 
       this.axios.get('collection/collectionmember',{
         params:{
-          companyId: "3"
+          companyId: window.localStorage.getItem("companyid")
         }
       }).then(res=>{
         this.per = res.data.collection_member
@@ -362,7 +362,7 @@ export default {
     getTwo(page,Pagesize){
       this.axios.get('postloanor/NoCollection',{
           params:{
-            companyId: "3",
+            companyId: window.localStorage.getItem("companyid"),
             // page,
             // Pagesize
           }
@@ -373,7 +373,7 @@ export default {
     getThree(page,Pagesize){
       this.axios.get('postloanor/CollectionRecoveryrate',{
           params:{
-            companyId: "3",
+            companyId: window.localStorage.getItem("companyid"),
             // page,
             // Pagesize
           }
@@ -384,7 +384,7 @@ export default {
     getFour(page,Pagesize){
       this.axios.get('postloanor/OverdueUser',{
           params:{
-            companyId: "3",
+            companyId: window.localStorage.getItem("companyid"),
             // page,
             // Pagesize
           }
@@ -395,7 +395,7 @@ export default {
     getFive(page,Pagesize){
       this.axios.get('postloanor/MyOverdue',{
           params:{
-            companyId: "3",
+            companyId: window.localStorage.getItem("companyid"),
             collectionMemberId: "1"
             // page,
             // Pagesize
@@ -440,7 +440,7 @@ export default {
       if(this.form.id == "姓名"){
         this.axios.get('postloanor/NoCollection',{
           params:{
-            companyId: "3",
+            companyId: window.localStorage.getItem("companyid"),
             name: this.form.single,
           }
         }).then(res=>{
@@ -450,7 +450,7 @@ export default {
         if(this.form.id == "手机号"){
           this.axios.get('postloanor/NoCollection',{
             params:{
-              companyId: "3",
+              companyId: window.localStorage.getItem("companyid"),
               phone: this.form.single,
             }
           }).then(res=>{
@@ -459,7 +459,7 @@ export default {
         }else{
           this.axios.get('postloanor/NoCollection',{
             params:{
-              companyId: "3",
+              companyId: window.localStorage.getItem("companyid"),
               orderNumber: this.form.single,
             }
           }).then(res=>{
@@ -471,7 +471,7 @@ export default {
     SearchThird(){
       this.axios.get('postloanor/CollectionRecoveryrate',{
         params:{
-          companyId: "3",
+          companyId: window.localStorage.getItem("companyid"),
           start_time: this.formThree.start,
           end_time: this.formThree.end
           // page,
@@ -484,7 +484,7 @@ export default {
     SearchForth(){
       this.axios.get('postloanor/OverdueUser',{
         params:{
-          companyId: "3",
+          companyId: window.localStorage.getItem("companyid"),
           start_time: this.formFour.start,
           end_time: this.formFour.end
           // page,

@@ -85,7 +85,7 @@ export default {
     getData(page,Pagesize){
       this.axios.get('collection/CollectionUserLv',{
         params:{
-          companyId: "3",
+          companyId: window.localStorage.getItem("companyid"),
           // page,
           // Pagesize
         }
@@ -95,7 +95,7 @@ export default {
 
       this.axios.get('collection/collectionmember',{
         params:{
-          companyId: "3"
+          companyId: window.localStorage.getItem("companyid")
         }
       }).then(res=>{
         this.person = res.data.collection_member
@@ -125,7 +125,7 @@ export default {
     Search(){
       this.axios.get('collection/CollectionUserLv',{
         params:{
-          companyId: "3",
+          companyId: window.localStorage.getItem("companyid"),
           start_time: this.form.start,
           end_time: this.form.end,
           collectionMemberId: this.id,

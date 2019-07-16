@@ -86,7 +86,7 @@ export default {
     getData(page,Pagesize){
       this.axios.get('operation/platformsNum',{
         params:{
-          companyId: "3",
+          companyId: window.localStorage.getItem("companyid"),
           // page,
           // Pagesize
         }
@@ -97,7 +97,7 @@ export default {
     get(){
       this.axios.get('operation/AllDrainage',{
         params:{
-          companyId: "3",
+          companyId: window.localStorage.getItem("companyid"),
         }
       }).then(res=>{
         this.platform = res.data.Drainage_of_platform
@@ -122,7 +122,7 @@ export default {
     Search() {
       this.axios.get('operation/platformsNum',{
         params:{
-          companyId: "3",
+          companyId: window.localStorage.getItem("companyid"),
           start_time: this.form.start,
           end_time: this.form.end
           // page,

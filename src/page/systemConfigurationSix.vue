@@ -61,7 +61,7 @@
         beforeCreate() {
             var that = this;
             that.axios.get('/overclass/queryAll', {
-                params: {companyId: 3}
+                params: {companyId: window.localStorage.getItem("companyid")}
             }).then(res => {
                 that.blackline = res.data.blackline;
                 that.tableData = res.data.overduelist;
@@ -83,7 +83,7 @@
             Search() {
                 var that = this;
                 that.axios.get('/overclass/queryAll', {
-                    params: {companyId: 3}
+                    params: {companyId: window.localStorage.getItem("companyid")}
                 }).then(res => {
                     that.blackline = res.data.blackline;
                     that.tableData = res.data.overduelist;
@@ -92,7 +92,7 @@
             openEditLoanDialog() {
                 var that = this;
                 that.axios.get('/overclass/queryAll', {
-                    params: {companyId: 3}
+                    params: {companyId: window.localStorage.getItem("companyid")}
                 }).then(res => {
                     that.detailTableData = res.data.overduelist;
                 })
@@ -109,7 +109,7 @@
                 if (!object.id) {
                     url = "/overclass/insert";
                     alert = "新增逾期等级成功";
-                    object.companyid = 3;
+                    object.companyid = window.localStorage.getItem("companyid");
                 } else {
                     url = "/overclass/updateByPrimaryKey"
                     alert = "编辑逾期等级成功";
@@ -126,7 +126,7 @@
                     });
                     var that = this;
                     that.axios.get('/overclass/queryAll', {
-                        params: {companyId: 3}
+                        params: {companyId: window.localStorage.getItem("companyid")}
                     }).then(res => {
                         that.detailTableData = res.data.overduelist;
                         that.tableData = res.data.overduelist;
@@ -145,7 +145,7 @@
                         });
                         var that = this;
                         that.axios.get('/overclass/queryAll', {
-                            params: {companyId: 3}
+                            params: {companyId: window.localStorage.getItem("companyid")}
                         }).then(res => {
                             that.detailTableData = res.data.overduelist;
                             that.tableData = res.data.overduelist;

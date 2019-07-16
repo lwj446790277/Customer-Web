@@ -315,23 +315,23 @@
         beforeCreate() {
             var that = this;
             that.axios.get('/borrowmonmes/queryAll', {
-                params: {companyId: 3}
+                params: {companyId: window.localStorage.getItem("companyid")}
             }).then(res => {
                 that.jiekuanObject = res.data[0];
                 that.axios.get('/deferredset/queryAll', {
-                    params: {companyId: 3}
+                    params: {companyId: window.localStorage.getItem("companyid")}
                 }).then(res => {
                     that.deferredSettingObject = res.data[0];
                     that.axios.get('/retrialwincon/queryAll', {
-                        params: {companyId: 3}
+                        params: {companyId: window.localStorage.getItem("companyid")}
                     }).then(res => {
                         that.howmanydaysapart = res.data[0];
                         that.axios.get('/liftingamount/queryAll', {
-                            params: {companyId: 3}
+                            params: {companyId: window.localStorage.getItem("companyid")}
                         }).then(res => {
                             that.tableData4 = res.data;
                             that.axios.get('/overdueset/queryAll', {
-                                params: {companyId: 3}
+                                params: {companyId: window.localStorage.getItem("companyid")}
                             }).then(res => {
                                 that.tableData3 = res.data;
                             })
@@ -366,15 +366,15 @@
             Search() {
                 var that = this;
                 that.axios.get('/borrowmonmes/queryAll', {
-                    params: {companyId: 3}
+                    params: {companyId: window.localStorage.getItem("companyid")}
                 }).then(res => {
                     that.jiekuanObject = res.data[0];
                     that.axios.get('/deferredset/queryAll', {
-                        params: {companyId: 3}
+                        params: {companyId: window.localStorage.getItem("companyid")}
                     }).then(res => {
                         that.deferredSettingObject = res.data[0];
                         that.axios.get('/retrialwincon/queryAll', {
-                            params: {companyId: 3}
+                            params: {companyId: window.localStorage.getItem("companyid")}
                         }).then(res => {
                             that.howmanydaysapart = res.data[0];
                         })
@@ -413,7 +413,7 @@
                     params: {
                         id: that.howmanydaysapart.id,
                         productid: that.howmanydaysapart.productid,
-                        companyid: 3,
+                        companyid: window.localStorage.getItem("companyid"),
                         howmanydaysapart: that.howmanydaysapart.howmanydaysapart
                     }
                 }).then(res => {
@@ -427,7 +427,7 @@
             openPage3EditDialog(){
                 var that = this;
                 that.axios.get('/overdueset/queryAll', {
-                    params: {companyId: 3}
+                    params: {companyId: window.localStorage.getItem("companyid")}
                 }).then(res => {
                     that.detailTable3Data = res.data;
                     that.page3DialogVisible = true;
@@ -445,7 +445,7 @@
                 if (!object.id) {
                     url = "/overdueset/insert";
                     alert = "新增逾期设置成功";
-                    object.companyid = 3;
+                    object.companyid = window.localStorage.getItem("companyid");
                 } else {
                     url = "/overdueset/updateByPrimaryKey"
                     alert = "编辑逾期设置成功";
@@ -462,7 +462,7 @@
                     });
                     var that = this;
                     that.axios.get('/overdueset/queryAll', {
-                        params: {companyId: 3}
+                        params: {companyId: window.localStorage.getItem("companyid")}
                     }).then(res => {
                         that.detailTable3Data = res.data;
                         that.tableData3 = res.data;
@@ -481,7 +481,7 @@
                         });
                         var that = this;
                         that.axios.get('/overdueset/queryAll', {
-                            params: {companyId: 3}
+                            params: {companyId: window.localStorage.getItem("companyid")}
                         }).then(res => {
                             that.detailTable3Data = res.data;
                             that.tableData3 = res.data;
@@ -494,7 +494,7 @@
             openPage4EditDialog() {
                 var that = this;
                 that.axios.get('/liftingamount/queryAll', {
-                    params: {companyId: 3}
+                    params: {companyId: window.localStorage.getItem("companyid")}
                 }).then(res => {
                     that.detailTable4Data = res.data;
                     that.page4DialogVisible = true;
@@ -511,7 +511,7 @@
                 if (!object.id) {
                     url = "/liftingamount/insert";
                     alert = "新增续借提额等级成功";
-                    object.companyid = 3;
+                    object.companyid = window.localStorage.getItem("companyid");
                 } else {
                     url = "/liftingamount/updateByPrimaryKey"
                     alert = "编辑续借提额等级成功";
@@ -528,7 +528,7 @@
                     });
                     var that = this;
                     that.axios.get('/liftingamount/queryAll', {
-                        params: {companyId: 3}
+                        params: {companyId: window.localStorage.getItem("companyid")}
                     }).then(res => {
                         that.detailTable4Data = res.data;
                         that.tableData4 = res.data;
@@ -547,7 +547,7 @@
                         });
                         var that = this;
                         that.axios.get('/liftingamount/queryAll', {
-                            params: {companyId: 3}
+                            params: {companyId: window.localStorage.getItem("companyid")}
                         }).then(res => {
                             that.detailTable4Data = res.data;
                             that.tableData4 = res.data;

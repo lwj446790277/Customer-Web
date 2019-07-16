@@ -347,7 +347,7 @@
 			get(){
 				this.axios.get('fina/ThirdpatyAll',{
 					params:{
-						compayId: "3"
+						compayId: window.localStorage.getItem("companyid")
 					}
 				}).then(res=>{
 					this.Thirdparty_interface = res.data.Thirdparty_interface
@@ -356,7 +356,7 @@
 			getData( page, Pagesize ){
 				this.axios.get('fina/Orderoffline',{
 					params:{
-						companyId: "3",
+						companyId: window.localStorage.getItem("companyid"),
 						// page,
 						// Pagesize
 					}
@@ -367,7 +367,7 @@
 			getForth( page, Pagesize ){
 				this.axios.get('fina/AllXiaOrder',{
 					params:{
-						companyId: "3",
+						companyId: window.localStorage.getItem("companyid"),
 						// page,
 						// Pagesize
 					}
@@ -379,7 +379,7 @@
 				if(this.receive=="收入"){
 					this.axios.get('fina/AddUndert',{
 						params:{
-							finance_id: "3",
+							finance_id: window.localStorage.getItem("companyid"),
 							project_name: this.program,
 							repayment: this.qudao,
 							income: this.money,
@@ -395,7 +395,7 @@
 				}else{
 					this.axios.get('fina/AddUndert',{
 						params:{
-							finance_id: "3",
+							finance_id: window.localStorage.getItem("companyid"),
 							project_name: this.program,
 							repayment: this.qudao,
 							expenditure: this.money,
@@ -430,7 +430,7 @@
 				if(this.formForth.type=="手机号"){
 					this.axios.get('fina/AllXiaOrder',{
 						params:{
-							companyId: "3",
+							companyId: window.localStorage.getItem("companyid"),
 							phone: this.formForth.id,
 							start_time: this.formForth.start,
 							end_time: this.formForth.end
@@ -442,7 +442,7 @@
 					if(this.formForth.type=="用户姓名"){
 						this.axios.get('fina/AllXiaOrder',{
 							params:{
-								companyId: "3",
+								companyId: window.localStorage.getItem("companyid"),
 								name: this.formForth.id,
 								start_time: this.formForth.start,
 								end_time: this.formForth.end
@@ -453,7 +453,7 @@
 					}else{
 						this.axios.get('fina/AllXiaOrder',{
 							params:{
-								companyId: "3",
+								companyId: window.localStorage.getItem("companyid"),
 								orderNumber: this.formForth.id,
 								start_time: this.formForth.start,
 								end_time: this.formForth.end
@@ -468,7 +468,7 @@
 			Search(){    
 				this.axios.get('fina/Orderoffline',{
 					params:{
-						companyId: "3",
+						companyId: window.localStorage.getItem("companyid"),
 						repaymentnumber: this.form.id,
 						start_time: this.form.start,
 						end_time: this.form.end
@@ -481,7 +481,7 @@
 				this.axios.get('fina/OrderAcount',{
 					params:{
 						orderNumber:this.formList.id,
-						companyId: "3"
+						companyId: window.localStorage.getItem("companyid")
 					}
 				}).then(res=>{
 					this.orderId = res.data.Orderdetails.orderId

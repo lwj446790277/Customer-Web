@@ -96,7 +96,7 @@
         beforeCreate() {
             var that = this;
             that.axios.get('/order/queryatrOrders', {
-                params: {companyid: 3, page: 1}
+                params: {companyid: window.localStorage.getItem("companyid"), page: 1}
             }).then(res => {
                 that.tableData = res.data.listorderto;
                 that.page = res.data.pageutil.page;

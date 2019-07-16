@@ -92,7 +92,7 @@ export default {
     get(){
 				this.axios.get('fina/ThirdpatyAll',{
 					params:{
-						compayId: "3"
+						compayId: window.localStorage.getItem("companyid")
 					}
 				}).then(res=>{
 					this.Thirdparty_interface = res.data.Thirdparty_interface
@@ -101,7 +101,7 @@ export default {
     getData( page, Pagesize ){
       this.axios.get('fina/HuanKuan',{
         params:{
-          companyId: "3",
+          companyId: window.localStorage.getItem("companyid"),
           // page,
           // Pagesize
         }
@@ -140,7 +140,7 @@ export default {
       if(this.form.name == "手机号"){
         this.axios.get('fina/HuanKuan',{
           params:{
-            // companyId: "3",
+            companyId: window.localStorage.getItem("companyid"),
             phone: this.form.input,
             start_time: this.form.start,
             end_time: this.form.end,
@@ -153,7 +153,7 @@ export default {
         if(this.form.name == "订单编号"){
           this.axios.get('fina/HuanKuan',{
             params:{
-              // companyId: "3",
+              companyId: window.localStorage.getItem("companyid"),
               orderNumber: this.form.input,
               start_time: this.form.start,
               end_time: this.form.end,
@@ -166,7 +166,7 @@ export default {
           if(this.form.name == "姓名"){
             this.axios.get('fina/HuanKuan',{
               params:{
-                // companyId: "3",
+                companyId: window.localStorage.getItem("companyid"),
                 name: this.form.input,
                 start_time: this.form.start,
                 end_time: this.form.end,
@@ -178,7 +178,7 @@ export default {
           }else{
             this.axios.get('fina/HuanKuan',{
               params:{
-                // companyId: "3",
+                companyId: window.localStorage.getItem("companyid"),
                 pipelinenumber: this.form.input,
                 start_time: this.form.start,
                 end_time: this.form.end,

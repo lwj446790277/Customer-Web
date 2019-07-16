@@ -140,7 +140,7 @@
         beforeCreate() {
             var that = this;
             that.axios.get('/whitelistuser/queryAll', {
-                params: {companyId: 3, page: 1}
+                params: {companyId: window.localStorage.getItem("companyid"), page: 1}
             }).then(res => {
                 that.tableData = res.data.whituserlist;
                 that.page = res.data.pageutil.page;
@@ -173,7 +173,7 @@
             Search() {
                 var that = this;
                 var param = that.form;
-                param.companyId = 3;
+                param.companyId = window.localStorage.getItem("companyid");
                 param.page = that.page;
                 that.axios.get('/whitelistuser/queryAll', {
                     params: param
@@ -195,7 +195,7 @@
             },
             editUser(){
                 var that = this;
-                that.editObject.companyid = 3;
+                that.editObject.companyid = window.localStorage.getItem("companyid");
                 that.editObject.operator =  window.localStorage.getItem("userid");
                 that.axios.get('/whitelistuser/updateByPrimaryKey', {
                     params: that.editObject
@@ -213,7 +213,7 @@
             },
             save() {
                 var that = this;
-                that.addObject.companyid = 3;
+                that.addObject.companyid = window.localStorage.getItem("companyid");
                 that.addObject.operator =  window.localStorage.getItem("userid");
                 that.axios.get('/whitelistuser/insert', {
                     params: that.addObject

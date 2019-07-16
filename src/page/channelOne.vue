@@ -96,7 +96,7 @@
         beforeCreate() {
             var that = this;
             that.axios.get('/sourcetongji/queryByToday', {
-                params: {companyId: 3, page: 1}
+                params: {companyId: window.localStorage.getItem("companyid"), page: 1}
             }).then(res => {
                 that.tableData = res.data.listsourcepage;
                 that.page = res.data.pageutil.page;
@@ -108,7 +108,7 @@
             Search() {
                 var that = this;
                 that.axios.get('/sourcetongji/queryByToday', {
-                    params: {companyId: 3, page: 1}
+                    params: {companyId: window.localStorage.getItem("companyid"), page: 1}
                 }).then(res => {
                     that.tableData = res.data.listsourcepage;
                     that.page = res.data.pageutil.page;
@@ -120,7 +120,7 @@
             },
             showDetail(sourceName) {
                 var that = this;
-                var param = {companyId: 3, sourcename: sourceName};
+                var param = {companyId: window.localStorage.getItem("companyid"), sourcename: sourceName};
                 if (!that.formList.dateEnd && !that.formList.dateStart) {
                     var date = new Date();
                     var dateString = date.getFullYear() + "-" + ('0' + (date.getMonth() + 1)).slice(-2) + "-" + ('0' + date.getDate()).slice(-2);

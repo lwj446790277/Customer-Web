@@ -200,11 +200,11 @@
         beforeCreate() {
             var that = this;
             that.axios.get('/user/queryAllOrdersByUserid1', {
-                params: {companyId: 3, page: 1}
+                params: {companyId: window.localStorage.getItem("companyid"), page: 1}
             }).then(res => {
                 that.blackList = res.data.listorderto;
                 that.axios.get('/blacklistuser/queryAll', {
-                    params: {companyId: 3, page: 1}
+                    params: {companyId: window.localStorage.getItem("companyid"), page: 1}
                 }).then(res => {
                     that.blackList2 = res.data.blackuserlist;
                 });
@@ -214,11 +214,11 @@
             Search() {
                 var that = this;
                 that.axios.get('/user/queryAllOrdersByUserid1', {
-                    params: {companyId: 3, page: 1}
+                    params: {companyId: window.localStorage.getItem("companyid"), page: 1}
                 }).then(res => {
                     that.blackList = res.data.listorderto;
                     that.axios.get('/blacklistuser/queryAll', {
-                        params: {companyId: 3, page: 1}
+                        params: {companyId: window.localStorage.getItem("companyid"), page: 1}
                     }).then(res => {
                         that.blackList2 = res.data.blackuserlist;
                     });
@@ -227,7 +227,7 @@
             deleteBlackState(id) {
                 var that = this;
                 that.axios.get('/user/removeBlacklist', {
-                    params: {userId: id, companyId: 3}
+                    params: {userId: id, companyId: window.localStorage.getItem("companyid")}
                 }).then(res => {
                     this.$message({
                         type: 'success',
@@ -259,7 +259,7 @@
             },
             save() {
                 var that = this;
-                that.addObject.companyid = 3;
+                that.addObject.companyid = window.localStorage.getItem("companyid");
                 that.addObject.operator =  window.localStorage.getItem("userid");
                 that.axios.get('/blacklistuser/insert', {
                     params: that.addObject

@@ -122,7 +122,7 @@
 			getData( page, Pagesize ){
 				this.axios.get('fina/financialoverview',{
 					params:{
-					companyId: "3",
+					companyId: window.localStorage.getItem("companyid"),
 					// page,
 					// Pagesize
 					}

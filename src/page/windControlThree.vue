@@ -95,11 +95,11 @@
         beforeCreate(){
             var that = this;
             that.axios.get('/contact/queryAll', {
-                params: {companyId:3}
+                params: {companyId:window.localStorage.getItem("companyid")}
             }).then(res => {
                 that.left1 = res.data[0];
                 that.axios.get('/aboutus/queryAll', {
-                    params: {companyId:3}
+                    params: {companyId:window.localStorage.getItem("companyid")}
                 }).then(res => {
                     that.right1 = res.data[0];
                 })
@@ -109,11 +109,11 @@
             Search(){
                 var that = this;
                 that.axios.get('/contact/queryAll', {
-                    params: {companyId:3}
+                    params: {companyId:window.localStorage.getItem("companyid")}
                 }).then(res => {
                     that.left1 = res.data[0];
                     that.axios.get('/aboutus/queryAll', {
-                        params: {companyId:3}
+                        params: {companyId:window.localStorage.getItem("companyid")}
                     }).then(res => {
                         that.right1 = res.data[0];
                     })

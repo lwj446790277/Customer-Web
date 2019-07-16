@@ -56,7 +56,7 @@
         beforeCreate(){
     	    var that = this;
             that.axios.get('/applycondition/queryAll', {
-                params: {companyId: 3}
+                params: {companyId: window.localStorage.getItem("companyid")}
             }).then(res => {
                 that.editObject = res.data[0];
             })
@@ -65,7 +65,7 @@
     	    Search(){
                 var that = this;
                 that.axios.get('/applycondition/queryAll', {
-                    params: {companyId: 3}
+                    params: {companyId: window.localStorage.getItem("companyid")}
                 }).then(res => {
                     that.editObject = res.data[0];
                 })

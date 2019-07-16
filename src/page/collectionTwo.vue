@@ -157,7 +157,7 @@ export default {
     getData(){
       this.axios.get('collection/BeoverdueYifenp',{
         params:{
-          companyId: "3",
+          companyId: window.localStorage.getItem("companyid"),
           // page,
           // Pagesize
         }
@@ -168,7 +168,7 @@ export default {
     get(){
       this.axios.get('operation/YuqiM',{
         params:{
-          companyId: "3"
+          companyId: window.localStorage.getItem("companyid")
         }
       }).then(res=>{
         this.level = res.data.OverdueClass
@@ -177,7 +177,7 @@ export default {
     getPerson(){
       this.axios.get('collection/collectionmember',{
         params:{
-          companyId: "3"
+          companyId: window.localStorage.getItem("companyid")
         }
       }).then(res=>{
         this.person = res.data.collection_member
@@ -209,7 +209,7 @@ export default {
       if(this.formList.name=="姓名"){
         this.axios.get('collection/BeoverdueYifenp',{
           params:{
-            companyId: "3",
+            companyId: window.localStorage.getItem("companyid"),
             name: this.formList.single,
             overdueGrade: this.formList.level,
             collectionStatus: this.formList.type,
@@ -222,7 +222,7 @@ export default {
         if(this.formList.name=="手机号"){
           this.axios.get('collection/BeoverdueYifenp',{
             params:{
-              companyId: "3",
+              companyId: window.localStorage.getItem("companyid"),
               phone: this.formList.single,
               overdueGrade: this.formList.level,
               collectionStatus: this.formList.type,
@@ -234,7 +234,7 @@ export default {
         }else{
           this.axios.get('collection/BeoverdueYifenp',{
             params:{
-              companyId: "3",
+              companyId: window.localStorage.getItem("companyid"),
               orderNumber: this.formList.single,
               overdueGrade: this.formList.level,
               collectionStatus: this.formList.type,

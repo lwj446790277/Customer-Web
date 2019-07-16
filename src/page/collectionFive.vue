@@ -111,7 +111,7 @@ export default {
     getData(){
       this.axios.get('collection/FenpeiWeiCollection',{
         params:{
-          companyId: "3"
+          companyId: window.localStorage.getItem("companyid")
         }
       }).then(res=>{
         this.tableData = res.data.Orderdetails
@@ -136,7 +136,7 @@ export default {
       if(this.form.name == "姓名"){
         this.axios.get('collection/FenpeiWeiCollection',{
           params:{
-            companyId: "3",
+            companyId: window.localStorage.getItem("companyid"),
             name: this.form.id,
           }
         }).then(res=>{
@@ -146,7 +146,7 @@ export default {
         if(this.form.name == "手机号"){
           this.axios.get('collection/FenpeiWeiCollection',{
             params:{
-              companyId: "3",
+              companyId: window.localStorage.getItem("companyid"),
               phone: this.form.id,
             }
           }).then(res=>{
@@ -155,7 +155,7 @@ export default {
         }else{
           this.axios.get('collection/FenpeiWeiCollection',{
             params:{
-              companyId: "3",
+              companyId: window.localStorage.getItem("companyid"),
               orderNumber: this.form.id,
             }
           }).then(res=>{

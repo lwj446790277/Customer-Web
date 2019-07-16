@@ -119,7 +119,7 @@ export default {
     getData(page,Pagesize){
       this.axios.get('postloanor/HuaiZhangOrders',{
         params:{
-          companyId: "3",
+          companyId: window.localStorage.getItem("companyid"),
           // page,
           // Pagesize
         }
@@ -130,7 +130,7 @@ export default {
     get(){
       this.axios.get('operation/YuqiM',{
         params:{
-          companyId: "3"
+          companyId: window.localStorage.getItem("companyid")
         }
       }).then(res=>{
         this.level = res.data.OverdueClass
@@ -162,7 +162,7 @@ export default {
       if(this.formList.name=="姓名"){
         this.axios.get('postloanor/HuaiZhangOrders',{
           params:{
-            companyId: "3",
+            companyId: window.localStorage.getItem("companyid"),
             name: this.formList.single,
             overdueGrade: this.formList.level,
           }
@@ -173,7 +173,7 @@ export default {
         if(this.formList.name=="手机号"){
           this.axios.get('postloanor/HuaiZhangOrders',{
             params:{
-              companyId: "3",
+              companyId: window.localStorage.getItem("companyid"),
               phone: this.formList.single,
               overdueGrade: this.formList.level,
             }
@@ -183,7 +183,7 @@ export default {
         }else{
           this.axios.get('postloanor/HuaiZhangOrders',{
             params:{
-              companyId: "3",
+              companyId: window.localStorage.getItem("companyid"),
               orderNumber: this.formList.single,
               overdueGrade: this.formList.level,
             }

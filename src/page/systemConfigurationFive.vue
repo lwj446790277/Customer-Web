@@ -65,7 +65,7 @@
         beforeCreate(){
             var that = this;
             that.axios.get('/autheninfor/queryAll', {
-                params: {companyId: 3}
+                params: {companyId: window.localStorage.getItem("companyid")}
             }).then(res => {
                 that.tableList = res.data;
             })
@@ -74,7 +74,7 @@
     	    Search(){
                 var that = this;
                 that.axios.get('/autheninfor/queryAll', {
-                    params: {companyId: 3}
+                    params: {companyId: window.localStorage.getItem("companyid")}
                 }).then(res => {
                     that.tableList = res.data;
                 })

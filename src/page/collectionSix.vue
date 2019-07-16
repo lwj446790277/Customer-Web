@@ -186,7 +186,7 @@ export default {
     getData(){
       this.axios.get('collection/YiCollection',{
         params:{
-          companyId: "3"
+          companyId: window.localStorage.getItem("companyid")
         }
       }).then(res=>{
         this.tableData = res.data.Orderdetails
@@ -195,7 +195,7 @@ export default {
     get(){
       this.axios.get('operation/YuqiM',{
         params:{
-          companyId: "3"
+          companyId: window.localStorage.getItem("companyid")
         }
       }).then(res=>{
         this.level = res.data.OverdueClass
@@ -250,7 +250,7 @@ export default {
       if(this.form.name=="姓名"){
         this.axios.get('collection/YiCollection',{
           params:{
-            companyId: "3",
+            companyId: window.localStorage.getItem("companyid"),
             name: this.form.id,
             overdueGrade: this.form.level
           }
@@ -261,7 +261,7 @@ export default {
         if(this.form.name=="手机号"){
           this.axios.get('collection/YiCollection',{
             params:{
-              companyId: "3",
+              companyId: window.localStorage.getItem("companyid"),
               phone: this.form.id,
               overdueGrade: this.form.level
             }
@@ -271,7 +271,7 @@ export default {
         }else{
           this.axios.get('collection/YiCollection',{
             params:{
-              companyId: "3",
+              companyId: window.localStorage.getItem("companyid"),
               orderNumber: this.form.id,
               overdueGrade: this.form.level
             }

@@ -125,7 +125,7 @@ export default {
     getData( page, Pagesize ){
       this.axios.get('collection/BeoverdueCollection',{
         params:{
-          companyId: "3",
+          companyId: window.localStorage.getItem("companyid"),
           // page,
           // Pagesize
         }
@@ -136,7 +136,7 @@ export default {
     getPerson(){
       this.axios.get('collection/collectionmember',{
         params:{
-          companyId: "3"
+          companyId: window.localStorage.getItem("companyid")
         }
       }).then(res=>{
         this.person = res.data.collection_member
@@ -166,7 +166,7 @@ export default {
       if(this.form.name == "姓名"){
         this.axios.get('collection/BeoverdueCollection',{
           params:{
-            companyId: "3",
+            companyId: window.localStorage.getItem("companyid"),
             name: this.form.id,
           }
         }).then(res=>{
@@ -176,7 +176,7 @@ export default {
         if(this.form.name == "手机号"){
           this.axios.get('collection/BeoverdueCollection',{
             params:{
-              companyId: "3",
+              companyId: window.localStorage.getItem("companyid"),
               phone: this.form.id,
             }
           }).then(res=>{
@@ -185,7 +185,7 @@ export default {
         }else{
           this.axios.get('collection/BeoverdueCollection',{
             params:{
-              companyId: "3",
+              companyId: window.localStorage.getItem("companyid"),
               orderNumber: this.form.id,
             }
           }).then(res=>{

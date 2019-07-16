@@ -75,7 +75,7 @@
     getData(page,Pagesize){
       this.axios.get('collection/CollectionLv',{
         params:{
-          companyId: "3",
+          companyId: window.localStorage.getItem("companyid"),
           // page,
           // Pagesize
         }
@@ -102,7 +102,7 @@
     Search(){
       this.axios.get('collection/CollectionLv',{
         params:{
-          companyId: "3",
+          companyId: window.localStorage.getItem("companyid"),
           startu_time: this.form.start,
           end_time: this.form.end
         }
