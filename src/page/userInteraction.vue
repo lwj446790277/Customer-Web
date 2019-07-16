@@ -4,14 +4,16 @@
         <div class="table_container">
             <el-form :model="form" :inline="true" class="demo-form-inline">
                 <el-form-item>
-                    <el-select v-model="form.name" placeholder="姓名" style="width:150px">
-                        <el-option label="姓名" value="姓名"></el-option>
-                        <el-option label="手机号" value="手机号"></el-option>
-                        <el-option label="身份证号" value="身份证号"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item class="single">
-                    <el-input placeholder="单行输入" v-model="form.input"></el-input>
+                    <el-form-item>
+                        <el-input placeholder="姓名" v-model="form.name"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-input placeholder="手机号" v-model="form.phone"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-input placeholder="身份证号" v-model="form.idcard"></el-input>
+                    </el-form-item>
+
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="Search">搜索</el-button>
@@ -26,7 +28,7 @@
                 <el-table-column prop="operator" label="操作成员" align="center"></el-table-column>
                 <el-table-column label="编辑" align="center">
                     <template slot-scope="scope">
-                        <el-button type="primary" @click="edit(scope.row)">编辑</el-button>
+                        <el-button type="primary" @click="editDialogShow(scope.row)">编辑</el-button>
                     </template>
                 </el-table-column>
                 <el-table-column prop="address" label="删除" align="center">
@@ -69,6 +71,31 @@
                 <el-button type="primary" class="confire" @click="save">保存</el-button>
                 <br/>
             </el-dialog>
+            <el-dialog customClass="dialogClass" title="编辑白名单" :visible.sync="editTableVisible">
+                <table border="1" cellspacing="0" cellpadding="15" class="bode">
+                    <tr>
+                        <th>姓名</th>
+                        <td>
+                            <el-input placeholder="请输入姓名" v-model="editObject.name"></el-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>手机号</th>
+                        <td>
+                            <el-input placeholder="请输入手机号" v-model="editObject.phone"></el-input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>身份证</th>
+                        <td>
+                            <el-input placeholder="请输入身份证号" v-model="editObject.idcard"></el-input>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                <el-button type="primary" class="confire" @click="editUser()">保存</el-button>
+                <br/>
+            </el-dialog>
             <div class="block">
                 <el-pagination
                     :current-page="page"
@@ -94,16 +121,17 @@
             return {
                 form: {
                     name: "",
-                    input: ""
+                    phone: ""
                 },
                 addObject:{id:undefined},
+                editObject:{name:''},
                 tableData: [{id: 1}],
                 page: 1,
                 pageSize: 10,
                 totalPageCount: 0,
                 totalCount: 20,
-                visible: false,
                 addTableVisible: false,
+                editTableVisible:false,
                 name: "",
                 phone: "",
                 cardId: ""
@@ -115,6 +143,9 @@
                 params: {companyId: 3, page: 1}
             }).then(res => {
                 that.tableData = res.data.whituserlist;
+                that.page = res.data.pageutil.page;
+                that.totalPageCount = res.data.pageutil.totalPageCount;
+                that.totalCount = res.data.pageutil.totalCount;
             });
         },
         methods: {
@@ -136,22 +167,49 @@
             Reset() {
                 this.form = {
                     name: "",
-                    input: ""
+                    phone: ""
                 }
             },
             Search() {
                 var that = this;
+                var param = that.form;
+                param.companyId = 3;
+                param.page = that.page;
                 that.axios.get('/whitelistuser/queryAll', {
-                    params: {companyId: 3, page: 1}
+                    params: param
                 }).then(res => {
                     that.tableData = res.data.whituserlist;
+                    that.page = res.data.pageutil.page;
+                    that.totalPageCount = res.data.pageutil.totalPageCount;
+                    that.totalCount = res.data.pageutil.totalCount;
+                });
+            },
+            editDialogShow(object){
+                var that = this;
+                that.editObject = {};
+                that.editObject.id = object.id;
+                that.editObject.name = object.name;
+                that.editObject.phone = object.phone;
+                that.editObject.idcard = object.idcard;
+                that.editTableVisible = true;
+            },
+            editUser(){
+                var that = this;
+                that.editObject.companyid = 3;
+                that.editObject.operator = '张三1';
+                that.axios.get('/whitelistuser/updateByPrimaryKey', {
+                    params: that.editObject
+                }).then(res => {
+                    this.$message({
+                        type: 'success',
+                        message: '添加成功'
+                    });
+                    this.Search();
+                    that.editTableVisible = false;
                 });
             },
             batch() {
 
-            },
-            confire() {
-                this.visible = false;
             },
             save() {
                 var that = this;

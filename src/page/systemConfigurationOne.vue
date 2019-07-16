@@ -175,78 +175,89 @@
                 <div class="main">
                     <p>操作人:</p>
                     <p>最后更新:</p>
-                    <table border="1" cellpadding="30" cellspacing="0" class="tab">
-                        <tr>
-                            <th>逾期第N天前</th>
-                            <th>罚息利率(%)</th>
-                        </tr>
-                        <tr>
-                            <td>期限内未逾期</td>
-                            <td>初始化</td>
-                        </tr>
-                        <tr>
-                            <td>第2天前</td>
-                            <td>0.06%</td>
-                        </tr>
-                        <tr>
-                            <td>第4天前</td>
-                            <td>0.06%</td>
-                        </tr>
-                        <tr>
-                            <td>第6天前</td>
-                            <td>0.06%</td>
-                        </tr>
-                    </table>
-                    <el-button type="primary" class="edit" @click="editsDialogVisible = true">编辑</el-button>
+                    <el-table border :data="tableData3" style="width: 50%;line-height: 60px;">
+                        <el-table-column label="逾期第X天前" align="center">
+                            <template scope="scope">
+                                <span>{{scope.row.overduehowmanydaysage}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="罚息利率" align="center">
+                            <template scope="scope">
+                                <span>{{scope.row.penaltyinterestrates}}%</span>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <br/>
+                    <el-button left type="primary" @click="openPage3EditDialog()">编辑</el-button>
+                    <el-dialog title="逾期设置编辑" :visible.sync="page3DialogVisible">
+                        <el-table border :data="detailTable3Data">
+                            <el-table-column label="逾期第X天前" align="center">
+                                <template scope="scope">
+                                    <el-input v-model="scope.row.overduehowmanydaysage" placeholder="请输入逾期天数"></el-input>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="罚息利率" align="center">
+                                <template scope="scope">
+                                    <el-input v-model="scope.row.penaltyinterestrates" placeholder="请输入罚息利率"></el-input>%
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="address" label="操作" align="center">
+                                <template slot-scope="scope">
+                                    <el-button type="primary" @click="saveLine3(scope.$index,scope.row)">保存</el-button>
+                                    <el-button type="danger" @click="deleteLine3(scope.$index,scope.row)">删除</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                        <br/>
+                        <center>
+                            <el-button center @click="addRow3()">添加逾期设置</el-button>
+                        </center>
+                    </el-dialog>
                 </div>
-                <el-dialog :title="titlel" :visible.sync="editsDialogVisible" customClass="customWidth" width="30%"
-                           center>
-                    <table border="1" cellpadding="25" cellspacing="0" class="tables">
-                        <tr>
-                            <th>逾期第N天前</th>
-                            <td>
-                                <el-input placeholder="输入整数"></el-input>
-                                <span>天</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>罚息利率</th>
-                            <td>
-                                <el-input placeholder="保留两位小数"></el-input>
-                                <span>%</span>
-                            </td>
-                        </tr>
-                    </table>
-                    <el-button type="primary" class="edit" @click="editsDialogVisible = false">保存</el-button>
-                </el-dialog>
+
             </el-tab-pane>
             <el-tab-pane label="续借提额" name="forth">
                 <div class="main">
                     <p>操作人:</p>
                     <p>最后更新:</p>
-                    <table border="1" cellpadding="30" cellspacing="0" class="tab">
-                        <tr>
-                            <th>用户已连续还款多少次以后</th>
-                            <th>提高额度(元)</th>
-                        </tr>
-                        <tr>
-                            <td>初始化</td>
-                            <td>初始化可借额度:1000</td>
-                        </tr>
-                        <tr>
-                            <td>连续2次后</td>
-                            <td>提高500元</td>
-                        </tr>
-                        <tr>
-                            <td>连续4次后</td>
-                            <td>提高1000元</td>
-                        </tr>
-                        <tr>
-                            <td>连续6次后</td>
-                            <td>提高1500元</td>
-                        </tr>
-                    </table>
-                    <el-button type="primary" class="edit" @click="editsDialogVisible = true">编辑</el-button>
+                    <el-table border :data="tableData4" style="width: 50%;line-height: 60px;">
+                        <el-table-column label="用户连续还款X次后提额" align="center">
+                            <template scope="scope">
+                                <span>{{scope.row.userhowmanyconsecutivepayments}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="提高额度" align="center">
+                            <template scope="scope">
+                                <span>{{scope.row.increasethequota}}</span>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <br/>
+                    <el-button left type="primary" @click="openPage4EditDialog()">编辑</el-button>
+                    <el-dialog title="续借提额编辑" :visible.sync="page4DialogVisible">
+                        <el-table border :data="detailTable4Data">
+                            <el-table-column label="用户连续还款X次后提额" align="center">
+                                <template scope="scope">
+                                    <el-input v-model="scope.row.userhowmanyconsecutivepayments" placeholder="请输入连续还款次数"></el-input>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="提高额度" align="center">
+                                <template scope="scope">
+                                    <el-input v-model="scope.row.increasethequota" placeholder="请输入提高额度"></el-input>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="address" label="操作" align="center">
+                                <template slot-scope="scope">
+                                    <el-button type="primary" @click="saveLine(scope.$index,scope.row)">保存</el-button>
+                                    <el-button type="danger" @click="deleteLine(scope.$index,scope.row)">删除</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                        <br/>
+                        <center>
+                            <el-button center @click="addRow()">添加逾期等级</el-button>
+                        </center>
+                    </el-dialog>
                 </div>
             </el-tab-pane>
             <el-tab-pane label="再审风控" name="fifth">
@@ -262,8 +273,6 @@
                             </th>
                         </tr>
                     </table>
-
-
                 </div>
             </el-tab-pane>
         </el-tabs>
@@ -280,6 +289,10 @@
         data() {
             return {
                 tableData: [],
+                tableData3:[],
+                tableData4: [],
+                detailTable3Data:[],
+                detailTable4Data: [],
                 jiekuanObject: {},
                 jiekuanEditObject: {},
                 deferredSettingObject: {},
@@ -293,6 +306,8 @@
                 editDialogVisibles: false,
                 titlel: "编辑逾期设置",
                 editsDialogVisible: false,
+                page3DialogVisible:false,
+                page4DialogVisible: false,
                 howmanydaysapart: {},
                 focus: false
             }
@@ -311,6 +326,16 @@
                         params: {companyId: 3}
                     }).then(res => {
                         that.howmanydaysapart = res.data[0];
+                        that.axios.get('/liftingamount/queryAll', {
+                            params: {companyId: 3}
+                        }).then(res => {
+                            that.tableData4 = res.data;
+                            that.axios.get('/overdueset/queryAll', {
+                                params: {companyId: 3}
+                            }).then(res => {
+                                that.tableData3 = res.data;
+                            })
+                        })
                     })
                 })
             })
@@ -386,7 +411,7 @@
                 var that = this;
                 that.axios.get('/retrialwincon/updateByPrimaryKey', {
                     params: {
-                        id:that.howmanydaysapart.id,
+                        id: that.howmanydaysapart.id,
                         productid: that.howmanydaysapart.productid,
                         companyid: 3,
                         howmanydaysapart: that.howmanydaysapart.howmanydaysapart
@@ -398,6 +423,139 @@
                     });
                     that.Search();
                 })
+            },
+            openPage3EditDialog(){
+                var that = this;
+                that.axios.get('/overdueset/queryAll', {
+                    params: {companyId: 3}
+                }).then(res => {
+                    that.detailTable3Data = res.data;
+                    that.page3DialogVisible = true;
+                })
+
+            },
+            addRow3() {
+                var that = this;
+                that.detailTable3Data.push({});
+            },
+            saveLine3(index, object) {
+                var that = this;
+                var url = "";
+                var alert = "";
+                if (!object.id) {
+                    url = "/overdueset/insert";
+                    alert = "新增逾期设置成功";
+                    object.companyid = 3;
+                } else {
+                    url = "/overdueset/updateByPrimaryKey"
+                    alert = "编辑逾期设置成功";
+                }
+                that.axios.get(url, {
+                    params: object
+                }).then(res => {
+                    if (!object.id) {
+                        object.id = res.data
+                    }
+                    this.$message({
+                        type: 'success',
+                        message: alert
+                    });
+                    var that = this;
+                    that.axios.get('/overdueset/queryAll', {
+                        params: {companyId: 3}
+                    }).then(res => {
+                        that.detailTable3Data = res.data;
+                        that.tableData3 = res.data;
+                    })
+                })
+            },
+            deleteLine3(index, object) {
+                var that = this;
+                if(!!object.id){
+                    that.axios.get('/overdueset/upaFalseDel', {
+                        params: {id:object.id}
+                    }).then(res => {
+                        this.$message({
+                            type: 'success',
+                            message: '删除续借提额等级成功'
+                        });
+                        var that = this;
+                        that.axios.get('/overdueset/queryAll', {
+                            params: {companyId: 3}
+                        }).then(res => {
+                            that.detailTable3Data = res.data;
+                            that.tableData3 = res.data;
+                        })
+                    })
+                }else{
+                    that.detailTable3Data.splice(index, 1);
+                }
+            },
+            openPage4EditDialog() {
+                var that = this;
+                that.axios.get('/liftingamount/queryAll', {
+                    params: {companyId: 3}
+                }).then(res => {
+                    that.detailTable4Data = res.data;
+                    that.page4DialogVisible = true;
+                })
+            },
+            addRow() {
+                var that = this;
+                that.detailTable4Data.push({});
+            },
+            saveLine(index, object) {
+                var that = this;
+                var url = "";
+                var alert = "";
+                if (!object.id) {
+                    url = "/liftingamount/insert";
+                    alert = "新增续借提额等级成功";
+                    object.companyid = 3;
+                } else {
+                    url = "/liftingamount/updateByPrimaryKey"
+                    alert = "编辑续借提额等级成功";
+                }
+                that.axios.get(url, {
+                    params: object
+                }).then(res => {
+                    if (!object.id) {
+                        object.id = res.data
+                    }
+                    this.$message({
+                        type: 'success',
+                        message: alert
+                    });
+                    var that = this;
+                    that.axios.get('/liftingamount/queryAll', {
+                        params: {companyId: 3}
+                    }).then(res => {
+                        that.detailTable4Data = res.data;
+                        that.tableData4 = res.data;
+                    })
+                })
+            },
+            deleteLine(index, object) {
+                var that = this;
+                if(!!object.id){
+                    that.axios.get('/liftingamount/updateByPrimaryKey', {
+                        params: {id:object.id}
+                    }).then(res => {
+                        this.$message({
+                            type: 'success',
+                            message: '删除续借提额等级成功'
+                        });
+                        var that = this;
+                        that.axios.get('/liftingamount/queryAll', {
+                            params: {companyId: 3}
+                        }).then(res => {
+                            that.detailTable4Data = res.data;
+                            that.tableData4 = res.data;
+                        })
+                    })
+                }else{
+                    that.detailTable4Data.splice(index, 1);
+                }
             },
             click() {
                 this.focus = true

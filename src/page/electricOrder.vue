@@ -1,36 +1,38 @@
 <template>
     <div class="fillcontain">
         <head-top></head-top>
-        <!-- <p class="explain_text">这是电销订单</p> -->
+        <!-- <p class="explain_text">机审拒绝未人审订单</p> -->
 		<div class="main">
 			<el-form :model="form" :inline="true" class="demo-form-inline">
-				<el-form-item>
-					<el-select v-model="form.name" placeholder="订单编号" style="width:150px">
-						<el-option label="订单编号" value="订单编号"></el-option>
-						<el-option label="姓名" value="姓名"></el-option>
-						<el-option label="手机号" value="手机号"></el-option> 
-					</el-select>
-				</el-form-item>
-				<el-form-item class="single">
-					<el-input placeholder="单行输入" v-model="form.id"></el-input>
-				</el-form-item>
-				<el-form-item>
-					<el-select v-model="form.time" placeholder="订单时间" style="width:150px">
-						<el-option label="订单时间" value="订单时间"></el-option>
-						<el-option label="延借时间" value="延借时间"></el-option>
-						<el-option label="延期后应还" value="延期后应还"></el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item class="single">
+                <el-form-item>
+                    <el-input placeholder="订单编号" v-model="form.ordernumber"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-input placeholder="姓名" v-model="form.name"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-input placeholder="手机号" v-model="form.phone"></el-input>
+                </el-form-item>
+				<el-form-item >
 					<el-col :span="11">
-						<el-date-picker type="date" placeholder="起始时间" v-model="form.start"></el-date-picker>
+						<el-date-picker type="date" placeholder="订单起始时间" v-model="form.orderstarttime"></el-date-picker>
 					</el-col>
 				</el-form-item>
 				<el-form-item class="single">
 					<el-col :span="11">
-						<el-date-picker type="date" placeholder="结束时间" v-model="form.end"></el-date-picker>
+						<el-date-picker type="date" placeholder="订单结束时间" v-model="form.orderendtime"></el-date-picker>
 					</el-col>   
 				</el-form-item>
+                <el-form-item >
+                    <el-col :span="11">
+                        <el-date-picker type="date" placeholder="机审起始时间" v-model="form.jishenstart"></el-date-picker>
+                    </el-col>
+                </el-form-item>
+                <el-form-item class="single">
+                    <el-col :span="11">
+                        <el-date-picker type="date" placeholder="机审结束时间" v-model="form.jishenend"></el-date-picker>
+                    </el-col>
+                </el-form-item>
 				<el-form-item>
 					<el-button type="warning" @click="Reset">重置</el-button>
 					<el-button type="primary" @click="Search">搜索</el-button>
@@ -82,11 +84,13 @@
 				totalPageCount: 0,
 				totalCount: 20,
 				form: {
-					name: "",
-					id: "",
-					time: "",
-					start: "",
-					end: ""
+                    ordernumber: "",
+                    name: "",
+                    phone: "",
+                    orderstarttime: "",
+                    orderendtime: "",
+                    jishenstart:'',
+                    jishenend:''
 				}
 			}
 		},
@@ -96,21 +100,37 @@
                 params: {companyid:3,page:1}
             }).then(res => {
                 that.tableData = res.data.listorderto;
+                that.page = res.data.pageutil.page;
+                that.totalPageCount = res.data.pageutil.totalPageCount;
+                that.totalCount = res.data.pageutil.totalCount;
             })
         },
 		methods:{
 			Reset(){
 				this.form = {
-					name: "",
-					id: "",
-					time: "",
-					start: "",
-					end: "",
-					per: ""
+                    ordernumber: "",
+                    name: "",
+                    phone: "",
+                    orderstarttime: "",
+                    orderendtime: "",
+                    fengkong:'',
+                    jishenstart:'',
+                    jishenend:''
 				}
 			},
 			Search(){
-
+                var that = this;
+                var param =that.form;
+                param.companyid = 3;
+                param.page = that.page;
+                that.axios.get('/order/queryroaOrders', {
+                    params: param
+                }).then(res => {
+                    that.tableData = res.data.listorderto;
+                    that.page = res.data.pageutil.page;
+                    that.totalPageCount = res.data.pageutil.totalPageCount;
+                    that.totalCount = res.data.pageutil.totalCount;
+                })
 			},
             orderDetailShow(){},
             currentChange() {

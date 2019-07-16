@@ -4,14 +4,8 @@
         <!-- <p class="explain_text">渠道1</p> -->
         <div class="main">
             <el-form :model="formList" :inline="true" class="demo-form-inline">
-                <el-form-item>
-                    <el-select v-model="formList.time" placeholder="范围日期" style="width:150px">
-                        <el-option label="实借时间" value="实借时间"></el-option>
-                        <el-option label="延期前应还时间" value="延期前应还时间"></el-option>
-                    </el-select>
-                </el-form-item>
                 <el-form-item class="single">
-                    <el-col :span="11">
+                    <el-col>
                         <el-date-picker type="date" placeholder="起始时间" v-model="formList.dateStart"></el-date-picker>
                         <el-date-picker type="date" placeholder="结束时间" v-model="formList.dateEnd"></el-date-picker>
                     </el-col>
@@ -42,12 +36,12 @@
                 <el-table-column prop="cvr2" label="注册到借款转化率(%)" width="175" align="center"></el-table-column>
                 <el-table-column prop="address" label="操作" align="center">
                     <template slot-scope="scope">
-                        <span class="blue" @click="showDetail(scope.row.sourcename)">时间段详情</span>
+                        <el-button type="primary" @click="showDetail(scope.row.sourcename)">时间段详情</el-button>
                     </template>
                 </el-table-column>
             </el-table>
-            <el-dialog center :title="detailTableName" :visible.sync="detailTableVisible">
-                <table border :data="detailTableData" style="width: 100%;line-height: 60px;">
+            <el-dialog :title="detailTableName" :visible.sync="detailTableVisible" center style="width: 130%;line-height: 60px;">
+                <el-table border :data="detailTableData" style="width: 150%;line-height: 60px;" >
                     <el-table-column prop="date" label="日期" align="center"></el-table-column>
                     <el-table-column prop="uv" label="UV人数" align="center"></el-table-column>
                     <el-table-column prop="registernum" label="注册人数" align="center"></el-table-column>
@@ -56,10 +50,9 @@
                     <el-table-column prop="authencount" label="认证人数" width="175" align="center"></el-table-column>
                     <el-table-column prop="applynum" label="申请人数" align="center"></el-table-column>
                     <el-table-column prop="cvr1" label="注册到申请转化率(%)" width="175" align="center"></el-table-column>
-                    <el-table-column prop="machineauditpass" label="机审通过人数" width="175"
-                                     align="center"></el-table-column>
+                    <el-table-column prop="machineauditpass" label="机审通过人数" width="175" align="center"></el-table-column>
                     <el-table-column prop="cvr2" label="注册到借款转化率(%)" width="175" align="center"></el-table-column>
-                </table>
+                </el-table>
             </el-dialog>
             <div class="block">
                 <el-pagination
@@ -106,10 +99,22 @@
                 params: {companyId: 3, page: 1}
             }).then(res => {
                 that.tableData = res.data.listsourcepage;
+                that.page = res.data.pageutil.page;
+                that.totalPageCount = res.data.pageutil.totalPageCount;
+                that.totalCount = res.data.pageutil.totalCount;
             })
         },
         methods: {
             Search() {
+                var that = this;
+                that.axios.get('/sourcetongji/queryByToday', {
+                    params: {companyId: 3, page: 1}
+                }).then(res => {
+                    that.tableData = res.data.listsourcepage;
+                    that.page = res.data.pageutil.page;
+                    that.totalPageCount = res.data.pageutil.totalPageCount;
+                    that.totalCount = res.data.pageutil.totalCount;
+                })
             },
             currentChange() {
             },
