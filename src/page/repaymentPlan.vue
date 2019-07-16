@@ -31,7 +31,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="warning" @click="Reset">重置</el-button>
-          <el-button type="primary" @click="Search">搜索</el-button>  
+          <el-button type="primary" @click="Search">搜索</el-button>
         </el-form-item>
       </el-form>
       <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
@@ -140,7 +140,7 @@ export default {
       if(this.form.name == "手机号"){
         this.axios.get('fina/HuanKuan',{
           params:{
-            // companyId: "3",
+            companyId: "3",
             phone: this.form.input,
             start_time: this.form.start,
             end_time: this.form.end,
@@ -153,7 +153,7 @@ export default {
         if(this.form.name == "订单编号"){
           this.axios.get('fina/HuanKuan',{
             params:{
-              // companyId: "3",
+              companyId: "3",
               orderNumber: this.form.input,
               start_time: this.form.start,
               end_time: this.form.end,
@@ -166,7 +166,7 @@ export default {
           if(this.form.name == "姓名"){
             this.axios.get('fina/HuanKuan',{
               params:{
-                // companyId: "3",
+                companyId: "3",
                 name: this.form.input,
                 start_time: this.form.start,
                 end_time: this.form.end,
@@ -178,7 +178,7 @@ export default {
           }else{
             this.axios.get('fina/HuanKuan',{
               params:{
-                // companyId: "3",
+                companyId: "3",
                 pipelinenumber: this.form.input,
                 start_time: this.form.start,
                 end_time: this.form.end,

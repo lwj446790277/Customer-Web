@@ -67,8 +67,8 @@
 								<th>{{one}}</th>
 								<th>{{two}}</th>
 								<th>{{three}}</th>
-								<th>{{four}}</th>
-								<th>{{four}}</th>
+								<th>{{four}}%</th>
+								<th>{{four}}%</th>
 							</tr>
 						</table>
 						<div class="lef">
@@ -96,7 +96,7 @@
 								</tr>
 								<tr>
 									<th>{{one}}</th>
-									<th>{{two}}</th>
+									<th>{{two}}%</th>
 									<th>{{four}}</th>
 								</tr>
 							</table>
@@ -124,10 +124,7 @@
 						<el-table-column prop="address" label="银行扣款金额" align="center"></el-table-column>
 						<el-table-column prop="address" label="待还金额" width="93" align="center"></el-table-column>
 						<el-table-column prop="address" label="逾期率" align="center"></el-table-column>
-						<el-table-column prop="address" label="1天回收率" align="center"></el-table-column>
-						<el-table-column prop="address" label="3天回收率" align="center"></el-table-column>
-						<el-table-column prop="address" label="7天回收率" align="center"></el-table-column>
-						<el-table-column prop="address" label="15天回收率" align="center"></el-table-column>
+						<el-table-column prop="address" label="回收率" align="center"></el-table-column>
 					</el-table>
 					<div class="block">
 						<el-pagination
