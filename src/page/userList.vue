@@ -182,7 +182,7 @@
                 var that = this;
 
                 that.axios.get('/user/insertBlacklist', {
-                    params: {userId:id,companyId:3,operator:'张三1'}
+                    params: {userId:id,companyId:3,operator: window.localStorage.getItem("userid")}
                 }).then(res => {
                     this.$message({
                         type: 'success',

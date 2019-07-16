@@ -20,8 +20,8 @@
                     <template slot-scope="scope">
                         <el-popover placement="bottom-end" width="300" trigger="click">
                             <span class="content">确认删除该渠道吗？</span>
-                            <el-button class="confire" type="success" @click="deleteChannel(scope.row)">是的</el-button>
-                            <el-button type="danger" slot="reference" @click="delet(scope.row)">删除</el-button>
+                            <el-button class="confire" type="success" @click="deleteChannel(scope.row)">确认</el-button>
+                            <el-button type="danger" slot="reference" @click="openDeleteBox()">删除</el-button>
                         </el-popover>
                     </template>
                 </el-table-column>
@@ -262,12 +262,17 @@
                 that.editChannelObject = object;
                 that.editChannelDialogVisible = true;
             },
+            openDeleteBox(){}
         }
     }
 </script>
 
 <style lang="less">
     @import '../style/mixin';
+
+    .customWidths {
+        width: 400px
+    }
 
     .explain_text {
         margin-top: 20px;

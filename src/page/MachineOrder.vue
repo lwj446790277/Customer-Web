@@ -24,11 +24,10 @@
                     </el-col>
                 </el-form-item>
                 <el-form-item>
-                    <el-select placeholder="风控反馈" v-model="form.fengkong">
-                        <el-option label="待审" value="待审"></el-option>
-                        <el-option label="审核已借款" value="审核已借款"></el-option>
-                        <el-option label="审核未借款" value="审核未借款"></el-option>
-                        <el-option label="拒绝" value="拒绝"></el-option>
+                    <el-select placeholder="风控反馈" v-model="form.riskmanagementype">
+                        <el-option label="待审" value="0"></el-option>
+                        <el-option label="审核已借款" value="1"></el-option>
+                        <el-option label="审核未借款" value="2"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item>
@@ -90,7 +89,7 @@
                     phone: "",
                     orderstarttime: "",
                     orderendtime: "",
-                    fengkong:''
+                    riskmanagementype:''
                 }
             }
         },
@@ -113,13 +112,13 @@
                     phone: "",
                     orderstarttime: "",
                     orderendtime: "",
-                    fengkong:''
+                    riskmanagementype:''
                 }
             },
             Search() {
                 var that = this;
                 var param =that.form;
-                param.companyid = 3;
+                param.companyid = window.localStorage.getItem("companyid");
                 param.page = that.page;
                 that.axios.get('/order/queryatrOrders', {
                     params: param

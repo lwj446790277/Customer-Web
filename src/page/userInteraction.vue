@@ -196,7 +196,7 @@
             editUser(){
                 var that = this;
                 that.editObject.companyid = 3;
-                that.editObject.operator = '张三1';
+                that.editObject.operator =  window.localStorage.getItem("userid");
                 that.axios.get('/whitelistuser/updateByPrimaryKey', {
                     params: that.editObject
                 }).then(res => {
@@ -214,7 +214,7 @@
             save() {
                 var that = this;
                 that.addObject.companyid = 3;
-                that.addObject.operator = "张三1";
+                that.addObject.operator =  window.localStorage.getItem("userid");
                 that.axios.get('/whitelistuser/insert', {
                     params: that.addObject
                 }).then(res => {

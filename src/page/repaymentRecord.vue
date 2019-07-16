@@ -69,7 +69,7 @@ export default {
     getData( page, Pagesize ){
       this.axios.get('fina/DelayStatistics',{
         params:{
-          companyId: "3",
+          companyId: window.localStorage.getItem("companyid"),
           // page,
           // Pagesize
         }
