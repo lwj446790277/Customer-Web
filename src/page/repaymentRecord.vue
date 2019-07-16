@@ -98,6 +98,7 @@ export default {
     Search() {
       this.axios.get('fina/DelayStatistics',{
         params:{
+          companyId: "3",
           startu_time: this.form.start,
           end_time: this.form.end
         }

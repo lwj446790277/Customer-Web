@@ -5,8 +5,8 @@
       <!-- <p class="explain_text">这里是支付记录</p> -->
       <el-form :model="form" :inline="true" class="demo-form-inline">
         <el-form-item>
-          <el-select v-model="form.name" placeholder="还款流水号" style="width:150px">
-            <el-option label="还款流水号" value="还款流水号"></el-option>
+          <el-select v-model="form.name" placeholder="订单编号" style="width:150px">
+            <!-- <el-option label="还款流水号" value="还款流水号"></el-option> -->
             <el-option label="订单编号" value="订单编号"></el-option>
             <el-option label="姓名" value="姓名"></el-option>
             <el-option label="手机号" value="手机号"></el-option>
@@ -26,7 +26,7 @@
           </el-col>
         </el-form-item>
         <el-form-item>
-          <el-select v-model="form.qudao" placeholder="放款渠道" style="width:150px">
+          <el-select v-model="form.qudao" placeholder="放款渠道" style="width:150px" @change="change">
             <el-option v-for="item in Thirdparty_interface" :key="item.value" :label="item.repaymentSource" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
@@ -161,6 +161,7 @@ export default {
       tableData: [],
       borrow: [],
       Thirdparty_interface: [],
+      thirdparty_id: "",
       form: {
         name: "",
         input: "",
@@ -184,7 +185,7 @@ export default {
       grade: "",
       trial: "",
       examine: "",
-      loan: "",
+      loan: "",   
       repayment: "",
       real: "",
       discharge: "",
@@ -200,6 +201,7 @@ export default {
   },
   created(){
     this.getData(this.page,this.Pagesize)
+    this.get()
   },
   methods: {
     getData( page, Pagesize ){
@@ -228,11 +230,72 @@ export default {
     currentChange() {
       //   this.getData(this.page, this.pageSize);
     },
+    change(id){
+      this.thirdparty_id = id
+    },
     Reset(){
-
+      this.form = {
+        name: "",
+        input: "",
+        start: "",
+        end: "",
+        qudao: ""
+      }
     },
     Search(){
-
+      if(this.form.name == "姓名"){
+					this.axios.get('fina/Allpayment_record',{
+            params:{
+              companyId: "3",
+              name: this.form.input,
+              thirdparty_id: this.thirdparty_id,
+              start_time: this.form.start,
+              end_time: this.form.end
+            }
+					}).then(res=>{
+					  this.tableData = res.data.PaymentRecord
+					})
+			}else{
+					if(this.form.name == "手机号"){
+            this.axios.get('fina/Allpayment_record',{
+              params:{
+                companyId: "3",
+                ph: this.form.input,
+                thirdparty_id: this.thirdparty_id,
+                start_time: this.form.start,
+						    end_time: this.form.end
+              }
+            }).then(res=>{
+              this.tableData = res.data.PaymentRecord
+            })
+					}else{
+            if(this.form.name == "订单编号"){
+              this.axios.get('fina/Allpayment_record',{
+                params:{
+                  companyId: "3",
+                  orderNumber: this.form.input,
+                  thirdparty_id: this.thirdparty_id,
+                  start_time: this.form.start,
+                  end_time: this.form.end
+                }
+              }).then(res=>{
+                this.tableData = res.data.PaymentRecord
+              })
+            }else{
+              this.axios.get('fina/Allpayment_record',{
+                params:{
+                  companyId: "3",
+                  pipelinenumber: this.form.input,
+                  thirdparty_id: this.thirdparty_id,
+                  start_time: this.form.start,
+                  end_time: this.form.end
+                }
+              }).then(res=>{
+                this.tableData = res.data.PaymentRecord
+              })
+            }
+					}
+				}
     },
     jie(orderNumber){
       this.centerDialogVisible = true
@@ -279,6 +342,9 @@ export default {
 //   text-align: center;
 //   font-size: 20px;
 //   color: #333;
+// }
+// .el-table {
+//   overflow: auto !important;
 // }
 .main {
   padding: 20px;

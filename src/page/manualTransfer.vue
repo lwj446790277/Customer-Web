@@ -120,19 +120,23 @@
 							<el-input placeholder="订单编号/姓名/手机号" v-model="formOne.id"></el-input>
 						</el-form-item>
 						<el-form-item>
-							<el-select v-model="formOne.time" placeholder="订单时间" style="width:150px">
-								<el-option label="订单时间" value="订单时间"></el-option>
-								<el-option label="调账时间" value="调账时间"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item class="single">
 							<el-col :span="11">
-								<el-date-picker type="date" placeholder="起始时间" v-model="formOne.start"></el-date-picker>
+								<el-date-picker type="date" placeholder="实借起始时间" v-model="formOne.start"></el-date-picker>
 							</el-col>
 						</el-form-item>
 							<el-form-item class="single">
 							<el-col :span="11">
-								<el-date-picker type="date" placeholder="结束时间" v-model="formOne.end"></el-date-picker>
+								<el-date-picker type="date" placeholder="实借结束时间" v-model="formOne.end"></el-date-picker>
+							</el-col>
+						</el-form-item>
+						<el-form-item>
+							<el-col :span="11">
+								<el-date-picker type="date" placeholder="调账起始时间" v-model="formOne.accounttimestart_time"></el-date-picker>
+							</el-col>
+						</el-form-item>
+							<el-form-item class="single">
+							<el-col :span="11">
+								<el-date-picker type="date" placeholder="调账结束时间" v-model="formOne.accounttimeent_time"></el-date-picker>
 							</el-col>
 						</el-form-item>
 						<el-form-item>
@@ -142,7 +146,7 @@
 						</el-form-item>
 						<el-form-item>
 							<el-button type="warning" @click="Reset">重置</el-button>
-							<el-button type="primary" @click="Search">搜索</el-button>
+							<el-button type="primary" @click="SearchTwo">搜索</el-button>
 						</el-form-item>
 					</el-form>
 					<!-- <div class="statistics">
@@ -164,8 +168,8 @@
 						<el-table-column prop="amountmoney" label="调账减免金额" align="center"></el-table-column>
 						<el-table-column prop="totalamount" label="减免后应还总金额" align="center"></el-table-column>
 						<el-table-column prop="remarks" label="还款备注" align="center"></el-table-column>
-						<el-table-column prop="accounttime" label="减免后应还时间" align="center"></el-table-column>
-						<el-table-column prop="beoverdue" label="减免后应还延期天数" align="center"></el-table-column>
+						<!-- <el-table-column prop="accounttime" label="减免后应还时间" align="center"></el-table-column> -->
+						<el-table-column prop="beoverdue" label="减免后最迟应还时间" align="center"></el-table-column>
 						<!-- <el-table-column prop="address" label="操作" align="center"></el-table-column> -->
 					</el-table>
 					<div class="block">
@@ -196,24 +200,28 @@
 							<el-input placeholder="订单编号/姓名/手机号" v-model="formTwo.id"></el-input>
 						</el-form-item>
 						<el-form-item>
-							<el-select v-model="formTwo.time" placeholder="订单时间" style="width:150px">
-								<el-option label="订单时间" value="订单时间"></el-option>
-								<el-option label="调账时间" value="调账时间"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item class="single">
 							<el-col :span="11">
-								<el-date-picker type="date" placeholder="起始时间" v-model="formTwo.start"></el-date-picker>
+								<el-date-picker type="date" placeholder="实借起始时间" v-model="formTwo.start"></el-date-picker>
 							</el-col>
 						</el-form-item>
 							<el-form-item class="single">
 							<el-col :span="11">
-								<el-date-picker type="date" placeholder="结束时间" v-model="formTwo.end"></el-date-picker>
+								<el-date-picker type="date" placeholder="实借结束时间" v-model="formTwo.end"></el-date-picker>
 							</el-col>
 						</el-form-item>
 						<el-form-item>
-							<el-button type="warning" @click="Reset">重置</el-button>
-							<el-button type="primary" @click="Search">搜索</el-button>
+							<el-col :span="11">
+								<el-date-picker type="date" placeholder="调账起始时间" v-model="formTwo.accounttimestart_time"></el-date-picker>
+							</el-col>
+						</el-form-item>
+							<el-form-item class="single">
+							<el-col :span="11">
+								<el-date-picker type="date" placeholder="调账结束时间" v-model="formTwo.accounttimeent_time"></el-date-picker>
+							</el-col>
+						</el-form-item>
+						<el-form-item>
+							<el-button type="warning" @click="ResetThree">重置</el-button>
+							<el-button type="primary" @click="SearchThree">搜索</el-button>
 						</el-form-item>
 					</el-form>
 					<!-- <div class="statistic">
@@ -234,10 +242,10 @@
 						<el-table-column prop="amountmoney" label="调账减免金额" align="center"></el-table-column>
 						<el-table-column prop="totalamount" label="减免后应还总金额" align="center"></el-table-column>
 						<el-table-column prop="remarks" label="还款备注" align="center"></el-table-column>
-						<el-table-column prop="accounttime" label="减免后应还时间" align="center"></el-table-column>
+						<el-table-column prop="accounttime" label="减免后最迟应还时间" align="center"></el-table-column>
 						<!-- <el-table-column prop="address" label="减免后应还延期天数" align="center"></el-table-column> -->
-						<el-table-column prop="address" label="减免后实还时间" align="center"></el-table-column>
-						<el-table-column prop="address" label="减免后实还金额" align="center"></el-table-column>
+						<!-- <el-table-column prop="address" label="减免后实还时间" align="center"></el-table-column>
+						<el-table-column prop="address" label="减免后实还金额" align="center"></el-table-column> -->
 						<!-- <el-table-column prop="address" label="操作" align="center"></el-table-column> -->
 					</el-table>
 					<div class="block">
@@ -268,24 +276,28 @@
 							<el-input placeholder="订单编号/姓名/手机号" v-model="formThree.id"></el-input>
 						</el-form-item>
 						<el-form-item>
-							<el-select v-model="formThree.time" placeholder="订单时间" style="width:150px">
-								<el-option label="订单时间" value="订单时间"></el-option>
-								<el-option label="调账时间" value="调账时间"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item class="single">
 							<el-col :span="11">
-								<el-date-picker type="date" placeholder="起始时间" v-model="formThree.start"></el-date-picker>
+								<el-date-picker type="date" placeholder="实借起始时间" v-model="formThree.start"></el-date-picker>
 							</el-col>
 						</el-form-item>
 							<el-form-item class="single">
 							<el-col :span="11">
-								<el-date-picker type="date" placeholder="结束时间" v-model="formThree.end"></el-date-picker>
+								<el-date-picker type="date" placeholder="实借结束时间" v-model="formThree.end"></el-date-picker>
 							</el-col>
 						</el-form-item>
 						<el-form-item>
-							<el-button type="warning" @click="Reset">重置</el-button>
-							<el-button type="primary" @click="Search">搜索</el-button>
+							<el-col :span="11">
+								<el-date-picker type="date" placeholder="调账起始时间" v-model="formThree.accounttimestart_time"></el-date-picker>
+							</el-col>
+						</el-form-item>
+							<el-form-item class="single">
+							<el-col :span="11">
+								<el-date-picker type="date" placeholder="调账结束时间" v-model="formThree.accounttimeent_time"></el-date-picker>
+							</el-col>
+						</el-form-item>
+						<el-form-item>
+							<el-button type="warning" @click="ResetFour">重置</el-button>
+							<el-button type="primary" @click="SearchFour">搜索</el-button>
 						</el-form-item>
 					</el-form>
 					<!-- <div class="statistic">
@@ -305,7 +317,7 @@
 						<el-table-column prop="amountmoney" label="调账减免金额" align="center"></el-table-column>
 						<el-table-column prop="totalamount" label="减免后应还总金额" align="center"></el-table-column>
 						<el-table-column prop="remarks" label="还款备注" align="center"></el-table-column>
-						<el-table-column prop="accounttime" label="减免后应还时间" align="center"></el-table-column>
+						<el-table-column prop="accounttime" label="减免后最迟应还时间" align="center"></el-table-column>
 						<!-- <el-table-column prop="beoverdue" label="减免后应还延期天数" align="center"></el-table-column> -->
 						<el-table-column prop="overdueNumberOfDays" label="逾期天数" align="center"></el-table-column>
 						<!-- <el-table-column prop="address" label="操作" align="center"></el-table-column> -->
@@ -368,24 +380,26 @@
 				formOne: {
 					type: "",
 					id: "",
-					time: "",
 					start: "",
 					end: "",
-					qudao: ""
+					accounttimestart_time: "",
+					accounttimeent_time: ""
 				},
 				formTwo: {
 					type: "",
 					id: "",
-					time: "",
 					start: "",
-					end: ""
+					end: "",
+					accounttimestart_time: "",
+					accounttimeent_time: ""
 				},
 				formThree: {
 					type: "",
 					id: "",
-					time: "",
 					start: "",
-					end: ""
+					end: "",
+					accounttimestart_time: "",
+					accounttimeent_time: ""
 				},
 				amountmoney: "",
 				remarks: "",
@@ -480,14 +494,169 @@
 					this.pipelinenumber = res.data.Orderdetails.pipelinenumber
 				})
 			},
+			SearchTwo(){
+				if(this.formOne.type == "姓名"){
+					this.axios.get('fina/SelectOrderAccount',{
+					params:{
+						companyId: "3",
+						type: this.formOne.id,
+						repaymentSource: this.formOne.qudao,
+						start_time: this.formOne.start,
+						end_time: this.formOne.end,
+						accounttimestart_time: this.formOne.accounttimestart_time,
+						accounttimeent_time: this.formOne.accounttimeent_time
+					}
+					}).then(res=>{
+					this.tableData = res.data.Accountadjustment
+					})
+				}else{
+					if(this.formOne.type == "手机号"){
+					this.axios.get('fina/SelectOrderAccount',{
+						params:{
+							companyId: "3",
+							phone: this.formOne.id,
+							repaymentSource: this.formOne.qudao,
+							start_time: this.formOne.start,
+							end_time: this.formOne.end,
+							accounttimestart_time: this.formOne.accounttimestart_time,
+							accounttimeent_time: this.formOne.accounttimeent_time
+						}
+					}).then(res=>{
+						this.tableData = res.data.Accountadjustment
+					})
+					}else{
+					this.axios.get('fina/SelectOrderAccount',{
+						params:{
+							companyId: "3",
+							orderNumber: this.formOne.id,
+							repaymentSource: this.formOne.qudao,
+							start_time: this.formOne.start,
+							end_time: this.formOne.end,
+							accounttimestart_time: this.formOne.accounttimestart_time,
+							accounttimeent_time: this.formOne.accounttimeent_time
+						}
+					}).then(res=>{
+						this.tableData = res.data.Accountadjustment
+					})
+					}
+				}
+			},
+			SearchThree(){
+				if(this.formTwo.type == "姓名"){
+					this.axios.get('fina/SelectNoMoney',{
+						params:{
+							companyId: "3",
+							type: this.formTwo.id,
+							start_time: this.formTwo.start,
+							end_time: this.formTwo.end,
+							accounttimestart_time: this.formTwo.accounttimestart_time,
+							accounttimeent_time: this.formTwo.accounttimeent_time
+						}
+					}).then(res=>{
+						this.tableOne = res.data.Accountadjustment
+					})
+				}else{
+					if(this.formTwo.type == "手机号"){
+						this.axios.get('fina/SelectNoMoney',{
+							params:{
+								companyId: "3",
+								phone: this.formTwo.id,
+								start_time: this.formTwo.start,
+								end_time: this.formTwo.end,
+								accounttimestart_time: this.formTwo.accounttimestart_time,
+								accounttimeent_time: this.formTwo.accounttimeent_time
+							}
+						}).then(res=>{
+							this.tableOne = res.data.Accountadjustment
+						})
+					}else{
+						this.axios.get('fina/SelectNoMoney',{
+							params:{
+								companyId: "3",
+								orderNumber: this.formTwo.id,
+								start_time: this.formTwo.start,
+								end_time: this.formTwo.end,
+								accounttimestart_time: this.formTwo.accounttimestart_time,
+								accounttimeent_time: this.formTwo.accounttimeent_time
+							}
+						}).then(res=>{
+							this.tableOne = res.data.Accountadjustment
+						})
+					}
+				}
+			},
+			SearchFour(){
+				if(this.formThree.type == "姓名"){
+					this.axios.get('fina/SelectOkMoney',{
+						params:{
+							companyId: "3",
+							type: this.formThree.id,
+							start_time: this.formThree.start,
+							end_time: this.formThree.end,
+							accounttimestart_time: this.formThree.accounttimestart_time,
+							accounttimeent_time: this.formThree.accounttimeent_time
+						}
+					}).then(res=>{
+						this.tableTwo = res.data.Accountadjustment
+					})
+				}else{
+					if(this.formThree.type == "手机号"){
+						this.axios.get('fina/SelectOkMoney',{
+							params:{
+								companyId: "3",
+								phone: this.formThree.id,
+								start_time: this.formThree.start,
+								end_time: this.formThree.end,
+								accounttimestart_time: this.formThree.accounttimestart_time,
+								accounttimeent_time: this.formThree.accounttimeent_time
+							}
+						}).then(res=>{
+							this.tableTwo = res.data.Accountadjustment
+						})
+					}else{
+						this.axios.get('fina/SelectOkMoney',{
+							params:{
+								companyId: "3",
+								orderNumber: this.formThree.id,
+								start_time: this.formThree.start,
+								end_time: this.formThree.end,
+								accounttimestart_time: this.formThree.accounttimestart_time,
+								accounttimeent_time: this.formThree.accounttimeent_time
+							}
+						}).then(res=>{
+							this.tableTwo = res.data.Accountadjustment
+						})
+					}
+				}
+			},
 			Reset(){
 				this.formOne = {
 					type: "",
 					id: "",
-					time: "",
 					start: "",
 					end: "",
-					qudao: ""
+					accounttimestart_time: "",
+					accounttimeent_time: ""
+				}
+			},
+			ResetThree(){
+				this.formTwo = {
+					type: "",
+					id: "",
+					start: "",
+					end: "",
+					accounttimestart_time: "",
+					accounttimeent_time: ""
+				}
+			},
+			ResetFour(){
+				this.formThree = {
+					type: "",
+					id: "",
+					start: "",
+					end: "",
+					accounttimestart_time: "",
+					accounttimeent_time: ""
 				}
 			},
 			save(){

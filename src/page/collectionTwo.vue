@@ -25,22 +25,26 @@
             <el-option label="无人催收已还清" value="无人催收已还清"></el-option>
           </el-select>
         </el-form-item>
-        <!-- <el-form-item class="time">
-          <el-select v-model="formList.time" placeholder="订单时间" style="width:150px">
-            <el-option label="实借时间" value="实借时间"></el-option>
-            <el-option label="延期后应还时间" value="延期后应还时间"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item class="single">
+        <el-form-item>
           <el-col :span="11">
-            <el-date-picker type="date" placeholder="起始时间" v-model="formList.start"></el-date-picker>
+            <el-date-picker type="date" placeholder="实借起始时间" v-model="formList.start"></el-date-picker>
           </el-col>
         </el-form-item>
         <el-form-item class="single">
           <el-col :span="11">
-            <el-date-picker type="date" placeholder="结束时间" v-model="formList.end"></el-date-picker>
+            <el-date-picker type="date" placeholder="实借结束时间" v-model="formList.end"></el-date-picker>
           </el-col>
-        </el-form-item> -->
+        </el-form-item>
+        <el-form-item>
+          <el-col :span="11">
+            <el-date-picker type="date" placeholder="延期后应还起始时间" v-model="formList.deferAfterReturntimeStatu_time"></el-date-picker>
+          </el-col>
+        </el-form-item>
+        <el-form-item class="single">
+          <el-col :span="11">
+            <el-date-picker type="date" placeholder="延期后应还结束时间" v-model="formList.deferAfterReturntimeEnd_time"></el-date-picker>
+          </el-col>
+        </el-form-item>
         <el-form-item>
           <el-select placeholder="逾期等级" v-model="formList.level">
             <el-option v-for="item in level" :key="item.value" :label="item.grade" :value="item.grade"></el-option>
@@ -140,7 +144,10 @@ export default {
         name: "",
         single: "",
         type: "",
-        time: "",
+        start: "",
+        end: "",
+        deferAfterReturntimeStatu_time: "",
+        deferAfterReturntimeEnd_time: "",
         level: "",
         person: ""
       },
@@ -197,7 +204,10 @@ export default {
         name: "",
         single: "",
         type: "",
-        time: "",
+        start: "",
+        end: "",
+        deferAfterReturntimeStatu_time: "",
+        deferAfterReturntimeEnd_time: "",
         level: "",
         person: ""
       };
@@ -213,7 +223,11 @@ export default {
             name: this.formList.single,
             overdueGrade: this.formList.level,
             collectionStatus: this.formList.type,
-            collectionMemberId: this.formList.person
+            collectionMemberId: this.formList.person,
+            start_time: this.formList.start,
+            end_time: this.formList.end,
+            deferAfterReturntimeStatu_time: this.formList.deferAfterReturntimeStatu_time,
+            deferAfterReturntimeEnd_time: this.formList.deferAfterReturntimeEnd_time
           }
         }).then(res=>{
           this.tableData = res.data.Orderdetails
@@ -226,7 +240,11 @@ export default {
               phone: this.formList.single,
               overdueGrade: this.formList.level,
               collectionStatus: this.formList.type,
-              collectionMemberId: this.formList.person
+              collectionMemberId: this.formList.person,
+              start_time: this.formList.start,
+              end_time: this.formList.end,
+              deferAfterReturntimeStatu_time: this.formList.deferAfterReturntimeStatu_time,
+              deferAfterReturntimeEnd_time: this.formList.deferAfterReturntimeEnd_time
             }
           }).then(res=>{
             this.tableData = res.data.Orderdetails
@@ -238,7 +256,11 @@ export default {
               orderNumber: this.formList.single,
               overdueGrade: this.formList.level,
               collectionStatus: this.formList.type,
-              collectionMemberId: this.formList.person
+              collectionMemberId: this.formList.person,
+              start_time: this.formList.start,
+              end_time: this.formList.end,
+              deferAfterReturntimeStatu_time: this.formList.deferAfterReturntimeStatu_time,
+              deferAfterReturntimeEnd_time: this.formList.deferAfterReturntimeEnd_time
             }
           }).then(res=>{
             this.tableData = res.data.Orderdetails

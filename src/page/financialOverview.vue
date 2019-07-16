@@ -100,25 +100,6 @@
 			this.getData(this.page,this.Pagesize)
 		},
 		methods:{
-			show(){
-				var bankcardName = res.data.Bankdeduction.bankcardName.split(",")
-				var deductionstatus = res.data.Bankdeduction.deductionstatus.split(",")
-				var orderNumber = res.data.Bankdeduction.orderNumber.split(",")
-				var name = res.data.Bankdeduction.name.split(",")
-				console.log(bankcardName)
-				this.one=bankcardName[0]
-				this.two=bankcardName[1]
-				this.three=bankcardName[2]
-				this.first=deductionstatus[0]
-				this.second=deductionstatus[1]
-				this.third=deductionstatus[2]
-				this.four=orderNumber[0]
-				this.five=orderNumber[1]
-				this.six=orderNumber[2]
-				this.forth=name[0]
-				this.fifth=name[1]
-				this.sixth=name[2]
-			},
 			getData( page, Pagesize ){
 				this.axios.get('fina/financialoverview',{
 					params:{
@@ -127,11 +108,52 @@
 					// Pagesize
 					}
 				}).then(res=>{
-					this.show()
+					var bankcardName = res.data.Bankdeduction.bankcardName.split(",")
+					var deductionstatus = res.data.Bankdeduction.deductionstatus.split(",")
+					var orderNumber = res.data.Bankdeduction.orderNumber.split(",")
+					var name = res.data.Bankdeduction.name.split(",")
+					console.log(bankcardName)
+					this.one=bankcardName[0]
+					this.two=bankcardName[1]
+					this.three=bankcardName[2]
+					this.first=deductionstatus[0]
+					this.second=deductionstatus[1]
+					this.third=deductionstatus[2]
+					this.four=orderNumber[0]
+					this.five=orderNumber[1]
+					this.six=orderNumber[2]
+					this.forth=name[0]
+					this.fifth=name[1]
+					this.sixth=name[2]
 				})
 			},
 			Search(){
 				console.log(this.tableData)
+				this.axios.get('fina/financialoverview',{
+					params:{
+						companyId: "3",
+						start_time: this.form.start,
+						end_time: this.form.end
+					}
+				}).then(res=>{
+					var bankcardName = res.data.Bankdeduction.bankcardName.split(",")
+					var deductionstatus = res.data.Bankdeduction.deductionstatus.split(",")
+					var orderNumber = res.data.Bankdeduction.orderNumber.split(",")
+					var name = res.data.Bankdeduction.name.split(",")
+					console.log(bankcardName)
+					this.one=bankcardName[0]
+					this.two=bankcardName[1]
+					this.three=bankcardName[2]
+					this.first=deductionstatus[0]
+					this.second=deductionstatus[1]
+					this.third=deductionstatus[2]
+					this.four=orderNumber[0]
+					this.five=orderNumber[1]
+					this.six=orderNumber[2]
+					this.forth=name[0]
+					this.fifth=name[1]
+					this.sixth=name[2]
+				})
 			}
 		}
     }
