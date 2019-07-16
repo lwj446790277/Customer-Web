@@ -10,19 +10,7 @@ Vue.use(Router)
 const login = r => require.ensure([], () => r(require('@/page/login')), 'login');
 const manage = r => require.ensure([], () => r(require('@/page/manage')), 'manage');
 const home = r => require.ensure([], () => r(require('@/page/home')), 'home');
-const addShop = r => require.ensure([], () => r(require('@/page/addShop')), 'addShop');
-const addGoods = r => require.ensure([], () => r(require('@/page/addGoods')), 'addGoods');
-const shopList = r => require.ensure([], () => r(require('@/page/shopList')), 'shopList');
-const foodList = r => require.ensure([], () => r(require('@/page/foodList')), 'foodList');
-const orderList = r => require.ensure([], () => r(require('@/page/orderList')), 'orderList');
-const adminList = r => require.ensure([], () => r(require('@/page/adminList')), 'adminList');
-const visitor = r => require.ensure([], () => r(require('@/page/visitor')), 'visitor');
-// const newMember = r => require.ensure([], () => r(require('@/page/newMember')), 'newMember');
-const uploadImg = r => require.ensure([], () => r(require('@/page/uploadImg')), 'uploadImg');
 const vueEdit = r => require.ensure([], () => r(require('@/page/vueEdit')), 'vueEdit');
-const adminSet = r => require.ensure([], () => r(require('@/page/adminSet')), 'adminSet');
-const sendMessage = r => require.ensure([], () => r(require('@/page/sendMessage')), 'sendMessage');
-const explain = r => require.ensure([], () => r(require('@/page/explain')), 'explain');
 const payManager = r => require.ensure([], () => r(require('@/page/payManager')), 'payManager');
 // 这里是订单管理
 const MachineOrder = r => require.ensure([], () => r(require('@/page/MachineOrder')), 'MachineOrder');
@@ -66,7 +54,6 @@ const windControlThree = r => require.ensure([], () => r(require('@/page/windCon
 const channelOne = r => require.ensure([], () => r(require('@/page/channelOne')), 'channelOne');
 const channelTwo = r => require.ensure([], () => r(require('@/page/channelTwo')), 'channelTwo');
 const channelThree = r => require.ensure([], () => r(require('@/page/channelThree')), 'channelThree');
-const channelFour = r => require.ensure([], () => r(require('@/page/channelFour')), 'channelFour');
 // 这里是系统配置
 const systemConfigurationOne = r => require.ensure([], () => r(require('@/page/systemConfigurationOne')), 'systemConfigurationOne');
 const systemConfigurationTwo = r => require.ensure([], () => r(require('@/page/systemConfigurationTwo')), 'systemConfigurationTwo');
@@ -75,7 +62,6 @@ const systemConfigurationFour = r => require.ensure([], () => r(require('@/page/
 const systemConfigurationFive = r => require.ensure([], () => r(require('@/page/systemConfigurationFive')), 'systemConfigurationFive');
 const systemConfigurationSix = r => require.ensure([], () => r(require('@/page/systemConfigurationSix')), 'systemConfigurationSix');
 const systemConfigurationSeven = r => require.ensure([], () => r(require('@/page/systemConfigurationSeven')), 'systemConfigurationSeven');
-const systemConfigurationEight = r => require.ensure([], () => r(require('@/page/systemConfigurationEight')), 'systemConfigurationEight');
 const routes = [
 	{
 		path: '/',
@@ -235,10 +221,6 @@ const routes = [
 			component: channelThree,
 			meta: ['渠道管理', '渠道注册数据'],
 		},{
-			path: '/channelFour',
-			component: channelFour,
-			meta: ['渠道管理', '渠道对外注册数据及结算'],
-		},{
 			path: '/systemConfigurationOne',
 			component: systemConfigurationOne,
 			meta: ['系统配置', '贷款类型配置'],
@@ -266,14 +248,6 @@ const routes = [
 			path: '/systemConfigurationSeven',
 			component: systemConfigurationSeven,
 			meta: ['系统配置', '角色权限管理'],
-		},{
-			path: '/systemConfigurationEight',
-			component: systemConfigurationEight,
-			meta: ['系统配置', '各项协议编辑'],
-		},{
-			path: '/explain',
-			component: explain,
-			meta: ['说明', '说明'],
 		}]
 	}
 ]

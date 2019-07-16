@@ -71,7 +71,7 @@
         beforeCreate() {
             var that = this;
             that.axios.get('/thirdpartyint/queryAllCompany', {
-                params: {companyId: }
+                params: {companyId: window.localStorage.getItem("companyid")}
             }).then(res => {
                 that.facelist = res.data.facelist;
                 that.operalist = res.data.operalist;
