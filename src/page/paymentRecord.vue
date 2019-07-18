@@ -137,9 +137,8 @@
       <div class="block">
         <el-pagination
           :current-page.sync="page"
-          :page-sizes="[10, 15, 20, 25]"
           :page-size.sync="Pagesize"
-          layout="total, sizes, prev, pager, next, jumper"
+          layout="total, prev, pager, next, jumper"
           :page-count="totalPageCount"
           :total="totalCount"
           @size-change="sizeChange"
@@ -208,11 +207,14 @@ export default {
       this.axios.get('fina/Allpayment_record',{
         params:{
           companyId: window.localStorage.getItem("companyid"),
-          // page,
-          // Pagesize
+          page,
+          Pagesize
         }
       }).then(res=>{
         this.tableData = res.data.PaymentRecord
+        this.page = res.data.PaymentRecord.page
+        this.Pagesize = res.data.PaymentRecord.Pagesize
+        this.totalCount = res.data.PaymentRecord.length
       })
     },
     get(){
@@ -241,6 +243,7 @@ export default {
         end: "",
         qudao: ""
       }
+      this.getData(this.page, this.Pagesize)
     },
     Search(){
       if(this.form.name == "姓名"){

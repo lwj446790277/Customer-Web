@@ -47,9 +47,8 @@
       <div class="block">
         <el-pagination
           :current-page.sync="page"
-          :page-sizes="[10, 15, 20, 25]"
           :page-size.sync="Pagesize"
-          layout="total, sizes, prev, pager, next, jumper"
+          layout="total, prev, pager, next, jumper"
           :page-count="totalPageCount"
           :total="totalCount"
           @size-change="sizeChange"
@@ -102,11 +101,14 @@ export default {
       this.axios.get('fina/HuanKuan',{
         params:{
           companyId: "3",
-          // page,
-          // Pagesize
+          page,
+          Pagesize
         }
       }).then(res=>{
         this.tableData = res.data.Repayment
+        this.page = res.data.Repayment.page
+        this.Pagesize = res.data.Repayment.Pagesize
+        this.totalCount = res.data.Repayment.length
       })
     },
     change(id){
@@ -131,7 +133,8 @@ export default {
         start: "",
         end: "",
         qudao: ""
-      };
+      }
+      this.getData(this.page, this.Pagesize)
     },
     Reset() {
       this.clear();

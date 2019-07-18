@@ -36,9 +36,8 @@
       <div class="block">
         <el-pagination
           :current-page.sync="page"
-          :page-sizes="[10, 15, 20, 25]"
           :page-size.sync="pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
+          layout="total, prev, pager, next, jumper"
           :page-count="totalPageCount"
           :total="totalCount"
           @size-change="sizeChange"
@@ -79,11 +78,15 @@ export default {
       this.axios.get('operation/CollectionData',{
         params:{
           companyId: window.localStorage.getItem("companyid"),
-          // page,
-          // Pagesize
+          page,
+          Pagesize
         }
       }).then(res=>{
         this.tableData = res.data.Orderdetails
+        this.page = res.data.Orderdetails.page
+        this.Pagesize = res.data.Orderdetails.Pagesize
+        this.totalCount = res.data.Orderdetails.length
+        // this.totalPageCount = res.data.pageUtil.totalPage
       })
     },
     get(){

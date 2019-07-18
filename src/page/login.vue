@@ -55,25 +55,27 @@
 		methods: {
 			...mapActions(['getAdminData']),
 			async submitForm(formName) {
-                this.axios.get('login/loginap', {
-                    params: {account: this.loginForm.username, pwd: this.loginForm.password}
-                }).then(res => {
-                    if (!res.data.loginStatus) {
-                        this.$message({
-                            type: 'error',
-                            message: res.data.msg
-                        });
-                    } else {
-                        this.$message({
-                            type: 'success',
-                            message: '登陆成功'
-                        });
-                        window.localStorage.setItem("companyid", res.data.companyid)
-                        window.localStorage.setItem("account", res.data.account)
-                        window.localStorage.setItem("userid", res.data.userid)
-                        this.$router.push('manage')
-                    }
-                })
+				 window.localStorage.setItem("companyid", 3)
+				this.$router.push('manage')
+                // this.axios.get('login/loginap', {
+                //     params: {account: this.loginForm.username, pwd: this.loginForm.password}
+                // }).then(res => {
+                //     if (!res.data.loginStatus) {
+                //         this.$message({
+                //             type: 'error',
+                //             message: res.data.msg
+                //         });
+                //     } else {
+                //         this.$message({
+                //             type: 'success',
+                //             message: '登陆成功'
+                //         });
+                //         window.localStorage.setItem("companyid", res.data.companyid)
+                //         window.localStorage.setItem("account", res.data.account)
+                //         window.localStorage.setItem("userid", res.data.userid)
+                //         this.$router.push('manage')
+                //     }
+                // })
 				/*this.$refs[formName].validate(async (valid) => {
 					if (valid) {
 

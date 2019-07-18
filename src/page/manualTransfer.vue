@@ -103,7 +103,17 @@
 							</td>
 						</tr> -->
 					</table>
-					<el-button type="primary" class="save" @click="save">添加并保存</el-button>
+					<el-popover
+						placement="bottom"
+						width="300"
+						v-model="visible">
+						<p>保存后，用户APP端的应还总金额将改变</p>
+						<div style="text-align: right; margin: 0">
+							<el-button @click="visible = false" class="left">返回</el-button>
+							<el-button type="success" @click="save">是的</el-button>
+						</div>
+						<el-button type="primary" slot="reference" class="save">添加并保存</el-button>
+					</el-popover>
 				</div>
 			</el-tab-pane>
 			<el-tab-pane label="线上期限内订单" name="second">
@@ -175,9 +185,8 @@
 					<div class="block">
 						<el-pagination
 						:current-page.sync="page"
-						:page-sizes="[10, 15, 20, 25]"
 						:page-size.sync="pageSize"
-						layout="total, sizes, prev, pager, next, jumper"
+						layout="total, prev, pager, next, jumper"
 						:page-count="totalPageCount"
 						:total="totalCount"
 						@size-change="sizeChange"
@@ -250,12 +259,11 @@
 					</el-table>
 					<div class="block">
 						<el-pagination
-						:current-page.sync="page"
-						:page-sizes="[10, 15, 20, 25]"
-						:page-size.sync="pageSize"
-						layout="total, sizes, prev, pager, next, jumper"
-						:page-count="totalPageCount"
-						:total="totalCount"
+						:current-page.sync="pageOne"
+						:page-size.sync="PagesizeOne"
+						layout="total, prev, pager, next, jumper"
+						:page-count="totalPageCountOne"
+						:total="totalCountOne"
 						@size-change="sizeChange"
 						@current-change="currentChange"
 						></el-pagination>
@@ -324,12 +332,11 @@
 					</el-table>
 					<div class="block">
 						<el-pagination
-						:current-page.sync="page"
-						:page-sizes="[10, 15, 20, 25]"
-						:page-size.sync="pageSize"
-						layout="total, sizes, prev, pager, next, jumper"
-						:page-count="totalPageCount"
-						:total="totalCount"
+						:current-page.sync="pageTwo"
+						:page-size.sync="PagesizeTwo"
+						layout="total, prev, pager, next, jumper"
+						:page-count="totalPageCountTwo"
+						:total="totalCountTwo"
 						@size-change="sizeChange"
 						@current-change="currentChange"
 						></el-pagination>
@@ -348,6 +355,7 @@
 		},
 		data(){
 			return{
+				visible: false,
 				tableData: [],
 				tableOne: [],
 				tableTwo: [],
@@ -409,6 +417,14 @@
 				Pagesize: 10,
 				totalPageCount: 0,
 				totalCount: 20,
+				pageOne: 1,
+				PagesizeOne: 10,
+				totalPageCountOne: 0,
+				totalCountOne: 20,
+				pageTwo: 1,
+				PagesizeTwo: 10,
+				totalPageCountTwo: 0,
+				totalCountTwo: 20,
 			}
 		},
 		created(){
@@ -428,41 +444,50 @@
 				this.axios.get('fina/SelectOrderAccount',{
 					params:{
 					companyId: window.localStorage.getItem("companyid"),
-					// page,
-					// Pagesize
+					page,
+					Pagesize
 					}
 				}).then(res=>{
 					this.tableData = res.data.Accountadjustment
+					this.page = res.data.Accountadjustment.page
+					this.Pagesize = res.data.Accountadjustment.Pagesize
+					this.totalCount = res.data.Accountadjustment.length
 				})
 			},
-			getOne( page, Pagesize ){
+			getOne( pageOne, PagesizeOne ){
 				this.axios.get('fina/SelectNoMoney',{
 					params:{
 					companyId: window.localStorage.getItem("companyid"),
-					// page,
-					// Pagesize
+					page: this.pageOne,
+					Pagesize: this.PagesizeOne
 					}
 				}).then(res=>{
 					this.tableOne = res.data.Accountadjustment
+					this.pageOne = res.data.Accountadjustment.page
+					this.PagesizeOne = res.data.Accountadjustment.Pagesize
+					this.totalCountOne = res.data.Accountadjustment.length
 				})
 			},
-			getTwo( page, Pagesize ){
+			getTwo( pageTwo, PagesizeTwo ){
 				this.axios.get('fina/SelectOkMoney',{
 					params:{
 					companyId: window.localStorage.getItem("companyid"),
-					// page,
-					// Pagesize
+					ge: this.pageTwo,
+					Pagesize: this.PagesizeTwo
 					}
 				}).then(res=>{
 					this.tableTwo = res.data.Accountadjustment
+					this.pageTwo = res.data.Accountadjustment.page
+					this.PagesizeTwo = res.data.Accountadjustment.Pagesize
+					this.totalCountTwo = res.data.Accountadjustment.length
 				})
 			},
 			handleClick(tab, event) {
 				if(this.activeName == "second"){
 					this.getData(this.page,this.Pagesize)
 				}else{
-					if(this.activeName == "third") this.getOne(this.page,this.Pagesize);
-					if(this.activeName == "fourth") this.getTwo(this.page,this.Pagesize);
+					if(this.activeName == "third") this.getOne(this.pageOne,this.PagesizeOne);
+					if(this.activeName == "fourth") this.getTwo(this.pageTwo,this.PagesizeTwo);
 				}
 			},
 			sizeChange() {
@@ -638,6 +663,7 @@
 					accounttimestart_time: "",
 					accounttimeent_time: ""
 				}
+				this.getData(this.page, this.Pagesize)
 			},
 			ResetThree(){
 				this.formTwo = {
@@ -648,6 +674,7 @@
 					accounttimestart_time: "",
 					accounttimeent_time: ""
 				}
+				this.getOne(this.pageOne,this.PagesizeOne)
 			},
 			ResetFour(){
 				this.formThree = {
@@ -658,6 +685,7 @@
 					accounttimestart_time: "",
 					accounttimeent_time: ""
 				}
+				this.getTwo(this.pageTwo,this.PagesizeTwo)
 			},
 			save(){
 				this.axios.get('fina/AddAcount',{
@@ -677,6 +705,7 @@
                             center: true
                     	})
 					}
+					this.visible = false
 				})
 			},
 			blur(){
@@ -769,5 +798,12 @@
 	}
 	.red{
 		color: red;
+	}
+	.el-popover{
+		padding: 20px;
+	}
+	.el-popover p{
+		font-size: 16px;
+		margin-bottom: 15px;
 	}
 </style>

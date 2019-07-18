@@ -82,20 +82,20 @@
         <el-table-column prop="borrowTimeLimit" label="还款期数" width="95" align="center"></el-table-column>
         <el-table-column prop="orderCreateTime" label="实借时间" width="95" align="center"></el-table-column>
         <el-table-column prop="realityBorrowMoney" label="实借总金额" align="center"></el-table-column>
-        <el-table-column prop="shouldReturnTime" label="应还时间" width="95" align="center"></el-table-column>
+        <el-table-column prop="deferAfterReturntime" label="延期后应还时间" width="95" align="center"></el-table-column>
         <el-table-column prop="overdueNumberOfDays" label="逾期天数" width="95" align="center"></el-table-column>
         <el-table-column prop="overdueGrade" label="逾期等级" width="95" align="center"></el-table-column>
         <el-table-column prop="interestPenaltySum" label="逾期罚金/含逾应还总金额" width="125" align="center"></el-table-column>
         <el-table-column prop="reallyName" label="催收人" width="80" align="center"></el-table-column>
         <el-table-column prop="collectionTime" label="催收时间" width="95" align="center"></el-table-column>
         <el-table-column prop="collectionStatus" label="催收状态" width="95" align="center"></el-table-column>
-        <el-table-column prop="realityAccount" label="剩余未还金额/实还金额" width="125" align="center">
-          <template scope="scope">
+        <el-table-column prop="realityAccount" label="剩余未还金额/实还金额" width="115" align="center">
+          <template slot-scope="scope">
             <span>{{scope.row.surplus_money}}/{{scope.row.realityAccount}}</span>
           </template>
         </el-table-column>
         <el-table-column label="催收记录" width="120" align="center">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span class="cont" @click="open(scope.row.id)">查看催收</span>
           </template>
         </el-table-column>
@@ -111,13 +111,10 @@
       <div class="block">
         <el-pagination
           :current-page.sync="page"
-          :page-sizes="[10, 15, 20, 25]"
           :page-size.sync="pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
+          layout="total, prev, pager, next, jumper"
           :page-count="totalPageCount"
           :total="totalCount"
-          @size-change="sizeChange"
-          @current-change="currentChange"
         ></el-pagination>
       </div>
     </div>
@@ -156,20 +153,24 @@ export default {
     };
   },
   created(){
-    this.getData()
+    this.getData(this.page,this.Pagesize)
     this.getPerson()
     this.get()
   },
   methods: {
-    getData(){
+    getData(page,Pagesize){
       this.axios.get('collection/BeoverdueYifenp',{
         params:{
           companyId: window.localStorage.getItem("companyid"),
-          // page,
-          // Pagesize
+          page,
+          Pagesize
         }
       }).then(res=>{
         this.tableData = res.data.Orderdetails
+        this.page = res.data.Orderdetails.page
+        this.Pagesize = res.data.Orderdetails.Pagesize
+        this.totalCount = res.data.Orderdetails.length
+        // this.totalPageCount = res.data.pageUtil.totalPage
       })
     },
     get(){
@@ -190,12 +191,6 @@ export default {
         this.person = res.data.collection_member
       })
     },
-    sizeChange() {
-      //   this.getData(this.page, this.pageSize);
-    },
-    currentChange() {
-      //   this.getData(this.page, this.pageSize);
-    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -214,6 +209,7 @@ export default {
     },
     Reset() {
       this.clear();
+      this.getData(this.page, this.Pagesize)
     },
     Search() {
       if(this.formList.name=="姓名"){
