@@ -34,7 +34,7 @@
                     <el-button type="primary" @click="Search">搜索</el-button>
                 </el-form-item>
             </el-form>
-            <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%;line-height: 40px">
+            <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%;line-height: 60px">
                 <el-table-column prop="applynumber" label="申请编号" align="center"></el-table-column>
                 <el-table-column prop="applytime" label="申请时间" align="center"></el-table-column>
                 <el-table-column prop="name" label="姓名" align="center"></el-table-column>

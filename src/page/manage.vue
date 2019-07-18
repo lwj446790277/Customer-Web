@@ -57,7 +57,7 @@
 					<el-submenu index="8">
 						<template slot="title"><i class="el-icon-star-on"></i>APP管理设置</template>
 						<el-menu-item index="windControlOne">轮播图设置</el-menu-item>
-						<el-menu-item index="windControlTwo">虚拟宣传页</el-menu-item>
+						<!--<el-menu-item index="windControlTwo">虚拟宣传页</el-menu-item>-->
 						<el-menu-item index="windControlThree">联系客服和关于我们</el-menu-item>
 						<!-- <el-menu-item index="newMember">用户数据</el-men-item> -->
 					</el-submenu>
