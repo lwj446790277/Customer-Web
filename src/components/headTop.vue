@@ -86,4 +86,8 @@
     .el-breadcrumb__item__inner{
         color: #fff;
     }
+
+    .el-breadcrumb__item:last-child .el-breadcrumb__item__inner{
+        color: #fff;
+    }
 </style>

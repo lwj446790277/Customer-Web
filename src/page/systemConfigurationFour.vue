@@ -2,43 +2,65 @@
     <div class="fillcontain">
         <head-top></head-top>
         <!-- <p class="explain_text">系统配置4</p> -->
+        <div class="back">
+            <h2>申请条件配置</h2>
 		<div class="main">
-			<table border="1" cellpadding="30" cellspacing="0" class="tableFour">
+			<table cellpadding="30" cellspacing="0" class="tableFour" style="width: 100%;margin-left: 0px;">
 				<tr>
 					<th>身份证判定可申请最小年龄段</th>
 					<td>
-						<el-input v-model="editObject.minimumage" placeholder="请输入整数"></el-input>
+                        <input
+                            autocomplete="off"
+                            type="text"
+                            rows="2"
+                            validateevent="true"
+                            class="el-input__inner nmsl"
+                            v-model="editObject.minimumage"
+                            placeholder="请输入整数"
+                        />
 					</td>
 				</tr>
 				<tr>
 					<th>身份证判定可申请最大年龄段</th>
 					<td>
-						<el-input v-model="editObject.maximumage" placeholder="请输入整数"></el-input>
+                        <input
+                            autocomplete="off"
+                            type="text"
+                            rows="2"
+                            validateevent="true"
+                            class="el-input__inner nmsl"
+                            v-model="editObject.maximumage"
+                            placeholder="请输入整数"
+                        />
 					</td>
 				</tr>
 				<tr>
-					<th>拒绝申请的省份
-						<p>(用"/"符号隔开,例如'浙江省/四川省')</p>
+					<th>拒绝申请的省份 (用"/"符号隔开)
 					</th>
 					<td>
-						<el-input type="textarea" v-model="editObject.refuseapplyprovince" placeholder="台湾/香港/澳门"></el-input>
-					</td>
+                        <textarea v-model="editObject.refuseapplyprovince" type="textarea" rows="2"
+                                  autocomplete="off" validateevent="true" class="el-textarea__inner nmsl"
+                                  style="min-height: 33px; margin-top: 0px; margin-bottom: 0px; height: 58px;"></textarea>
+                    </td>
+                    <td></td>
 				</tr>
 				<tr>
-					<th>允许签约的银行类型
-						<p>(用"/"符号隔开)</p>
+					<th>允许签约的银行类型 (用"/"符号隔开)
 					</th>
 					<td>
-						<el-input type="textarea" v-model="editObject.allowsigningidcard" placeholder="中国银行/中国农业银行"></el-input>
-					</td>
+                        <textarea v-model="editObject.allowsigningidcard" type="textarea" rows="2"
+                                  autocomplete="off" validateevent="true" class="el-textarea__inner nmsl"
+                                  style="min-height: 33px; margin-top: 0px; margin-bottom: 0px; height: 58px;"></textarea>
+                    </td>
 				</tr>
                 <tr>
                     <td colspan="2">
-                        <center><el-button type="primary" @click="save()">保存</el-button></center>
+                        <center><el-button type="primary" @click="save()" style="background:#396fff">保存</el-button></center>
                     </td>
                 </tr>
 			</table>
 		</div>
+        </div>
     </div>
 </template>
 
@@ -96,10 +118,27 @@
 	}
 	.main{
 		padding: 20px;
+        background-color: white;
 	}
 	.tableFour{
-		margin: 20px auto;
+		margin: 20px 20%;
 		width: 35%;
 		border-color: #dfe6ec;
 	}
+    .tableFour th{
+        width :  400px;
+        text-align: left;
+        padding-left: 100px;
+    }
+    .tableFour td{
+        width :  400px;
+    }
+
+    .nmsl {
+        background-color: #f3f6fb;
+        border: transparent;
+        border-radius: 0;
+        color: #396fff;
+        text-align: center;
+    }
 </style>

@@ -3,8 +3,9 @@
         <head-top></head-top>
         <!-- <p class="explain_text">系统配置5</p> -->
         <div class="back">
+            <h2>认证信息配置</h2>
             <div class="main">
-                <table border="1" cellpadding="35" cellspacing="0" class="tableFive">
+                <table border="0" cellpadding="50" cellspacing="0" class="tableFive">
                     <tr>
                         <th>个人信息</th>
                         <td>
@@ -44,7 +45,7 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <center><el-button type="primary" @click="save()">保存</el-button></center>
+                            <el-button type="primary" @click="save()" class="btn">保存</el-button>
                         </td>
                     </tr>
                 </table>
@@ -118,16 +119,39 @@
     .back{
         background-color: #eff2f7;
         height: 100vh;
+        padding: 50px;
+    }
+    h2{
+        margin-bottom: 15px;
+        margin-top: -25px;
     }
 	.main{
-		padding: 20px;
+        // margin: 20px;
+        padding: 50px;
+        background-color: #fff;
 	}
 	.tableFive{
-		margin: 20px auto;
-		width: 35%;
-		border-color: #dfe6ec;
-	}
+		margin: 50px 20%;
+		width: 60%;
+        border-color: #dfe6ec;
+        background-color: #fff;
+    }
+    .tableFive th{
+        text-align: left;
+    }
 	.tableFive td{
-		padding-left: 15%;
-	}
+        padding-left: 10%;
+        width: 70%;
+    }
+    .el-radio{
+        margin-right: 90px;
+    }
+    .el-radio:visited{
+        color: #fff;
+    }
+    .btn{
+        width: 80px;
+        margin-left: 20%;
+        background-color:#396fff;
+    }
 </style>
