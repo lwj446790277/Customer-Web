@@ -100,6 +100,8 @@
                         params: {companyId: window.localStorage.getItem("companyid")}
                     }).then(res => {
                         that.editObject = res.data[0];
+                        that.editObject.loansource = that.editObject.loansource.split(',');
+                        that.editObject.repaymentsource = that.editObject.repaymentsource.split(',');
                     });
                 });
             },

@@ -16,6 +16,7 @@
 
                 </el-form-item>
                 <el-form-item>
+                    <el-button type="warning" @click="Reset">重置</el-button>
                     <el-button type="primary" @click="Search">搜索</el-button>
                 </el-form-item>
                 <el-button type="success" @click="batch" class="confire">批量导入</el-button>
@@ -25,7 +26,7 @@
                 <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
                 <el-table-column prop="idcard" label="身份证号" align="center"></el-table-column>
                 <el-table-column prop="operationtime" label="最后编辑时间" align="center"></el-table-column>
-                <el-table-column prop="operator" label="操作成员" align="center"></el-table-column>
+                <el-table-column prop="account" label="操作成员" align="center"></el-table-column>
                 <el-table-column label="编辑" align="center">
                     <template slot-scope="scope">
                         <el-button type="primary" @click="editDialogShow(scope.row)">编辑</el-button>
@@ -33,9 +34,9 @@
                 </el-table-column>
                 <el-table-column prop="address" label="删除" align="center">
                     <template slot-scope="scope">
-                        <el-popover placement="bottom-end" width="300" trigger="click">
+                        <el-popover placement="bottom-end" width="300" trigger="click" :ref="`popover-${scope.$index}`">
                             <span class="content">确认将该用户从白名单移除吗？</span>
-                            <el-button class="confire" type="success" @click="deleteUser(scope.row.id)">确认</el-button>
+                            <el-button class="confire" type="danger" @click="deleteUser(scope)">确认</el-button>
                             <el-button type="danger" slot="reference">删除</el-button>
                         </el-popover>
                     </template>
@@ -47,7 +48,7 @@
                 <span>添加白名单用户</span>
             </div>
             <el-dialog customClass="dialogClass" title="新增白名单" :visible.sync="addTableVisible">
-                <table border="1" cellspacing="0" cellpadding="15" class="bode">
+                <table cellspacing="0" cellpadding="15" class="bode">
                     <tr>
                         <th>姓名</th>
                         <td>
@@ -72,7 +73,7 @@
                 <br/>
             </el-dialog>
             <el-dialog customClass="dialogClass" title="编辑白名单" :visible.sync="editTableVisible">
-                <table border="1" cellspacing="0" cellpadding="15" class="bode">
+                <table cellspacing="0" cellpadding="15" class="bode">
                     <tr>
                         <th>姓名</th>
                         <td>
@@ -121,17 +122,18 @@
             return {
                 form: {
                     name: "",
-                    phone: ""
+                    phone: "",
+                    idcard: ""
                 },
-                addObject:{id:undefined},
-                editObject:{name:''},
+                addObject: {id: undefined},
+                editObject: {name: ''},
                 tableData: [{id: 1}],
                 page: 1,
                 pageSize: 10,
                 totalPageCount: 0,
-                totalCount: 20,
+                totalCount: 0,
                 addTableVisible: false,
-                editTableVisible:false,
+                editTableVisible: false,
                 name: "",
                 phone: "",
                 cardId: ""
@@ -146,11 +148,14 @@
                 that.page = res.data.pageutil.page;
                 that.totalPageCount = res.data.pageutil.totalPageCount;
                 that.totalCount = res.data.pageutil.totalCount;
+                that.pageSize = res.data.pageutil.pageSize;
             });
         },
         methods: {
-            deleteUser(id) {
+            deleteUser(scope) {
                 var that = this;
+                var id = scope.row.id;
+                scope._self.$refs[`popover-${scope.$index}`].doClose();
                 that.axios.get('/whitelistuser/upaFalseDel', {
                     params: {id: id}
                 }).then(res => {
@@ -161,13 +166,16 @@
                     that.Search();
                 });
             },
-            currentChange() {
-                //   this.getData(this.page, this.pageSize);
+            currentChange(val) {
+                var that = this;
+                that.page = val;
+                that.Search();
             },
             Reset() {
                 this.form = {
                     name: "",
-                    phone: ""
+                    phone: "",
+                    idcard: ""
                 }
             },
             Search() {
@@ -182,9 +190,10 @@
                     that.page = res.data.pageutil.page;
                     that.totalPageCount = res.data.pageutil.totalPageCount;
                     that.totalCount = res.data.pageutil.totalCount;
+                    that.pageSize = res.data.pageutil.pageSize;
                 });
             },
-            editDialogShow(object){
+            editDialogShow(object) {
                 var that = this;
                 that.editObject = {};
                 that.editObject.id = object.id;
@@ -193,10 +202,10 @@
                 that.editObject.idcard = object.idcard;
                 that.editTableVisible = true;
             },
-            editUser(){
+            editUser() {
                 var that = this;
                 that.editObject.companyid = window.localStorage.getItem("companyid");
-                that.editObject.operator =  window.localStorage.getItem("userid");
+                that.editObject.operator = window.localStorage.getItem("userid");
                 that.axios.get('/whitelistuser/updateByPrimaryKey', {
                     params: that.editObject
                 }).then(res => {
@@ -214,7 +223,7 @@
             save() {
                 var that = this;
                 that.addObject.companyid = window.localStorage.getItem("companyid");
-                that.addObject.operator =  window.localStorage.getItem("userid");
+                that.addObject.operator = window.localStorage.getItem("userid");
                 that.axios.get('/whitelistuser/insert', {
                     params: that.addObject
                 }).then(res => {
@@ -226,7 +235,7 @@
                     that.Search();
                 })
             },
-            openAddDialog(){
+            openAddDialog() {
                 var that = this;
                 that.addTableVisible = true;
                 that.addObject = {};
@@ -253,8 +262,8 @@
         margin-bottom: 20px;
     }
 
-    .dialogClass{
-        width:15%;
+    .dialogClass {
+        width: 15%;
     }
 
     .confire {

@@ -5,8 +5,6 @@
         <el-tabs v-model="activeName" type="card">
             <el-tab-pane label="借款设置" name="first">
                 <div class="main">
-                    <p>操作人:</p>
-                    <p>最后更新:</p>
                     <table border="1" cellpadding="30" cellspacing="0" class="tab">
                         <tr>
                             <th>贷款类型</th>
@@ -86,8 +84,6 @@
             </el-tab-pane>
             <el-tab-pane label="延期设置" name="second">
                 <div class="main">
-                    <p>操作人:</p>
-                    <p>最后更新:</p>
                     <div class="center">
                         <span>是否开启:</span>
                         <template v-if="deferredSettingObject.status==1">
@@ -173,8 +169,6 @@
             </el-tab-pane>
             <el-tab-pane label="逾期设置" name="third">
                 <div class="main">
-                    <p>操作人:</p>
-                    <p>最后更新:</p>
                     <el-table border :data="tableData3" style="width: 50%;line-height: 60px;">
                         <el-table-column label="逾期第X天前" align="center">
                             <template scope="scope">
@@ -218,8 +212,6 @@
             </el-tab-pane>
             <el-tab-pane label="续借提额" name="forth">
                 <div class="main">
-                    <p>操作人:</p>
-                    <p>最后更新:</p>
                     <el-table border :data="tableData4" style="width: 50%;line-height: 60px;">
                         <el-table-column label="用户连续还款X次后提额" align="center">
                             <template scope="scope">
@@ -377,6 +369,16 @@
                             params: {companyId: window.localStorage.getItem("companyid")}
                         }).then(res => {
                             that.howmanydaysapart = res.data[0];
+                            that.axios.get('/liftingamount/queryAll', {
+                                params: {companyId: window.localStorage.getItem("companyid")}
+                            }).then(res => {
+                                that.tableData4 = res.data;
+                                that.axios.get('/overdueset/queryAll', {
+                                    params: {companyId: window.localStorage.getItem("companyid")}
+                                }).then(res => {
+                                    that.tableData3 = res.data;
+                                })
+                            })
                         })
                     })
                 })

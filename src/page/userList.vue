@@ -4,62 +4,41 @@
         <div class="table_container">
             <el-form :model="form" :inline="true" class="demo-form-inline">
                 <el-form-item>
-                    <el-select v-model="form.name" placeholder="姓名" style="width:150px">
-                        <el-option label="姓名" value="姓名"></el-option>
-                        <el-option label="手机号" value="手机号"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item class="single">
-                    <el-input placeholder="单行输入" v-model="form.phone" class="input"></el-input>
+                    <el-input placeholder="请输入姓名" v-model="form.name" class="input"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-select v-model="form.time" placeholder="时间查询" style="width:150px">
-                        <el-option label="注册时间" value="注册时间"></el-option>
-                        <!-- <el-option label="应还时间" value="应还时间"></el-option>
-                        <el-option label="实还时间" value="实还时间"></el-option>-->
-                    </el-select>
+                    <el-input placeholder="请输入手机号" v-model="form.phone" class="input"></el-input>
                 </el-form-item>
-                <el-form-item class="single">
+                <el-form-item>
                     <el-col :span="11">
-                        <el-date-picker type="date" placeholder="起始时间" v-model="form.start"></el-date-picker>
+                        <el-date-picker type="date" placeholder="注册起始时间"
+                                        v-model="form.registeTimeStart"></el-date-picker>
                     </el-col>
                 </el-form-item>
                 <el-form-item class="single">
                     <el-col :span="11">
-                        <el-date-picker type="date" placeholder="结束时间" v-model="form.end"></el-date-picker>
+                        <el-date-picker type="date" placeholder="注册结束时间" v-model="form.registeTimeEnd"></el-date-picker>
                     </el-col>
                 </el-form-item>
                 <el-form-item>
-                    <el-select placeholder="个人信息认证" v-model="form.news">
-                        <el-option label="未认证" value="未认证"></el-option>
-                        <el-option label="认证中" value="认证中"></el-option>
-                        <el-option label="需要重新认证" value="需要重新认证"></el-option>
-                        <el-option label="已认证" value="已认证"></el-option>
+                    <el-select placeholder="个人信息认证" v-model="form.userattestationstatus">
+                        <el-option label="个人信息认证 未认证" value="0"></el-option>
+                        <el-option label="个人信息认证 已认证" value="1"></el-option>
+                        <el-option label="个人信息认证 认证中" value="2"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item>
-                    <el-select placeholder="手机运营商认证" v-model="form.mobile">
-                        <el-option label="未认证" value="未认证"></el-option>
-                        <el-option label="认证中" value="认证中"></el-option>
-                        <el-option label="需要重新认证" value="需要重新认证"></el-option>
-                        <el-option label="已认证" value="已认证"></el-option>
+                    <el-select placeholder="手机运营商认证" v-model="form.operaattestationstatus">
+                        <el-option label="手机运营商认证 未认证" value="0"></el-option>
+                        <el-option label="手机运营商认证 已认证" value="1"></el-option>
+                        <el-option label="手机运营商认证 认证中" value="2"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item>
-                    <el-select placeholder="芝麻信用认证" v-model="form.credit">
-                        <el-option label="未认证" value="未认证"></el-option>
-                        <el-option label="认证中" value="认证中"></el-option>
-                        <el-option label="需要重新认证" value="需要重新认证"></el-option>
-                        <el-option label="已认证" value="已认证"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item>
-                    <el-select placeholder="收款银行卡" v-model="form.alipay">
-                        <el-option label="免认证" value="免认证"></el-option>
-                        <el-option label="未认证" value="未认证"></el-option>
-                        <el-option label="认证中" value="认证中"></el-option>
-                        <el-option label="需要重新认证" value="需要重新认证"></el-option>
-                        <el-option label="已认证" value="已认证"></el-option>
+                    <el-select placeholder="收款银行卡" v-model="form.bankattestationstatus">
+                        <el-option label="收款银行卡 未认证" value="0"></el-option>
+                        <el-option label="收款银行卡 已认证" value="1"></el-option>
+                        <el-option label="收款银行卡 认证中" value="2"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item>
@@ -67,7 +46,7 @@
                     <el-button type="primary" @click="Search">搜索</el-button>
                 </el-form-item>
             </el-form>
-            <el-table border :data="tableData" style="wisrc/page/userList.vue:70dth: 100%">
+            <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
                 <el-table-column prop="registetime" label="注册时间" align="center"></el-table-column>
                 <el-table-column prop="name" label="姓名" align="center"></el-table-column>
                 <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
@@ -83,14 +62,16 @@
                 </el-table-column>
                 <el-table-column prop="address" label="查看借款信息" align="center">
                     <template slot-scope="scope">
-                        <span class="blue" @click="see(scope)">借款信息</span>
+                        <router-link :to="{path:'/queryOrder',query:{key:scope.row.name,value:scope.row.phone}}">
+                            <span class="blue">借款信息</span>
+                        </router-link>
                     </template>
                 </el-table-column>
-                <el-table-column prop="address" label="操作" show-overflow-tooltip align="center">
+                <el-table-column label="操作" show-overflow-tooltip align="center">
                     <template slot-scope="scope">
-                        <el-popover placement="bottom-end" width="300">
+                        <el-popover placement="bottom-end" width="300" :ref="`popover-${scope.$index}`">
                             <span class="content">确认将该用户添加到黑名单吗？</span>
-                            <el-button class="confire" type="success" @click="confire(scope.row.id)">确定</el-button>
+                            <el-button class="confire" type="danger" @click="confire(scope)">确定</el-button>
                             <span class="blue" slot="reference">添加黑名单</span>
                         </el-popover>
                     </template>
@@ -118,13 +99,19 @@
         data() {
             return {
                 form: {
-                    name: "", phone: "", time: "", start: "", end: "", news: "", mobile: "", credit: "", alipay: "",
+                    name: "",
+                    phone: "",
+                    registeTimeStart: "",
+                    registeTimeEnd: "",
+                    userattestationstatus: "",
+                    bankattestationstatus: "",
+                    operaattestationstatus: "",
                 },
                 tableData: [{id: 1}],
                 page: 1,
                 pageSize: 10,
                 totalPageCount: 0,
-                totalCount: 20,
+                totalCount: 0,
                 visible: false,
                 value: ""
             };
@@ -138,6 +125,10 @@
                 params: {companyId: window.localStorage.getItem("companyid"), page: 1}
             }).then(res => {
                 that.tableData = res.data.userlist;
+                that.page = res.data.pageutil.page;
+                that.totalPageCount = res.data.pageutil.totalPageCount;
+                that.totalCount = res.data.pageutil.totalCount;
+                that.pageSize = res.data.pageutil.pageSize;
                 for (var i = 0; i < that.tableData.length; i++) {
                     that.tableData[i].userattestationstatus = that.tableData[i].userattestationstatus == 0 ? '未认证' : that.tableData[i].userattestationstatus == 1 ? '已认证' : '认证中';
                     that.tableData[i].operaattestationstatus = that.tableData[i].operaattestationstatus == 0 ? '未认证' : that.tableData[i].operaattestationstatus == 1 ? '已认证' : '认证中';
@@ -149,28 +140,35 @@
             // this.initData();
         },
         methods: {
-            currentChange() {
-                //   this.getData(this.page, this.pageSize);
+            currentChange(val) {
+                var that = this;
+                that.page = val;
+                that.Search();
             },
             Reset() {
                 this.form = {
                     name: "",
                     phone: "",
-                    time: "",
-                    start: "",
-                    end: "",
-                    news: "",
-                    mobile: "",
-                    credit: "",
-                    alipay: "",
+                    registeTimeStart: "",
+                    registeTimeEnd: "",
+                    userattestationstatus: "",
+                    bankattestationstatus: "",
+                    operaattestationstatus: "",
                 }
             },
             Search() {
                 var that = this;
+                var param = that.form;
+                param.companyId = window.localStorage.getItem("companyid");
+                param.page = that.page;
                 that.axios.get('/user/queryUserList', {
-                    params: {companyId: window.localStorage.getItem("companyid"), page: 1}
+                    params: param
                 }).then(res => {
                     that.tableData = res.data.userlist;
+                    that.page = res.data.pageutil.page;
+                    that.totalPageCount = res.data.pageutil.totalPageCount;
+                    that.totalCount = res.data.pageutil.totalCount;
+                    that.pageSize = res.data.pageutil.pageSize;
                     for (var i = 0; i < that.tableData.length; i++) {
                         that.tableData[i].userattestationstatus = that.tableData[i].userattestationstatus == 0 ? '未认证' : that.tableData[i].userattestationstatus == 1 ? '已认证' : '认证中';
                         that.tableData[i].operaattestationstatus = that.tableData[i].operaattestationstatus == 0 ? '未认证' : that.tableData[i].operaattestationstatus == 1 ? '已认证' : '认证中';
@@ -178,11 +176,16 @@
                     }
                 });
             },
-            confire(id) {
+            confire(scope) {
                 var that = this;
-
+                var id = scope.row.id;
+                scope._self.$refs[`popover-${scope.$index}`].doClose();
                 that.axios.get('/user/insertBlacklist', {
-                    params: {userId:id,companyId:window.localStorage.getItem("companyid"),operator: window.localStorage.getItem("userid")}
+                    params: {
+                        userId: id,
+                        companyId: window.localStorage.getItem("companyid"),
+                        operator: window.localStorage.getItem("userid")
+                    }
                 }).then(res => {
                     this.$message({
                         type: 'success',
@@ -190,9 +193,6 @@
                     });
                     that.Search();
                 })
-            },
-            see() {
-                this.$router.push('/queryOrder')
             }
         }
     };
@@ -213,9 +213,11 @@
         display: block;
         margin-bottom: 20px;
     }
+
     .confire {
         float: right;
     }
+
     .block {
         padding-top: 20px;
         text-align: center;
