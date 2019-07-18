@@ -246,8 +246,7 @@ export default {
             })
           })
         }
-      }
-      
+      }     
     }
   },
   computed:{
@@ -279,7 +278,7 @@ export default {
 .block {
   padding-top: 20px;
   text-align: center;
-}
+}     
 .single {
   margin-left: -15px;
 }

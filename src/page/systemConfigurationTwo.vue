@@ -3,7 +3,7 @@
         <head-top></head-top>
         <!-- <p class="explain_text">系统配置2</p> -->
         <div class="main">
-            <table border="1" cellpadding="30" cellspacing="0">
+            <table border="1" cellpadding="30" cellspacing="0" class="tableTwo">
                 <tr>
                     <th>身份证及人脸认证</th>
                     <td>
@@ -128,7 +128,7 @@
     }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
     @import '../style/mixin';
 
     .explain_text {
@@ -142,12 +142,13 @@
         padding: 20px;
     }
 
-    table {
+    .tableTwo {
         margin: 20px auto;
-        width: 35%;
+		width: 35%;
+		border-color: #dfe6ec;
     }
 
-    td {
+    .tableTwo td {
         padding-left: 10%;
     }
 </style>

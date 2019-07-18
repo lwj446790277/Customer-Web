@@ -3,7 +3,7 @@
         <head-top></head-top>
         <!-- <p class="explain_text">系统配置4</p> -->
 		<div class="main">
-			<table border="1" cellpadding="30" cellspacing="0">
+			<table border="1" cellpadding="30" cellspacing="0" class="tableFour">
 				<tr>
 					<th>身份证判定可申请最小年龄段</th>
 					<td>
@@ -97,8 +97,9 @@
 	.main{
 		padding: 20px;
 	}
-	table{
+	.tableFour{
 		margin: 20px auto;
 		width: 35%;
+		border-color: #dfe6ec;
 	}
 </style>

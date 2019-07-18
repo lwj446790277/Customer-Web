@@ -65,7 +65,7 @@
     @import '../style/mixin';
 
     .header_container {
-        background-color: #EFF2F7;
+        background-color: #3486d2;
         height: 60px;
         display: flex;
         justify-content: space-between;
@@ -81,5 +81,9 @@
 
     .el-dropdown-menu__item {
         text-align: center;
+    }
+
+    .el-breadcrumb__item__inner{
+        color: #fff;
     }
 </style>

@@ -16,7 +16,7 @@
                 </el-table-column>
             </el-table>
             <el-dialog title="编辑风控配置" :visible.sync="editDialogVisible" width="30%" center>
-                <table border="0" cellspacing="0" cellpadding="20" class="table" center>
+                <table border="1" cellspacing="0" cellpadding="20" class="tableda" center>
                     <tr>
                         <th>风控模型名称</th>
                         <td>
@@ -66,7 +66,7 @@
         },
         data() {
             return {
-                tableData: [],
+                tableData: [{}],
                 editDialogVisible: false,
                 editObject: {},
             }
@@ -122,5 +122,10 @@
 
     .main {
         padding: 20px;
+    }
+    .tableda{
+        margin: 20px auto;
+        width: 35%;
+        border-color: #dfe6ec;
     }
 </style>
