@@ -600,18 +600,19 @@
             </el-dialog>
             <el-tab-pane label="账号列表" name="second">
                 <div class="main">
-                    <el-form :model="formList" :inline="true" class="demo-form-inline">
+                    <el-form :model="form" :inline="true" class="demo-form-inline">
                         <el-form-item class="single">
-                            <el-input placeholder="用户名称" v-model="formList.account"
+                            <el-input placeholder="用户名称" v-model="form.account"
                                       class="input-with-select"></el-input>
                         </el-form-item>
                         <el-form-item>
-                            <el-select v-model="formList.status" placeholder="用户状态" style="width:150px">
+                            <el-select v-model="form.status" placeholder="用户状态" style="width:150px">
                                 <el-option label="开启" value="1"></el-option>
                                 <el-option label="关闭" value="2"></el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item>
+                            <el-button type="warning" @click="Reset">重置</el-button>
                             <el-button type="primary" @click="Search">搜索</el-button>
                         </el-form-item>
                     </el-form>
@@ -628,9 +629,12 @@
                         </el-table-column>
                         <el-table-column prop="address" label="修改状态" align="center">
                             <template slot-scope="scope">
-                                <el-popover placement="bottom-end" width="300" trigger="click">
+                                <el-popover placement="bottom-end" width="300" trigger="click"
+                                            :ref="`popover-${scope.$index}`">
                                     <span class="content">确认修改用户当前状态吗？</span>
-                                    <el-button class="confire" type="success" @click="deleteUser(scope.row.userid,scope.row.status)">是的</el-button>
+                                    <el-button class="confire" type="success"
+                                               @click="deleteUser(scope,scope.row.status)">是的
+                                    </el-button>
                                     <el-button type="danger" slot="reference" @click="">修改状态</el-button>
                                 </el-popover>
                             </template>
@@ -640,6 +644,16 @@
                         <!-- <i class="el-icon-circle-plus-outline"></i> -->
                         <i class="el-icon-plus"></i>
                         <span>新增用户</span>
+                    </div>
+                    <div class="block">
+                        <el-pagination
+                            :current-page="page"
+                            :page-size.sync="pageSize"
+                            layout="total, prev, pager, next, jumper"
+                            :page-count="totalPageCount"
+                            :total="totalCount"
+                            @current-change="currentChange"
+                        ></el-pagination>
                     </div>
                 </div>
             </el-tab-pane>
@@ -671,11 +685,14 @@
                 state: "",
                 tableData: [],
                 tableDatas: [],
-                formList: {
+                form: {
                     account: "",
                     status: ""
                 },
                 page: 1,
+                pageSize:10,
+                totalPageCount:0,
+                totalCount:0,
                 activeName: 'first',
                 active: 1,
                 prev: false,
@@ -707,18 +724,28 @@
             complete() {
                 this.activeName = "second";
             },
+            Reset() {
+                var that = this;
+                that.form = {
+                    account: "",
+                    status: ""
+                }
+            },
+            currentChange(){
+
+            },
             Search() {
                 var that = this;
                 var url = '';
                 var param = {page: that.page, companyId: window.localStorage.getItem("companyid")};
-                if (!that.formList.account && !that.formList.status) {
+                if (!that. form.account && !that. form.status) {
                     url = '/sysuser/queryAll';
                 } else {
                     url = 'sysuser/queryAllByLike';
                     param = {
                         page: that.page,
-                        status: that.formList.status,
-                        account: that.formList.account,
+                        status: that. form.status,
+                        account: that. form.account,
                         companyId: window.localStorage.getItem("companyid")
                     }
                 }
@@ -726,6 +753,13 @@
                     params: param
                 }).then(res => {
                     that.tableDatas = res.data.sysuserlist;
+                    that.page = res.data.pageutil.page;
+                    that.totalPageCount = res.data.pageutil.totalPageCount;
+                    that.totalCount = res.data.pageutil.totalCount;
+                    that.pageSize = res.data.pageutil.pageSize;
+                    if(!that.tableDatas.length){
+                        return ;
+                    }
                     for (var i = 0; i < that.tableDatas.length; i++) {
                         that.tableDatas[i].loginstate = that.tableDatas[i].loginstate == 1 ? '登陆' : '未登陆';
                         that.tableDatas[i].logintime = that.tableDatas[i].logintime == 0 ? '暂无登录记录' : that.tableDatas[i].logintime;
@@ -763,18 +797,20 @@
                     that.editUserDialogVisibles = false;
                 })
             },
-            deleteUser(id, currentState) {
+            deleteUser(scope, currentState) {
                 var that = this;
-                var status = currentState == '开启' ? 2: 1;
-                    that.axios.get('/sysuser/updateStatus', {
-                        params: {id: id, status: status}
-                    }).then(res => {
-                        this.$message({
-                            type: 'success',
-                            message: '修改用户状态成功成功'
-                        });
-                        this.Search();
-                    })
+                var id = scope.row.userid;
+                scope._self.$refs[`popover-${scope.$index}`].doClose();
+                var status = currentState == '开启' ? 2 : 1;
+                that.axios.get('/sysuser/updateStatus', {
+                    params: {id: id, status: status}
+                }).then(res => {
+                    this.$message({
+                        type: 'success',
+                        message: '修改用户状态成功成功'
+                    });
+                    this.Search();
+                })
             },
             openAddUserDialog() {
                 var that = this;
@@ -864,7 +900,7 @@
     }
 
     .customWidths {
-        width: 25%;
+        width: 18%;
         text-align: center;
     }
 
