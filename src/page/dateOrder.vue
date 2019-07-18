@@ -4,10 +4,13 @@
     <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
       <el-tab-pane label="未逾期未分配" name="first">
         <div class="main">
-          <el-button type="success" @click="oneKey">一键分配</el-button>
-          <el-select placeholder="分配催收员" v-model="person" class="right">
+          <span class="tet">(注意:所有用户的数据只在今天的"延期后应还时间"才会出现，过了几天，用户的数据将出现在"催收预警及管理")</span>
+          <div class="right">
+            <el-button type="success" @click="oneKey" class="oneKey">一键分配</el-button>
+          <el-select placeholder="分配催收员" v-model="person">
             <el-option v-for="item in per" :key="item.value" :label="item.reallyName" :value="item.collectionMemberId"></el-option>
           </el-select>
+          </div>
           <el-table
             border
             ref="multipleTable"
@@ -63,13 +66,10 @@
           <div class="block">
             <el-pagination
               :current-page.sync="page"
-              :page-sizes="[10, 15, 20, 25]"
               :page-size.sync="Pagesize"
-              layout="total, sizes, prev, pager, next, jumper"
+              layout="total,  prev, pager, next, jumper"
               :page-count="totalPageCount"
               :total="totalCount"
-              @size-change="sizeChange"
-              @current-change="currentChange"
             ></el-pagination>
           </div>
         </div>
@@ -109,7 +109,7 @@
               </template>
             </el-table-column>
             <el-table-column prop="deferBeforeReturntime" label="延期前应还时间" width="100" align="center"></el-table-column>
-            <el-table-column prop="interestOnArrears" label="应还利息/应还金额" width="110" align="center">
+            <el-table-column prop="interestOnArrears" label="应还利息/应还金额" width="100" align="center">
               <template slot-scope="scope">
                 <span>{{scope.row.interestOnArrears}}/{{scope.row.makeLoans}}</span>
               </template>
@@ -123,19 +123,16 @@
             </el-table-column>
             <el-table-column prop="reallyName" label="催收人" align="center"></el-table-column>
             <el-table-column prop="collectionTime" label="分配催收时间" align="center"></el-table-column>
-            <el-table-column prop="collectionStatus" label="用户状态" width="93" align="center"></el-table-column>
-            <el-table-column prop="collectionStatus" label="还款结果" width="93" align="center"></el-table-column>
+            <el-table-column prop="overdue_phonestaus" label="用户状态" width="93" align="center"></el-table-column>
+            <el-table-column prop="statu" label="还款结果" width="93" align="center"></el-table-column>
           </el-table>
           <div class="block">
             <el-pagination
-              :current-page.sync="page"
-              :page-sizes="[10, 15, 20, 25]"
-              :page-size.sync="Pagesize"
-              layout="total, sizes, prev, pager, next, jumper"
-              :page-count="totalPageCount"
-              :total="totalCount"
-              @size-change="sizeChange"
-              @current-change="currentChange"
+              :current-page.sync="pageOne"
+              :page-size.sync="PagesizeOne"
+              layout="total,  prev, pager, next, jumper"
+              :page-count="totalPageCountOne"
+              :total="totalCountOne"
             ></el-pagination>
           </div>
         </div>
@@ -164,7 +161,16 @@
               <el-button type="primary" @click="SearchThird">搜索</el-button>
             </el-form-item>
           </el-form>
-          <el-table border :data="tableDataThree" show-summary style="width: 100%">
+          <!-- <ul class="more">
+            <li>总计</li>
+            <li>{{one}}</li>
+            <li>{{two}}</li>
+            <li>{{three}}</li>
+            <li>{{four}}</li>
+            <li>{{five}}</li>
+            <li>{{six}}</li>
+          </ul> -->
+          <el-table border :data="tableDataThree" style="width: 100%">
             <el-table-column prop="collectiondate" label="日期" align="center"></el-table-column>
             <el-table-column prop="collection_count" label="未分配总数" align="center"></el-table-column>
             <!-- <el-table-column prop="dialNum" label="未拨打数" align="center"></el-table-column> -->
@@ -176,14 +182,11 @@
           </el-table>
           <div class="block">
             <el-pagination
-              :current-page.sync="page"
-              :page-sizes="[10, 15, 20, 25]"
-              :page-size.sync="Pagesize"
-              layout="total, sizes, prev, pager, next, jumper"
-              :page-count="totalPageCount"
-              :total="totalCount"
-              @size-change="sizeChange"
-              @current-change="currentChange"
+              :current-page.sync="pageTwo"
+              :page-size.sync="PagesizeTwo"
+              layout="total, prev, pager, next, jumper"
+              :page-count="totalPageCountTwo"
+              :total="totalCountTwo"
             ></el-pagination>
           </div>
         </div>
@@ -210,7 +213,7 @@
               <el-button type="primary" @click="SearchForth">搜索</el-button>
             </el-form-item>
           </el-form>
-          <el-table border :data="tableDataFour" show-summary style="width: 100%">
+          <el-table border :data="tableDataFour" style="width: 100%">
             <el-table-column prop="collectiondate" label="日期" align="center"></el-table-column>
             <el-table-column prop="reallyName" label="催收员" align="center"></el-table-column>
             <el-table-column prop="collection_count" label="未分配总数" align="center"></el-table-column>
@@ -221,6 +224,15 @@
             <el-table-column prop="paymentmade" label="当天已还款数" align="center"></el-table-column>
             <el-table-column prop="paymentmadeData" label="当天还款率(%)" align="center"></el-table-column>
           </el-table>
+          <div class="block">
+            <el-pagination
+              :current-page.sync="pageThree"
+              :page-size.sync="PagesizeThree"
+              layout="total, prev, pager, next, jumper"
+              :page-count="totalPageCountThree"
+              :total="totalCountThree"
+            ></el-pagination>
+          </div>
         </div>
       </el-tab-pane>
       <el-tab-pane label="我的逾前催收订单" name="fifth">
@@ -232,7 +244,7 @@
             <el-table-column prop="borrowMoneyWay" label="贷款方式" align="center"></el-table-column>
             <el-table-column prop="borrowTimeLimit" label="还款期数" align="center"></el-table-column>
             <el-table-column prop="orderCreateTime" label="实借时间" align="center"></el-table-column>
-            <el-table-column prop="realityBorrowMoney/makeLoans" label="实借总金额/放款总金额" width="120" align="center">
+            <el-table-column prop="realityBorrowMoney/makeLoans" label="实借总金额/放款总金额" width="118" align="center">
               <template slot-scope="scope">
                 <span>{{scope.row.realityBorrowMoney}}/{{scope.row.makeLoans}}</span>
               </template>
@@ -254,8 +266,8 @@
             <el-table-column prop="address" label="电话状态" align="center">
               <template slot-scope="scope">
                 <el-select v-model="scope.row.type" placeholder="请选择" @change="change">
-                    <el-option label="已接通" value="已接通"></el-option>
-                    <el-option label="未接通" value="未接通"></el-option>
+                    <el-option label="电话已接通" value="电话已接通"></el-option>
+                    <el-option label="电话未接通" value="电话未接通"></el-option>
                 </el-select>
             </template>
             </el-table-column>
@@ -278,14 +290,11 @@
           </el-table>
           <div class="block">
             <el-pagination
-              :current-page.sync="page"
-              :page-sizes="[10, 15, 20, 25]"
-              :page-size.sync="Pagesize"
-              layout="total, sizes, prev, pager, next, jumper"
-              :page-count="totalPageCount"
-              :total="totalCount"
-              @size-change="sizeChange"
-              @current-change="currentChange"
+              :current-page.sync="pageFour"
+              :page-size.sync="PagesizeFour"
+              layout="total, prev, pager, next, jumper"
+              :page-count="totalPageCountFour"
+              :total="totalCountFour"
             ></el-pagination>
           </div>
         </div>
@@ -302,7 +311,7 @@ export default {
   },
   data() {
     return {
-      tableData: [{}],
+      tableData: [],
       per: [],
       String: [],
       tableDataTwo: [],
@@ -330,10 +339,32 @@ export default {
       Pagesize: 10,
       totalPageCount: 0,
       totalCount: 20,
+      pageOne: 1,
+      PagesizeOne: 10,
+      totalPageCountOne: 0,
+      totalCountOne: 20,
+      pageTwo: 1,
+      PagesizeTwo: 10,
+      totalPageCountTwo: 0,
+      totalCountTwo: 20,
+      pageThree: 1,
+      PagesizeThree: 10,
+      totalPageCountThree: 0,
+      totalCountThree: 20,
+      pageFour: 1,
+      PagesizeFour: 10,
+      totalPageCountFour: 0,
+      totalCountFour: 20,
       show: true,
       hidden: false,
       shows: true,
-      hide: false
+      hide: false,
+      one: 12,
+      two: 12,
+      three: 12,
+      four: 12,
+      five: 12,
+      six: 12
     };
   },
   created(){
@@ -344,11 +375,15 @@ export default {
       this.axios.get('postloanor/postOrders',{
         params:{
           companyId: window.localStorage.getItem("companyid"),
-          // page,
-          // Pagesize
+          page,
+          Pagesize
         }
       }).then(res=>{
         this.tableData = res.data.Orderdetails
+        this.page = res.data.Orderdetails.page
+        this.Pagesize = res.data.Orderdetails.Pagesize
+        this.totalCount = res.data.Orderdetails.length
+        // this.totalPageCount = res.data.pageUtil.totalPage
       })
 
       this.axios.get('collection/collectionmember',{
@@ -359,73 +394,82 @@ export default {
         this.per = res.data.collection_member
       })
     },
-    getTwo(page,Pagesize){
+    getTwo(pageOne,PagesizeOne){
       this.axios.get('postloanor/NoCollection',{
-          params:{
-            companyId: window.localStorage.getItem("companyid"),
-            // page,
-            // Pagesize
-          }
-        }).then(res=>{
-          this.tableDataTwo = res.data.Orderdetails
-        })
+        params:{
+          companyId: window.localStorage.getItem("companyid"),
+          page: this.pageOne,
+          Pagesize: this.PagesizeOne
+        }
+      }).then(res=>{
+        this.tableDataTwo = res.data.Orderdetails
+        this.pageOne = res.data.Orderdetails.page
+        this.PagesizeOne = res.data.Orderdetails.Pagesize
+        this.totalCountOne = res.data.Orderdetails.length
+        // this.totalPageCount = res.data.pageUtil.totalPage
+      })
     },
-    getThree(page,Pagesize){
+    getThree(pageTwo,PagesizeTwo){
       this.axios.get('postloanor/CollectionRecoveryrate',{
           params:{
             companyId: window.localStorage.getItem("companyid"),
-            // page,
-            // Pagesize
+            page: this.pageTwo,
+            Pagesize: this.PagesizeTwo
           }
         }).then(res=>{
           this.tableDataThree = res.data.Collection
+          this.pageTwo = res.data.Collection.page
+          this.PagesizeTwo = res.data.Collection.Pagesize
+          this.totalCountTwo = res.data.Collection.length
+          // this.totalPageCount = res.data.pageUtil.totalPage
         })
     },
-    getFour(page,Pagesize){
+    getFour(pageThree,PagesizeThree){
       this.axios.get('postloanor/OverdueUser',{
           params:{
             companyId: window.localStorage.getItem("companyid"),
-            // page,
-            // Pagesize
+            page: this.pageThree,
+            Pagesize: this.PagesizeThree
           }
         }).then(res=>{
           this.tableDataFour = res.data.Collection
+          this.pageThree = res.data.Collection.page
+          this.PagesizeThree = res.data.Collection.Pagesize
+          this.totalCountThree = res.data.Collection.length
+          // this.totalPageCount = res.data.pageUtil.totalPage
         })
     },
-    getFive(page,Pagesize){
+    getFive(pageFour,PagesizeFour){
       this.axios.get('postloanor/MyOverdue',{
           params:{
             companyId: window.localStorage.getItem("companyid"),
-            collectionMemberId: "1"
-            // page,
-            // Pagesize
+            collectionMemberId: "1",
+            page: this.pageFour,
+            Pagesize: this.PagesizeFour
           }
         }).then(res=>{
           this.tableDataFive = res.data.Orderdetails
+          this.pageFour = res.data.Orderdetails.page
+          this.PagesizeFour = res.data.Orderdetails.Pagesize
+          this.totalCountFour = res.data.Orderdetails.length
         })
     },
     handleClick(tab, event) {
       console.log(this.activeName);
       if( this.activeName == "second" ){
-        this.getTwo(this.page, this.Pagesize)
+        this.getTwo(this.pageOne, this.PagesizeOne)
       }else{
         if( this.activeName == "third" ){
-          this.getThree(this.page, this.Pagesize)
+          this.getThree(this.pageTwo, this.PagesizeTwo)
         }else{
           if( this.activeName == "fourth" ){
-            this.getFour(this.page, this.Pagesize)
+            this.getFour(this.pageThree, this.PagesizeThree)
           }
         }
       }
       if( this.activeName == "fifth" ){
-        this.getFive(this.page, this.Pagesize)
+        this.getFive(this.pageFour, this.PagesizeFour)
       }
-    },
-    sizeChange() {
-      //   this.getData(this.page, this.pageSize);
-    },
-    currentChange() {
-      //   this.getData(this.page, this.pageSize);
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
@@ -454,7 +498,7 @@ export default {
               phone: this.form.single,
             }
           }).then(res=>{
-            this.tableDtableDataTwoata = res.data.Orderdetails
+            this.tableDataTwo = res.data.Orderdetails
           })
         }else{
           this.axios.get('postloanor/NoCollection',{
@@ -474,8 +518,6 @@ export default {
           companyId: window.localStorage.getItem("companyid"),
           start_time: this.formThree.start,
           end_time: this.formThree.end
-          // page,
-          // Pagesize
         }
       }).then(res=>{
         this.tableDataThree = res.data.Collection
@@ -487,8 +529,6 @@ export default {
           companyId: window.localStorage.getItem("companyid"),
           start_time: this.formFour.start,
           end_time: this.formFour.end
-          // page,
-          // Pagesize
         }
       }).then(res=>{
         this.tableDataFour = res.data.Collection
@@ -558,24 +598,32 @@ export default {
       })
     },
     oneKey(){
-      if(this.form.person == undefined){
-        this.$alert('请选择催收员', '提示', {
+      if(this.String==""){
+        this.$confirm('请选择订单', '提示', {
           type: 'warning',
           center: true
         })
       }else{
-        this.axios.get('postloanor/UpdateOver',{
-          params:{
-            orderIds: this.String.join(','),
-            collectionMemberId: this.person
-          }
-        }).then(res=>{
-          this.$confirm(res.data.desc, '提示', {
+        if(this.form.person == undefined){
+          this.$confirm('请选择催收员', '提示', {
             type: 'warning',
             center: true
           })
-        })
+        }else{
+          this.axios.get('postloanor/UpdateOver',{
+            params:{
+              orderIds: this.String.join(','),
+              collectionMemberId: this.person
+            }
+          }).then(res=>{
+            this.$confirm(res.data.desc, '提示', {
+              type: 'warning',
+              center: true
+            })
+          })
+        }
       }
+      
     }
   }
 };
@@ -591,6 +639,10 @@ export default {
 }
 .main {
   padding: 20px;
+}
+.tet{
+  text-align: center;
+  // color: red;
 }
 .input {
   width: 200px;
@@ -623,5 +675,16 @@ p {
 .blue{
   color: blue;
   cursor: pointer;
+}
+.more{
+  width: 100%;
+}
+.more li{
+  width: 14.15%;
+  line-height: 40px;
+  text-align: center;
+  border: 1px solid #ccc;
+  float: left;
+  color: red;
 }
 </style>

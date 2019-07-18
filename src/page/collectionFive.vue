@@ -30,7 +30,7 @@
         <el-table-column prop="overdueNumberOfDays" label="逾期天数" align="center"></el-table-column>
 		    <el-table-column prop="overdueGrade" label="逾期等级" align="center"></el-table-column>
 		    <el-table-column prop="shouldReapyMoney" label="逾期罚金/含逾应还总金额" width="140" align="center">
-           <template scope="scope">
+           <template slot-scope="scope">
             <span>{{scope.row.interestPenaltySum}}/{{scope.row.order_money}}</span>
           </template>
         </el-table-column>
@@ -63,9 +63,8 @@
       <div class="block">
         <el-pagination
           :current-page.sync="page"
-          :page-sizes="[10, 15, 20, 25]"
           :page-size.sync="pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
+          layout="total, prev, pager, next, jumper"
           :page-count="totalPageCount"
           :total="totalCount"
           @size-change="sizeChange"
@@ -85,7 +84,7 @@ export default {
 	},
 	data() {
     return {
-      tableData: [{},{}],
+      tableData: [],
       tableDatas: [
         { id: 1, label: "承诺还款", value: "承诺还款" },
         { id: 2, label: "承诺还清一部分", value: "承诺还清一部分" },
@@ -105,16 +104,22 @@ export default {
     };
   },
   created(){
-    this.getData();
+    this.getData(this.page,this.Pagesize);
   },
   methods:{
-    getData(){
+    getData(page,Pagesize){
       this.axios.get('collection/FenpeiWeiCollection',{
         params:{
-          companyId: window.localStorage.getItem("companyid")
+          companyId: window.localStorage.getItem("companyid"),
+          page,
+          Pagesize
         }
       }).then(res=>{
         this.tableData = res.data.Orderdetails
+        this.page = res.data.Orderdetails.page
+        this.Pagesize = res.data.Orderdetails.Pagesize
+        this.totalCount = res.data.Orderdetails.length
+        // this.totalPageCount = res.data.pageUtil.totalPage
       })
     },
     sizeChange() {
@@ -131,6 +136,7 @@ export default {
     },
     Reset(){
       this.clear()
+      this.getData(this.page, this.Pagesize)
     },
     Search(){
       if(this.form.name == "姓名"){

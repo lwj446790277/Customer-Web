@@ -28,7 +28,7 @@
           <el-button type="primary" @click="Search">搜索</el-button>
         </el-form-item>
       </el-form>
-      <el-table border :data="tableData" tooltip-effect="dark" show-summary style="width: 100%;line-height: 60px">
+      <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%;line-height: 60px">
         <el-table-column prop="collectionTime" label="日期" align="center"></el-table-column>
         <el-table-column prop="reallyName" label="催收员姓名" align="center"></el-table-column>
         <el-table-column prop="collection_count" label="分配订单数" align="center"></el-table-column>
@@ -42,9 +42,8 @@
       <div class="block">
         <el-pagination
           :current-page.sync="page"
-          :page-sizes="[10, 15, 20, 25]"
           :page-size.sync="Pagesize"
-          layout="total, sizes, prev, pager, next, jumper"
+          layout="total, prev, pager, next, jumper"
           :page-count="totalPageCount"
           :total="totalCount"
           @size-change="sizeChange"
@@ -86,11 +85,15 @@ export default {
       this.axios.get('collection/CollectionUserLv',{
         params:{
           companyId: window.localStorage.getItem("companyid"),
-          // page,
-          // Pagesize
+          page,
+          Pagesize
         }
       }).then(res=>{
         this.tableData = res.data.Collections
+        this.page = res.data.Collections.page
+        this.Pagesize = res.data.Collections.Pagesize
+        this.totalCount = res.data.Collections.length
+        // this.totalPageCount = res.data.pageUtil.totalPage
       })
 
       this.axios.get('collection/collectionmember',{
@@ -117,6 +120,7 @@ export default {
     },
     Reset(){
       this.clear()
+      this.getData(this.page, this.Pagesize)
     },
     change(id){
       console.log(id)

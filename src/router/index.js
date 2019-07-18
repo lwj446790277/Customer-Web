@@ -7,6 +7,7 @@ Vue.prototype.axios=axios;
 
 Vue.use(Router)
 
+const personalInformation = r => require.ensure([], () => r(require('@/page/personalInformation')), 'personalInformation');
 const login = r => require.ensure([], () => r(require('@/page/login')), 'login');
 const manage = r => require.ensure([], () => r(require('@/page/manage')), 'manage');
 const home = r => require.ensure([], () => r(require('@/page/home')), 'home');
@@ -152,6 +153,10 @@ const routes = [
 			path: '/channelThree',
 			component: channelThree,
 			meta: ['贷后订单管理', '逾前短信提醒'],
+		},{
+			path: '/personalInformation',
+			component: personalInformation,
+			meta: ['贷后订单管理', '个人信息'],
 		},{
 			path: '/collectionOne',
 			component: collectionOne,

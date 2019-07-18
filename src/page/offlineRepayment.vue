@@ -15,22 +15,22 @@
 						<tr>
 							<th>收入还是支出</th>
 							<td>
-								<el-select v-model="receive" placeholder="收入" style="width:100%">
+								<el-select v-model="receive" placeholder="收入" style="width:100%" @change="change">
 									<el-option label="收入" value="收入"></el-option>
 									<el-option label="支出" value="支出"></el-option>
 								</el-select>
 							</td>
 						</tr>
 						<tr>
-							<th>还款渠道</th>
+							<th>{{title}}</th>
 							<td>
-								<el-select v-model="qudao" placeholder="选择还款渠道" style="width:100%">
-									<el-option v-for="item in Thirdparty_interface" :key="item.value" :label="item.repaymentSource" :value="item.id"></el-option>
+								<el-select v-model="qudao" :placeholder="placeholder" style="width:100%">
+									<el-option v-for="item in Thirdparty_interface" :key="item.value" :label="item.name" :value="item.id"></el-option>
 								</el-select>
 							</td>
 						</tr>
 						<tr>
-							<th>还款流水号</th>
+							<th>{{liushui}}</th>
 							<td>
 								<el-input v-model="huan"></el-input>
 							</td>
@@ -48,7 +48,17 @@
 							</td>
 						</tr>
 					</table>
-					<el-button type="primary" class="add" @click="add">添加并保存</el-button>
+					<el-popover
+						placement="bottom"
+						width="300"
+						v-model="visible">
+						<p>保存后将不可删除修改，请确保操作无误</p>
+						<div style="text-align: right; margin: 0">
+							<el-button @click="visible = false" class="left">返回</el-button>
+							<el-button type="success" @click="add">是的</el-button>
+						</div>
+						<el-button type="primary" slot="reference" class="add">添加并保存</el-button>
+					</el-popover>
 				</div>
 			</el-tab-pane>
 			<el-tab-pane label="线下调账记录表" name="second">
@@ -106,9 +116,8 @@
 					<div class="block">
 						<el-pagination
 						:current-page.sync="page"
-						:page-sizes="[10, 15, 20, 25]"
 						:page-size.sync="pageSize"
-						layout="total, sizes, prev, pager, next, jumper"
+						layout="total, prev, pager, next, jumper"
 						:page-count="totalPageCount"
 						:total="totalCount"
 						@size-change="sizeChange"
@@ -196,7 +205,17 @@
 							</td>
 						</tr>
 					</table>
-					<el-button type="primary" class="save" @click="save">添加并保存</el-button>
+					<el-popover
+						placement="bottom"
+						width="300"
+						v-model="visibles">
+						<p>保存后，用户APP端的应还总金额将结清，请确保线下已收到款，否则人才两空</p>
+						<div style="text-align: right; margin: 0">
+							<el-button @click="visibles = false" class="left">返回</el-button>
+							<el-button type="success" @click="save">是的</el-button>
+						</div>
+						<el-button type="primary" slot="reference" class="save">添加并保存</el-button>
+					</el-popover>
 				</div>
 			</el-tab-pane>
 			<el-tab-pane label="线下减免调账记录" name="forth">
@@ -254,12 +273,11 @@
 					</el-table>
 					<div class="block">
 						<el-pagination
-						:current-page.sync="page"
-						:page-sizes="[10, 15, 20, 25]"
-						:page-size.sync="pageSize"
-						layout="total, sizes, prev, pager, next, jumper"
-						:page-count="totalPageCount"
-						:total="totalCount"
+						:current-page.sync="pages"
+						:page-size.sync="pageSizes"
+						layout="total, prev, pager, next, jumper"
+						:page-count="totalPageCounts"
+						:total="totalCounts"
 						@size-change="sizeChange"
 						@current-change="currentChange"
 						></el-pagination>
@@ -278,6 +296,11 @@
 		},
 		data(){
 			return{
+				title: "还款渠道",
+				liushui: "还款流水号",
+				placeholder: "选择还款渠道",
+				visible: false,
+				visibles: false,
 				tableData: [],
 				tableDataForth: [],
 				Thirdparty_interface: [],
@@ -292,6 +315,10 @@
 				pageSize: 10,
 				totalPageCount: 0,
 				totalCount: 20,
+				pages: 1,
+				pageSizes: 10,
+				totalPageCounts: 0,
+				totalCounts: 20,
 				form: {
 					type: "",
 					id: "",
@@ -340,43 +367,92 @@
 					this.getData(this.page,this.Pagesize)
 				}else{
 					if(this.activeName == "forth"){
-						this.getForth(this.page,this.Pagesize)
+						this.getForth(this.pages,this.Pagesizes)
 					}
 				}
 			},
 			get(){
-				this.axios.get('fina/ThirdpatyAll',{
+				this.axios.get('fina/RepaymentAll',{
 					params:{
 						compayId: window.localStorage.getItem("companyid")
 					}
 				}).then(res=>{
-					this.Thirdparty_interface = res.data.Thirdparty_interface
+					this.Thirdparty_interface = res.data.Repayment_setting
 				})
 			},
 			getData( page, Pagesize ){
 				this.axios.get('fina/Orderoffline',{
 					params:{
 						companyId: window.localStorage.getItem("companyid"),
-						// page,
-						// Pagesize
+						page,
+						Pagesize
 					}
 				}).then(res=>{
 					this.tableData = res.data.Undertheline
+					this.page = res.data.Undertheline.page
+					this.Pagesize = res.data.Undertheline.Pagesize
+					this.totalCount = res.data.Undertheline.length
 				})
 			},
-			getForth( page, Pagesize ){
+			getForth( pages, pageSizes ){
 				this.axios.get('fina/AllXiaOrder',{
 					params:{
 						companyId: window.localStorage.getItem("companyid"),
-						// page,
-						// Pagesize
+						page: this.pages,
+						Pagesize: this.pageSizes
 					}
 				}).then(res=>{
 					this.tableDataForth = res.data.Undertheline
+					this.pages = res.data.Undertheline.page
+					this.Pagesizes = res.data.Undertheline.Pagesize
+					this.totalCounts = res.data.Undertheline.length
 				})
 			},
+			change(val){
+				console.log(val)
+				if(val=="支出"){
+					this.title = "放款渠道"
+					this.liushui = "放款流水号"
+					this.placeholder = "选择放款渠道"
+					this.axios.get('fina/ThirdpatyAll ',{
+						params:{
+							compayId: window.localStorage.getItem("companyid")
+						}
+					}).then(res=>{
+						this.Thirdparty_interface = res.data.Loan_setting
+					})
+				}else{
+					this.title = "还款渠道"
+					this.liushui = "还款流水号"
+					this.placeholder = "选择还款渠道"
+					this.axios.get('fina/RepaymentAll ',{
+						params:{
+							compayId: window.localStorage.getItem("companyid")
+						}
+					}).then(res=>{
+						this.Thirdparty_interface = res.data.Repayment_setting
+					})
+				}
+			},
 			add(){
-				if(this.receive=="收入"){
+				if(this.receive=="支出"){
+					this.axios.get('fina/AddUndert',{
+						params:{
+							finance_id: window.localStorage.getItem("companyid"),
+							project_name: this.program,    
+							repayment: this.qudao,
+							expenditure: this.money,
+							repaymentnumber: this.huan,
+							remarks: this.remarks
+						}
+					}).then(res=>{
+						this.$confirm(res.data.desc, '提示', {
+                            type: 'warning',
+                            center: true
+						})
+						this.visible = false
+					})
+				}else{
 					this.axios.get('fina/AddUndert',{
 						params:{
 							finance_id: window.localStorage.getItem("companyid"),
@@ -390,23 +466,8 @@
 						this.$confirm(res.data.desc, '提示', {
                             type: 'warning',
                             center: true
-                    	})
-					})
-				}else{
-					this.axios.get('fina/AddUndert',{
-						params:{
-							finance_id: window.localStorage.getItem("companyid"),
-							project_name: this.program,
-							repayment: this.qudao,
-							expenditure: this.money,
-							repaymentnumber: this.huan,
-							remarks: this.remarks
-						}
-					}).then(res=>{
-						this.$confirm(res.data.desc, '提示', {
-                            type: 'warning',
-                            center: true
-                    	})
+						})
+						this.visible = false
 					})
 				}
 			},
@@ -417,6 +478,7 @@
 					start: "",
 					end: ""
 				}
+				this.getData(this.page, this.Pagesize)
 			},
 			ResetForth(){
 				this.formForth = {
@@ -425,6 +487,7 @@
 					start: "",
 					end: ""
 				}
+				this.getForth(this.pages,this.Pagesizes)
 			},
 			SearchForth(){
 				if(this.formForth.type=="手机号"){
@@ -515,6 +578,7 @@
                             center: true
                     	})
 					}
+					this.visibles = false
 				})
 			}
 		}
@@ -596,5 +660,12 @@
 	.save{
 		margin-top: 20px;
 		float: right;
+	}
+	.el-popover{
+		padding: 20px;
+	}
+	.el-popover p{
+		font-size: 16px;
+		margin-bottom: 15px;
 	}
 </style>

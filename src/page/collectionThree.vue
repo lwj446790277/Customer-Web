@@ -18,17 +18,15 @@
           <el-button type="primary" @click="Search">搜索</el-button>
         </el-form-item>
       </el-form>
-      <el-table border :data="tableData" tooltip-effect="dark" show-summary style="width: 100%;line-height: 60px">
+      <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%;line-height: 60px">
         <el-table-column prop="orderCreateTime" label="日期" align="center" class="red"></el-table-column>
         <el-table-column prop="orderNum" label="累计订单总数" align="center"></el-table-column>
         <el-table-column prop="collection_count" label="累计分配订单数" align="center"></el-table-column>
         <el-table-column prop="sameday" label="累计承诺还款订单数" align="center"></el-table-column>
-        <!-- <el-table-column prop="address" label="累计成功订单数" align="center"></el-table-column> -->
         <el-table-column prop="paymentmade" label="累计未还清订单数" align="center"></el-table-column>
         <el-table-column prop="connected" label="累计坏账订单数" align="center"></el-table-column>
-        <!-- <el-table-column prop="address" label="累计催收次数" align="center"></el-table-column> -->
         <el-table-column prop="collNumdata" label="累计催回率(%)" align="center">
-          <!-- <template scope="scope">
+          <!-- <template slot-scope="scope">
             <span>{{scope.row.collNumdata}}%</span>
           </template> -->
         </el-table-column>
@@ -36,9 +34,8 @@
       <div class="block">
         <el-pagination
           :current-page.sync="page"
-          :page-sizes="[10, 15, 20, 25]"
           :page-size.sync="Pagesize"
-          layout="total, sizes, prev, pager, next, jumper"
+          layout="total, prev, pager, next, jumper"
           :page-count="totalPageCount"
           :total="totalCount"
           @size-change="sizeChange"
@@ -76,11 +73,15 @@
       this.axios.get('collection/CollectionLv',{
         params:{
           companyId: window.localStorage.getItem("companyid"),
-          // page,
-          // Pagesize
+          page,
+          Pagesize
         }
       }).then(res=>{
         this.tableData = res.data.Collection
+        this.page = res.data.Collection.page
+        this.Pagesize = res.data.Collection.Pagesize
+        this.totalCount = res.data.Collection.totalCount
+        // this.totalPageCount = res.data.Collection.totalPageCount
       })
     },
     sizeChange(val) {
@@ -98,6 +99,7 @@
     },
     Reset(){
       this.clear()
+      this.getData(this.page, this.Pagesize)
     },
     Search(){
       this.axios.get('collection/CollectionLv',{

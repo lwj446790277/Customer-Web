@@ -16,12 +16,11 @@
         </el-form-item>
         <el-form-item>
           <el-button type="warning" @click="Reset">重置</el-button>
-          <el-button type="primary" @click="Search">搜索</el-button>
-          <el-button type="success" @click="Onekey">一键分配</el-button>
+          <el-button type="primary" @click="Search">搜索</el-button>   
         </el-form-item>
         <el-form-item class="right">
+          <el-button type="success" @click="Onekey">一键分配</el-button>
           <el-select placeholder="分配催收员" v-model="form.person">
-            <!-- <el-option label="reallyName" value="reallyName"></el-option> -->
             <el-option v-for="item in person" :key="item.value" :label="item.reallyName" :value="item.collectionMemberId"></el-option>
           </el-select>
         </el-form-item>
@@ -40,27 +39,21 @@
         <el-table-column prop="borrowTimeLimit" label="还款期数" align="center"></el-table-column>
         <el-table-column prop="orderCreateTime" label="实借时间" align="center"></el-table-column>
         <el-table-column prop="realityBorrowMoney" label="实借总金额" align="center"></el-table-column>
-        <el-table-column prop="shouldReturnTime" label="应还时间" align="center"></el-table-column>
+        <el-table-column prop="shouldReturnTime" label="延期后应还时间" align="center"></el-table-column>
         <el-table-column prop="overdueNumberOfDays" label="逾期天数" align="center"></el-table-column>
         <el-table-column prop="interestPenaltySum" label="逾期罚金/含逾应还总金额" align="center">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span>{{scope.row.interestPenaltySum}}/{{scope.row.order_money}}</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center">
-          <!-- <template slot="header" slot-scope="scope">
-            <el-button type="success" @click="Onekey(scope)" size="mini">一键分配</el-button>
-            <button>2222</button>
-          </template> -->
           <template slot-scope="scope">
             <el-popover placement="bottom-end" width="300" trigger="click">
               <div v-if="show">
-                <p>请选择催收员，再分配催单</p>
-                <!-- <el-button class="confire" type="success" @click="close(scope.row)">知道了</el-button> -->
+                <p>请选择催收员，再分配催单</p>       
               </div>
               <div v-if="hidden">
                 <p>确定要把催单分配给该催收员吗？</p>
-                <!-- <el-button @click="visible = !visible">返回</el-button> -->
                 <el-button class="confire" type="success" @click="confire(scope.row.orderId)">是的</el-button>
               </div>
               <span class="content" slot="reference" @click="see(scope.row.orderId)">分配催单</span>
@@ -71,9 +64,8 @@
       <div class="block">
         <el-pagination
           :current-page.sync="page"
-          :page-sizes="[10, 15, 20, 25]"
           :page-size.sync="Pagesize"
-          layout="total, sizes, prev, pager, next, jumper"
+          layout="total, prev, pager, next, jumper"
           :page-count="totalPageCount"
           :total="totalCount"
           @size-change="sizeChange"
@@ -126,11 +118,15 @@ export default {
       this.axios.get('collection/BeoverdueCollection',{
         params:{
           companyId: window.localStorage.getItem("companyid"),
-          // page,
-          // Pagesize
+          page,
+          Pagesize
         }
       }).then(res=>{
         this.tableData = res.data.Orderdetails
+        this.page = res.data.Orderdetails.page
+        this.Pagesize = res.data.Orderdetails.Pagesize
+        this.totalCount = res.data.Orderdetails.length
+        // this.totalPageCount = res.data.pageUtil.totalPageCount
       })
     },
     getPerson(){
@@ -161,6 +157,7 @@ export default {
     },
     Reset() {
       this.clear();
+      this.getData(this.page, this.Pagesize)
     },
     Search() {
       if(this.form.name == "姓名"){
@@ -223,26 +220,34 @@ export default {
     },
     Onekey(){
       // console.log(this.form.person)
-      if(this.form.person == ""){
-        this.$confirm(res.data.desc, '提示', {
+      if(this.String==""){
+        this.$confirm("请选择订单", '提示', {
           type: 'warning',
           center: true
         })
       }else{
-        this.axios.get('collection/AddCollection',{
-          params:{
-            orderIds: this.String.join(','),
-            CollectionMemberId: this.form.person
-          }
-        }).then(res=>{
-          this.$confirm(res.data.desc, '提示', {
+        if(this.form.person == ""){
+          this.$confirm("请选择催收员", '提示', {
             type: 'warning',
             center: true
-          }).then(()=>{
-            this.getData(this.page,this.Pagesize);
           })
-        })
+        }else{
+          this.axios.get('collection/AddCollection',{
+            params:{
+              orderIds: this.String.join(','),
+              CollectionMemberId: this.form.person
+            }
+          }).then(res=>{
+            this.$confirm(res.data.desc, '提示', {
+              type: 'warning',
+              center: true
+            }).then(()=>{
+              this.getData(this.page,this.Pagesize);
+            })
+          })
+        }
       }
+      
     }
   },
   computed:{

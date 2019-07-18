@@ -73,17 +73,11 @@
             <span>{{scope.row.interestPenaltySum}}/{{scope.row.order_money}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="collectionStatus" label="用户状态" width="93" align="center">
-          <!-- <template slot-scope="scope">
-                <el-select v-model="scope.row.ismg">
-                    <el-option v-for="item in tableDatas" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-            </template> -->
-        </el-table-column>
+        <el-table-column prop="collectionStatus" label="用户状态" width="93" align="center"></el-table-column>
         <el-table-column prop="promise_money" label="承诺还清部分金额" width="95" align="center"></el-table-column>
         <el-table-column prop="collNum" label="催收次数" align="center"></el-table-column>
         <el-table-column prop="orderStatus" label="订单状态" align="center"></el-table-column>
-        <el-table-column prop="address" label="剩余还款金额/实还金额" width="115" align="center">
+        <el-table-column label="剩余还款金额/实还金额" width="115" align="center">
           <template slot-scope="scope">
             <span>{{scope.row.surplus_money}}/{{scope.row.realityAccount}}</span>
           </template>
@@ -95,7 +89,7 @@
         </el-table-column>
         <el-table-column prop="address" label="结束催收" width="93" align="center">
           <template slot-scope="scope">
-                <el-popover placement="bottom-end" width="400" trigger="click">
+                <el-popover placement="bottom-end" width="300" trigger="click">
                     <p>确定结束催收该用户吗？</p>
                     <el-button type="success" class="confire" @click="confire(scope.row.orderId)">是的</el-button>
                     <span class="blue" slot="reference">结束催收</span>
@@ -121,22 +115,19 @@
           </el-form-item>
         </el-form>
         <el-table border :data="gridData">
-          <el-table-column property="collection_time" label="催收时间" align="center"></el-table-column>
-          <el-table-column property="user_type" label="用户状态" align="center"></el-table-column>
-          <el-table-column property="collectionmoney" label="承诺还款金额" align="center"></el-table-column>
+          <el-table-column property="collectionTime" label="催收时间" align="center"></el-table-column>
+          <el-table-column property="collectionStatus" label="用户状态" align="center"></el-table-column>
+          <el-table-column property="promise_money" label="承诺还款金额" align="center"></el-table-column>
           <el-table-column property="orderStatus" label="订单状态" align="center"></el-table-column>
         </el-table>
       </el-dialog>
       <div class="block">
         <el-pagination
           :current-page.sync="page"
-          :page-sizes="[10, 15, 20, 25]"
           :page-size.sync="pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
+          layout="total, prev, pager, next, jumper"
           :page-count="totalPageCount"
           :total="totalCount"
-          @size-change="sizeChange"
-          @current-change="currentChange"
         ></el-pagination>
       </div>
     </div>
@@ -151,7 +142,7 @@ export default {
   },
   data() {
     return {
-      tableData: [{}],
+      tableData: [],
       tableDatas: [
         { id: 1, label: "承诺还款", value: "承诺还款" },
         { id: 2, label: "承诺还清一部分", value: "承诺还清一部分" },
@@ -184,17 +175,23 @@ export default {
     };
   },
   created(){
-    this.getData()
+    this.getData(this.page,this.Pagesize)
     this.get()
   },
   methods: {
-    getData(){
+    getData(page,Pagesize){
       this.axios.get('collection/YiCollection',{
         params:{
-          companyId: window.localStorage.getItem("companyid")
+          companyId: window.localStorage.getItem("companyid"),
+          page,
+          Pagesize
         }
       }).then(res=>{
         this.tableData = res.data.Orderdetails
+        this.page = res.data.Orderdetails.page
+        this.Pagesize = res.data.Orderdetails.Pagesize
+        this.totalCount = res.data.Orderdetails.length
+        // this.totalPageCount = res.data.pageUtil.totalPage
       })
     },
     get(){
@@ -221,22 +218,26 @@ export default {
     },
     add(){
       console.log(this.collectionMemberId)
-      this.axios.get('collection/Collectiondetails',{
+      this.axios.get('collection/AddCollectiondertilas',{
         params:{
           orderId: this.orderId,
-          collectionMemberId: this.collectionMemberId,
-          user_type: this.formList.type,
-          collectionmoney: this.formList.money
+          collectionMemberId: 1,
+          collectionStatus: this.formList.type,
+          promise_money: this.formList.money
         }
       }).then(res=>{
-        this.gridData = res.data.Orderdetails
+        this.$confirm(res.data.desc, '提示', {
+          type: 'warning',
+          center: true
+        })
+        this.axios.get('collection/Collectiondetails',{
+          params:{
+            orderId: this.orderId,
+          }
+        }).then(res=>{
+          this.gridData = res.data.Orderdetails
+        })
       })
-    },
-    sizeChange() {
-      //   this.getData(this.page, this.pageSize);
-    },
-    currentChange() {
-      //   this.getData(this.page, this.pageSize);
     },
     clear() {
       this.form = {
@@ -251,6 +252,7 @@ export default {
     },
     Reset() {
       this.clear();
+      this.getData(this.page, this.Pagesize)
     },
     Search() {
       if(this.form.name=="姓名"){
@@ -309,7 +311,7 @@ export default {
           type: 'warning',
           center: true
         })
-        this.getData();
+        this.getData(this.page,this.Pagesize);
       })
     }
   }
