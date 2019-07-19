@@ -707,6 +707,7 @@ h2 {
 .main {
   padding: 50px;
   background-color: #fff;
+  min-height: 60vh;
 }
 
 .tab {

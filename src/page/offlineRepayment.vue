@@ -4,283 +4,295 @@
         <!-- <p class="explain_text">这里是线下还款</p> -->
 		<el-tabs v-model="activeName" type="card" @tab-click="handleClick">
 			<el-tab-pane label="新增线下调账" name="first">
-				<div class="main">
-					<table border="1" cellpadding="30" cellspacing="0" class="tabe">
-						<tr>
-							<th>项目名</th>  
-							<td>
-								<el-input v-model="program"></el-input>
-							</td>
-						</tr>
-						<tr>
-							<th>收入还是支出</th>
-							<td>
-								<el-select v-model="receive" placeholder="收入" style="width:100%" @change="change">
-									<el-option label="收入" value="收入"></el-option>
-									<el-option label="支出" value="支出"></el-option>
-								</el-select>
-							</td>
-						</tr>
-						<tr>
-							<th>{{title}}</th>
-							<td>
-								<el-select v-model="qudao" :placeholder="placeholder" style="width:100%">
-									<el-option v-for="item in Thirdparty_interface" :key="item.value" :label="item.name" :value="item.id"></el-option>
-								</el-select>
-							</td>
-						</tr>
-						<tr>
-							<th>{{liushui}}</th>
-							<td>
-								<el-input v-model="huan"></el-input>
-							</td>
-						</tr>
-						<tr>
-							<th>输入金额</th>
-							<td>
-								<el-input v-model="money"></el-input>
-							</td>
-						</tr>
-						<tr>
-							<th>备注</th>
-							<td>
-								<el-input v-model="remarks"></el-input>
-							</td>
-						</tr>
-					</table>
-					<el-popover
-						placement="bottom"
-						width="300"
-						v-model="visible">
-						<p>保存后将不可删除修改，请确保操作无误</p>
-						<div style="text-align: right; margin: 0">
-							<el-button @click="visible = false" class="left">返回</el-button>
-							<el-button type="success" @click="add">是的</el-button>
-						</div>
-						<el-button type="primary" slot="reference" class="add">添加并保存</el-button>
-					</el-popover>
+				<div class="back">
+      				<h2>新增线下调账</h2>
+					<div class="main">
+						<table border="1" cellpadding="30" cellspacing="0" class="tabe">
+							<tr>
+								<th>项目名</th>  
+								<td>
+									<el-input v-model="program"></el-input>
+								</td>
+							</tr>
+							<tr>
+								<th>收入还是支出</th>
+								<td>
+									<el-select v-model="receive" placeholder="收入" style="width:100%" @change="change">
+										<el-option label="收入" value="收入"></el-option>
+										<el-option label="支出" value="支出"></el-option>
+									</el-select>
+								</td>
+							</tr>
+							<tr>
+								<th>{{title}}</th>
+								<td>
+									<el-select v-model="qudao" :placeholder="placeholder" style="width:100%">
+										<el-option v-for="item in Thirdparty_interface" :key="item.value" :label="item.name" :value="item.id"></el-option>
+									</el-select>
+								</td>
+							</tr>
+							<tr>
+								<th>{{liushui}}</th>
+								<td>
+									<el-input v-model="huan"></el-input>
+								</td>
+							</tr>
+							<tr>
+								<th>输入金额</th>
+								<td>
+									<el-input v-model="money"></el-input>
+								</td>
+							</tr>
+							<tr>
+								<th>备注</th>
+								<td>
+									<el-input v-model="remarks"></el-input>
+								</td>
+							</tr>
+						</table>
+						<el-popover
+							placement="bottom"
+							width="300"
+							v-model="visible">
+							<p>保存后将不可删除修改，请确保操作无误</p>
+							<div style="text-align: right; margin: 0">
+								<el-button @click="visible = false" class="left">返回</el-button>
+								<el-button type="success" @click="add">是的</el-button>
+							</div>
+							<el-button type="primary" slot="reference" class="add">添加并保存</el-button>
+						</el-popover>
+					</div>
 				</div>
 			</el-tab-pane>
 			<el-tab-pane label="线下调账记录表" name="second">
-				<div class="main">
-					<el-form :model="form" :inline="true" class="demo-form-inline">
-						<el-form-item>
-							<el-select v-model="form.type" placeholder="放款流水号" style="width:150px">
-								<el-option label="放款流水号" value="放款流水号"></el-option>
-								<el-option label="还款流水号" value="还款流水号"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item class="single">
-							<el-input placeholder="单行输入" v-model="form.id"></el-input>
-						</el-form-item>
-						<!-- <el-form-item>
-							<el-select v-model="form.time" placeholder="操作日期" style="width:150px">
-								<el-option label="订单时间" value="订单时间"></el-option>
-								<el-option label="延借时间" value="延借时间"></el-option>
-								<el-option label="延期后应还" value="延期后应还"></el-option>
-							</el-select>
-						</el-form-item> -->
-						<el-form-item>
-							<el-col :span="11">
-								<el-date-picker type="date" placeholder="起始时间" v-model="form.start"></el-date-picker>
-							</el-col>
-						</el-form-item>
+				<div class="back">
+      				<h2>线下调账记录表</h2>
+					<div class="main">
+						<el-form :model="form" :inline="true" class="demo-form-inline">
+							<el-form-item>
+								<el-select v-model="form.type" placeholder="放款流水号" style="width:150px">
+									<el-option label="放款流水号" value="放款流水号"></el-option>
+									<el-option label="还款流水号" value="还款流水号"></el-option>
+								</el-select>
+							</el-form-item>
 							<el-form-item class="single">
-							<el-col :span="11">
-								<el-date-picker type="date" placeholder="结束时间" v-model="form.end"></el-date-picker>
-							</el-col>
-						</el-form-item>
-						<el-form-item>
-							<el-button type="warning" @click="Reset">重置</el-button>
-							<el-button type="primary" @click="Search">搜索</el-button>
-						</el-form-item>
-					</el-form>
-					<!-- <div class="statistics">
-						<ul>
-							<li>线下调账总收入</li>
-							<li class="num">10</li>
-							<li>线下调账总支出</li>
-							<li class="num">10</li>
-						</ul>
-					</div> -->
-					<el-table border :data="tableData" tooltip-effect="dark" style="width: 100%;line-height: 60px">
-						<el-table-column prop="underthe_time" label="日期" align="center"></el-table-column>
-						<el-table-column prop="account" label="财务操作人" align="center"></el-table-column>
-						<el-table-column prop="project_name" label="项目名" align="center"></el-table-column>
-						<el-table-column prop="repayment" label="放款/还款渠道" align="center"></el-table-column>
-						<el-table-column prop="repaymentnumber" label="放款/还款流水号" align="center"></el-table-column>
-						<el-table-column prop="income" label="收入" align="center"></el-table-column>
-						<el-table-column prop="expenditure" label="支出" align="center"></el-table-column>
-						<el-table-column prop="remarks" label="备注" align="center"></el-table-column>
-					</el-table>
-					<div class="block">
-						<el-pagination
-						:current-page.sync="page"
-						:page-size.sync="pageSize"
-						layout="total, prev, pager, next, jumper"
-						:page-count="totalPageCount"
-						:total="totalCount"
-						@size-change="sizeChange"
-						@current-change="currentChange"
-						></el-pagination>
+								<el-input placeholder="单行输入" v-model="form.id"></el-input>
+							</el-form-item>
+							<!-- <el-form-item>
+								<el-select v-model="form.time" placeholder="操作日期" style="width:150px">
+									<el-option label="订单时间" value="订单时间"></el-option>
+									<el-option label="延借时间" value="延借时间"></el-option>
+									<el-option label="延期后应还" value="延期后应还"></el-option>
+								</el-select>
+							</el-form-item> -->
+							<el-form-item>
+								<el-col :span="11">
+									<el-date-picker type="date" placeholder="起始时间" v-model="form.start"></el-date-picker>
+								</el-col>
+							</el-form-item>
+								<el-form-item class="single">
+								<el-col :span="11">
+									<el-date-picker type="date" placeholder="结束时间" v-model="form.end"></el-date-picker>
+								</el-col>
+							</el-form-item>
+							<el-form-item>
+								<el-button type="warning" @click="Reset">重置</el-button>
+								<el-button type="primary" @click="Search">搜索</el-button>
+							</el-form-item>
+						</el-form>
+						<!-- <div class="statistics">
+							<ul>
+								<li>线下调账总收入</li>
+								<li class="num">10</li>
+								<li>线下调账总支出</li>
+								<li class="num">10</li>
+							</ul>
+						</div> -->
+						<el-table border :data="tableData" tooltip-effect="dark" style="width: 100%;line-height: 60px">
+							<el-table-column prop="underthe_time" label="日期" align="center"></el-table-column>
+							<el-table-column prop="account" label="财务操作人" align="center"></el-table-column>
+							<el-table-column prop="project_name" label="项目名" align="center"></el-table-column>
+							<el-table-column prop="repayment" label="放款/还款渠道" align="center"></el-table-column>
+							<el-table-column prop="repaymentnumber" label="放款/还款流水号" align="center"></el-table-column>
+							<el-table-column prop="income" label="收入" align="center"></el-table-column>
+							<el-table-column prop="expenditure" label="支出" align="center"></el-table-column>
+							<el-table-column prop="remarks" label="备注" align="center"></el-table-column>
+						</el-table>
+						<div class="block">
+							<el-pagination
+							:current-page.sync="page"
+							:page-size.sync="pageSize"
+							layout="total, prev, pager, next, jumper"
+							:page-count="totalPageCount"
+							:total="totalCount"
+							@size-change="sizeChange"
+							@current-change="currentChange"
+							></el-pagination>
+						</div>
 					</div>
 				</div>
 			</el-tab-pane>
 			<el-tab-pane label="新增线下减免调账" name="third">
-				<div class="main">
-					<el-form :model="formList" :inline="true" class="demo-form-inline">
-						<el-form-item>
-							<el-input placeholder="订单编号" v-model="formList.id"></el-input>
-						</el-form-item>
-						<el-form-item>
-							<el-button type="primary" @click="Searchs">搜索</el-button>
-						</el-form-item>
-					</el-form>
-					<table border="1" cellpadding="20" cellspacing="0" class="tab">
-						<tr>
-							<th>订单编号</th>  
-							<td>{{orderNumber}}</td>
-						</tr>
-						<tr>
-							<th>姓名</th>
-							<td>{{name}}</td>
-						</tr>
-						<tr>
-							<th>手机号</th>
-							<td>{{phone}}</td>
-						</tr>
-						<tr>
-							<th>贷款方式</th>
-							<td>{{borrowMoneyWay}}</td>
-						</tr> 
-						<tr>
-							<th>还款期数</th>
-							<td>{{borrowTimeLimit}}</td>
-						</tr>
-						<tr>
-							<th>实借时间</th>
-							<td>{{orderCreateTime}}</td>
-						</tr>
-						<tr>
-							<th>借款总金额/放款总金额</th>
-							<td class="red">{{realityBorrowMoney}}/{{makeLoans}}</td>
-						</tr>
-						<tr>
-							<th>延期后应还时间</th>
-							<td>{{deferAfterReturntime}}</td>
-						</tr>
-						<tr>
-							<th>逾期天数</th>
-							<td>{{overdueNumberOfDays}}</td>
-						</tr>
-						<tr>
-							<th>含逾总利息/扣款后应还总金额</th>
-							<td class="red">{{interestPenaltySum}}/{{realityBorrowMoney}}</td>
-						</tr>
-						<tr>
-							<th>放款流水号</th>
-							<td>{{pipelinenumber}}</td>
-						</tr>
-					</table>
-					<table border="1" cellpadding="20" cellspacing="0" class="tabs">
-						<tr>
-							<th>线下减免调账说明</th>
-							<td>
-								<p>1.线上减免调账，线下手工记账，线下减免调账，三者是有区别的</p>
-								<p>2.线上减免调账：是用户承诺但未还的减免调账，订单会有三个状态（期限内，已还清，逾期）</p>
-								<p>3.线下手工记账：可以记账收入，也可以记账支出，记账的包含的范围更宽泛</p>
-								<p>4.线下减免调账：用户已经从其他方式还款给我们的工作人员，还款输入在“线下用户已还金额”，点击“保存”后用户APP端的应还总金额将直接结清，请确保已经收到款，否则人财两空</p>
-							</td>
-						</tr>
-						<tr>
-							<th>线下用户已还金额</th>
-							<td>
-								<el-input class="inpu" v-model="amountmoney"></el-input>
-							</td>
-						</tr>
-						<tr>
-							<th>还款备注</th>
-							<td>
-								<el-input class="inpu" v-model="remarks"></el-input>
-							</td>
-						</tr>
-					</table>
-					<el-popover
-						placement="bottom"
-						width="300"
-						v-model="visibles">
-						<p>保存后，用户APP端的应还总金额将结清，请确保线下已收到款，否则人才两空</p>
-						<div style="text-align: right; margin: 0">
-							<el-button @click="visibles = false" class="left">返回</el-button>
-							<el-button type="success" @click="save">是的</el-button>
-						</div>
-						<el-button type="primary" slot="reference" class="save">添加并保存</el-button>
-					</el-popover>
+				<div class="back">
+      				<h2>新增线下减免调账</h2>
+					<div class="main">
+						<el-form :model="formList" :inline="true" class="demo-form-inline">
+							<el-form-item>
+								<el-input placeholder="订单编号" v-model="formList.id"></el-input>
+							</el-form-item>
+							<el-form-item>
+								<el-button type="primary" @click="Searchs">搜索</el-button>
+							</el-form-item>
+						</el-form>
+						<table border="1" cellpadding="20" cellspacing="0" class="tab">
+							<tr>
+								<th>订单编号</th>  
+								<td>{{orderNumber}}</td>
+							</tr>
+							<tr>
+								<th>姓名</th>
+								<td>{{name}}</td>
+							</tr>
+							<tr>
+								<th>手机号</th>
+								<td>{{phone}}</td>
+							</tr>
+							<tr>
+								<th>贷款方式</th>
+								<td>{{borrowMoneyWay}}</td>
+							</tr> 
+							<tr>
+								<th>还款期数</th>
+								<td>{{borrowTimeLimit}}</td>
+							</tr>
+							<tr>
+								<th>实借时间</th>
+								<td>{{orderCreateTime}}</td>
+							</tr>
+							<tr>
+								<th>借款总金额/放款总金额</th>
+								<td class="red">{{realityBorrowMoney}}/{{makeLoans}}</td>
+							</tr>
+							<tr>
+								<th>延期后应还时间</th>
+								<td>{{deferAfterReturntime}}</td>
+							</tr>
+							<tr>
+								<th>逾期天数</th>
+								<td>{{overdueNumberOfDays}}</td>
+							</tr>
+							<tr>
+								<th>含逾总利息/扣款后应还总金额</th>
+								<td class="red">{{interestPenaltySum}}/{{realityBorrowMoney}}</td>
+							</tr>
+							<tr>
+								<th>放款流水号</th>
+								<td>{{pipelinenumber}}</td>
+							</tr>
+						</table>
+						<table border="1" cellpadding="20" cellspacing="0" class="tabs">
+							<tr>
+								<th>线下减免调账说明</th>
+								<td>
+									<p>1.线上减免调账，线下手工记账，线下减免调账，三者是有区别的</p>
+									<p>2.线上减免调账：是用户承诺但未还的减免调账，订单会有三个状态（期限内，已还清，逾期）</p>
+									<p>3.线下手工记账：可以记账收入，也可以记账支出，记账的包含的范围更宽泛</p>
+									<p>4.线下减免调账：用户已经从其他方式还款给我们的工作人员，还款输入在“线下用户已还金额”，点击“保存”后用户APP端的应还总金额将直接结清，请确保已经收到款，否则人财两空</p>
+								</td>
+							</tr>
+							<tr>
+								<th>线下用户已还金额</th>
+								<td>
+									<el-input class="inpu" v-model="amountmoney"></el-input>
+								</td>
+							</tr>
+							<tr>
+								<th>还款备注</th>
+								<td>
+									<el-input class="inpu" v-model="remarks"></el-input>
+								</td>
+							</tr>
+						</table>
+						<el-popover
+							placement="bottom"
+							width="300"
+							v-model="visibles">
+							<p>保存后，用户APP端的应还总金额将结清，请确保线下已收到款，否则人才两空</p>
+							<div style="text-align: right; margin: 0">
+								<el-button @click="visibles = false" class="left">返回</el-button>
+								<el-button type="success" @click="save">是的</el-button>
+							</div>
+							<el-button type="primary" slot="reference" class="save">添加并保存</el-button>
+						</el-popover>
+					</div>
 				</div>
 			</el-tab-pane>
 			<el-tab-pane label="线下减免调账记录" name="forth">
-				<div class="main">
-					<el-form :model="formForth" :inline="true" class="demo-form-inline">
-						<el-form-item>
-							<el-select v-model="formForth.type" placeholder="用户订单" style="width:150px">
-								<el-option label="用户订单" value="用户订单"></el-option>
-								<el-option label="用户姓名" value="用户姓名"></el-option>
-								<el-option label="手机号" value="手机号"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item class="single">
-							<el-input placeholder="单行输入" v-model="formForth.id"></el-input>
-						</el-form-item>
-						<!-- <el-form-item>
-							<el-select v-model="form.time" placeholder="操作日期" style="width:150px">
-								<el-option label="订单时间" value="订单时间"></el-option>
-								<el-option label="延借时间" value="延借时间"></el-option>
-								<el-option label="延期后应还" value="延期后应还"></el-option>
-							</el-select>
-						</el-form-item> -->
-						<el-form-item>
-							<el-col :span="11">
-								<el-date-picker type="date" placeholder="起始时间" v-model="formForth.start"></el-date-picker>
-							</el-col>
-						</el-form-item>
+				<div class="back">
+      				<h2>线下减免调账记录</h2>
+					<div class="main">
+						<el-form :model="formForth" :inline="true" class="demo-form-inline">
+							<el-form-item>
+								<el-select v-model="formForth.type" placeholder="用户订单" style="width:150px">
+									<el-option label="用户订单" value="用户订单"></el-option>
+									<el-option label="用户姓名" value="用户姓名"></el-option>
+									<el-option label="手机号" value="手机号"></el-option>
+								</el-select>
+							</el-form-item>
 							<el-form-item class="single">
-							<el-col :span="11">
-								<el-date-picker type="date" placeholder="结束时间" v-model="formForth.end"></el-date-picker>
-							</el-col>
-						</el-form-item>
-						<el-form-item>
-							<el-button type="warning" @click="ResetForth">重置</el-button>
-							<el-button type="primary" @click="SearchForth">搜索</el-button>
-						</el-form-item>
-					</el-form>
-					<!-- <div class="statistics">
-						<ul>
-							<li>线下调账总收入</li>
-							<li class="num">10</li>
-							<li>线下调账总支出</li>
-							<li class="num">10</li>
-						</ul>
-					</div> -->
-					<el-table border :data="tableDataForth" tooltip-effect="dark" style="width: 100%;line-height: 60px">
-						<el-table-column prop="underthe_time" label="操作时间" align="center"></el-table-column>
-						<el-table-column prop="account" label="操作人" align="center"></el-table-column>
-						<el-table-column prop="orderNumber" label="用户订单" align="center"></el-table-column>
-						<el-table-column prop="name" label="用户姓名" align="center"></el-table-column>
-						<el-table-column prop="phone" label="手机号" align="center"></el-table-column>
-						<el-table-column prop="makeLoans" label="减免前应还金额" align="center"></el-table-column>
-						<el-table-column prop="income" label="线下用户已还金额" align="center"></el-table-column>
-						<el-table-column prop="remarks" label="还款备注" align="center"></el-table-column>
-					</el-table>
-					<div class="block">
-						<el-pagination
-						:current-page.sync="pages"
-						:page-size.sync="pageSizes"
-						layout="total, prev, pager, next, jumper"
-						:page-count="totalPageCounts"
-						:total="totalCounts"
-						@size-change="sizeChange"
-						@current-change="currentChange"
-						></el-pagination>
+								<el-input placeholder="单行输入" v-model="formForth.id"></el-input>
+							</el-form-item>
+							<!-- <el-form-item>
+								<el-select v-model="form.time" placeholder="操作日期" style="width:150px">
+									<el-option label="订单时间" value="订单时间"></el-option>
+									<el-option label="延借时间" value="延借时间"></el-option>
+									<el-option label="延期后应还" value="延期后应还"></el-option>
+								</el-select>
+							</el-form-item> -->
+							<el-form-item>
+								<el-col :span="11">
+									<el-date-picker type="date" placeholder="起始时间" v-model="formForth.start"></el-date-picker>
+								</el-col>
+							</el-form-item>
+								<el-form-item class="single">
+								<el-col :span="11">
+									<el-date-picker type="date" placeholder="结束时间" v-model="formForth.end"></el-date-picker>
+								</el-col>
+							</el-form-item>
+							<el-form-item>
+								<el-button type="warning" @click="ResetForth">重置</el-button>
+								<el-button type="primary" @click="SearchForth">搜索</el-button>
+							</el-form-item>
+						</el-form>
+						<!-- <div class="statistics">
+							<ul>
+								<li>线下调账总收入</li>
+								<li class="num">10</li>
+								<li>线下调账总支出</li>
+								<li class="num">10</li>
+							</ul>
+						</div> -->
+						<el-table border :data="tableDataForth" tooltip-effect="dark" style="width: 100%;line-height: 60px">
+							<el-table-column prop="underthe_time" label="操作时间" align="center"></el-table-column>
+							<el-table-column prop="account" label="操作人" align="center"></el-table-column>
+							<el-table-column prop="orderNumber" label="用户订单" align="center"></el-table-column>
+							<el-table-column prop="name" label="用户姓名" align="center"></el-table-column>
+							<el-table-column prop="phone" label="手机号" align="center"></el-table-column>
+							<el-table-column prop="makeLoans" label="减免前应还金额" align="center"></el-table-column>
+							<el-table-column prop="income" label="线下用户已还金额" align="center"></el-table-column>
+							<el-table-column prop="remarks" label="还款备注" align="center"></el-table-column>
+						</el-table>
+						<div class="block">
+							<el-pagination
+							:current-page.sync="pages"
+							:page-size.sync="pageSizes"
+							layout="total, prev, pager, next, jumper"
+							:page-count="totalPageCounts"
+							:total="totalCounts"
+							@size-change="sizeChange"
+							@current-change="currentChange"
+							></el-pagination>
+						</div>
 					</div>
 				</div>
 			</el-tab-pane>
@@ -593,8 +605,13 @@
 		font-size: 20px;
 		color: #333;
 	}
+	.el-tabs__header {
+  		margin: 0;
+	}
 	.main{
 		padding: 20px;
+		background-color: #fff;
+  		min-height: 80vh;
 	}
 	.single {
 		margin-left: -15px;

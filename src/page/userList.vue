@@ -1,91 +1,94 @@
 <template>
     <div class="fillcontain">
         <head-top></head-top>
-        <div class="table_container">
-            <el-form :model="form" :inline="true" class="demo-form-inline">
-                <el-form-item>
-                    <el-input placeholder="请输入姓名" v-model="form.name" class="input"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-input placeholder="请输入手机号" v-model="form.phone" class="input"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-col :span="11">
-                        <el-date-picker type="date" placeholder="注册起始时间"
-                                        v-model="form.registeTimeStart"></el-date-picker>
-                    </el-col>
-                </el-form-item>
-                <el-form-item class="single">
-                    <el-col :span="11">
-                        <el-date-picker type="date" placeholder="注册结束时间" v-model="form.registeTimeEnd"></el-date-picker>
-                    </el-col>
-                </el-form-item>
-                <el-form-item>
-                    <el-select placeholder="个人信息认证" v-model="form.userattestationstatus">
-                        <el-option label="个人信息认证 未认证" value="0"></el-option>
-                        <el-option label="个人信息认证 已认证" value="1"></el-option>
-                        <el-option label="个人信息认证 认证中" value="2"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item>
-                    <el-select placeholder="手机运营商认证" v-model="form.operaattestationstatus">
-                        <el-option label="手机运营商认证 未认证" value="0"></el-option>
-                        <el-option label="手机运营商认证 已认证" value="1"></el-option>
-                        <el-option label="手机运营商认证 认证中" value="2"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item>
-                    <el-select placeholder="收款银行卡" v-model="form.bankattestationstatus">
-                        <el-option label="收款银行卡 未认证" value="0"></el-option>
-                        <el-option label="收款银行卡 已认证" value="1"></el-option>
-                        <el-option label="收款银行卡 认证中" value="2"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="warning" @click="Reset">重置</el-button>
-                    <el-button type="primary" @click="Search">搜索</el-button>
-                </el-form-item>
-            </el-form>
-            <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
-                <el-table-column prop="registetime" label="注册时间" align="center"></el-table-column>
-                <el-table-column prop="name" label="姓名" align="center"></el-table-column>
-                <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
-                <el-table-column prop="userattestationstatus" label="个人信用" width="130" align="center"></el-table-column>
-                <el-table-column prop="operaattestationstatus" label="手机运营商" width="140"
-                                 align="center"></el-table-column>
-                <el-table-column prop="bankattestationstatus" label="收款银行卡" align="center"></el-table-column>
-                <!--      <el-table-column prop="address" label="芝麻授信" width="130" align="center"></el-table-column>-->
-                <el-table-column prop="address" label="查看认证信息" align="center">
-                    <template slot-scope="scope">
-                        <span class="blue" @click="refu(scope)">认证信息</span>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="address" label="查看借款信息" align="center">
-                    <template slot-scope="scope">
-                        <router-link :to="{path:'/queryOrder',query:{key:scope.row.name,value:scope.row.phone}}">
-                            <span class="blue">借款信息</span>
-                        </router-link>
-                    </template>
-                </el-table-column>
-                <el-table-column label="操作" show-overflow-tooltip align="center">
-                    <template slot-scope="scope">
-                        <el-popover placement="bottom-end" width="300" :ref="`popover-${scope.$index}`">
-                            <span class="content">确认将该用户添加到黑名单吗？</span>
-                            <el-button class="confire" type="danger" @click="confire(scope)">确定</el-button>
-                            <span class="blue" slot="reference">添加黑名单</span>
-                        </el-popover>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <div class="block">
-                <el-pagination
-                    :current-page="page"
-                    :page-size.sync="pageSize"
-                    layout="total, prev, pager, next, jumper"
-                    :page-count="totalPageCount"
-                    :total="totalCount"
-                    @current-change="currentChange"
-                ></el-pagination>
+        <div class="back">
+            <h2>注册用户信息</h2>
+            <div class="table_container">
+                <el-form :model="form" :inline="true" class="demo-form-inline">
+                    <el-form-item>
+                        <el-input placeholder="请输入姓名" v-model="form.name" class="input"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-input placeholder="请输入手机号" v-model="form.phone" class="input"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-col :span="11">
+                            <el-date-picker type="date" placeholder="注册起始时间"
+                                            v-model="form.registeTimeStart"></el-date-picker>
+                        </el-col>
+                    </el-form-item>
+                    <el-form-item class="single">
+                        <el-col :span="11">
+                            <el-date-picker type="date" placeholder="注册结束时间" v-model="form.registeTimeEnd"></el-date-picker>
+                        </el-col>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-select placeholder="个人信息认证" v-model="form.userattestationstatus">
+                            <el-option label="个人信息认证 未认证" value="0"></el-option>
+                            <el-option label="个人信息认证 已认证" value="1"></el-option>
+                            <el-option label="个人信息认证 认证中" value="2"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-select placeholder="手机运营商认证" v-model="form.operaattestationstatus">
+                            <el-option label="手机运营商认证 未认证" value="0"></el-option>
+                            <el-option label="手机运营商认证 已认证" value="1"></el-option>
+                            <el-option label="手机运营商认证 认证中" value="2"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-select placeholder="收款银行卡" v-model="form.bankattestationstatus">
+                            <el-option label="收款银行卡 未认证" value="0"></el-option>
+                            <el-option label="收款银行卡 已认证" value="1"></el-option>
+                            <el-option label="收款银行卡 认证中" value="2"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="warning" @click="Reset">重置</el-button>
+                        <el-button type="primary" @click="Search">搜索</el-button>
+                    </el-form-item>
+                </el-form>
+                <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
+                    <el-table-column prop="registetime" label="注册时间" align="center"></el-table-column>
+                    <el-table-column prop="name" label="姓名" align="center"></el-table-column>
+                    <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
+                    <el-table-column prop="userattestationstatus" label="个人信用" width="130" align="center"></el-table-column>
+                    <el-table-column prop="operaattestationstatus" label="手机运营商" width="140"
+                                    align="center"></el-table-column>
+                    <el-table-column prop="bankattestationstatus" label="收款银行卡" align="center"></el-table-column>
+                    <!--      <el-table-column prop="address" label="芝麻授信" width="130" align="center"></el-table-column>-->
+                    <el-table-column prop="address" label="查看认证信息" align="center">
+                        <template slot-scope="scope">
+                            <span class="blue" @click="refu(scope)">认证信息</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="address" label="查看借款信息" align="center">
+                        <template slot-scope="scope">
+                            <router-link :to="{path:'/queryOrder',query:{key:scope.row.name,value:scope.row.phone}}">
+                                <span class="blue">借款信息</span>
+                            </router-link>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="操作" show-overflow-tooltip align="center">
+                        <template slot-scope="scope">
+                            <el-popover placement="bottom-end" width="300" :ref="`popover-${scope.$index}`">
+                                <span class="content">确认将该用户添加到黑名单吗？</span>
+                                <el-button class="confire" type="danger" @click="confire(scope)">确定</el-button>
+                                <span class="blue" slot="reference">添加黑名单</span>
+                            </el-popover>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <div class="block">
+                    <el-pagination
+                        :current-page="page"
+                        :page-size.sync="pageSize"
+                        layout="total, prev, pager, next, jumper"
+                        :page-count="totalPageCount"
+                        :total="totalCount"
+                        @current-change="currentChange"
+                    ></el-pagination>
+                </div>
             </div>
         </div>
     </div>
@@ -203,6 +206,8 @@
 
     .table_container {
         padding: 20px;
+        background-color: #fff;
+        min-height: 70vh;
     }
 
     .single {

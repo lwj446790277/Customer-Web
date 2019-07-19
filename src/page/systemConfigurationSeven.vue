@@ -500,30 +500,33 @@
         </el-dialog>
         <el-tabs v-model="activeName" type="card">
             <el-tab-pane label="角色权限" name="first">
-                <div class="main">
-                    <el-table border :data="tableData" style="width: 100%;line-height: 60px;">
-                        <el-table-column prop="name" label="角色名称" align="center"></el-table-column>
-                        <el-table-column prop="name" label="角色描述" align="center"></el-table-column>
-                        <el-table-column prop="address" label="角色开关" align="center"></el-table-column>
-                        <el-table-column prop="address" label="编辑" align="center">
-                            <template slot-scope="scope">
-                                <el-button type="primary" @click="edit(scope.row)">编辑</el-button>
-                            </template>
-                        </el-table-column>
-                        <el-table-column prop="address" label="删除" align="center">
-                            <template slot-scope="scope">
-                                <el-popover placement="bottom-end" width="300" trigger="click">
-                                    <span class="content">确认删除该轮播图吗？</span>
-                                    <el-button class="confire" type="success" @click="confire(scope.row)">是的</el-button>
-                                    <el-button type="danger" slot="reference" @click="delet(scope.row)">删除</el-button>
-                                </el-popover>
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                    <div class="open" @click="centerDialogVisible = true">
-                        <!-- <i class="el-icon-circle-plus-outline"></i> -->
-                        <i class="el-icon-plus"></i>
-                        <span>新增角色</span>
+                <div class="back">
+                    <h2>角色权限</h2>
+                    <div class="main">
+                        <el-table border :data="tableData" style="width: 100%;line-height: 60px;">
+                            <el-table-column prop="name" label="角色名称" align="center"></el-table-column>
+                            <el-table-column prop="name" label="角色描述" align="center"></el-table-column>
+                            <el-table-column prop="address" label="角色开关" align="center"></el-table-column>
+                            <el-table-column prop="address" label="编辑" align="center">
+                                <template slot-scope="scope">
+                                    <el-button type="primary" @click="edit(scope.row)">编辑</el-button>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="address" label="删除" align="center">
+                                <template slot-scope="scope">
+                                    <el-popover placement="bottom-end" width="300" trigger="click">
+                                        <span class="content">确认删除该轮播图吗？</span>
+                                        <el-button class="confire" type="success" @click="confire(scope.row)">是的</el-button>
+                                        <el-button type="danger" slot="reference" @click="delet(scope.row)">删除</el-button>
+                                    </el-popover>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                        <div class="open" @click="centerDialogVisible = true">
+                            <!-- <i class="el-icon-circle-plus-outline"></i> -->
+                            <i class="el-icon-plus"></i>
+                            <span>新增角色</span>
+                        </div>
                     </div>
                 </div>
             </el-tab-pane>
@@ -599,61 +602,64 @@
                 </div>
             </el-dialog>
             <el-tab-pane label="账号列表" name="second">
-                <div class="main">
-                    <el-form :model="form" :inline="true" class="demo-form-inline">
-                        <el-form-item class="single">
-                            <el-input placeholder="用户名称" v-model="form.account"
-                                      class="input-with-select"></el-input>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-select v-model="form.status" placeholder="用户状态" style="width:150px">
-                                <el-option label="开启" value="1"></el-option>
-                                <el-option label="关闭" value="2"></el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-button type="warning" @click="Reset">重置</el-button>
-                            <el-button type="primary" @click="Search">搜索</el-button>
-                        </el-form-item>
-                    </el-form>
-                    <el-table border :data="tableDatas" style="width: 100%;line-height: 60px;">
-                        <el-table-column prop="rolestr" label="角色名称" align="center"></el-table-column>
-                        <el-table-column prop="account" label="用户名称" align="center"></el-table-column>
-                        <el-table-column prop="loginstate" label="登录状态" align="center"></el-table-column>
-                        <el-table-column prop="logintime" label="登录时间" align="center"></el-table-column>
-                        <el-table-column prop="status" label="账号状态" align="center"></el-table-column>
-                        <el-table-column prop="address" label="编辑" align="center">
-                            <template slot-scope="scope">
-                                <el-button type="primary" @click="openEditUserDialog(scope.row)">编辑</el-button>
-                            </template>
-                        </el-table-column>
-                        <el-table-column prop="address" label="修改状态" align="center">
-                            <template slot-scope="scope">
-                                <el-popover placement="bottom-end" width="300" trigger="click"
-                                            :ref="`popover-${scope.$index}`">
-                                    <span class="content">确认修改用户当前状态吗？</span>
-                                    <el-button class="confire" type="success"
-                                               @click="deleteUser(scope,scope.row.status)">是的
-                                    </el-button>
-                                    <el-button type="danger" slot="reference" @click="">修改状态</el-button>
-                                </el-popover>
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                    <div class="open" @click="openAddUserDialog()">
-                        <!-- <i class="el-icon-circle-plus-outline"></i> -->
-                        <i class="el-icon-plus"></i>
-                        <span>新增用户</span>
-                    </div>
-                    <div class="block">
-                        <el-pagination
-                            :current-page="page"
-                            :page-size.sync="pageSize"
-                            layout="total, prev, pager, next, jumper"
-                            :page-count="totalPageCount"
-                            :total="totalCount"
-                            @current-change="currentChange"
-                        ></el-pagination>
+                <div class="back">
+                    <h2>账号列表</h2>
+                    <div class="main">
+                        <el-form :model="form" :inline="true" class="demo-form-inline">
+                            <el-form-item>
+                                <el-input placeholder="用户名称" v-model="form.account"
+                                        class="input-with-select"></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-select v-model="form.status" placeholder="用户状态" style="width:150px">
+                                    <el-option label="开启" value="1"></el-option>
+                                    <el-option label="关闭" value="2"></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="warning" @click="Reset">重置</el-button>
+                                <el-button type="primary" @click="Search">搜索</el-button>
+                            </el-form-item>
+                        </el-form>
+                        <el-table border :data="tableDatas" style="width: 100%;line-height: 60px;">
+                            <el-table-column prop="rolestr" label="角色名称" align="center"></el-table-column>
+                            <el-table-column prop="account" label="用户名称" align="center"></el-table-column>
+                            <el-table-column prop="loginstate" label="登录状态" align="center"></el-table-column>
+                            <el-table-column prop="logintime" label="登录时间" align="center"></el-table-column>
+                            <el-table-column prop="status" label="账号状态" align="center"></el-table-column>
+                            <el-table-column prop="address" label="编辑" align="center">
+                                <template slot-scope="scope">
+                                    <el-button type="primary" @click="openEditUserDialog(scope.row)">编辑</el-button>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="address" label="修改状态" align="center">
+                                <template slot-scope="scope">
+                                    <el-popover placement="bottom-end" width="300" trigger="click"
+                                                :ref="`popover-${scope.$index}`">
+                                        <span class="content">确认修改用户当前状态吗？</span>
+                                        <el-button class="confire" type="success"
+                                                @click="deleteUser(scope,scope.row.status)">是的
+                                        </el-button>
+                                        <el-button type="danger" slot="reference" @click="">修改状态</el-button>
+                                    </el-popover>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                        <div class="open" @click="openAddUserDialog()">
+                            <!-- <i class="el-icon-circle-plus-outline"></i> -->
+                            <i class="el-icon-plus"></i>
+                            <span>新增用户</span>
+                        </div>
+                        <div class="block">
+                            <el-pagination
+                                :current-page="page"
+                                :page-size.sync="pageSize"
+                                layout="total, prev, pager, next, jumper"
+                                :page-count="totalPageCount"
+                                :total="totalCount"
+                                @current-change="currentChange"
+                            ></el-pagination>
+                        </div>
                     </div>
                 </div>
             </el-tab-pane>
@@ -850,8 +856,14 @@
         color: #333;
     }
 
+    .el-tabs__header {
+        margin: 0;
+    }
+
     .main {
         padding: 20px;
+        background-color: #fff;
+        min-height: 70vh;
     }
 
     .el-popover p {
@@ -900,7 +912,7 @@
     }
 
     .customWidths {
-        width: 18%;
+        width: 20%;
         text-align: center;
     }
 

@@ -42,13 +42,9 @@
                                 <el-radio label="2">免认证</el-radio>
                             </el-radio-group>
                         </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <el-button type="primary" @click="save()" class="btn">保存</el-button>
-                        </td>
-                    </tr>
+                    </tr>        
                 </table>
+                <el-button type="primary" @click="save()" class="btns">保存</el-button>
             </div>
         </div>
     </div>
@@ -131,7 +127,7 @@
         background-color: #fff;
 	}
 	.tableFive{
-		margin: 50px 20%;
+		margin: 20px 10%;
 		width: 60%;
         border-color: #dfe6ec;
         background-color: #fff;
@@ -140,7 +136,7 @@
         text-align: left;
     }
 	.tableFive td{
-        padding-left: 10%;
+        padding-left: 5%;
         width: 70%;
     }
     .el-radio{
@@ -149,9 +145,9 @@
     .el-radio:visited{
         color: #fff;
     }
-    .btn{
+    .btns{
         width: 80px;
-        margin-left: 20%;
+        margin-left: 30%;
         background-color:#396fff;
     }
 </style>

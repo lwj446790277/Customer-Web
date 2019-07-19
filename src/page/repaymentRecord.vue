@@ -1,41 +1,44 @@
 <template>
   <div class="fillcontain">
     <head-top></head-top>
-    <div class="main">
-      <el-form :model="form" :inline="true" class="demo-form-inline">
-        <el-form-item>
-          <el-col :span="11">
-            <el-date-picker type="date" placeholder="起始时间" v-model="form.start"></el-date-picker>
-          </el-col>
-        </el-form-item>
-        <el-form-item class="single">
-          <el-col :span="11">
-            <el-date-picker type="date" placeholder="结束时间" v-model="form.end"></el-date-picker>
-          </el-col>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="Search">搜索</el-button>
-        </el-form-item>
-      </el-form>
-      <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
-        <el-table-column prop="deferAfterReturntime" label="时间" align="center"></el-table-column>
-        <el-table-column prop="orderNum" label="延期笔数" align="center"></el-table-column>
-        <el-table-column prop="interestOnArrearsSum" label="延期费" align="center"></el-table-column>
-        <el-table-column prop="address" label="银行扣款笔数" align="center"></el-table-column>
-        <el-table-column prop="address" label="银行扣款金额" align="center"></el-table-column>
-      </el-table>
-      <div class="block">
-        <el-pagination
-          :current-page.sync="page"
-          :page-size.sync="pageSize"
-          layout="total, prev, pager, next, jumper"
-          :page-count="totalPageCount"
-          :total="totalCount"
-          @size-change="sizeChange"
-          @current-change="currentChange"
-        ></el-pagination>
+    <div class="back">
+      <h2>延期和扣款查询</h2>
+      <div class="main">
+        <el-form :model="form" :inline="true" class="demo-form-inline">
+          <el-form-item>
+            <el-col :span="11">
+              <el-date-picker type="date" placeholder="起始时间" v-model="form.start"></el-date-picker>
+            </el-col>
+          </el-form-item>
+          <el-form-item class="single">
+            <el-col :span="11">
+              <el-date-picker type="date" placeholder="结束时间" v-model="form.end"></el-date-picker>
+            </el-col>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="Search">搜索</el-button>
+          </el-form-item>
+        </el-form>
+        <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
+          <el-table-column prop="deferAfterReturntime" label="时间" align="center"></el-table-column>
+          <el-table-column prop="orderNum" label="延期笔数" align="center"></el-table-column>
+          <el-table-column prop="interestOnArrearsSum" label="延期费" align="center"></el-table-column>
+          <el-table-column prop="address" label="银行扣款笔数" align="center"></el-table-column>
+          <el-table-column prop="address" label="银行扣款金额" align="center"></el-table-column>
+        </el-table>
+        <div class="block">
+          <el-pagination
+            :current-page.sync="page"
+            :page-size.sync="pageSize"
+            layout="total, prev, pager, next, jumper"
+            :page-count="totalPageCount"
+            :total="totalCount"
+            @size-change="sizeChange"
+            @current-change="currentChange"
+          ></el-pagination>
+        </div>
+        <!-- <p>{{this.tableData.id}}</p> -->
       </div>
-      <!-- <p>{{this.tableData.id}}</p> -->
     </div>
   </div>
 </template>
@@ -61,23 +64,25 @@ export default {
       totalCount: 20
     };
   },
-  created(){
-    this.getData(this.page,this.Pagesize)
+  created() {
+    this.getData(this.page, this.Pagesize);
   },
   methods: {
-    getData( page, Pagesize ){
-      this.axios.get('fina/DelayStatistics',{
-        params:{
-          companyId: window.localStorage.getItem("companyid"),
-          page,
-          Pagesize
-        }
-      }).then(res=>{
-        this.tableData = res.data.Bankdeduction
-        this.page = res.data.Bankdeduction.page
-        this.Pagesize = res.data.Bankdeduction.Pagesize
-        this.totalCount = res.data.Bankdeduction.length
-      })
+    getData(page, Pagesize) {
+      this.axios
+        .get("fina/DelayStatistics", {
+          params: {
+            companyId: window.localStorage.getItem("companyid"),
+            page,
+            Pagesize
+          }
+        })
+        .then(res => {
+          this.tableData = res.data.Bankdeduction;
+          this.page = res.data.Bankdeduction.page;
+          this.Pagesize = res.data.Bankdeduction.Pagesize;
+          this.totalCount = res.data.Bankdeduction.length;
+        });
     },
     sizeChange() {
       //   this.getData(this.page, this.pageSize);
@@ -96,18 +101,20 @@ export default {
     },
     Reset() {
       this.clear();
-      this.getData(this.page, this.Pagesize)
+      this.getData(this.page, this.Pagesize);
     },
     Search() {
-      this.axios.get('fina/DelayStatistics',{
-        params:{
-          companyId: "3",
-          startu_time: this.form.start,
-          end_time: this.form.end
-        }
-      }).then(res=>{
-        this.tableData = res.data.Bankdeduction 
-      })
+      this.axios
+        .get("fina/DelayStatistics", {
+          params: {
+            companyId: "3",
+            startu_time: this.form.start,
+            end_time: this.form.end
+          }
+        })
+        .then(res => {
+          this.tableData = res.data.Bankdeduction;
+        });
     },
     confire() {
       this.visible = false;
@@ -123,6 +130,8 @@ export default {
 @import "../style/mixin";
 .main {
   padding: 20px;
+  background-color: #fff;
+  min-height: 70vh;
 }
 .input {
   width: 200px;

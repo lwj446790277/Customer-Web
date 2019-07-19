@@ -119,6 +119,7 @@
 	.main{
 		padding: 20px;
         background-color: white;
+        min-height: 70vh;
 	}
 	.tableFour{
 		margin: 20px 20%;

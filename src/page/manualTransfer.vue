@@ -4,342 +4,354 @@
         <!-- <p class="explain_text">这里是手动调账</p> -->
 		<el-tabs v-model="activeName" type="card" @tab-click="handleClick">
 			<el-tab-pane label="新增线上调账" name="first">
-				<div class="main">
-					<el-form :model="form" :inline="true" class="demo-form-inline">
-						<!-- <el-form-item>
-							<el-select v-model="form.time" placeholder="订单编号" style="width:150px">
-								<el-option label="订单编号" value="订单编号"></el-option>
-							</el-select>
-						</el-form-item> -->
-						<el-form-item>
-							<el-input placeholder="订单编号" v-model="form.id"></el-input>
-						</el-form-item>
-						<el-form-item>
-							<el-button type="primary" @click="Search">搜索</el-button>
-						</el-form-item>
-					</el-form>
-					<table border="1" cellpadding="20" cellspacing="0" class="tab">
-						<tr>
-							<th>订单编号</th>  
-							<td>{{orderNumber}}</td>
-						</tr>
-						<tr>
-							<th>姓名</th>
-							<td>{{name}}</td>
-						</tr>
-						<tr>
-							<th>手机号</th>
-							<td>{{phone}}</td>
-						</tr>
-						<tr>
-							<th>贷款方式</th>
-							<td>{{borrowMoneyWay}}</td>
-						</tr> 
-						<tr>
-							<th>还款期数</th>
-							<td>{{borrowTimeLimit}}</td>
-						</tr>
-						<tr>
-							<th>实借时间</th>
-							<td>{{orderCreateTime}}</td>
-						</tr>
-						<tr>
-							<th>借款总金额/放款总金额</th>
-							<td class="red">{{realityBorrowMoney}}/{{makeLoans}}</td>
-						</tr>
-						<tr>
-							<th>延期后应还时间</th>
-							<td>{{deferAfterReturntime}}</td>
-						</tr>
-						<tr>
-							<th>逾期天数</th>
-							<td>{{overdueNumberOfDays}}</td>
-						</tr>
-						<tr>
-							<th>含逾总利息/扣款后应还总金额</th>
-							<td class="red">{{interestPenaltySum}}/{{realityBorrowMoney}}</td>
-						</tr>
-						<tr>
-							<th>放款流水号</th>
-							<td>{{pipelinenumber}}</td>
-						</tr>
-					</table>
-					<table border="1" cellpadding="20" cellspacing="0" class="tabs">
-						<tr>
-							<th>还款渠道</th>
-							<td>
-								<el-select v-model="qudao" placeholder="还款渠道" class="inpu">
-									<el-option v-for="item in Thirdparty_interface" :key="item.value" :label="item.repaymentSource" :value="item.id"></el-option>
+				<div class="back">
+					<h2>新增线上调账</h2>
+					<div class="main">
+						<el-form :model="form" :inline="true" class="demo-form-inline">
+							<!-- <el-form-item>
+								<el-select v-model="form.time" placeholder="订单编号" style="width:150px">
+									<el-option label="订单编号" value="订单编号"></el-option>
 								</el-select>
-							</td>
-						</tr>
-						<tr>
-							<th>输入减免金额</th>
-							<td>
-								<el-input class="inpu" v-model="amountmoney" @blur="blur"></el-input>
-							</td>
-						</tr>
-						<tr>
-							<th>减免后应还总金额</th>
-							<td class="red">{{totalMoney}}</td>
-						</tr>
-						<tr>
-							<th>还款备注</th>
-							<td>
-								<el-input class="inpu" v-model="remarks"></el-input>
-							</td>
-						</tr>
-						<tr>
-							<th>减免后最迟应还时间</th>
-							<td>
-								<!-- <el-input class="inpu" v-model="accounttime"></el-input> -->
-								<el-date-picker class="inpu" v-model="accounttime" type="date" placeholder="选择日期"></el-date-picker>
-							</td>
-						</tr>
-						<!-- <tr>
-							<th>减免后应还延期天数</th>
-							<td>
-								<el-input class="inpu" v-model="beoverdue"></el-input>
-							</td>
-						</tr> -->
-					</table>
-					<el-popover
-						placement="bottom"
-						width="300"
-						v-model="visible">
-						<p>保存后，用户APP端的应还总金额将改变</p>
-						<div style="text-align: right; margin: 0">
-							<el-button @click="visible = false" class="left">返回</el-button>
-							<el-button type="success" @click="save">是的</el-button>
-						</div>
-						<el-button type="primary" slot="reference" class="save">添加并保存</el-button>
-					</el-popover>
+							</el-form-item> -->
+							<el-form-item>
+								<el-input placeholder="订单编号" v-model="form.id"></el-input>
+							</el-form-item>
+							<el-form-item>
+								<el-button type="primary" @click="Search">搜索</el-button>
+							</el-form-item>
+						</el-form>
+						<table border="1" cellpadding="20" cellspacing="0" class="tab">
+							<tr>
+								<th>订单编号</th>  
+								<td>{{orderNumber}}</td>
+							</tr>
+							<tr>
+								<th>姓名</th>
+								<td>{{name}}</td>
+							</tr>
+							<tr>
+								<th>手机号</th>
+								<td>{{phone}}</td>
+							</tr>
+							<tr>
+								<th>贷款方式</th>
+								<td>{{borrowMoneyWay}}</td>
+							</tr> 
+							<tr>
+								<th>还款期数</th>
+								<td>{{borrowTimeLimit}}</td>
+							</tr>
+							<tr>
+								<th>实借时间</th>
+								<td>{{orderCreateTime}}</td>
+							</tr>
+							<tr>
+								<th>借款总金额/放款总金额</th>
+								<td class="red">{{realityBorrowMoney}}/{{makeLoans}}</td>
+							</tr>
+							<tr>
+								<th>延期后应还时间</th>
+								<td>{{deferAfterReturntime}}</td>
+							</tr>
+							<tr>
+								<th>逾期天数</th>
+								<td>{{overdueNumberOfDays}}</td>
+							</tr>
+							<tr>
+								<th>含逾总利息/扣款后应还总金额</th>
+								<td class="red">{{interestPenaltySum}}/{{realityBorrowMoney}}</td>
+							</tr>
+							<tr>
+								<th>放款流水号</th>
+								<td>{{pipelinenumber}}</td>
+							</tr>
+						</table>
+						<table border="1" cellpadding="20" cellspacing="0" class="tabs">
+							<tr>
+								<th>还款渠道</th>
+								<td>
+									<el-select v-model="qudao" placeholder="还款渠道" class="inpu">
+										<el-option v-for="item in Thirdparty_interface" :key="item.value" :label="item.repaymentSource" :value="item.id"></el-option>
+									</el-select>
+								</td>
+							</tr>
+							<tr>
+								<th>输入减免金额</th>
+								<td>
+									<el-input class="inpu" v-model="amountmoney" @blur="blur"></el-input>
+								</td>
+							</tr>
+							<tr>
+								<th>减免后应还总金额</th>
+								<td class="red">{{totalMoney}}</td>
+							</tr>
+							<tr>
+								<th>还款备注</th>
+								<td>
+									<el-input class="inpu" v-model="remarks"></el-input>
+								</td>
+							</tr>
+							<tr>
+								<th>减免后最迟应还时间</th>
+								<td>
+									<!-- <el-input class="inpu" v-model="accounttime"></el-input> -->
+									<el-date-picker class="inpu" v-model="accounttime" type="date" placeholder="选择日期"></el-date-picker>
+								</td>
+							</tr>
+							<!-- <tr>
+								<th>减免后应还延期天数</th>
+								<td>
+									<el-input class="inpu" v-model="beoverdue"></el-input>
+								</td>
+							</tr> -->
+						</table>
+						<el-popover
+							placement="bottom"
+							width="300"
+							v-model="visible">
+							<p>保存后，用户APP端的应还总金额将改变</p>
+							<div style="text-align: right; margin: 0">
+								<el-button @click="visible = false" class="left">返回</el-button>
+								<el-button type="success" @click="save">是的</el-button>
+							</div>
+							<el-button type="primary" slot="reference" class="save">添加并保存</el-button>
+						</el-popover>
+					</div>
 				</div>
 			</el-tab-pane>
 			<el-tab-pane label="线上期限内订单" name="second">
-				<div class="main">
-					<el-form :model="formOne" :inline="true" class="demo-form-inline">
-						<el-form-item>
-							<el-select v-model="formOne.type" placeholder="订单编号" style="width:150px">
-								<el-option label="订单编号" value="订单编号"></el-option>
-								<el-option label="姓名" value="姓名"></el-option>
-								<el-option label="手机号" value="手机号"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item class="single">
-							<el-input placeholder="订单编号/姓名/手机号" v-model="formOne.id"></el-input>
-						</el-form-item>
-						<el-form-item>
-							<el-col :span="11">
-								<el-date-picker type="date" placeholder="实借起始时间" v-model="formOne.start"></el-date-picker>
-							</el-col>
-						</el-form-item>
+				<div class="back">
+					<h2>线上期限内订单</h2>
+					<div class="main">
+						<el-form :model="formOne" :inline="true" class="demo-form-inline">
+							<el-form-item>
+								<el-select v-model="formOne.type" placeholder="订单编号" style="width:150px">
+									<el-option label="订单编号" value="订单编号"></el-option>
+									<el-option label="姓名" value="姓名"></el-option>
+									<el-option label="手机号" value="手机号"></el-option>
+								</el-select>
+							</el-form-item>
 							<el-form-item class="single">
-							<el-col :span="11">
-								<el-date-picker type="date" placeholder="实借结束时间" v-model="formOne.end"></el-date-picker>
-							</el-col>
-						</el-form-item>
-						<el-form-item>
-							<el-col :span="11">
-								<el-date-picker type="date" placeholder="调账起始时间" v-model="formOne.accounttimestart_time"></el-date-picker>
-							</el-col>
-						</el-form-item>
-							<el-form-item class="single">
-							<el-col :span="11">
-								<el-date-picker type="date" placeholder="调账结束时间" v-model="formOne.accounttimeent_time"></el-date-picker>
-							</el-col>
-						</el-form-item>
-						<el-form-item>
-							<el-select v-model="formOne.qudao" placeholder="选择还款渠道" style="width:150px">
-								<el-option v-for="item in Thirdparty_interface" :key="item.value" :label="item.repaymentSource" :value="item.id"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item>
-							<el-button type="warning" @click="Reset">重置</el-button>
-							<el-button type="primary" @click="SearchTwo">搜索</el-button>
-						</el-form-item>
-					</el-form>
-					<!-- <div class="statistics">
-						<ul>
-							<li>累计调账总笔数</li>
-							<li class="num">10</li>
-							<li>累计调账总减免金额</li>
-							<li class="num">10</li>
-							<li>累计延期内未还金额</li>
-							<li class="num">10</li>
-						</ul>
-					</div> -->
-					<el-table border :data="tableData" tooltip-effect="dark" style="width: 100%;line-height: 60px">
-						<el-table-column prop="orderNumber" label="订单编号" align="center"></el-table-column>
-						<el-table-column prop="name" label="姓名" align="center"></el-table-column>
-						<el-table-column prop="phone" label="手机号" align="center"></el-table-column>
-						<el-table-column prop="amou_time" label="调账时间" align="center"></el-table-column>
-						<el-table-column prop="repaymentSource" label="还款渠道" align="center"></el-table-column>
-						<el-table-column prop="amountmoney" label="调账减免金额" align="center"></el-table-column>
-						<el-table-column prop="totalamount" label="减免后应还总金额" align="center"></el-table-column>
-						<el-table-column prop="remarks" label="还款备注" align="center"></el-table-column>
-						<!-- <el-table-column prop="accounttime" label="减免后应还时间" align="center"></el-table-column> -->
-						<el-table-column prop="beoverdue" label="减免后最迟应还时间" align="center"></el-table-column>
-						<!-- <el-table-column prop="address" label="操作" align="center"></el-table-column> -->
-					</el-table>
-					<div class="block">
-						<el-pagination
-						:current-page.sync="page"
-						:page-size.sync="pageSize"
-						layout="total, prev, pager, next, jumper"
-						:page-count="totalPageCount"
-						:total="totalCount"
-						@size-change="sizeChange"
-						@current-change="currentChange"
-						></el-pagination>
+								<el-input placeholder="订单编号/姓名/手机号" v-model="formOne.id"></el-input>
+							</el-form-item>
+							<el-form-item>
+								<el-col :span="11">
+									<el-date-picker type="date" placeholder="实借起始时间" v-model="formOne.start"></el-date-picker>
+								</el-col>
+							</el-form-item>
+								<el-form-item class="single">
+								<el-col :span="11">
+									<el-date-picker type="date" placeholder="实借结束时间" v-model="formOne.end"></el-date-picker>
+								</el-col>
+							</el-form-item>
+							<el-form-item>
+								<el-col :span="11">
+									<el-date-picker type="date" placeholder="调账起始时间" v-model="formOne.accounttimestart_time"></el-date-picker>
+								</el-col>
+							</el-form-item>
+								<el-form-item class="single">
+								<el-col :span="11">
+									<el-date-picker type="date" placeholder="调账结束时间" v-model="formOne.accounttimeent_time"></el-date-picker>
+								</el-col>
+							</el-form-item>
+							<el-form-item>
+								<el-select v-model="formOne.qudao" placeholder="选择还款渠道" style="width:150px">
+									<el-option v-for="item in Thirdparty_interface" :key="item.value" :label="item.repaymentSource" :value="item.id"></el-option>
+								</el-select>
+							</el-form-item>
+							<el-form-item>
+								<el-button type="warning" @click="Reset">重置</el-button>
+								<el-button type="primary" @click="SearchTwo">搜索</el-button>
+							</el-form-item>
+						</el-form>
+						<!-- <div class="statistics">
+							<ul>
+								<li>累计调账总笔数</li>
+								<li class="num">10</li>
+								<li>累计调账总减免金额</li>
+								<li class="num">10</li>
+								<li>累计延期内未还金额</li>
+								<li class="num">10</li>
+							</ul>
+						</div> -->
+						<el-table border :data="tableData" tooltip-effect="dark" style="width: 100%;line-height: 60px">
+							<el-table-column prop="orderNumber" label="订单编号" align="center"></el-table-column>
+							<el-table-column prop="name" label="姓名" align="center"></el-table-column>
+							<el-table-column prop="phone" label="手机号" align="center"></el-table-column>
+							<el-table-column prop="amou_time" label="调账时间" align="center"></el-table-column>
+							<el-table-column prop="repaymentSource" label="还款渠道" align="center"></el-table-column>
+							<el-table-column prop="amountmoney" label="调账减免金额" align="center"></el-table-column>
+							<el-table-column prop="totalamount" label="减免后应还总金额" align="center"></el-table-column>
+							<el-table-column prop="remarks" label="还款备注" align="center"></el-table-column>
+							<!-- <el-table-column prop="accounttime" label="减免后应还时间" align="center"></el-table-column> -->
+							<el-table-column prop="beoverdue" label="减免后最迟应还时间" align="center"></el-table-column>
+							<!-- <el-table-column prop="address" label="操作" align="center"></el-table-column> -->
+						</el-table>
+						<div class="block">
+							<el-pagination
+							:current-page.sync="page"
+							:page-size.sync="pageSize"
+							layout="total, prev, pager, next, jumper"
+							:page-count="totalPageCount"
+							:total="totalCount"
+							@size-change="sizeChange"
+							@current-change="currentChange"
+							></el-pagination>
+						</div>
 					</div>
 				</div>
 			</el-tab-pane>
 			<el-tab-pane label="线上已还清订单" name="third">
-				<div class="main">
-					<el-form :model="formTwo" :inline="true" class="demo-form-inline">
-						<el-form-item>
-							<el-select v-model="formTwo.type" placeholder="订单编号" style="width:150px">
-								<el-option label="订单编号" value="订单编号"></el-option>
-								<el-option label="姓名" value="姓名"></el-option>
-								<el-option label="手机号" value="手机号"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item class="single">
-							<el-input placeholder="订单编号/姓名/手机号" v-model="formTwo.id"></el-input>
-						</el-form-item>
-						<el-form-item>
-							<el-col :span="11">
-								<el-date-picker type="date" placeholder="实借起始时间" v-model="formTwo.start"></el-date-picker>
-							</el-col>
-						</el-form-item>
+				<div class="back">
+					<h2>线上已还清订单</h2>
+					<div class="main">
+						<el-form :model="formTwo" :inline="true" class="demo-form-inline">
+							<el-form-item>
+								<el-select v-model="formTwo.type" placeholder="订单编号" style="width:150px">
+									<el-option label="订单编号" value="订单编号"></el-option>
+									<el-option label="姓名" value="姓名"></el-option>
+									<el-option label="手机号" value="手机号"></el-option>
+								</el-select>
+							</el-form-item>
 							<el-form-item class="single">
-							<el-col :span="11">
-								<el-date-picker type="date" placeholder="实借结束时间" v-model="formTwo.end"></el-date-picker>
-							</el-col>
-						</el-form-item>
-						<el-form-item>
-							<el-col :span="11">
-								<el-date-picker type="date" placeholder="调账起始时间" v-model="formTwo.accounttimestart_time"></el-date-picker>
-							</el-col>
-						</el-form-item>
-							<el-form-item class="single">
-							<el-col :span="11">
-								<el-date-picker type="date" placeholder="调账结束时间" v-model="formTwo.accounttimeent_time"></el-date-picker>
-							</el-col>
-						</el-form-item>
-						<el-form-item>
-							<el-button type="warning" @click="ResetThree">重置</el-button>
-							<el-button type="primary" @click="SearchThree">搜索</el-button>
-						</el-form-item>
-					</el-form>
-					<!-- <div class="statistic">
-						<ul>
-							<li>累计实还总笔数</li>
-							<li class="num">10</li>
-							<li>累计减免后实还总金额</li>
-							<li class="num">10</li>
-						</ul>
-					</div> -->
-					<el-table border :data="tableOne" tooltip-effect="dark" style="width: 100%;line-height: 60px">
-						<el-table-column prop="orderNumber" label="订单编号" align="center"></el-table-column>
-						<el-table-column prop="name" label="姓名" align="center"></el-table-column>
-						<el-table-column prop="phone" label="手机号" align="center"></el-table-column>
-						<el-table-column prop="amou_time" label="调账时间" align="center"></el-table-column>
-						<el-table-column prop="repaymentSource" label="还款渠道" align="center"></el-table-column>
-						<el-table-column prop="address" label="还款流水号" align="center"></el-table-column>
-						<el-table-column prop="amountmoney" label="调账减免金额" align="center"></el-table-column>
-						<el-table-column prop="totalamount" label="减免后应还总金额" align="center"></el-table-column>
-						<el-table-column prop="remarks" label="还款备注" align="center"></el-table-column>
-						<el-table-column prop="accounttime" label="减免后最迟应还时间" align="center"></el-table-column>
-						<!-- <el-table-column prop="address" label="减免后应还延期天数" align="center"></el-table-column> -->
-						<!-- <el-table-column prop="address" label="减免后实还时间" align="center"></el-table-column>
-						<el-table-column prop="address" label="减免后实还金额" align="center"></el-table-column> -->
-						<!-- <el-table-column prop="address" label="操作" align="center"></el-table-column> -->
-					</el-table>
-					<div class="block">
-						<el-pagination
-						:current-page.sync="pageOne"
-						:page-size.sync="PagesizeOne"
-						layout="total, prev, pager, next, jumper"
-						:page-count="totalPageCountOne"
-						:total="totalCountOne"
-						@size-change="sizeChange"
-						@current-change="currentChange"
-						></el-pagination>
+								<el-input placeholder="订单编号/姓名/手机号" v-model="formTwo.id"></el-input>
+							</el-form-item>
+							<el-form-item>
+								<el-col :span="11">
+									<el-date-picker type="date" placeholder="实借起始时间" v-model="formTwo.start"></el-date-picker>
+								</el-col>
+							</el-form-item>
+								<el-form-item class="single">
+								<el-col :span="11">
+									<el-date-picker type="date" placeholder="实借结束时间" v-model="formTwo.end"></el-date-picker>
+								</el-col>
+							</el-form-item>
+							<el-form-item>
+								<el-col :span="11">
+									<el-date-picker type="date" placeholder="调账起始时间" v-model="formTwo.accounttimestart_time"></el-date-picker>
+								</el-col>
+							</el-form-item>
+								<el-form-item class="single">
+								<el-col :span="11">
+									<el-date-picker type="date" placeholder="调账结束时间" v-model="formTwo.accounttimeent_time"></el-date-picker>
+								</el-col>
+							</el-form-item>
+							<el-form-item>
+								<el-button type="warning" @click="ResetThree">重置</el-button>
+								<el-button type="primary" @click="SearchThree">搜索</el-button>
+							</el-form-item>
+						</el-form>
+						<!-- <div class="statistic">
+							<ul>
+								<li>累计实还总笔数</li>
+								<li class="num">10</li>
+								<li>累计减免后实还总金额</li>
+								<li class="num">10</li>
+							</ul>
+						</div> -->
+						<el-table border :data="tableOne" tooltip-effect="dark" style="width: 100%;line-height: 60px">
+							<el-table-column prop="orderNumber" label="订单编号" align="center"></el-table-column>
+							<el-table-column prop="name" label="姓名" align="center"></el-table-column>
+							<el-table-column prop="phone" label="手机号" align="center"></el-table-column>
+							<el-table-column prop="amou_time" label="调账时间" align="center"></el-table-column>
+							<el-table-column prop="repaymentSource" label="还款渠道" align="center"></el-table-column>
+							<el-table-column prop="address" label="还款流水号" align="center"></el-table-column>
+							<el-table-column prop="amountmoney" label="调账减免金额" align="center"></el-table-column>
+							<el-table-column prop="totalamount" label="减免后应还总金额" align="center"></el-table-column>
+							<el-table-column prop="remarks" label="还款备注" align="center"></el-table-column>
+							<el-table-column prop="accounttime" label="减免后最迟应还时间" align="center"></el-table-column>
+							<!-- <el-table-column prop="address" label="减免后应还延期天数" align="center"></el-table-column> -->
+							<!-- <el-table-column prop="address" label="减免后实还时间" align="center"></el-table-column>
+							<el-table-column prop="address" label="减免后实还金额" align="center"></el-table-column> -->
+							<!-- <el-table-column prop="address" label="操作" align="center"></el-table-column> -->
+						</el-table>
+						<div class="block">
+							<el-pagination
+							:current-page.sync="pageOne"
+							:page-size.sync="PagesizeOne"
+							layout="total, prev, pager, next, jumper"
+							:page-count="totalPageCountOne"
+							:total="totalCountOne"
+							@size-change="sizeChange"
+							@current-change="currentChange"
+							></el-pagination>
+						</div>
 					</div>
 				</div>
 			</el-tab-pane>
 			<el-tab-pane label="线上逾期未还订单" name="fourth">
-				<div class="main">
-					<el-form :model="formThree" :inline="true" class="demo-form-inline">
-						<el-form-item>
-							<el-select v-model="formThree.type" placeholder="订单编号" style="width:150px">
-								<el-option label="订单编号" value="订单编号"></el-option>
-								<el-option label="姓名" value="姓名"></el-option>
-								<el-option label="手机号" value="手机号"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item class="single">
-							<el-input placeholder="订单编号/姓名/手机号" v-model="formThree.id"></el-input>
-						</el-form-item>
-						<el-form-item>
-							<el-col :span="11">
-								<el-date-picker type="date" placeholder="实借起始时间" v-model="formThree.start"></el-date-picker>
-							</el-col>
-						</el-form-item>
+				<div class="back">
+					<h2>线上逾期未还订单</h2>
+					<div class="main">
+						<el-form :model="formThree" :inline="true" class="demo-form-inline">
+							<el-form-item>
+								<el-select v-model="formThree.type" placeholder="订单编号" style="width:150px">
+									<el-option label="订单编号" value="订单编号"></el-option>
+									<el-option label="姓名" value="姓名"></el-option>
+									<el-option label="手机号" value="手机号"></el-option>
+								</el-select>
+							</el-form-item>
 							<el-form-item class="single">
-							<el-col :span="11">
-								<el-date-picker type="date" placeholder="实借结束时间" v-model="formThree.end"></el-date-picker>
-							</el-col>
-						</el-form-item>
-						<el-form-item>
-							<el-col :span="11">
-								<el-date-picker type="date" placeholder="调账起始时间" v-model="formThree.accounttimestart_time"></el-date-picker>
-							</el-col>
-						</el-form-item>
-							<el-form-item class="single">
-							<el-col :span="11">
-								<el-date-picker type="date" placeholder="调账结束时间" v-model="formThree.accounttimeent_time"></el-date-picker>
-							</el-col>
-						</el-form-item>
-						<el-form-item>
-							<el-button type="warning" @click="ResetFour">重置</el-button>
-							<el-button type="primary" @click="SearchFour">搜索</el-button>
-						</el-form-item>
-					</el-form>
-					<!-- <div class="statistic">
-						<ul>
-							<li>累计逾期未还总笔数</li>
-							<li class="num">10</li>
-							<li>累计逾期未还金额</li>
-							<li class="num">10</li>
-						</ul>
-					</div> -->
-					<el-table border :data="tableTwo" tooltip-effect="dark" style="width: 100%;line-height: 60px">
-						<el-table-column prop="orderNumber" label="订单编号" align="center"></el-table-column>
-						<el-table-column prop="name" label="姓名" align="center"></el-table-column>
-						<el-table-column prop="phone" label="手机号" align="center"></el-table-column>
-						<el-table-column prop="amou_time" label="调账时间" align="center"></el-table-column>
-						<el-table-column prop="repaymentSource" label="还款渠道" align="center"></el-table-column>
-						<el-table-column prop="amountmoney" label="调账减免金额" align="center"></el-table-column>
-						<el-table-column prop="totalamount" label="减免后应还总金额" align="center"></el-table-column>
-						<el-table-column prop="remarks" label="还款备注" align="center"></el-table-column>
-						<el-table-column prop="accounttime" label="减免后最迟应还时间" align="center"></el-table-column>
-						<!-- <el-table-column prop="beoverdue" label="减免后应还延期天数" align="center"></el-table-column> -->
-						<el-table-column prop="overdueNumberOfDays" label="逾期天数" align="center"></el-table-column>
-						<!-- <el-table-column prop="address" label="操作" align="center"></el-table-column> -->
-					</el-table>
-					<div class="block">
-						<el-pagination
-						:current-page.sync="pageTwo"
-						:page-size.sync="PagesizeTwo"
-						layout="total, prev, pager, next, jumper"
-						:page-count="totalPageCountTwo"
-						:total="totalCountTwo"
-						@size-change="sizeChange"
-						@current-change="currentChange"
-						></el-pagination>
+								<el-input placeholder="订单编号/姓名/手机号" v-model="formThree.id"></el-input>
+							</el-form-item>
+							<el-form-item>
+								<el-col :span="11">
+									<el-date-picker type="date" placeholder="实借起始时间" v-model="formThree.start"></el-date-picker>
+								</el-col>
+							</el-form-item>
+								<el-form-item class="single">
+								<el-col :span="11">
+									<el-date-picker type="date" placeholder="实借结束时间" v-model="formThree.end"></el-date-picker>
+								</el-col>
+							</el-form-item>
+							<el-form-item>
+								<el-col :span="11">
+									<el-date-picker type="date" placeholder="调账起始时间" v-model="formThree.accounttimestart_time"></el-date-picker>
+								</el-col>
+							</el-form-item>
+								<el-form-item class="single">
+								<el-col :span="11">
+									<el-date-picker type="date" placeholder="调账结束时间" v-model="formThree.accounttimeent_time"></el-date-picker>
+								</el-col>
+							</el-form-item>
+							<el-form-item>
+								<el-button type="warning" @click="ResetFour">重置</el-button>
+								<el-button type="primary" @click="SearchFour">搜索</el-button>
+							</el-form-item>
+						</el-form>
+						<!-- <div class="statistic">
+							<ul>
+								<li>累计逾期未还总笔数</li>
+								<li class="num">10</li>
+								<li>累计逾期未还金额</li>
+								<li class="num">10</li>
+							</ul>
+						</div> -->
+						<el-table border :data="tableTwo" tooltip-effect="dark" style="width: 100%;line-height: 60px">
+							<el-table-column prop="orderNumber" label="订单编号" align="center"></el-table-column>
+							<el-table-column prop="name" label="姓名" align="center"></el-table-column>
+							<el-table-column prop="phone" label="手机号" align="center"></el-table-column>
+							<el-table-column prop="amou_time" label="调账时间" align="center"></el-table-column>
+							<el-table-column prop="repaymentSource" label="还款渠道" align="center"></el-table-column>
+							<el-table-column prop="amountmoney" label="调账减免金额" align="center"></el-table-column>
+							<el-table-column prop="totalamount" label="减免后应还总金额" align="center"></el-table-column>
+							<el-table-column prop="remarks" label="还款备注" align="center"></el-table-column>
+							<el-table-column prop="accounttime" label="减免后最迟应还时间" align="center"></el-table-column>
+							<!-- <el-table-column prop="beoverdue" label="减免后应还延期天数" align="center"></el-table-column> -->
+							<el-table-column prop="overdueNumberOfDays" label="逾期天数" align="center"></el-table-column>
+							<!-- <el-table-column prop="address" label="操作" align="center"></el-table-column> -->
+						</el-table>
+						<div class="block">
+							<el-pagination
+							:current-page.sync="pageTwo"
+							:page-size.sync="PagesizeTwo"
+							layout="total, prev, pager, next, jumper"
+							:page-count="totalPageCountTwo"
+							:total="totalCountTwo"
+							@size-change="sizeChange"
+							@current-change="currentChange"
+							></el-pagination>
+						</div>
 					</div>
 				</div>
 			</el-tab-pane>
@@ -726,8 +738,13 @@
 		font-size: 20px;
 		color: #333;
 	}
+	.el-tabs__header {
+  		margin: 0;
+	}
 	.main{
 		padding: 20px;
+		background-color: #fff;
+		min-height: 80vh;
 	}
 	.single {
 		margin-left: -15px;

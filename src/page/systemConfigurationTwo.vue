@@ -164,6 +164,7 @@ export default {
 .main {
   padding: 20px;
   background-color: #fff;
+  min-height: 70vh;
 }
 
 .tableTwo {
