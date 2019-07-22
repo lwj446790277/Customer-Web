@@ -35,7 +35,7 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item>
-                                <el-button type="warning" @click="Reset">重置</el-button>
+                                <el-button type="warning" @click="Reset" style="background-color:#e3e4e7;border:transparent;color:#000">重置</el-button>
                                 <el-button type="primary" @click="Search">搜索</el-button>
                             </el-form-item>
                         </el-form>
@@ -103,7 +103,7 @@
                                 <el-input placeholder="身份证号" v-model="form2.idcard"></el-input>
                             </el-form-item>
                             <el-form-item>
-                                <el-button type="warning" @click="Reset2">重置</el-button>
+                                <el-button type="warning" @click="Reset2" style="background-color:#e3e4e7;border:transparent;color:#000">重置</el-button>
                                 <el-button type="primary" @click="Search2()">搜索</el-button>
                             </el-form-item>
                             <el-button type="success" @click="batch" class="confire">批量导入</el-button>

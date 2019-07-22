@@ -311,7 +311,7 @@
                   天
                 </td>
                 <th>
-                  <el-button type="primary" @click="saveHowmanydaysapart()" style="background:#396fff">保存</el-button>
+                  <el-button type="primary" @click="saveHowmanydaysapart()">保存</el-button>
                 </th>
               </tr>
             </table>
@@ -750,7 +750,6 @@ p {
 .edit {
   width: 80px;
   margin-left: 20%;
-  background-color: #396fff;
 }
 
 .customWidth {

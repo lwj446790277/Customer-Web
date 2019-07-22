@@ -2,78 +2,81 @@
     <div class="fillcontain">
         <head-top></head-top>
         <!-- <p class="explain_text">风控3</p> -->
-        <div class="main">
-            <div class="first">
-                <h3>联系客服设置</h3>
-                <ul>
-                    <li>
-                        <span>宣传图</span>
-                        <div class="cont">
-                            <img :src="left1.advertisingmap" class="hidden">
-                            <el-upload class="upload-demo" :on-success="uploadFileSuccess1"
-                                       action="http://192.168.0.161:8080/zhita_xiaodai_admin/homepage/PictureUpload"
-                                       accept=".jpg, .png">
-                                <el-button size="small" type="primary" class="upload">点击上传</el-button>
-                                <span>(支持jpg/png格式)</span>
-                            </el-upload>
-                        </div>
-                    </li>
-                    <li>
-                        <span>联系方式</span>
-                        <div class="cont">
-                            <el-input v-model="left1.contactinformation"></el-input>
-                        </div>
-                    </li>
-                    <li>
-                        <span>二维码</span>
-                        <div class="cont">
-                            <img :src="left1.qrcode" class="hidden">
-                            <el-upload class="upload-demo" :on-success="uploadFileSuccess2"
-                                       action="http://192.168.0.161:8080/zhita_xiaodai_admin/homepage/PictureUpload"
-                                       accept=".jpg, .png">
-                                <el-button size="small" type="primary" class="upload">点击上传</el-button>
-                                <span>(支持jpg/png格式)</span>
-                            </el-upload>
-                        </div>
-                    </li>
-                    <li>
-                        <span>备注</span>
-                        <div class="cont">
-                            <el-input v-model="left1.remarks"></el-input>
-                        </div>
-                    </li>
-                </ul>
-                <el-button type="primary" class="save" @click="saveLeft()">保存</el-button>
-            </div>
-            <div class="first">
-                <h3>关于我们</h3>
-                <ul>
-                    <li>
-                        <span>APP的Logo</span>
-                        <div class="cont">
-                            <img :src="right1.logo" class="hidden">
-                            <el-upload class="upload-demo" :on-success="uploadFileSuccess3"
-                                       action="http://192.168.0.161:8080/zhita_xiaodai_admin/homepage/PictureUpload"
-                                       accept=".jpg, .png">
-                                <el-button size="small" type="primary" class="upload">点击上传</el-button>
-                                <span>(支持jpg/png格式)</span>
-                            </el-upload>
-                        </div>
-                    </li>
-                    <li>
-                        <span>公司或产品全名</span>
-                        <div class="cont">
-                            <el-input v-model="right1.productname"></el-input>
-                        </div>
-                    </li>
-                    <li>
-                        <span>当前App的版本</span>
-                        <div class="cont">
-                            <el-input v-model="right1.appversion"></el-input>
-                        </div>
-                    </li>
-                </ul>
-                <el-button type="primary" class="save" @click="saveRight()">保存</el-button>
+        <div class="back">
+            <h2>联系客服和关于我们</h2>
+            <div class="main">
+                <div class="first">
+                    <h3>联系客服设置</h3>
+                    <ul>
+                        <li>
+                            <span>宣传图</span>
+                            <div class="cont">
+                                <img :src="left1.advertisingmap" class="hidden">
+                                <el-upload class="upload-demo" :on-success="uploadFileSuccess1"
+                                        action="http://39.98.83.65:8080/zhita_xiaodai_admin/homepage/PictureUpload"
+                                        accept=".jpg, .png">
+                                    <el-button size="small" type="primary" class="upload">点击上传</el-button>
+                                    <span>(支持jpg/png格式)</span>
+                                </el-upload>
+                            </div>
+                        </li>
+                        <li>
+                            <span>联系方式</span>
+                            <div class="cont">
+                                <el-input v-model="left1.contactinformation"></el-input>
+                            </div>
+                        </li>
+                        <li>
+                            <span>二维码</span>
+                            <div class="cont">
+                                <img :src="left1.qrcode" class="hidden">
+                                <el-upload class="upload-demo" :on-success="uploadFileSuccess2"
+                                        action="http://39.98.83.65:8080/zhita_xiaodai_admin/homepage/PictureUpload"
+                                        accept=".jpg, .png">
+                                    <el-button size="small" type="primary" class="upload">点击上传</el-button>
+                                    <span>(支持jpg/png格式)</span>
+                                </el-upload>
+                            </div>
+                        </li>
+                        <li>
+                            <span>备注</span>
+                            <div class="cont">
+                                <el-input v-model="left1.remarks"></el-input>
+                            </div>
+                        </li>
+                    </ul>
+                    <el-button type="primary" class="save" @click="saveLeft()">保存</el-button>
+                </div>
+                <div class="first">
+                    <h3>关于我们</h3>
+                    <ul>
+                        <li>
+                            <span>APP的Logo</span>
+                            <div class="cont">
+                                <img :src="right1.logo" class="hidden">
+                                <el-upload class="upload-demo" :on-success="uploadFileSuccess3"
+                                        action="http://39.98.83.65:8080/zhita_xiaodai_admin/homepage/PictureUpload"
+                                        accept=".jpg, .png">
+                                    <el-button size="small" type="primary" class="upload">点击上传</el-button>
+                                    <span>(支持jpg/png格式)</span>
+                                </el-upload>
+                            </div>
+                        </li>
+                        <li>
+                            <span>公司或产品全名</span>
+                            <div class="cont">
+                                <el-input v-model="right1.productname"></el-input>
+                            </div>
+                        </li>
+                        <li>
+                            <span>当前App的版本</span>
+                            <div class="cont">
+                                <el-input v-model="right1.appversion"></el-input>
+                            </div>
+                        </li>
+                    </ul>
+                    <el-button type="primary" class="save" @click="saveRight()">保存</el-button>
+                </div>
             </div>
         </div>
     </div>
@@ -204,6 +207,8 @@
 
     .main {
         padding: 20px;
+        background-color: #fff;
+        min-height: 106vh;
     }
 
     .first {

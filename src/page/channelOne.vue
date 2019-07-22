@@ -2,54 +2,35 @@
     <div class="fillcontain">
         <head-top></head-top>
         <!-- <p class="explain_text">渠道1</p> -->
-        <div class="main">
-            <el-form :model="formList" :inline="true" class="demo-form-inline">
-                <el-form-item class="single">
-                    <el-col>
-                        <el-date-picker type="date" placeholder="起始时间"
-                                        value-format="yyyy-MM-dd"
-                                        @change="dateChangeStart"
-                                        v-model="formList.dateStart"></el-date-picker>
-                        <el-date-picker type="date" placeholder="结束时间"
-                                        value-format="yyyy-MM-dd"
-                                        @change="dateChangeEnd"
-                                        v-model="formList.dateEnd"></el-date-picker>
-                    </el-col>
-                </el-form-item>
-                <el-form-item>
-                    <el-select v-model="formList.sourceid" placeholder="引流平台渠道" style="width:150px">
-                        <el-option v-for="source in sourcelist" :label="source.sourcename"
-                                   :value="source.id"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="warning" @click="Reset">重置</el-button>
-                    <el-button type="primary" @click="Search()">搜索</el-button>
-                </el-form-item>
-            </el-form>
-            <el-table border :data="tableData" style="width: 100%;line-height: 60px;">
-                <el-table-column prop="sourcename" label="渠道" align="center"></el-table-column>
-                <el-table-column prop="uv" label="UV人数" align="center"></el-table-column>
-                <el-table-column prop="registernum" label="注册人数" align="center"></el-table-column>
-                <el-table-column prop="cvr" label="UV到注册转化率(%)" width="170" align="center"></el-table-column>
-                <el-table-column prop="activatecount" label="激活人数" align="center"></el-table-column>
-                <el-table-column prop="authencount" label="认证人数" width="100" align="center"></el-table-column>
-                <el-table-column prop="activatecount" label="激活人数" align="center"></el-table-column>
-                <el-table-column prop="applynum" label="申请人数" align="center"></el-table-column>
-                <el-table-column prop="cvr1" label="注册到申请转化率(%)" width="175" align="center"></el-table-column>
-                <el-table-column prop="machineauditpass" label="通过人数" width="100" align="center"></el-table-column>
-                <el-table-column prop="orderpass" label="已借款人数" align="center"></el-table-column>
-                <el-table-column prop="cvr2" label="注册到借款转化率(%)" width="175" align="center"></el-table-column>
-                <el-table-column prop="address" label="操作" align="center">
-                    <template slot-scope="scope">
-                        <el-button type="primary" @click="showDetail(scope.row)">时间段详情</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <el-dialog :title="detailTableName" :visible.sync="detailTableVisible" center customClass="customWidth"
-                       style="line-height: 60px;">
-                <el-table border :data="detailTableData">
-                    <el-table-column prop="date" label="日期" align="center"></el-table-column>
+        <div class="back">
+            <h2>渠道数据查询</h2>
+            <div class="main">
+                <el-form :model="formList" :inline="true" class="demo-form-inline">
+                    <el-form-item>
+                        <el-col>
+                            <el-date-picker type="date" placeholder="起始时间"
+                                            value-format="yyyy-MM-dd"
+                                            @change="dateChangeStart"
+                                            v-model="formList.dateStart"></el-date-picker>
+                            <el-date-picker type="date" placeholder="结束时间"
+                                            value-format="yyyy-MM-dd"
+                                            @change="dateChangeEnd"
+                                            v-model="formList.dateEnd"></el-date-picker>
+                        </el-col>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-select v-model="formList.sourceid" placeholder="引流平台渠道" style="width:150px">
+                            <el-option v-for="source in sourcelist" :label="source.sourcename"
+                                    :value="source.id"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="warning" @click="Reset" style="background-color:#e3e4e7;border:transparent;color:#000">重置</el-button>
+                        <el-button type="primary" @click="Search()">搜索</el-button>
+                    </el-form-item>
+                </el-form>
+                <el-table border :data="tableData" style="width: 100%;line-height: 60px;">
+                    <el-table-column prop="sourcename" label="渠道" align="center"></el-table-column>
                     <el-table-column prop="uv" label="UV人数" align="center"></el-table-column>
                     <el-table-column prop="registernum" label="注册人数" align="center"></el-table-column>
                     <el-table-column prop="cvr" label="UV到注册转化率(%)" width="170" align="center"></el-table-column>
@@ -61,17 +42,39 @@
                     <el-table-column prop="machineauditpass" label="通过人数" width="100" align="center"></el-table-column>
                     <el-table-column prop="orderpass" label="已借款人数" align="center"></el-table-column>
                     <el-table-column prop="cvr2" label="注册到借款转化率(%)" width="175" align="center"></el-table-column>
+                    <el-table-column prop="address" label="操作" align="center">
+                        <template slot-scope="scope">
+                            <el-button type="primary" @click="showDetail(scope.row)">时间段详情</el-button>
+                        </template>
+                    </el-table-column>
                 </el-table>
-            </el-dialog>
-            <div class="block">
-                <el-pagination
-                    :current-page="page"
-                    :page-size.sync="pageSize"
-                    layout="total, prev, pager, next, jumper"
-                    :page-count="totalPageCount"
-                    :total="totalCount"
-                    @current-change="currentChange"
-                ></el-pagination>
+                <el-dialog :title="detailTableName" :visible.sync="detailTableVisible" center customClass="customWidth"
+                        style="line-height: 60px;">
+                    <el-table border :data="detailTableData">
+                        <el-table-column prop="date" label="日期" align="center"></el-table-column>
+                        <el-table-column prop="uv" label="UV人数" align="center"></el-table-column>
+                        <el-table-column prop="registernum" label="注册人数" align="center"></el-table-column>
+                        <el-table-column prop="cvr" label="UV到注册转化率(%)" width="170" align="center"></el-table-column>
+                        <el-table-column prop="activatecount" label="激活人数" align="center"></el-table-column>
+                        <el-table-column prop="authencount" label="认证人数" width="100" align="center"></el-table-column>
+                        <el-table-column prop="activatecount" label="激活人数" align="center"></el-table-column>
+                        <el-table-column prop="applynum" label="申请人数" align="center"></el-table-column>
+                        <el-table-column prop="cvr1" label="注册到申请转化率(%)" width="175" align="center"></el-table-column>
+                        <el-table-column prop="machineauditpass" label="通过人数" width="100" align="center"></el-table-column>
+                        <el-table-column prop="orderpass" label="已借款人数" align="center"></el-table-column>
+                        <el-table-column prop="cvr2" label="注册到借款转化率(%)" width="175" align="center"></el-table-column>
+                    </el-table>
+                </el-dialog>
+                <div class="block">
+                    <el-pagination
+                        :current-page="page"
+                        :page-size.sync="pageSize"
+                        layout="total, prev, pager, next, jumper"
+                        :page-count="totalPageCount"
+                        :total="totalCount"
+                        @current-change="currentChange"
+                    ></el-pagination>
+                </div>
             </div>
         </div>
     </div>
@@ -222,6 +225,8 @@
     }
     .main {
         padding: 20px;
+        background-color: #fff;
+        min-height: 70vh;
     }
 
     .right {

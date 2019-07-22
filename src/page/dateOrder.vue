@@ -6,9 +6,8 @@
         <div class="back">
           <h2>未逾期未分配</h2>
           <div class="main">
-            <span class="tet">(注意:所有用户的数据只在今天的"延期后应还时间"才会出现，过了几天，用户的数据将出现在"催收预警及管理")</span>
+            <span class="tet">(注意:所有用户的数据只在今天的"延期后应还时间"出现，之后用户的数据将出现在"催收预警及管理")</span>
             <div class="right">
-              <el-button type="success" @click="oneKey" class="oneKey">一键分配</el-button>
               <el-select placeholder="分配催收员" v-model="person">
                 <el-option
                   v-for="item in per"
@@ -17,6 +16,7 @@
                   :value="item.collectionMemberId"
                 ></el-option>
               </el-select>
+              <el-button type="success" @click="oneKey" class="oneKey">一键分配</el-button>
             </div>
             <el-table
               border
@@ -689,7 +689,7 @@ export default {
           center: true
         });
       } else {
-        if (this.form.person == undefined) {
+        if (this.form.person == "") {
           this.$confirm("请选择催收员", "提示", {
             type: "warning",
             center: true
@@ -777,5 +777,8 @@ p {
   border: 1px solid #ccc;
   float: left;
   color: red;
+}
+.oneKey{
+  text-align: center;
 }
 </style>

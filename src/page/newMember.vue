@@ -57,7 +57,7 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item>
-                                <el-button type="warning" @click="Reset">重置</el-button>
+                                <el-button type="warning" @click="Reset" style="background-color:#e3e4e7;border:transparent;color:#000">重置</el-button>
                                 <el-button type="primary" @click="Search">搜索</el-button>
                                 <el-button type="success" @click="Onekey">一键扣款</el-button>
                             </el-form-item>
@@ -85,13 +85,10 @@
                         <div class="block">
                             <el-pagination
                             :current-page.sync="page"
-                            :page-sizes="[10, 15, 20, 25]"
                             :page-size.sync="pageSize"
-                            layout="total, sizes, prev, pager, next, jumper"
+                            layout="total, prev, pager, next, jumper"
                             :page-count="totalPageCount"
                             :total="totalCount"
-                            @size-change="sizeChange"
-                            @current-change="currentChange"
                             ></el-pagination>
                         </div>
                     </div>
@@ -138,13 +135,10 @@
                         <div class="block">
                             <el-pagination
                             :current-page.sync="page"
-                            :page-sizes="[10, 15, 20, 25]"
                             :page-size.sync="pageSize"
-                            layout="total, sizes, prev, pager, next, jumper"
+                            layout="total, prev, pager, next, jumper"
                             :page-count="totalPageCount"
                             :total="totalCount"
-                            @size-change="sizeChange"
-                            @current-change="currentChange"
                             ></el-pagination>
                         </div>
                     </div>
@@ -216,7 +210,7 @@
 	.main{
 		padding: 20px;
 		background-color: #fff;
-  		min-height: 80vh;
+  		min-height: 70vh;
 	}
     .single {
         margin-left: -15px;

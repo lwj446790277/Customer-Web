@@ -55,7 +55,7 @@
 				</tr>
                 <tr>
                     <td colspan="2">
-                        <center><el-button type="primary" @click="save()" style="background:#396fff">保存</el-button></center>
+                        <center><el-button type="primary" @click="save()">保存</el-button></center>
                     </td>
                 </tr>
 			</table>

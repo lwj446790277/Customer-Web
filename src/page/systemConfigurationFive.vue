@@ -146,8 +146,6 @@
         color: #fff;
     }
     .btns{
-        width: 80px;
         margin-left: 30%;
-        background-color:#396fff;
     }
 </style>
