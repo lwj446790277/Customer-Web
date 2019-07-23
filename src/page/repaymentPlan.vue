@@ -5,16 +5,22 @@
       <h2>还款实时流水</h2>
       <div class="main">
         <el-form :model="form" :inline="true" class="demo-form-inline">
-          <el-form-item>
+          <!-- <el-form-item>
             <el-select v-model="form.name" placeholder="还款流水号" style="width:150px">
               <el-option label="还款流水号" value="还款流水号"></el-option>
               <el-option label="订单编号" value="订单编号"></el-option>
               <el-option label="姓名" value="姓名"></el-option>
               <el-option label="手机号" value="手机号"></el-option>
             </el-select>
+          </el-form-item> -->
+          <el-form-item>
+            <el-input placeholder="订单编号" v-model="form.id"></el-input>
           </el-form-item>
-          <el-form-item class="single">
-            <el-input placeholder="单行输入" v-model="form.input"></el-input>
+          <el-form-item>
+            <el-input placeholder="姓名" v-model="form.name"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input placeholder="手机号" v-model="form.phone"></el-input>
           </el-form-item>
           <el-form-item>
             <el-col :span="11">
@@ -37,7 +43,11 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button type="warning" @click="Reset" style="background-color:#e3e4e7;border:transparent;color:#000">重置</el-button>
+            <el-button
+              type="warning"
+              @click="Reset"
+              style="background-color:#e3e4e7;border:transparent;color:#000"
+            >重置</el-button>
             <el-button type="primary" @click="Search">搜索</el-button>
           </el-form-item>
         </el-form>
@@ -100,7 +110,7 @@ export default {
       this.axios
         .get("fina/ThirdpatyAll", {
           params: {
-            compayId: "3"
+            compayId: window.localStorage.getItem("companyid")
           }
         })
         .then(res => {
@@ -111,7 +121,7 @@ export default {
       this.axios
         .get("fina/HuanKuan", {
           params: {
-            companyId: "3",
+            companyId: window.localStorage.getItem("companyid"),
             page,
             Pagesize
           }
@@ -153,70 +163,23 @@ export default {
       this.clear();
     },
     Search() {
-      if (this.form.name == "手机号") {
-        this.axios
-          .get("fina/HuanKuan", {
-            params: {
-              // companyId: "3",
-              phone: this.form.input,
-              start_time: this.form.start,
-              end_time: this.form.end,
-              thirdparty_id: this.id
-            }
-          })
-          .then(res => {
-            this.tableData = res.data.Repayment;
-          });
-      } else {
-        if (this.form.name == "订单编号") {
-          this.axios
-            .get("fina/HuanKuan", {
-              params: {
-                // companyId: "3",
-                orderNumber: this.form.input,
-                start_time: this.form.start,
-                end_time: this.form.end,
-                thirdparty_id: this.id
-              }
-            })
-            .then(res => {
-              this.tableData = res.data.Repayment;
-            });
-        } else {
-          if (this.form.name == "姓名") {
-            this.axios
-              .get("fina/HuanKuan", {
-                params: {
-                  // companyId: "3",
-                  name: this.form.input,
-                  start_time: this.form.start,
-                  end_time: this.form.end,
-                  thirdparty_id: this.id
-                }
-              })
-              .then(res => {
-                this.tableData = res.data.Repayment;
-              });
-          } else {
-            this.axios
-              .get("fina/HuanKuan", {
-                params: {
-                  // companyId: "3",
-                  pipelinenumber: this.form.input,
-                  start_time: this.form.start,
-                  end_time: this.form.end,
-                  thirdparty_id: this.id
-                }
-              })
-              .then(res => {
-                this.tableData = res.data.Repayment;
-              });
-          }
+      this.axios.get("fina/HuanKuan", {
+        params: {
+          companyId: window.localStorage.getItem("companyid"),
+          orderNumber:  this.form.id,
+          phone:  this.form.phone,
+          name: this.form.name,
+          start_time: this.form.start,
+          end_time: this.form.end,
+          thirdparty_id: this.id
         }
-      }
+      })
+      .then(res => {
+        this.tableData = res.data.Repayment;
+      })
     }
   }
-};
+}
 </script>
 
 <style lang="less">

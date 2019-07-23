@@ -63,6 +63,7 @@ const systemConfigurationFour = r => require.ensure([], () => r(require('@/page/
 const systemConfigurationFive = r => require.ensure([], () => r(require('@/page/systemConfigurationFive')), 'systemConfigurationFive');
 const systemConfigurationSix = r => require.ensure([], () => r(require('@/page/systemConfigurationSix')), 'systemConfigurationSix');
 const systemConfigurationSeven = r => require.ensure([], () => r(require('@/page/systemConfigurationSeven')), 'systemConfigurationSeven');
+const systemConfigurationEight = r => require.ensure([], () => r(require('@/page/systemConfigurationEight')), 'systemConfigurationEight');
 const routes = [
 	{
 		path: '/',
@@ -253,6 +254,10 @@ const routes = [
 			path: '/systemConfigurationSeven',
 			component: systemConfigurationSeven,
 			meta: ['系统配置', '角色权限管理'],
+		},{
+			path: '/systemConfigurationEight',
+			component: systemConfigurationEight,
+			meta: ['系统配置', '渠道预设和紧急设置'],
 		}]
 	}
 ]

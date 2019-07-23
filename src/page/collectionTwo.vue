@@ -5,27 +5,14 @@
       <h2>已逾期已分配</h2>
       <div class="table_container">
         <el-form :model="formList" :inline="true" class="demo-form-inline">
-          <el-form-item class="time">
-            <el-select v-model="formList.name" placeholder="订单编号" style="width:150px">
-              <el-option label="订单编号" value="订单编号"></el-option>
-              <el-option label="姓名" value="姓名"></el-option>
-              <el-option label="手机号" value="手机号"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item class="single">
-            <el-input placeholder="单行输入" v-model="formList.single" class="input-with-select"></el-input>
-          </el-form-item>
-          <!-- <el-form-item>
-          <el-input placeholder="编号/姓名/手机号" v-model="formList.id" class="input-with-select"></el-input>
-          </el-form-item>-->
           <el-form-item>
-            <el-select v-model="formList.type" placeholder="催收状态" style="width:150px">
-              <el-option label="催收成功" value="催收成功"></el-option>
-              <el-option label="催收中" value="催收中"></el-option>
-              <el-option label="承诺还款" value="承诺还款"></el-option>
-              <el-option label="未还清" value="未还清"></el-option>
-              <el-option label="无人催收已还清" value="无人催收已还清"></el-option>
-            </el-select>
+            <el-input placeholder="订单编号" v-model="formList.id"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input placeholder="姓名" v-model="formList.name"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input placeholder="手机号" v-model="formList.phone"></el-input>
           </el-form-item>
           <el-form-item>
             <el-col :span="11">
@@ -54,6 +41,15 @@
                 v-model="formList.deferAfterReturntimeEnd_time"
               ></el-date-picker>
             </el-col>
+          </el-form-item>
+          <el-form-item>
+            <el-select v-model="formList.type" placeholder="催收状态" style="width:150px">
+              <el-option label="催收成功" value="催收成功"></el-option>
+              <el-option label="催收中" value="催收中"></el-option>
+              <el-option label="承诺还款" value="承诺还款"></el-option>
+              <el-option label="未还清" value="未还清"></el-option>
+              <el-option label="无人催收已还清" value="无人催收已还清"></el-option>
+            </el-select>
           </el-form-item>
           <el-form-item>
             <el-select placeholder="逾期等级" v-model="formList.level">
@@ -164,9 +160,9 @@ export default {
       totalPageCount: 0,
       totalCount: 20,
       formList: {
+        id: "",
         name: "",
-        single: "",
-        type: "",
+        phone: "",
         start: "",
         end: "",
         deferAfterReturntimeStatu_time: "",
@@ -228,9 +224,9 @@ export default {
     },
     clear() {
       this.formList = {
+        id: "",
         name: "",
-        single: "",
-        type: "",
+        phone: "",
         start: "",
         end: "",
         deferAfterReturntimeStatu_time: "",
@@ -249,7 +245,9 @@ export default {
           .get("collection/BeoverdueYifenp", {
             params: {
               companyId: window.localStorage.getItem("companyid"),
-              name: this.formList.single,
+              orderNumber: this.form.id,
+              name: this.form.name,
+              phone: this.form.phone,
               overdueGrade: this.formList.level,
               collectionStatus: this.formList.type,
               collectionMemberId: this.formList.person,

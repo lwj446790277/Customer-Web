@@ -125,14 +125,13 @@
 					<div class="main">
 						<el-form :model="formOne" :inline="true" class="demo-form-inline">
 							<el-form-item>
-								<el-select v-model="formOne.type" placeholder="订单编号" style="width:150px">
-									<el-option label="订单编号" value="订单编号"></el-option>
-									<el-option label="姓名" value="姓名"></el-option>
-									<el-option label="手机号" value="手机号"></el-option>
-								</el-select>
+								<el-input placeholder="订单编号" v-model="formOne.id"></el-input>
 							</el-form-item>
-							<el-form-item class="single">
-								<el-input placeholder="订单编号/姓名/手机号" v-model="formOne.id"></el-input>
+							<el-form-item>
+								<el-input placeholder="姓名" v-model="formOne.name"></el-input>
+							</el-form-item>
+							<el-form-item>
+								<el-input placeholder="手机号" v-model="formOne.phone"></el-input>
 							</el-form-item>
 							<el-form-item>
 								<el-col :span="11">
@@ -207,14 +206,13 @@
 					<div class="main">
 						<el-form :model="formTwo" :inline="true" class="demo-form-inline">
 							<el-form-item>
-								<el-select v-model="formTwo.type" placeholder="订单编号" style="width:150px">
-									<el-option label="订单编号" value="订单编号"></el-option>
-									<el-option label="姓名" value="姓名"></el-option>
-									<el-option label="手机号" value="手机号"></el-option>
-								</el-select>
+								<el-input placeholder="订单编号" v-model="formTwo.id"></el-input>
 							</el-form-item>
-							<el-form-item class="single">
-								<el-input placeholder="订单编号/姓名/手机号" v-model="formTwo.id"></el-input>
+							<el-form-item>
+								<el-input placeholder="姓名" v-model="formTwo.name"></el-input>
+							</el-form-item>
+							<el-form-item>
+								<el-input placeholder="手机号" v-model="formTwo.phone"></el-input>
 							</el-form-item>
 							<el-form-item>
 								<el-col :span="11">
@@ -285,14 +283,13 @@
 					<div class="main">
 						<el-form :model="formThree" :inline="true" class="demo-form-inline">
 							<el-form-item>
-								<el-select v-model="formThree.type" placeholder="订单编号" style="width:150px">
-									<el-option label="订单编号" value="订单编号"></el-option>
-									<el-option label="姓名" value="姓名"></el-option>
-									<el-option label="手机号" value="手机号"></el-option>
-								</el-select>
+								<el-input placeholder="订单编号" v-model="formThree.id"></el-input>
 							</el-form-item>
-							<el-form-item class="single">
-								<el-input placeholder="订单编号/姓名/手机号" v-model="formThree.id"></el-input>
+							<el-form-item>
+								<el-input placeholder="姓名" v-model="formThree.name"></el-input>
+							</el-form-item>
+							<el-form-item>
+								<el-input placeholder="手机号" v-model="formThree.phone"></el-input>
 							</el-form-item>
 							<el-form-item>
 								<el-col :span="11">
@@ -398,7 +395,8 @@
 				Thirdparty_interface: [],
 				qudao: "",
 				formOne: {
-					type: "",
+					name: "",
+					phone: "",
 					id: "",
 					start: "",
 					end: "",
@@ -406,7 +404,8 @@
 					accounttimeent_time: ""
 				},
 				formTwo: {
-					type: "",
+					name: "",
+					phone: "",
 					id: "",
 					start: "",
 					end: "",
@@ -414,7 +413,8 @@
 					accounttimeent_time: ""
 				},
 				formThree: {
-					type: "",
+					name: "",
+					phone: "",
 					id: "",
 					start: "",
 					end: "",
@@ -532,143 +532,58 @@
 				})
 			},
 			SearchTwo(){
-				if(this.formOne.type == "姓名"){
-					this.axios.get('fina/SelectOrderAccount',{
+				this.axios.get('fina/SelectOrderAccount',{
 					params:{
 						companyId: "3",
-						type: this.formOne.id,
+						orderNumber: this.formOne.id,
+						phone: this.formOne.phone,
+						name: this.formOne.name,
 						repaymentSource: this.formOne.qudao,
 						start_time: this.formOne.start,
 						end_time: this.formOne.end,
 						accounttimestart_time: this.formOne.accounttimestart_time,
 						accounttimeent_time: this.formOne.accounttimeent_time
 					}
-					}).then(res=>{
-					this.tableData = res.data.Accountadjustment
-					})
-				}else{
-					if(this.formOne.type == "手机号"){
-					this.axios.get('fina/SelectOrderAccount',{
-						params:{
-							companyId: "3",
-							phone: this.formOne.id,
-							repaymentSource: this.formOne.qudao,
-							start_time: this.formOne.start,
-							end_time: this.formOne.end,
-							accounttimestart_time: this.formOne.accounttimestart_time,
-							accounttimeent_time: this.formOne.accounttimeent_time
-						}
-					}).then(res=>{
-						this.tableData = res.data.Accountadjustment
-					})
-					}else{
-					this.axios.get('fina/SelectOrderAccount',{
-						params:{
-							companyId: "3",
-							orderNumber: this.formOne.id,
-							repaymentSource: this.formOne.qudao,
-							start_time: this.formOne.start,
-							end_time: this.formOne.end,
-							accounttimestart_time: this.formOne.accounttimestart_time,
-							accounttimeent_time: this.formOne.accounttimeent_time
-						}
-					}).then(res=>{
-						this.tableData = res.data.Accountadjustment
-					})
-					}
-				}
+				}).then(res=>{
+				this.tableData = res.data.Accountadjustment
+				})
 			},
 			SearchThree(){
-				if(this.formTwo.type == "姓名"){
-					this.axios.get('fina/SelectNoMoney',{
-						params:{
-							companyId: "3",
-							type: this.formTwo.id,
-							start_time: this.formTwo.start,
-							end_time: this.formTwo.end,
-							accounttimestart_time: this.formTwo.accounttimestart_time,
-							accounttimeent_time: this.formTwo.accounttimeent_time
-						}
-					}).then(res=>{
-						this.tableOne = res.data.Accountadjustment
-					})
-				}else{
-					if(this.formTwo.type == "手机号"){
-						this.axios.get('fina/SelectNoMoney',{
-							params:{
-								companyId: "3",
-								phone: this.formTwo.id,
-								start_time: this.formTwo.start,
-								end_time: this.formTwo.end,
-								accounttimestart_time: this.formTwo.accounttimestart_time,
-								accounttimeent_time: this.formTwo.accounttimeent_time
-							}
-						}).then(res=>{
-							this.tableOne = res.data.Accountadjustment
-						})
-					}else{
-						this.axios.get('fina/SelectNoMoney',{
-							params:{
-								companyId: "3",
-								orderNumber: this.formTwo.id,
-								start_time: this.formTwo.start,
-								end_time: this.formTwo.end,
-								accounttimestart_time: this.formTwo.accounttimestart_time,
-								accounttimeent_time: this.formTwo.accounttimeent_time
-							}
-						}).then(res=>{
-							this.tableOne = res.data.Accountadjustment
-						})
+				this.axios.get('fina/SelectNoMoney',{
+					params:{
+						companyId: "3",
+						orderNumber: this.formTwo.id,
+						phone: this.formTwo.phone,
+						name: this.formTwo.name,
+						start_time: this.formTwo.start,
+						end_time: this.formTwo.end,
+						accounttimestart_time: this.formTwo.accounttimestart_time,
+						accounttimeent_time: this.formTwo.accounttimeent_time
 					}
-				}
+				}).then(res=>{
+					this.tableOne = res.data.Accountadjustment
+				})
 			},
 			SearchFour(){
-				if(this.formThree.type == "姓名"){
-					this.axios.get('fina/SelectOkMoney',{
-						params:{
-							companyId: "3",
-							type: this.formThree.id,
-							start_time: this.formThree.start,
-							end_time: this.formThree.end,
-							accounttimestart_time: this.formThree.accounttimestart_time,
-							accounttimeent_time: this.formThree.accounttimeent_time
-						}
-					}).then(res=>{
-						this.tableTwo = res.data.Accountadjustment
-					})
-				}else{
-					if(this.formThree.type == "手机号"){
-						this.axios.get('fina/SelectOkMoney',{
-							params:{
-								companyId: "3",
-								phone: this.formThree.id,
-								start_time: this.formThree.start,
-								end_time: this.formThree.end,
-								accounttimestart_time: this.formThree.accounttimestart_time,
-								accounttimeent_time: this.formThree.accounttimeent_time
-							}
-						}).then(res=>{
-							this.tableTwo = res.data.Accountadjustment
-						})
-					}else{
-						this.axios.get('fina/SelectOkMoney',{
-							params:{
-								companyId: "3",
-								orderNumber: this.formThree.id,
-								start_time: this.formThree.start,
-								end_time: this.formThree.end,
-								accounttimestart_time: this.formThree.accounttimestart_time,
-								accounttimeent_time: this.formThree.accounttimeent_time
-							}
-						}).then(res=>{
-							this.tableTwo = res.data.Accountadjustment
-						})
+				this.axios.get('fina/SelectOkMoney',{
+					params:{
+						companyId: "3",
+						orderNumber: this.formThree.id,
+						phone: this.formThree.phone,
+						name: this.formThree.name,
+						start_time: this.formThree.start,
+						end_time: this.formThree.end,
+						accounttimestart_time: this.formThree.accounttimestart_time,
+						accounttimeent_time: this.formThree.accounttimeent_time
 					}
-				}
+				}).then(res=>{
+					this.tableTwo = res.data.Accountadjustment
+				})
 			},
 			Reset(){
 				this.formOne = {
-					type: "",
+					name: "",
+					phone: "",
 					id: "",
 					start: "",
 					end: "",

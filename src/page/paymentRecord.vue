@@ -6,16 +6,21 @@
       <div class="main">
         <!-- <p class="explain_text">这里是支付记录</p> -->
         <el-form :model="form" :inline="true" class="demo-form-inline">
-          <el-form-item>
+          <!-- <el-form-item>
             <el-select v-model="form.name" placeholder="订单编号" style="width:150px">
-              <!-- <el-option label="还款流水号" value="还款流水号"></el-option> -->
               <el-option label="订单编号" value="订单编号"></el-option>
               <el-option label="姓名" value="姓名"></el-option>
               <el-option label="手机号" value="手机号"></el-option>
             </el-select>
+          </el-form-item> -->
+          <el-form-item>
+            <el-input placeholder="订单编号" v-model="form.id"></el-input>
           </el-form-item>
-          <el-form-item class="single">
-            <el-input placeholder="单行输入" v-model="form.input"></el-input>
+          <el-form-item>
+            <el-input placeholder="姓名" v-model="form.name"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input placeholder="手机号" v-model="form.phone"></el-input>
           </el-form-item>
           <el-form-item>
             <el-col :span="11">
@@ -171,8 +176,9 @@ export default {
       Thirdparty_interface: [],
       thirdparty_id: "",
       form: {
+        id: "",
         name: "",
-        input: "",
+        phone: "",
         start: "",
         end: "",
         qudao: ""
@@ -250,8 +256,9 @@ export default {
     },
     Reset() {
       this.form = {
+        id: "",
         name: "",
-        input: "",
+        phone: "",
         start: "",
         end: "",
         qudao: ""
@@ -259,67 +266,20 @@ export default {
       this.getData(this.page, this.Pagesize);
     },
     Search() {
-      if (this.form.name == "姓名") {
-        this.axios
-          .get("fina/Allpayment_record", {
-            params: {
-              companyId: "3",
-              name: this.form.input,
-              thirdparty_id: this.thirdparty_id,
-              start_time: this.form.start,
-              end_time: this.form.end
-            }
-          })
-          .then(res => {
-            this.tableData = res.data.PaymentRecord;
-          });
-      } else {
-        if (this.form.name == "手机号") {
-          this.axios
-            .get("fina/Allpayment_record", {
-              params: {
-                companyId: "3",
-                ph: this.form.input,
-                thirdparty_id: this.thirdparty_id,
-                start_time: this.form.start,
-                end_time: this.form.end
-              }
-            })
-            .then(res => {
-              this.tableData = res.data.PaymentRecord;
-            });
-        } else {
-          if (this.form.name == "订单编号") {
-            this.axios
-              .get("fina/Allpayment_record", {
-                params: {
-                  companyId: "3",
-                  orderNumber: this.form.input,
-                  thirdparty_id: this.thirdparty_id,
-                  start_time: this.form.start,
-                  end_time: this.form.end
-                }
-              })
-              .then(res => {
-                this.tableData = res.data.PaymentRecord;
-              });
-          } else {
-            this.axios
-              .get("fina/Allpayment_record", {
-                params: {
-                  companyId: "3",
-                  pipelinenumber: this.form.input,
-                  thirdparty_id: this.thirdparty_id,
-                  start_time: this.form.start,
-                  end_time: this.form.end
-                }
-              })
-              .then(res => {
-                this.tableData = res.data.PaymentRecord;
-              });
-          }
+      this.axios.get("fina/Allpayment_record", {
+        params: {
+          companyId: "3",
+          orderNumber:  this.form.id,
+          phone:  this.form.phone,
+          name: this.form.name,
+          thirdparty_id: this.thirdparty_id,
+          start_time: this.form.start,
+          end_time: this.form.end
         }
-      }
+      })
+      .then(res => {
+        this.tableData = res.data.PaymentRecord;
+      })
     },
     jie(orderNumber) {
       this.centerDialogVisible = true;

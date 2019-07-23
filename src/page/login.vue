@@ -1,6 +1,23 @@
 <template>
     <div class="login_page fillcontain">
-        <transition name="form-fade" mode="in-out">
+        <div class="form-fade">
+            <p class="manage_tip">用户登录</p>
+            <p class="manage_but">USER LOGIN</p>
+            <el-form :model="loginForm" :rules="rules" ref="loginForm" class="loginForm">
+                <el-form-item prop="username">
+                    <el-input v-model="loginForm.username" placeholder="用户名" class="username"><span>dsfsf</span></el-input>
+                    <!-- <input v-model="loginForm.username" placeholder="用户名" class="username" /> -->
+                </el-form-item>
+                <el-form-item prop="password">
+                    <el-input type="password" placeholder="密码" v-model="loginForm.password" class="password"></el-input>
+                    <!-- <input v-model="loginForm.password" placeholder="密码" class="password" /> -->
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="submitForm('loginForm')" class="submit_btn">登录</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
+        <!-- <transition name="form-fade" mode="in-out">
             <section class="form_contianer" v-show="showLogin">
                 <div class="manage_tip">
                     <p>后台管理系统</p>
@@ -17,7 +34,7 @@
                     </el-form-item>
                 </el-form>
             </section>
-        </transition>
+        </transition> -->
     </div>
 </template>
 
@@ -55,6 +72,7 @@
         methods: {
             ...mapActions(['getAdminData']),
             async submitForm(formName) {
+                console.log(this.loginForm.username)
                 this.axios.get('login/loginap', {
                     params: {account: this.loginForm.username, pwd: this.loginForm.password}
                 }).then(res => {
@@ -115,50 +133,105 @@
     }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
     @import '../style/mixin';
 
     .login_page {
-        background-color: #324057;
+        // background-color: #324057;
+        background-image: url(../assets/img/login.png);
     }
 
-    .manage_tip {
+    .form-fade{
         position: absolute;
-        width: 100%;
-        top: -100px;
-        left: 0;
-
-        p {
-            font-size: 34px;
-            color: #fff;
-        }
+        top: 26%;
+        right: 20%;
     }
 
-    .form_contianer {
-        .wh(320px, 210px);
-        .ctp(320px, 210px);
-        padding: 25px;
-        border-radius: 5px;
-        text-align: center;
-        background-color: #fff;
-
-        .submit_btn {
-            width: 100%;
-            font-size: 16px;
-        }
+    .manage_tip{
+        font-size: 1.6rem;
+        color: #396fff;
+        text-align: left;
     }
 
-    .tip {
-        font-size: 12px;
-        color: red;
+    .manage_but{
+        font-size: 1rem;
+        color: #b3bbd3;
+        text-align: left;
     }
 
-    .form-fade-enter-active, .form-fade-leave-active {
-        transition: all 1s;
+    .loginForm{
+        margin-top: 10%;
     }
 
-    .form-fade-enter, .form-fade-leave-active {
-        transform: translate3d(0, -50px, 0);
-        opacity: 0;
+    .username{
+        background: #fff url(../assets/img/name.png) 4px 4px no-repeat;
+        background-size: 30px;
+        width: 300px;
+        line-height: 40px;
+        padding-left: 40px;
+        margin-bottom: 20px;
     }
+
+    .username input.el-input__inner {
+        border: 0 none;
+    }
+
+    .password{
+        background: #fff url(../assets/img/password.png) 4px 4px no-repeat;
+        background-size: 30px;
+        width: 300px;
+        line-height: 40px;
+        padding-left: 40px;
+        margin-bottom: 20px;
+    }
+
+    .password input.el-input__inner {
+        border: 0 none;
+    }
+
+    .submit_btn{
+        width: 340px;
+        background-color: #396fff;
+        font-size: 1.2rem;
+    }
+
+    // .manage_tip {
+    //     position: absolute;
+    //     width: 100%;
+    //     top: -100px;
+    //     left: 0;
+
+    //     p {
+    //         font-size: 34px;
+    //         color: #fff;
+    //     }
+    // }
+
+    // .form_contianer {
+    //     .wh(320px, 210px);
+    //     .ctp(320px, 210px);
+    //     padding: 25px;
+    //     border-radius: 5px;
+    //     text-align: center;
+    //     background-color: #fff;
+
+    //     .submit_btn {
+    //         width: 100%;
+    //         font-size: 16px;
+    //     }
+    // }
+
+    // .tip {
+    //     font-size: 12px;
+    //     color: red;
+    // }
+
+    // .form-fade-enter-active, .form-fade-leave-active {
+    //     transition: all 1s;
+    // }
+
+    // .form-fade-enter, .form-fade-leave-active {
+    //     transform: translate3d(0, -50px, 0);
+    //     opacity: 0;
+    // }
 </style>

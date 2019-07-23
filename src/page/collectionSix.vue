@@ -6,14 +6,13 @@
       <div class="main">
         <el-form :model="form" :inline="true" class="demo-form-inline">
           <el-form-item>
-            <el-select v-model="form.name" placeholder="订单编号" style="width:150px">
-              <el-option label="订单编号" value="订单编号"></el-option>
-              <el-option label="姓名" value="姓名"></el-option>
-              <el-option label="手机号" value="手机号"></el-option>
-            </el-select>
+            <el-input placeholder="订单编号" v-model="form.id"></el-input>
           </el-form-item>
-          <el-form-item class="single">
-            <el-input placeholder="单行输入" v-model="form.id"></el-input>
+          <el-form-item>
+            <el-input placeholder="姓名" v-model="form.name"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input placeholder="手机号" v-model="form.phone"></el-input>
           </el-form-item>
           <el-form-item>
             <el-col :span="11">
@@ -174,6 +173,7 @@ export default {
       form: {
         name: "",
         id: "",
+        phone: "",
         start: "",
         end: "",
         deferAfterReturntimeStatu_time: "",
@@ -269,6 +269,7 @@ export default {
       this.form = {
         name: "",
         id: "",
+        phone: "",
         start: "",
         end: "",
         deferAfterReturntimeStatu_time: "",
@@ -281,63 +282,25 @@ export default {
       this.getData(this.page, this.Pagesize);
     },
     Search() {
-      if (this.form.name == "姓名") {
-        this.axios
-          .get("collection/YiCollection", {
-            params: {
-              companyId: window.localStorage.getItem("companyid"),
-              name: this.form.id,
-              overdueGrade: this.form.level,
-              start_time: this.formList.start,
-              end_time: this.formList.end,
-              deferAfterReturntimeStatu_time: this.formList
-                .deferAfterReturntimeStatu_time,
-              deferAfterReturntimeEnd_time: this.formList
-                .deferAfterReturntimeEnd_time
-            }
-          })
-          .then(res => {
-            this.tableData = res.data.Orderdetails;
-          });
-      } else {
-        if (this.form.name == "手机号") {
-          this.axios
-            .get("collection/YiCollection", {
-              params: {
-                companyId: window.localStorage.getItem("companyid"),
-                phone: this.form.id,
-                overdueGrade: this.form.level,
-                start_time: this.formList.start,
-                end_time: this.formList.end,
-                deferAfterReturntimeStatu_time: this.formList
-                  .deferAfterReturntimeStatu_time,
-                deferAfterReturntimeEnd_time: this.formList
-                  .deferAfterReturntimeEnd_time
-              }
-            })
-            .then(res => {
-              this.tableData = res.data.Orderdetails;
-            });
-        } else {
-          this.axios
-            .get("collection/YiCollection", {
-              params: {
-                companyId: window.localStorage.getItem("companyid"),
-                orderNumber: this.form.id,
-                overdueGrade: this.form.level,
-                start_time: this.formList.start,
-                end_time: this.formList.end,
-                deferAfterReturntimeStatu_time: this.formList
-                  .deferAfterReturntimeStatu_time,
-                deferAfterReturntimeEnd_time: this.formList
-                  .deferAfterReturntimeEnd_time
-              }
-            })
-            .then(res => {
-              this.tableData = res.data.Orderdetails;
-            });
-        }
-      }
+      this.axios
+        .get("collection/YiCollection", {
+          params: {
+            companyId: window.localStorage.getItem("companyid"),
+            orderNumber: this.form.id,
+            name: this.form.name,
+            phone: this.form.phone,
+            overdueGrade: this.form.level,
+            start_time: this.formList.start,
+            end_time: this.formList.end,
+            deferAfterReturntimeStatu_time: this.formList
+              .deferAfterReturntimeStatu_time,
+            deferAfterReturntimeEnd_time: this.formList
+              .deferAfterReturntimeEnd_time
+          }
+        })
+        .then(res => {
+          this.tableData = res.data.Orderdetails;
+        })
     },
     confire(orderId) {
       this.axios

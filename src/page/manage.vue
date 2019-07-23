@@ -34,7 +34,7 @@
 						<el-menu-item index="overdueOrder">已逾期订单</el-menu-item>
 						<el-menu-item index="badOrder">已坏账订单</el-menu-item>
 						<el-menu-item index="channelThree">逾前短信提醒</el-menu-item>
-						<el-menu-item index="personalInformation">个人信息</el-menu-item>
+						<!-- <el-menu-item index="personalInformation">个人信息</el-menu-item> -->
 						<!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
 					</el-submenu>
 					<el-submenu index="6">
@@ -78,7 +78,7 @@
 						<el-menu-item index="systemConfigurationFive">认证信息配置</el-menu-item>
 						<el-menu-item index="systemConfigurationSix">逾期等级设置</el-menu-item>
 						<el-menu-item index="systemConfigurationSeven">角色权限管理</el-menu-item>
-						<!-- <el-menu-item index="systemConfigurationEight">各项协议编辑</el-menu-item> -->
+						<el-menu-item index="systemConfigurationEight">渠道预设和紧急设置</el-menu-item>
 						<!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
 					</el-submenu>
 					<!-- <el-submenu index="11">

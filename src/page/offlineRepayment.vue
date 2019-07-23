@@ -7,7 +7,7 @@
 				<div class="back">
       				<h2>新增线下调账</h2>
 					<div class="main">
-						<table border="1" cellpadding="30" cellspacing="0" class="tabe">
+						<table cellpadding="30" cellspacing="0" class="tabe">
 							<tr>
 								<th>项目名</th>  
 								<td>
@@ -70,21 +70,11 @@
 					<div class="main">
 						<el-form :model="form" :inline="true" class="demo-form-inline">
 							<el-form-item>
-								<el-select v-model="form.type" placeholder="放款流水号" style="width:150px">
-									<el-option label="放款流水号" value="放款流水号"></el-option>
-									<el-option label="还款流水号" value="还款流水号"></el-option>
-								</el-select>
+								<el-input placeholder="放款流水号" v-model="form.fang"></el-input>
 							</el-form-item>
-							<el-form-item class="single">
-								<el-input placeholder="单行输入" v-model="form.id"></el-input>
+							<el-form-item>
+								<el-input placeholder="还款流水号" v-model="form.huan"></el-input>
 							</el-form-item>
-							<!-- <el-form-item>
-								<el-select v-model="form.time" placeholder="操作日期" style="width:150px">
-									<el-option label="订单时间" value="订单时间"></el-option>
-									<el-option label="延借时间" value="延借时间"></el-option>
-									<el-option label="延期后应还" value="延期后应还"></el-option>
-								</el-select>
-							</el-form-item> -->
 							<el-form-item>
 								<el-col :span="11">
 									<el-date-picker type="date" placeholder="起始时间" v-model="form.start"></el-date-picker>
@@ -332,8 +322,8 @@
 				totalPageCounts: 0,
 				totalCounts: 20,
 				form: {
-					type: "",
-					id: "",
+					fang: "",
+					huan: "",
 					start: "",
 					end: ""
 				},
@@ -485,8 +475,8 @@
 			},
 			Reset(){
 				this.form = {
-					type: "",
-					id: "", 
+					fang: "",
+					huan: "",
 					start: "",
 					end: ""
 				}
@@ -544,7 +534,8 @@
 				this.axios.get('fina/Orderoffline',{
 					params:{
 						companyId: window.localStorage.getItem("companyid"),
-						repaymentnumber: this.form.id,
+						repaymentnumber: this.form.fang,
+						repaymentnumber: this.form.huan,
 						start_time: this.form.start,
 						end_time: this.form.end
 					}
@@ -622,7 +613,8 @@
 		border-color: #dfe6ec;
 	}
 	.add{
-		margin-left: 60%;
+		width: 100px;
+		margin-left: 50%;
 	}
 	.statistics{
 		width: 100%

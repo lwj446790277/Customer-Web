@@ -10,10 +10,10 @@
 						<el-form :model="form" :inline="true" class="demo-form-inline">
 							<el-form-item>
 								<el-select v-model="form.name" placeholder="离最后逾前还款日" style="width:200px">
-									<el-option label="当天" value="当天"></el-option>
-									<el-option label="提前1天" value="提前1天"></el-option>
-									<el-option label="提前2天" value="提前2天"></el-option>
-									<el-option label="提前3天" value="提前3天"></el-option>
+									<el-option label="当天" value="0"></el-option>
+									<el-option label="提前1天" value="1"></el-option>
+									<el-option label="提前2天" value="2"></el-option>
+									<el-option label="提前3天" value="3"></el-option>
 								</el-select>
 							</el-form-item>
 							<el-form-item>
@@ -21,25 +21,26 @@
 							</el-form-item>
 						</el-form>
 						<el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
-							<el-table-column prop="remittanceTime" label="逾前还款日期" align="center"></el-table-column>
-							<el-table-column prop="loanSource" label="已选用户条数" align="center"></el-table-column>
-							<el-table-column prop="pipelinenumber" label="发送历史批次" align="center">
+							<el-table-column prop="collection_time" label="逾前还款日期" align="center"></el-table-column>
+							<el-table-column prop="phonenum" label="已选用户条数" align="center"></el-table-column>
+							<el-table-column label="发送历史批次" align="center">
 								<template slot-scope="scope">
-									<span class="blue" @click="open">{{scope.row.interestPenaltySum}}</span>
+									<!-- <span class="blue" @click="open">{{scope.row.interestPenaltySum}}</span> -->
+									<span class="blue" @click="open(scope.row.collection_time)">查看批次</span>
 								</template>
 							</el-table-column>
-							<el-table-column prop="paymentmoney" label="操作" align="center">
+							<el-table-column label="操作" align="center">
 								<template slot-scope="scope">
-									<el-button type="primary" @click="next">下一步</el-button>
+									<span @click="next(scope.row.phonesa,scope.row.phonenum)" class="blue">下一步</span>
 								</template>
 							</el-table-column>
 						</el-table>
 						<el-dialog title="发送历史批次" :visible.sync="dialogTableVisible" center>
 							<el-table border :data="gridData">
-								<el-table-column property="collectionTime" label="第几批次" align="center"></el-table-column>
-								<el-table-column property="collectionStatus" label="操作时间" align="center"></el-table-column>
-								<el-table-column property="promise_money" label="已选用户条数" align="center"></el-table-column>
-								<el-table-column property="orderStatus" label="成功发送条数" align="center"></el-table-column>
+								<el-table-column property="collection_time" label="第几批次" align="center"></el-table-column>
+								<el-table-column property="send_time" label="操作时间" align="center"></el-table-column>
+								<el-table-column property="phonenum" label="已选用户条数" align="center"></el-table-column>
+								<el-table-column property="successnum" label="成功发送条数" align="center"></el-table-column>
 							</el-table>
 						</el-dialog>
 						<el-dialog title="选择短信模板" :visible.sync="dialogVisible" customClass="dia" center>
@@ -47,18 +48,17 @@
 								<tr>
 									<th>短信模板</th>
 									<td>
-										<el-select v-model="type" placeholder="短信模板" style="width:90%">
-											<el-option label="还款流水号" value="还款流水号"></el-option>
-											<el-option label="订单编号" value="订单编号"></el-option>
-											<el-option label="姓名" value="姓名"></el-option>
-											<el-option label="手机号" value="手机号"></el-option>
+										<el-select v-model="type" placeholder="短信模板1" style="width:90%" @change="change">
+											<el-option label="短信模板1" value="1"></el-option>
+											<el-option label="短信模板2" value="2"></el-option>
+											<el-option label="短信模板3" value="3"></el-option>
 										</el-select>
 									</td>
 								</tr>
 								<tr>
 									<th>模板内容</th>
 									<td>
-										<el-input type="textarea" v-model="desc" style="width:90%"></el-input>
+										<el-input type="textarea" v-model="desc" style="width:90%" disabled></el-input>
 									</td>
 								</tr>
 							</table>
@@ -73,13 +73,13 @@
 					<h2>短信发送历史</h2>
 					<div class="main">
 						<el-table border :data="tableDatas" tooltip-effect="dark" style="width: 100%">
-							<el-table-column prop="remittanceTime" label="最后操作时间" align="center"></el-table-column>
-							<el-table-column prop="loanSource" label="逾前还款日期" align="center"></el-table-column>
-							<el-table-column prop="pipelinenumber" label="已选用户条数" align="center"></el-table-column>
-							<el-table-column prop="pipelinenumber" label="成功发送条数" align="center"></el-table-column>
+							<el-table-column prop="send_time" label="最后操作时间" align="center"></el-table-column>
+							<el-table-column prop="collection_time" label="逾前还款日期" align="center"></el-table-column>
+							<el-table-column prop="phonenum" label="已选用户条数" align="center"></el-table-column>
+							<el-table-column prop="successnum" label="成功发送条数" align="center"></el-table-column>
 							<el-table-column prop="paymentmoney" label="发送历史批次" align="center">
 								<template slot-scope="scope">
-									<span class="blue" @click="opens">{{scope.row.paymentmoney}}</span>
+									<span class="blue" @click="opens(scope.row.collection_time)">查看批次</span>
 								</template>
 							</el-table-column>
 						</el-table>
@@ -106,8 +106,8 @@
 		},
 		data(){
 			return{
-				tableData: [{interestPenaltySum:"共2次"}],
-				tableDatas: [{paymentmoney:"共2次"}],
+				tableData: [],
+				tableDatas: [],
 				gridData: [],
 				sendData: [],
 				dialogTableVisible: false,
@@ -118,37 +118,89 @@
 					name: ""
 				},
 				type: "",
-				desc: ""
+				desc: "111",
+				phonesa: "",
+				phonenum: ""
 			}
 		},
 		created(){
-			this.get()
-			this.getData()
+			
 		},
 		methods:{
-			open(){
+			open(collection_time){
 				this.dialogTableVisible = true
+				this.axios.get('sms/AllCollection',{
+					params: {
+						collection_time
+					}
+				}).then(res=>{
+					this.gridData = res.data.Shortmessage
+				})
 			},
-			next(){
+			next(phonesa,phonenum){
 				this.dialogVisible = true
+				console.log(phonesa)
+				this.phonesa = phonesa
+				this.phonenum = phonenum
 			},
-			opens(){
+			opens(collection_time){
 				this.dialogTable = true
+				this.axios.get('sms/AllCollection',{
+					params: {
+						collection_time
+					}
+				}).then(res=>{
+					this.gridData = res.data.Shortmessage
+				})
 			},
-			get(){
-
-			},
-			getData(){
-
+			change(){
+				if(this.type=="2"){
+					this.desc="222"
+				}else{
+					if(this.type=="2"){
+						this.desc="333"
+					}else{
+						this.desc="111"
+					}
+				}
 			},
 			handleClick(){
-
+				if(this.activeName == "second"){
+					this.axios.get('sms/AllShortMessage',{
+						params: {
+							companyid: window.localStorage.getItem("companyid")
+						}
+					}).then(res=>{
+						this.tableDatas = res.data.Shortmessage
+					})
+				}
 			},
 			Search(){
-
+				this.axios.get('sms/DateAllPhone',{
+					params: {
+						companyid: window.localStorage.getItem("companyid"),
+						biaoshi: this.form.name
+					}
+				}).then(res=>{
+					this.tableData = res.data.Shortmessage
+				})
 			},
 			send(){
-
+				console.log(this.phonesa.join())
+				this.axios.get('sms/SendSms',{
+					params: {
+						companyid: window.localStorage.getItem("companyid"),
+						msg: this.desc,
+						phone: this.phonesa.join(),
+						// phone: 18270683860,
+						phonenum: this.phonenum
+					}
+				}).then(res=>{
+					this.$confirm(res.data.desc, '提示', {
+						type: 'warning',
+						center: true
+					})
+				})
 			}
 		}
     }

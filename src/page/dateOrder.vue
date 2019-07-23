@@ -98,23 +98,17 @@
           <div class="main">
             <el-form :model="form" :inline="true" class="demo-form-inline">
               <el-form-item>
-                <el-select placeholder="订单编号" v-model="form.id">
-                  <el-option label="订单编号" value="订单编号"></el-option>
-                  <el-option label="姓名" value="姓名"></el-option>
-                  <el-option label="手机号" value="手机号"></el-option>
-                </el-select>
+                <el-input placeholder="订单编号" v-model="form.id"></el-input>
               </el-form-item>
-              <el-form-item class="single">
-                <el-input placeholder="单行输入" v-model="form.single" class="input-with-select"></el-input>
+              <el-form-item>
+                <el-input placeholder="姓名" v-model="form.name"></el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-input placeholder="手机号" v-model="form.phone"></el-input>
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="Search">搜索</el-button>
               </el-form-item>
-              <!-- <el-form-item class="right">
-              <el-select placeholder="分配催收员" v-model="form.person">
-                <el-option v-for="item in per" :key="item.value" :label="item.reallyName" :value="item.collectionMemberId"></el-option>
-              </el-select>
-              </el-form-item>-->
             </el-form>
             <el-table border :data="tableDataTwo" style="width: 100%">
               <el-table-column prop="orderNumber" label="订单编号" width="93" align="center"></el-table-column>
@@ -380,9 +374,9 @@ export default {
       activeName: "first",
       person: "",
       form: {
-        single: "",
         id: "",
-        person: ""
+        name: "",
+        phone: ""
       },
       formThree: {
         time: "",
@@ -552,42 +546,17 @@ export default {
       console.log(this.String);
     },
     Search() {
-      if (this.form.id == "姓名") {
-        this.axios
-          .get("postloanor/NoCollection", {
-            params: {
-              companyId: window.localStorage.getItem("companyid"),
-              name: this.form.single
-            }
-          })
-          .then(res => {
-            this.tableDataTwo = res.data.Orderdetails;
-          });
-      } else {
-        if (this.form.id == "手机号") {
-          this.axios
-            .get("postloanor/NoCollection", {
-              params: {
-                companyId: window.localStorage.getItem("companyid"),
-                phone: this.form.single
-              }
-            })
-            .then(res => {
-              this.tableDataTwo = res.data.Orderdetails;
-            });
-        } else {
-          this.axios
-            .get("postloanor/NoCollection", {
-              params: {
-                companyId: window.localStorage.getItem("companyid"),
-                orderNumber: this.form.single
-              }
-            })
-            .then(res => {
-              this.tableDataTwo = res.data.Orderdetails;
-            });
-        }
-      }
+      this.axios.get("postloanor/NoCollection", {
+          params: {
+            companyId: window.localStorage.getItem("companyid"),
+            orderNumber: this.form.id,
+            name: this.form.name,
+            phone: this.form.phone
+          }
+        })
+        .then(res => {
+          this.tableDataTwo = res.data.Orderdetails
+        })
     },
     SearchThird() {
       this.axios

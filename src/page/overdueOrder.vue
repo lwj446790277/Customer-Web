@@ -6,14 +6,13 @@
       <div class="main">
         <el-form :model="formList" :inline="true" class="demo-form-inline">
           <el-form-item>
-            <el-select v-model="formList.name" placeholder="订单编号" style="width:150px">
-              <el-option label="订单编号" value="订单编号"></el-option>
-              <el-option label="姓名" value="姓名"></el-option>
-              <el-option label="手机号" value="手机号"></el-option>
-            </el-select>
+            <el-input placeholder="订单编号" v-model="formList.id"></el-input>
           </el-form-item>
-          <el-form-item class="single">
-            <el-input placeholder="请输入数字" v-model="formList.single" class="input-with-select"></el-input>
+          <el-form-item>
+            <el-input placeholder="姓名" v-model="formList.name"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input placeholder="手机号" v-model="formList.phone"></el-input>
           </el-form-item>
           <el-form-item>
             <el-col :span="11">
@@ -165,8 +164,9 @@ export default {
       tableData: [],
       level: [],
       formList: {
+        id: "",
         name: "",
-        single: "",
+        phone: "",
         start: "",
         end: "",
         deferBeforeReturntimeStatu_time: "",
@@ -226,8 +226,9 @@ export default {
     },
     clear() {
       this.formList = {
+        id: "",
         name: "",
-        single: "",
+        phone: "",
         start: "",
         end: "",
         deferBeforeReturntimeStatu_time: "",
@@ -244,84 +245,34 @@ export default {
       this.getData(this.page, this.Pagesize);
     },
     Search() {
-      if (this.formList.name == "姓名") {
-        this.axios
-          .get("postloanor/CollectionOrderSum", {
-            params: {
-              companyId: window.localStorage.getItem("companyid"),
-              name: this.formList.single,
-              overdueGrade: this.formList.level,
-              start_time: this.formList.start,
-              end_time: this.formList.end,
-              deferBeforeReturntimeStatu_time: this.formList
-                .deferBeforeReturntimeStatu_time,
-              deferBeforeReturntimeEnd_time: this.formList
-                .deferBeforeReturntimeEnd_time,
-              deferAfterReturntimeStatu_time: this.formList
-                .deferAfterReturntimeStatu_time,
-              deferAfterReturntimeEnd_time: this.formList
-                .deferAfterReturntimeEnd_time,
-              realtimeStatu_time: this.formList.realtimeStatu_time,
-              realtimeEnd_time: this.formList.realtimeEnd_time
-            }
-          })
-          .then(res => {
-            this.tableData = res.data.Orderdetails;
-          });
-      } else {
-        if (this.formList.name == "手机号") {
-          this.axios
-            .get("postloanor/CollectionOrderSum", {
-              params: {
-                companyId: window.localStorage.getItem("companyid"),
-                phone: this.formList.single,
-                overdueGrade: this.formList.level,
-                start_time: this.formList.start,
-                end_time: this.formList.end,
-                deferBeforeReturntimeStatu_time: this.formList
-                  .deferBeforeReturntimeStatu_time,
-                deferBeforeReturntimeEnd_time: this.formList
-                  .deferBeforeReturntimeEnd_time,
-                deferAfterReturntimeStatu_time: this.formList
-                  .deferAfterReturntimeStatu_time,
-                deferAfterReturntimeEnd_time: this.formList
-                  .deferAfterReturntimeEnd_time,
-                realtimeStatu_time: this.formList.realtimeStatu_time,
-                realtimeEnd_time: this.formList.realtimeEnd_time
-              }
-            })
-            .then(res => {
-              this.tableData = res.data.Orderdetails;
-            });
-        } else {
-          this.axios
-            .get("postloanor/CollectionOrderSum", {
-              params: {
-                companyId: window.localStorage.getItem("companyid"),
-                orderNumber: this.formList.single,
-                overdueGrade: this.formList.level,
-                start_time: this.formList.start,
-                end_time: this.formList.end,
-                deferBeforeReturntimeStatu_time: this.formList
-                  .deferBeforeReturntimeStatu_time,
-                deferBeforeReturntimeEnd_time: this.formList
-                  .deferBeforeReturntimeEnd_time,
-                deferAfterReturntimeStatu_time: this.formList
-                  .deferAfterReturntimeStatu_time,
-                deferAfterReturntimeEnd_time: this.formList
-                  .deferAfterReturntimeEnd_time,
-                realtimeStatu_time: this.formList.realtimeStatu_time,
-                realtimeEnd_time: this.formList.realtimeEnd_time
-              }
-            })
-            .then(res => {
-              this.tableData = res.data.Orderdetails;
-            });
-        }
-      }
+      this.axios
+        .get("postloanor/CollectionOrderSum", {
+          params: {
+            companyId: window.localStorage.getItem("companyid"),
+            orderNumber: this.formList.id,
+            name: this.formList.name,
+            phone: this.formList.phone,
+            overdueGrade: this.formList.level,
+            start_time: this.formList.start,
+            end_time: this.formList.end,
+            deferBeforeReturntimeStatu_time: this.formList
+              .deferBeforeReturntimeStatu_time,
+            deferBeforeReturntimeEnd_time: this.formList
+              .deferBeforeReturntimeEnd_time,
+            deferAfterReturntimeStatu_time: this.formList
+              .deferAfterReturntimeStatu_time,
+            deferAfterReturntimeEnd_time: this.formList
+              .deferAfterReturntimeEnd_time,
+            realtimeStatu_time: this.formList.realtimeStatu_time,
+            realtimeEnd_time: this.formList.realtimeEnd_time
+          }
+        })
+        .then(res => {
+          this.tableData = res.data.Orderdetails;
+        });
     }
   }
-};
+}
 </script>
 
 <style lang="less">

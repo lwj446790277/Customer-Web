@@ -90,7 +90,7 @@
             </el-tab-pane>
             <el-tab-pane label="人工添加黑名单" name="second">
                 <div class="back">
-                    <h2>机审判定黑名单</h2>
+                    <h2>人工添加黑名单</h2>
                     <div class="table_container">
                         <el-form :model="form2" :inline="true" class="demo-form-inline">
                             <el-form-item>
@@ -106,7 +106,7 @@
                                 <el-button type="warning" @click="Reset2" style="background-color:#e3e4e7;border:transparent;color:#000">重置</el-button>
                                 <el-button type="primary" @click="Search2()">搜索</el-button>
                             </el-form-item>
-                            <el-button type="success" @click="batch" class="confire">批量导入</el-button>
+                            <el-button type="success" @click="batch" class="confire" style="background-color:#19b293">批量导入</el-button>
                         </el-form>
                         <el-table border :data="blackList2" style="width: 100%">
                             <el-table-column prop="name" label="姓名" align="center"></el-table-column>
@@ -114,7 +114,20 @@
                             <el-table-column prop="idcard" label="身份证号" align="center"></el-table-column>
                             <el-table-column prop="operationtime" label="最后编辑时间" align="center"></el-table-column>
                             <el-table-column prop="account" label="操作成员" align="center"></el-table-column>
-                            <el-table-column prop="address" label="编辑" align="center">
+                            <el-table-column label="操作" align="center">
+                                <template slot-scope="scope">
+                                    <span @click="editDialogShow(scope.row)" class="blue">编辑</span>
+                                    <span class="zhong">|</span>
+                                    <el-popover placement="bottom-end" width="300" trigger="click"
+                                                :ref="`popover-${scope.$index}`">
+                                        <span class="content">确认将该用户从黑名单删除吗？</span>
+                                        <el-button class="confire" type="success" @click="deleteBlackUser(scope)">是的
+                                        </el-button>
+                                        <span slot="reference" class="red">删除</span>
+                                    </el-popover>
+                                </template>
+                            </el-table-column>
+                            <!-- <el-table-column prop="address" label="编辑" align="center">
                                 <template slot-scope="scope">
                                     <el-button type="primary" @click="editDialogShow(scope.row)">编辑</el-button>
                                 </template>
@@ -129,7 +142,7 @@
                                         <el-button type="danger" slot="reference">删除</el-button>
                                     </el-popover>
                                 </template>
-                            </el-table-column>
+                            </el-table-column> -->
                         </el-table>
                         <div class="open" @click="dialogTableVisible2 = true">
                             <i class="el-icon-plus"></i>
@@ -425,9 +438,19 @@
         float: right;
     }
 
-    .content {
-        color: blue;
+    .blue {
+        color: #396fff;
         cursor: pointer;
+    }
+
+    .red {
+        color: #ff050b;
+        cursor: pointer;
+    }
+
+    .zhong{
+        margin-left: 5px;
+        margin-right: 5px;
     }
 
     .block {
@@ -436,7 +459,7 @@
     }
 
     .content {
-        font-size: 1.1rem;
+        font-size: 1rem;
         text-align: center;
         display: block;
         margin-bottom: 15px;

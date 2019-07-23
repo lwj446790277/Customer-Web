@@ -21,7 +21,7 @@
                         <el-button type="warning" @click="Reset" style="background-color:#e3e4e7;border:transparent;color:#000">重置</el-button>
                         <el-button type="primary" @click="Search">搜索</el-button>
                     </el-form-item>
-                    <el-button type="success" @click="batch" class="confire">批量导入</el-button>
+                    <el-button type="success" @click="batch" class="confire" style="background-color:#19b293">批量导入</el-button>
                 </el-form>
                 <el-table border :data="tableData" style="width: 100%">
                     <el-table-column prop="name" label="姓名" align="center"></el-table-column>
@@ -29,7 +29,20 @@
                     <el-table-column prop="idcard" label="身份证号" align="center"></el-table-column>
                     <el-table-column prop="operationtime" label="最后编辑时间" align="center"></el-table-column>
                     <el-table-column prop="account" label="操作成员" align="center"></el-table-column>
-                    <el-table-column label="编辑" align="center">
+                    <el-table-column label="操作" align="center">
+                        <template slot-scope="scope">
+                            <span @click="editDialogShow(scope.row)" class="blue">编辑</span>
+                            <span class="zhong">|</span>
+                            <el-popover placement="bottom-end" width="300" trigger="click"
+                                        :ref="`popover-${scope.$index}`">
+                                <span class="content">确认将该用户从白名单移除吗？</span>
+                                <el-button class="confire" type="success" @click="deleteUser(scope)">是的
+                                </el-button>
+                                <span slot="reference" class="red">删除</span>
+                            </el-popover>
+                        </template>
+                    </el-table-column>
+                    <!-- <el-table-column label="编辑" align="center">
                         <template slot-scope="scope">
                             <el-button type="primary" @click="editDialogShow(scope.row)">编辑</el-button>
                         </template>
@@ -42,7 +55,7 @@
                                 <el-button type="danger" slot="reference">删除</el-button>
                             </el-popover>
                         </template>
-                    </el-table-column>
+                    </el-table-column> -->
                 </el-table>
                 <div class="open" @click="openAddDialog()">
                     <!-- <i class="el-icon-circle-plus-outline"></i> -->
@@ -268,16 +281,34 @@
     }
 
     .dialogClass {
-        width: 15%;
+        width: 20%;
     }
 
     .confire {
         float: right;
     }
 
-    .content {
-        color: blue;
+    .blue {
+        color: #396fff;
         cursor: pointer;
+    }
+
+    .red {
+        color: #ff050b;
+        cursor: pointer;
+    }
+
+    .zhong{
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .content {
+        font-size: 1rem;
+        text-align: center;
+        display: block;
+        margin-bottom: 15px;
+        margin-top: 15px;
     }
 
     .block {
