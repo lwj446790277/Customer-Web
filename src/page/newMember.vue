@@ -62,24 +62,24 @@
                                 <el-button type="success" @click="Onekey">一键扣款</el-button>
                             </el-form-item>
                         </el-form>
-                        <el-table border :data="tableData" tooltip-effect="dark" @selection-change="handleSelectionChange" style="width: 100%">
+                        <el-table border :data="tableData" tooltip-effect="dark" @selection-change="handleSelectionChange" style="width: 100%;line-height: 60px;">
                             <el-table-column type="selection" width="55"></el-table-column>
                             <el-table-column prop="name" label="编号" align="center"></el-table-column>
                             <el-table-column prop="name" label="姓名" align="center"></el-table-column>
                             <el-table-column prop="address" label="手机号" align="center"></el-table-column>
-                            <el-table-column prop="address" label="银行卡号" align="center"></el-table-column>
-                            <el-table-column prop="address" label="贷款方式" align="center"></el-table-column>
-                            <el-table-column prop="address" label="还款期数" align="center"></el-table-column>
-                            <el-table-column prop="address" label="实借时间" align="center"></el-table-column>
-                            <el-table-column prop="address" label="实借/放款总金额" align="center"></el-table-column>
-                            <el-table-column prop="address" label="延期后应还时间" align="center"></el-table-column>
-                            <el-table-column prop="address" label="逾期等级" align="center"></el-table-column>
-                            <el-table-column prop="address" label="逾期天数" align="center"></el-table-column>
-                            <el-table-column prop="address" label="逾期罚金/含逾应还总金额" width="120" align="center"></el-table-column>
-                            <el-table-column prop="address" label="电话催收次数" align="center"></el-table-column>
-                            <el-table-column prop="address" label="财务是否线上减免" align="center"></el-table-column>
-                            <el-table-column prop="address" label="已扣款次数和详情" align="center"></el-table-column>
-                            <el-table-column prop="address" label="剩余未还/实还金额" align="center"></el-table-column>
+                            <el-table-column prop="address" label="银行卡号" width="93" align="center"></el-table-column>
+                            <el-table-column prop="address" label="贷款方式" width="93" align="center"></el-table-column>
+                            <el-table-column prop="address" label="还款期数" width="93" align="center"></el-table-column>
+                            <el-table-column prop="address" label="实借时间" width="93" align="center"></el-table-column>
+                            <el-table-column prop="address" label="实借/放款总金额" width="145" align="center"></el-table-column>
+                            <el-table-column prop="address" label="延期后应还时间" width="140" align="center"></el-table-column>
+                            <el-table-column prop="address" label="逾期等级" width="93" align="center"></el-table-column>
+                            <el-table-column prop="address" label="逾期天数" width="93" align="center"></el-table-column>
+                            <el-table-column prop="address" label="逾期罚金/含逾应还总金额" width="200" align="center"></el-table-column>
+                            <el-table-column prop="address" label="电话催收次数" width="125" align="center"></el-table-column>
+                            <el-table-column prop="address" label="财务是否线上减免" width="150" align="center"></el-table-column>
+                            <el-table-column prop="address" label="已扣款次数和详情" width="150" align="center"></el-table-column>
+                            <el-table-column prop="address" label="剩余未还/实还金额" width="160" align="center"></el-table-column>
                             <el-table-column prop="address" label="操作" align="center"></el-table-column>
                         </el-table>
                         <div class="block">
@@ -120,17 +120,17 @@
                                 <el-button type="primary" @click="Search">搜索</el-button>
                             </el-form-item>
                         </el-form>
-                        <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
-                            <el-table-column prop="name" label="操作时间" align="center"></el-table-column>
+                        <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%;line-height: 60px;">
+                            <el-table-column prop="name" label="操作时间" width="150" align="center"></el-table-column>
                             <el-table-column prop="name" label="操作人" align="center"></el-table-column>
-                            <el-table-column prop="address" label="扣款比例(%)" align="center"></el-table-column>
-                            <el-table-column prop="address" label="第三方服务总支出费" align="center"></el-table-column>
-                            <el-table-column prop="address" label="已选扣款用户总数" align="center"></el-table-column>
-                            <el-table-column prop="address" label="扣款失败用户数" align="center"></el-table-column>
-                            <el-table-column prop="address" label="成功扣款用户数" align="center"></el-table-column>
-                            <el-table-column prop="address" label="成功扣款用户比率(%)" align="center"></el-table-column> 
-                            <el-table-column prop="address" label="成功扣款总金额" align="center"></el-table-column>
-                            <el-table-column prop="address" label="查看扣款清单" align="center"></el-table-column>
+                            <el-table-column prop="address" label="扣款比例(%)" width="150" align="center"></el-table-column>
+                            <el-table-column prop="address" label="第三方服务总支出费" width="165" align="center"></el-table-column>
+                            <el-table-column prop="address" label="已选扣款用户总数" width="160" align="center"></el-table-column>
+                            <el-table-column prop="address" label="扣款失败用户数" width="160" align="center"></el-table-column>
+                            <el-table-column prop="address" label="成功扣款用户数" width="160" align="center"></el-table-column>
+                            <el-table-column prop="address" label="成功扣款用户比率(%)" width="175" align="center"></el-table-column> 
+                            <el-table-column prop="address" label="成功扣款总金额" width="160" align="center"></el-table-column>
+                            <el-table-column prop="address" label="查看扣款清单" width="160" align="center"></el-table-column>
                         </el-table>
                         <div class="block">
                             <el-pagination
@@ -157,7 +157,7 @@
         data(){
             return{
                 tableData: [],
-                activeName: "first",
+                activeName: "second",
                 form: {
                     name: "",
                     id: "",
@@ -210,7 +210,7 @@
 	.main{
 		padding: 20px;
 		background-color: #fff;
-  		min-height: 70vh;
+        min-height: 70vh;
 	}
     .single {
         margin-left: -15px;
