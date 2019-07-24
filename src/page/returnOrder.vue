@@ -152,7 +152,7 @@ export default {
         realtimeStatu_time: "",
         realtimeEnd_time: ""
       },
-      page: 1,
+      page: 0,
       Pagesize: 10,
       totalPageCount: 0,
       totalCount: 20

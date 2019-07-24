@@ -2,7 +2,7 @@
   <div class="fillcontain">
     <head-top></head-top>
     <div class="back">
-      <h2>逾期数据</h2>
+      <h2>还款数据</h2>
       <div class="main">
         <el-form :model="form" :inline="true" class="demo-form-inline">
           <el-form-item>
@@ -15,7 +15,7 @@
               <el-date-picker type="date" placeholder="结束时间" v-model="form.end"></el-date-picker>
             </el-col>
           </el-form-item>
-          <el-form-item> 
+          <el-form-item>
             <el-select placeholder="引流渠道" v-model="form.platform">
               <el-option
                 v-for="item in platform"
@@ -41,7 +41,7 @@
         <div class="block">
           <el-pagination
             :current-page.sync="page"
-            :page-size.sync="pageSize"
+            :page-size.sync="Pagesize"
             layout="total, prev, pager, next, jumper"
             :page-count="totalPageCount"
             :total="totalCount"
@@ -69,8 +69,8 @@ export default {
         end: "",
         platform: ""
       },
-      page: 1,
-      pageSize: 10,
+      page: 0,
+      Pagesize: 10,
       totalPageCount: 0,
       totalCount: 20
     };

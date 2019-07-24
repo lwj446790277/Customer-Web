@@ -27,11 +27,11 @@
             >
               <el-table-column type="selection" width="55" align="center"></el-table-column>
               <el-table-column prop="orderNumber" label="订单编号" width="120" align="center"></el-table-column>
-              <el-table-column prop="name" label="姓名" width="120" align="center"></el-table-column>
+              <el-table-column prop="name" label="姓名" align="center"></el-table-column>
               <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
               <el-table-column prop="borrowMoneyWay" label="贷款方式" align="center"></el-table-column>
               <el-table-column prop="borrowTimeLimit" label="还款期数" align="center"></el-table-column>
-              <el-table-column prop="orderCreateTime" label="实借时间" align="center"></el-table-column>
+              <el-table-column prop="orderCreateTime" width="120" label="实借时间" align="center"></el-table-column>
               <el-table-column
                 prop="realityBorrowMoney/makeLoans"
                 label="实借总金额/放款总金额"
@@ -42,15 +42,15 @@
                   <span>{{scope.row.realityBorrowMoney}}/{{scope.row.makeLoans}}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="deferBeforeReturntime" label="延期前应还时间" align="center"></el-table-column>
-              <el-table-column prop="interestOnArrears" label="应还利息/应还金额" align="center">
+              <el-table-column prop="deferBeforeReturntime" label="延期前应还时间" width="120" align="center"></el-table-column>
+              <el-table-column prop="interestOnArrears" label="应还利息/应还金额" width="110" align="center">
                 <template slot-scope="scope">
                   <span>{{scope.row.interestOnArrears}}/{{scope.row.makeLoans}}</span>
                 </template>
               </el-table-column>
               <el-table-column prop="onceDeferredDay" label="每次延期天数" align="center"></el-table-column>
-              <el-table-column prop="deferAfterReturntime" label="延期后应还时间" align="center"></el-table-column>
-              <el-table-column prop="defeNum" label="延期次数/延期金额" align="center">
+              <el-table-column prop="deferAfterReturntime" label="延期后应还时间" width="120" align="center"></el-table-column>
+              <el-table-column prop="defeNum" label="延期次数/延期金额" width="110" align="center">
                 <template slot-scope="scope">
                   <span>{{scope.row.defeNum}}/{{scope.row.defeMoney}}</span>
                 </template>
@@ -284,9 +284,9 @@
               <el-table-column prop="orderNumber" label="订单编号" align="center"></el-table-column>
               <el-table-column prop="name" label="姓名" align="center"></el-table-column>
               <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
-              <el-table-column prop="borrowMoneyWay" label="贷款方式" align="center"></el-table-column>
+              <el-table-column prop="borrowMoneyWay" label="贷款方式" width="93" align="center"></el-table-column>
               <el-table-column prop="borrowTimeLimit" label="还款期数" align="center"></el-table-column>
-              <el-table-column prop="orderCreateTime" label="实借时间" align="center"></el-table-column>
+              <el-table-column prop="orderCreateTime" width="120" label="实借时间" align="center"></el-table-column>
               <el-table-column
                 prop="realityBorrowMoney/makeLoans"
                 label="实借总金额/放款总金额"
@@ -311,7 +311,7 @@
                 </template>
               </el-table-column>
               <el-table-column prop="collectionTime" label="分配催收时间" align="center"></el-table-column>
-              <el-table-column prop="address" label="电话状态" align="center">
+              <el-table-column prop="address" label="电话状态" width="120" align="center">
                 <template slot-scope="scope">
                   <el-select v-model="scope.row.type" placeholder="请选择" @change="change">
                     <el-option label="电话已接通" value="电话已接通"></el-option>

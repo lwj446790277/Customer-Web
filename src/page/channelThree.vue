@@ -83,6 +83,15 @@
 								</template>
 							</el-table-column>
 						</el-table>
+                        <div class="block">
+                            <el-pagination
+                                :current-page.sync="page"
+                                :page-size.sync="Pagesize"
+                                layout="total,  prev, pager, next, jumper"
+                                :page-count="totalPageCount"
+                                :total="totalCount"
+                            ></el-pagination>
+                        </div>
 						<el-dialog title="发送历史批次" :visible.sync="dialogTable" center>
 							<el-table border :data="sendData">
 								<el-table-column property="collectionTime" label="第几批次" align="center"></el-table-column>
@@ -120,7 +129,11 @@
 				type: "",
 				desc: "111",
 				phonesa: "",
-				phonenum: ""
+				phonenum: "",
+                page: 0,
+                Pagesize: 10,
+                totalPageCount: 0,
+                totalCount: 20
 			}
 		},
 		created(){
@@ -164,15 +177,25 @@
 					}
 				}
 			},
+            getData(page, Pagesize) {
+                this.axios
+                    .get("sms/AllShortMessage", {
+                        params: {
+                            companyid: window.localStorage.getItem("companyid"),
+                            page,
+                            Pagesize
+                        }
+                    })
+                    .then(res => {
+                        this.tableDatas = res.data.Shortmessage;
+                        this.page = res.data.Shortmessage.page;
+                        this.Pagesize = res.data.Shortmessage.Pagesize;
+                        this.totalCount = res.data.Shortmessage.length;
+                    });
+            },
 			handleClick(){
 				if(this.activeName == "second"){
-					this.axios.get('sms/AllShortMessage',{
-						params: {
-							companyid: window.localStorage.getItem("companyid")
-						}
-					}).then(res=>{
-						this.tableDatas = res.data.Shortmessage
-					})
+					this.getData(this.page,this.Pagesize)
 				}
 			},
 			Search(){
@@ -187,14 +210,14 @@
 			},
 			send(){
 				console.log(this.phonesa.join())
-				this.axios.get('sms/SendSms',{
-					params: {
-						companyid: window.localStorage.getItem("companyid"),
-						msg: this.desc,
-						phone: this.phonesa.join(),
-						// phone: 18270683860,
-						phonenum: this.phonenum
-					}
+                    this.axios.get('sms/SendSms',{
+                        params: {
+                            companyid: window.localStorage.getItem("companyid"),
+                            msg: this.desc,
+                            phone: this.phonesa.join(),
+                            // phone: 18270683860,
+                            phonenum: this.phonenum
+                        }
 				}).then(res=>{
 					this.$confirm(res.data.desc, '提示', {
 						type: 'warning',
@@ -246,4 +269,8 @@
 		float: right;
 		margin-right: 20px;
 	}
+    .block {
+        padding-top: 20px;
+        text-align: center;
+    }
 </style>

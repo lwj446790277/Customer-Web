@@ -177,7 +177,7 @@ export default {
         realtimeEnd_time: "",
         level: ""
       },
-      page: 1,
+      page: 0,
       Pagesize: 10,
       totalPageCount: 0,
       totalCount: 20

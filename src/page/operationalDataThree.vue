@@ -2,7 +2,7 @@
   <div class="fillcontain">
     <head-top></head-top>
     <div class="back">
-      <h2>还款数据</h2>
+      <h2>逾期数据</h2>
       <div class="main">
         <el-form :model="form" :inline="true" class="demo-form-inline">
           <el-form-item>
@@ -71,7 +71,7 @@ export default {
         end: "",
         platform: ""
       },
-      page: 1,
+      page: 0,
       pageSize: 10,
       totalPageCount: 0,
       totalCount: 20
