@@ -256,7 +256,7 @@
             <el-table border :data="tableDataFour" style="width: 100%">
               <el-table-column prop="collectiondate" label="日期" align="center"></el-table-column>
               <el-table-column prop="reallyName" label="催收员" align="center"></el-table-column>
-              <el-table-column prop="collection_count" label="未分配总数" align="center"></el-table-column>
+              <el-table-column prop="collection_count" label="已分配总数" align="center"></el-table-column>
               <!-- <el-table-column prop="dialNum" label="未拨打数" align="center"></el-table-column> -->
               <el-table-column prop="notconnected" label="电话未接通数" align="center"></el-table-column>
               <el-table-column prop="connected" label="电话已接通数" align="center"></el-table-column>
@@ -388,23 +388,23 @@ export default {
         start: "",
         end: ""
       },
-      page: 1,
+      page: 0,
       Pagesize: 10,
       totalPageCount: 0,
       totalCount: 20,
-      pageOne: 1,
+      pageOne: 0,
       PagesizeOne: 10,
       totalPageCountOne: 0,
       totalCountOne: 20,
-      pageTwo: 1,
+      pageTwo: 0,
       PagesizeTwo: 10,
       totalPageCountTwo: 0,
       totalCountTwo: 20,
-      pageThree: 1,
+      pageThree: 0,
       PagesizeThree: 10,
       totalPageCountThree: 0,
       totalCountThree: 20,
-      pageFour: 1,
+      pageFour: 0,
       PagesizeFour: 10,
       totalPageCountFour: 0,
       totalCountFour: 20,
@@ -520,7 +520,7 @@ export default {
         });
     },
     handleClick(tab, event) {
-      console.log(this.activeName);
+      console.log(this.activeName)
       if (this.activeName == "second") {
         this.getTwo(this.pageOne, this.PagesizeOne);
       } else {

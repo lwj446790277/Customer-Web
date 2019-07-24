@@ -138,7 +138,7 @@
         <div class="block">
           <el-pagination
             :current-page.sync="page"
-            :page-size.sync="pageSize"
+            :page-size.sync="Pagesize"
             layout="total, prev, pager, next, jumper"
             :page-count="totalPageCount"
             :total="totalCount"
@@ -184,8 +184,8 @@ export default {
         type: "",
         money: ""
       },
-      page: 1,
-      pageSize: 10,
+      page: 0,
+      Pagesize: 10,
       totalPageCount: 0,
       totalCount: 20
     };

@@ -37,7 +37,7 @@
               <el-option
                 v-for="item in Thirdparty_interface"
                 :key="item.value"
-                :label="item.repaymentSource"
+                :label="item.name"
                 :value="item.id"
               ></el-option>
             </el-select>
@@ -95,7 +95,7 @@ export default {
         end: "",
         qudao: ""
       },
-      page: 1,
+      page: 0,
       Pagesize: 10,
       totalPageCount: 0,
       totalCount: 20
@@ -108,13 +108,13 @@ export default {
   methods: {
     get() {
       this.axios
-        .get("fina/ThirdpatyAll", {
+        .get("fina/RepaymentAll", {
           params: {
             compayId: window.localStorage.getItem("companyid")
           }
         })
         .then(res => {
-          this.Thirdparty_interface = res.data.Thirdparty_interface;
+          this.Thirdparty_interface = res.data.Repayment_setting;
         });
     },
     getData(page, Pagesize) {

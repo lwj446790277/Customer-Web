@@ -111,7 +111,7 @@
 						<div class="block">
 							<el-pagination
 							:current-page.sync="page"
-							:page-size.sync="pageSize"
+							:page-size.sync="Pagesize"
 							layout="total, prev, pager, next, jumper"
 							:page-count="totalPageCount"
 							:total="totalCount"
@@ -134,60 +134,84 @@
 								<el-button type="primary" @click="Searchs">搜索</el-button>
 							</el-form-item>
 						</el-form>
-						<table border="1" cellpadding="20" cellspacing="0" class="tab">
+						<table cellpadding="20" cellspacing="0" class="tab">
 							<tr>
 								<th>订单编号</th>  
-								<td>{{orderNumber}}</td>
+								<td>
+									<div>{{orderNumber}}</div>
+								</td>
 							</tr>
 							<tr>
 								<th>姓名</th>
-								<td>{{name}}</td>
+								<td>
+									<div>{{name}}</div>
+								</td>
 							</tr>
 							<tr>
 								<th>手机号</th>
-								<td>{{phone}}</td>
+								<td>
+									<div>{{phone}}</div>
+								</td>
 							</tr>
 							<tr>
 								<th>贷款方式</th>
-								<td>{{borrowMoneyWay}}</td>
+								<td>
+									<div>{{borrowMoneyWay}}</div>
+								</td>
 							</tr> 
 							<tr>
 								<th>还款期数</th>
-								<td>{{borrowTimeLimit}}</td>
+								<td>
+									<div>{{borrowTimeLimit}}</div>
+								</td>
 							</tr>
 							<tr>
 								<th>实借时间</th>
-								<td>{{orderCreateTime}}</td>
+								<td>
+									<div>{{orderCreateTime}}</div>
+								</td>
 							</tr>
 							<tr>
 								<th>借款总金额/放款总金额</th>
-								<td class="red">{{realityBorrowMoney}}/{{makeLoans}}</td>
+								<td class="red">
+									<div>{{realityBorrowMoney}}/{{makeLoans}}</div>
+								</td>
 							</tr>
 							<tr>
 								<th>延期后应还时间</th>
-								<td>{{deferAfterReturntime}}</td>
+								<td>
+									<div>{{deferAfterReturntime}}</div>
+								</td>
 							</tr>
 							<tr>
 								<th>逾期天数</th>
-								<td>{{overdueNumberOfDays}}</td>
+								<td>
+									<div>{{overdueNumberOfDays}}</div>
+								</td>
 							</tr>
 							<tr>
 								<th>含逾总利息/扣款后应还总金额</th>
-								<td class="red">{{interestPenaltySum}}/{{realityBorrowMoney}}</td>
+								<td class="red">
+									<div>{{interestPenaltySum}}/{{realityBorrowMoney}}</div>
+								</td>
 							</tr>
 							<tr>
 								<th>放款流水号</th>
-								<td>{{pipelinenumber}}</td>
+								<td>
+									<div>{{pipelinenumber}}</div>
+								</td>
 							</tr>
 						</table>
-						<table border="1" cellpadding="20" cellspacing="0" class="tabs">
+						<table cellpadding="20" cellspacing="0" class="tabs">
 							<tr>
 								<th>线下减免调账说明</th>
 								<td>
-									<p>1.线上减免调账，线下手工记账，线下减免调账，三者是有区别的</p>
-									<p>2.线上减免调账：是用户承诺但未还的减免调账，订单会有三个状态（期限内，已还清，逾期）</p>
-									<p>3.线下手工记账：可以记账收入，也可以记账支出，记账的包含的范围更宽泛</p>
-									<p>4.线下减免调账：用户已经从其他方式还款给我们的工作人员，还款输入在“线下用户已还金额”，点击“保存”后用户APP端的应还总金额将直接结清，请确保已经收到款，否则人财两空</p>
+									<div>
+										<p>1.线上减免调账，线下手工记账，线下减免调账，三者是有区别的</p>
+										<p>2.线上减免调账：是用户承诺但未还的减免调账，订单会有三个状态（期限内，已还清，逾期）</p>
+										<p>3.线下手工记账：可以记账收入，也可以记账支出，记账的包含的范围更宽泛</p>
+										<p>4.线下减免调账：用户已经从其他方式还款给我们的工作人员，还款输入在“线下用户已还金额”，点击“保存”后用户APP端的应还总金额将直接结清，请确保已经收到款，否则人财两空</p>
+									</div>
 								</td>
 							</tr>
 							<tr>
@@ -223,22 +247,14 @@
 					<div class="main">
 						<el-form :model="formForth" :inline="true" class="demo-form-inline">
 							<el-form-item>
-								<el-select v-model="formForth.type" placeholder="用户订单" style="width:150px">
-									<el-option label="用户订单" value="用户订单"></el-option>
-									<el-option label="用户姓名" value="用户姓名"></el-option>
-									<el-option label="手机号" value="手机号"></el-option>
-								</el-select>
+								<el-input placeholder="用户订单" v-model="formForth.id"></el-input>
 							</el-form-item>
-							<el-form-item class="single">
-								<el-input placeholder="单行输入" v-model="formForth.id"></el-input>
+							<el-form-item>
+								<el-input placeholder="用户姓名" v-model="formForth.name"></el-input>
 							</el-form-item>
-							<!-- <el-form-item>
-								<el-select v-model="form.time" placeholder="操作日期" style="width:150px">
-									<el-option label="订单时间" value="订单时间"></el-option>
-									<el-option label="延借时间" value="延借时间"></el-option>
-									<el-option label="延期后应还" value="延期后应还"></el-option>
-								</el-select>
-							</el-form-item> -->
+							<el-form-item>
+								<el-input placeholder="手机号" v-model="formForth.phone"></el-input>
+							</el-form-item>
 							<el-form-item>
 								<el-col :span="11">
 									<el-date-picker type="date" placeholder="起始时间" v-model="formForth.start"></el-date-picker>
@@ -313,11 +329,11 @@
 				huan: "",
 				money: "",
 				remarks: "",
-				page: 1,
-				pageSize: 10,
+				page: 0,
+				Pagesize: 10,
 				totalPageCount: 0,
 				totalCount: 20,
-				pages: 1,
+				pages: 0,
 				pageSizes: 10,
 				totalPageCounts: 0,
 				totalCounts: 20,
@@ -331,8 +347,9 @@
 					id: ""
 				},
 				formForth: {
-					type: "",
 					id: "",
+					name: "",
+					phone: "",
 					start: "",
 					end: ""
 				},
@@ -406,7 +423,7 @@
 				}).then(res=>{
 					this.tableDataForth = res.data.Undertheline
 					this.pages = res.data.Undertheline.page
-					this.Pagesizes = res.data.Undertheline.Pagesize
+					this.pageSizes = res.data.Undertheline.Pagesize
 					this.totalCounts = res.data.Undertheline.length
 				})
 			},
@@ -484,51 +501,27 @@
 			},
 			ResetForth(){
 				this.formForth = {
-					type: "",
 					id: "",
+					name: "",
+					phone: "",
 					start: "",
 					end: ""
 				}
 				this.getForth(this.pages,this.Pagesizes)
 			},
 			SearchForth(){
-				if(this.formForth.type=="手机号"){
-					this.axios.get('fina/AllXiaOrder',{
-						params:{
-							companyId: window.localStorage.getItem("companyid"),
-							phone: this.formForth.id,
-							start_time: this.formForth.start,
-							end_time: this.formForth.end
-						}
-					}).then(res=>{
-						this.tableDataForth = res.data.Undertheline
-					})
-				}else{
-					if(this.formForth.type=="用户姓名"){
-						this.axios.get('fina/AllXiaOrder',{
-							params:{
-								companyId: window.localStorage.getItem("companyid"),
-								name: this.formForth.id,
-								start_time: this.formForth.start,
-								end_time: this.formForth.end
-							}
-						}).then(res=>{
-							this.tableDataForth = res.data.Undertheline
-						})
-					}else{
-						this.axios.get('fina/AllXiaOrder',{
-							params:{
-								companyId: window.localStorage.getItem("companyid"),
-								orderNumber: this.formForth.id,
-								start_time: this.formForth.start,
-								end_time: this.formForth.end
-							}
-						}).then(res=>{
-							this.tableDataForth = res.data.Undertheline
-						})
+				this.axios.get('fina/AllXiaOrder',{
+					params:{
+						companyId: window.localStorage.getItem("companyid"),
+						orderNumber: this.formForth.id,
+						name: this.formForth.name,
+						phone: this.formForth.phone,
+						start_time: this.formForth.start,
+						end_time: this.formForth.end
 					}
-				}
-				
+				}).then(res=>{
+					this.tableDataForth = res.data.Undertheline
+				})
 			},
 			Search(){    
 				this.axios.get('fina/Orderoffline',{
@@ -645,15 +638,36 @@
 		float: left;
 		margin-right: -2px;
 	}
+	.tab td div{
+		margin-top: -10px;
+		margin-bottom: -10px;
+		width: 90%;
+		height: 40px;
+		line-height: 40px;
+		background-color: #f3f6fb;
+	}
+	.tabs td div{
+		margin-top: -10px;
+		margin-bottom: -10px;
+		width: 100%;
+		text-align: left;
+		background-color: #f3f6fb;
+	}
+	.tabs td .el-input .el-input__inner {
+		background-color: #f3f6fb;
+		border: transparent;
+	}
 	.tabs{
 		width: 50%;
 		border-color: #dfe6ec;
 	}
 	.tab th{
 		width: 50%;
+		text-align: left;
 	}
 	.tabs th{
 		width: 50%;
+		text-align: left;
 	}
 	td{
 		text-align: center;
@@ -669,6 +683,8 @@
 	.save{
 		margin-top: 20px;
 		float: right;
+		width: 100px;
+		margin-right: 20%;
 	}
 	.el-popover{
 		padding: 20px;

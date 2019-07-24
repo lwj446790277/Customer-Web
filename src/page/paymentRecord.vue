@@ -37,7 +37,7 @@
               <el-option
                 v-for="item in Thirdparty_interface"
                 :key="item.value"
-                :label="item.repaymentSource"
+                :label="item.name"
                 :value="item.id"
               ></el-option>
             </el-select>
@@ -183,7 +183,7 @@ export default {
         end: "",
         qudao: ""
       },
-      page: 1,
+      page: 0,
       Pagesize: 10,
       totalPageCount: 0,
       totalCount: 20,
@@ -242,7 +242,7 @@ export default {
           }
         })
         .then(res => {
-          this.Thirdparty_interface = res.data.Thirdparty_interface;
+          this.Thirdparty_interface = res.data.Loan_setting;
         });
     },
     sizeChange() {

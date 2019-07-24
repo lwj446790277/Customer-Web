@@ -176,6 +176,7 @@ hr {
 .tab-le td .el-input .el-input__inner {
   width: 60%;
   background-color: #f3f6fb;
+  border: transparent;
 }
 .explain {
   background-color: #f3f6fb;
@@ -195,5 +196,6 @@ hr {
 }
 .tab-two td .el-input .el-input__inner {
   background-color: #f3f6fb;
+  border: transparent;
 }
 </style>

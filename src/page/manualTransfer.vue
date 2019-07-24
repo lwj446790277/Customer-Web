@@ -6,7 +6,7 @@
 			<el-tab-pane label="新增线上调账" name="first">
 				<div class="back">
 					<h2>新增线上调账</h2>
-					<div class="main">
+					<div class="mains">
 						<el-form :model="form" :inline="true" class="demo-form-inline">
 							<!-- <el-form-item>
 								<el-select v-model="form.time" placeholder="订单编号" style="width:150px">
@@ -20,58 +20,80 @@
 								<el-button type="primary" @click="Search">搜索</el-button>
 							</el-form-item>
 						</el-form>
-						<table border="1" cellpadding="20" cellspacing="0" class="tab">
+						<table cellpadding="20" cellspacing="0" class="tab">
 							<tr>
 								<th>订单编号</th>  
-								<td>{{orderNumber}}</td>
+								<td>
+									<div>{{orderNumber}}</div>
+								</td>
 							</tr>
 							<tr>
 								<th>姓名</th>
-								<td>{{name}}</td>
+								<td>
+									<div>{{name}}</div>
+								</td>
 							</tr>
 							<tr>
 								<th>手机号</th>
-								<td>{{phone}}</td>
+								<td>
+									<div>{{phone}}</div>
+								</td>
 							</tr>
 							<tr>
 								<th>贷款方式</th>
-								<td>{{borrowMoneyWay}}</td>
+								<td>
+									<div>{{borrowMoneyWay}}</div>
+								</td>
 							</tr> 
 							<tr>
 								<th>还款期数</th>
-								<td>{{borrowTimeLimit}}</td>
+								<td>
+									<div>{{borrowTimeLimit}}</div>
+								</td>
 							</tr>
 							<tr>
 								<th>实借时间</th>
-								<td>{{orderCreateTime}}</td>
+								<td>
+									<div>{{orderCreateTime}}</div>
+								</td>
 							</tr>
 							<tr>
 								<th>借款总金额/放款总金额</th>
-								<td class="red">{{realityBorrowMoney}}/{{makeLoans}}</td>
+								<td class="red">
+									<div>{{realityBorrowMoney}}/{{makeLoans}}</div>
+								</td>
 							</tr>
 							<tr>
 								<th>延期后应还时间</th>
-								<td>{{deferAfterReturntime}}</td>
+								<td>
+									<div>{{deferAfterReturntime}}</div>
+								</td>
 							</tr>
 							<tr>
 								<th>逾期天数</th>
-								<td>{{overdueNumberOfDays}}</td>
+								<td>
+									<div>{{overdueNumberOfDays}}</div>
+								</td>
 							</tr>
 							<tr>
 								<th>含逾总利息/扣款后应还总金额</th>
-								<td class="red">{{interestPenaltySum}}/{{realityBorrowMoney}}</td>
+								<td class="red">
+									<div>{{interestPenaltySum}}/{{realityBorrowMoney}}</div>
+								</td>
 							</tr>
 							<tr>
 								<th>放款流水号</th>
-								<td>{{pipelinenumber}}</td>
+								<td>
+									<div>{{pipelinenumber}}</div>
+								</td>
 							</tr>
 						</table>
-						<table border="1" cellpadding="20" cellspacing="0" class="tabs">
+						<table cellpadding="20" cellspacing="0" class="tabs">
 							<tr>
 								<th>还款渠道</th>
 								<td>
 									<el-select v-model="qudao" placeholder="还款渠道" class="inpu">
-										<el-option v-for="item in Thirdparty_interface" :key="item.value" :label="item.repaymentSource" :value="item.id"></el-option>
+										<el-option v-for="item in Thirdparty_interface" :key="item.value" :label="item.name" :value="item.id"></el-option>
 									</el-select>
 								</td>
 							</tr>
@@ -83,7 +105,9 @@
 							</tr>
 							<tr>
 								<th>减免后应还总金额</th>
-								<td class="red">{{totalMoney}}</td>
+								<td class="red">
+									<div>{{totalMoney}}</div>
+								</td>
 							</tr>
 							<tr>
 								<th>还款备注</th>
@@ -95,7 +119,7 @@
 								<th>减免后最迟应还时间</th>
 								<td>
 									<!-- <el-input class="inpu" v-model="accounttime"></el-input> -->
-									<el-date-picker class="inpu" v-model="accounttime" type="date" placeholder="选择日期"></el-date-picker>
+									<el-date-picker style="width:70%" v-model="accounttime" type="date" placeholder="选择日期"></el-date-picker>
 								</td>
 							</tr>
 							<!-- <tr>
@@ -183,7 +207,7 @@
 							<el-table-column prop="totalamount" label="减免后应还总金额" align="center"></el-table-column>
 							<el-table-column prop="remarks" label="还款备注" align="center"></el-table-column>
 							<!-- <el-table-column prop="accounttime" label="减免后应还时间" align="center"></el-table-column> -->
-							<el-table-column prop="beoverdue" label="减免后最迟应还时间" align="center"></el-table-column>
+							<el-table-column prop="accounttime" label="减免后最迟应还时间" width="165" align="center"></el-table-column>
 							<!-- <el-table-column prop="address" label="操作" align="center"></el-table-column> -->
 						</el-table>
 						<div class="block">
@@ -255,9 +279,9 @@
 							<el-table-column prop="repaymentSource" label="还款渠道" align="center"></el-table-column>
 							<el-table-column prop="address" label="还款流水号" align="center"></el-table-column>
 							<el-table-column prop="amountmoney" label="调账减免金额" align="center"></el-table-column>
-							<el-table-column prop="totalamount" label="减免后应还总金额" align="center"></el-table-column>
+							<el-table-column prop="totalamount" label="减免后应还总金额" width="160" align="center"></el-table-column>
 							<el-table-column prop="remarks" label="还款备注" align="center"></el-table-column>
-							<el-table-column prop="accounttime" label="减免后最迟应还时间" align="center"></el-table-column>
+							<el-table-column prop="accounttime" label="减免后最迟应还时间" width="165" align="center"></el-table-column>
 							<!-- <el-table-column prop="address" label="减免后应还延期天数" align="center"></el-table-column> -->
 							<!-- <el-table-column prop="address" label="减免后实还时间" align="center"></el-table-column>
 							<el-table-column prop="address" label="减免后实还金额" align="center"></el-table-column> -->
@@ -331,9 +355,9 @@
 							<el-table-column prop="amou_time" label="调账时间" align="center"></el-table-column>
 							<el-table-column prop="repaymentSource" label="还款渠道" align="center"></el-table-column>
 							<el-table-column prop="amountmoney" label="调账减免金额" align="center"></el-table-column>
-							<el-table-column prop="totalamount" label="减免后应还总金额" align="center"></el-table-column>
+							<el-table-column prop="totalamount" label="减免后应还总金额" width="160" align="center"></el-table-column>
 							<el-table-column prop="remarks" label="还款备注" align="center"></el-table-column>
-							<el-table-column prop="accounttime" label="减免后最迟应还时间" align="center"></el-table-column>
+							<el-table-column prop="accounttime" label="减免后最迟应还时间" width="165" align="center"></el-table-column>
 							<!-- <el-table-column prop="beoverdue" label="减免后应还延期天数" align="center"></el-table-column> -->
 							<el-table-column prop="overdueNumberOfDays" label="逾期天数" align="center"></el-table-column>
 							<!-- <el-table-column prop="address" label="操作" align="center"></el-table-column> -->
@@ -425,15 +449,15 @@
 				remarks: "",
 				accounttime: "",
 				beoverdue: "",
-				page: 1,
+				page: 0,
 				Pagesize: 10,
 				totalPageCount: 0,
 				totalCount: 20,
-				pageOne: 1,
+				pageOne: 0,
 				PagesizeOne: 10,
 				totalPageCountOne: 0,
 				totalCountOne: 20,
-				pageTwo: 1,
+				pageTwo: 0,
 				PagesizeTwo: 10,
 				totalPageCountTwo: 0,
 				totalCountTwo: 20,
@@ -444,20 +468,20 @@
 		},
 		methods:{
 			get(){
-				this.axios.get('fina/ThirdpatyAll',{
+				this.axios.get('fina/RepaymentAll',{
 					params:{
 						compayId: window.localStorage.getItem("companyid")
 					}
 				}).then(res=>{
-					this.Thirdparty_interface = res.data.Thirdparty_interface
+					this.Thirdparty_interface = res.data.Repayment_setting
 				})
 			},
 			getData( page, Pagesize ){
 				this.axios.get('fina/SelectOrderAccount',{
 					params:{
-					companyId: window.localStorage.getItem("companyid"),
-					page,
-					Pagesize
+						companyId: window.localStorage.getItem("companyid"),
+						page,
+						Pagesize
 					}
 				}).then(res=>{
 					this.tableData = res.data.Accountadjustment
@@ -469,9 +493,9 @@
 			getOne( pageOne, PagesizeOne ){
 				this.axios.get('fina/SelectNoMoney',{
 					params:{
-					companyId: window.localStorage.getItem("companyid"),
-					page: this.pageOne,
-					Pagesize: this.PagesizeOne
+						companyId: window.localStorage.getItem("companyid"),
+						page: this.pageOne,
+						Pagesize: this.PagesizeOne
 					}
 				}).then(res=>{
 					this.tableOne = res.data.Accountadjustment
@@ -483,9 +507,9 @@
 			getTwo( pageTwo, PagesizeTwo ){
 				this.axios.get('fina/SelectOkMoney',{
 					params:{
-					companyId: window.localStorage.getItem("companyid"),
-					ge: this.pageTwo,
-					Pagesize: this.PagesizeTwo
+						companyId: window.localStorage.getItem("companyid"),
+						page: this.pageTwo,
+						Pagesize: this.PagesizeTwo
 					}
 				}).then(res=>{
 					this.tableTwo = res.data.Accountadjustment
@@ -623,15 +647,14 @@
 						amountmoney: this.amountmoney,
 						remarks: this.remarks,
 						accounttime: this.accounttime,
-						beoverdue: this.beoverdue
+						totalamount: this.totalMoney,
+						sys_uerId: 1
 					}
 				}).then(res=>{
-					if(res.data.code==200){
-						this.$confirm(res.data.desc, '提示', {
-                            type: 'warning',
-                            center: true
-                    	})
-					}
+					this.$confirm(res.data.desc, '提示', {
+						type: 'warning',
+						center: true
+					})
 					this.visible = false
 				})
 			},
@@ -647,19 +670,18 @@
 
 <style lang="less">
 	@import '../style/mixin';
-	.explain_text{
-		margin-top: 20px;
-		text-align: center;
-		font-size: 20px;
-		color: #333;
-	}
 	.el-tabs__header {
   		margin: 0;
+	}
+	.mains{
+		padding: 20px;
+		background-color: #fff;
+		min-height: 100vh;
 	}
 	.main{
 		padding: 20px;
 		background-color: #fff;
-		min-height: 80vh;
+		min-height: 70vh;
 	}
 	.single {
 		margin-left: -15px;
@@ -674,11 +696,36 @@
 		width: 50%;
 		border-color: #dfe6ec;
 	}
+	.tabs td .el-input .el-input__inner {
+		background-color: #f3f6fb;
+		border: transparent;
+	}
 	.tab th{
 		width: 50%;
+		text-align: left;
 	}
-	td{
+	.tabs th{
+		text-align: left;
+	}
+	.tab td{
 		text-align: center;
+	}
+	.tab td div{
+		margin-top: -10px;
+		margin-bottom: -10px;
+		width: 90%;
+		height: 40px;
+		line-height: 40px;
+		background-color: #f3f6fb;
+	}
+	.red div{
+		margin-top: -10px;
+		margin-bottom: -10px;
+		width: 67%;
+		height: 40px;
+		line-height: 40px;
+		padding-left: 10px;
+		background-color: #f3f6fb;
 	}
 	.inpu{
 		width: 70%;
@@ -688,6 +735,8 @@
 	.save{
 		margin-top: 20px;
 		float: right;
+		width: 100px;
+		margin-right: 20%;
 	}
 	.statistics{
 		width: 100%

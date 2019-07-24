@@ -126,7 +126,7 @@
               <el-table-column prop="address" label="实还金额" width="93" align="center"></el-table-column>
               <el-table-column prop="address" label="延期费" align="center"></el-table-column>
               <el-table-column prop="address" label="减免金额" width="93" align="center"></el-table-column>
-              <el-table-column prop="address" label="银行扣款金额" align="center"></el-table-column>
+              <el-table-column prop="address" label="银行扣款金额" width="125" align="center"></el-table-column>
               <el-table-column prop="address" label="待还金额" width="93" align="center"></el-table-column>
               <el-table-column prop="address" label="逾期率" align="center"></el-table-column>
               <el-table-column prop="address" label="回收率" align="center"></el-table-column>
