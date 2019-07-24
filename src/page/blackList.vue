@@ -70,7 +70,7 @@
                                         <el-button class="confire" type="success" @click="deleteBlackState(scope)">
                                             确定
                                         </el-button>
-                                        <el-button type="primary" slot="reference">解冻黑名单</el-button>
+                                        <el-button type="primary" slot="reference">解冻</el-button>
                                     </el-popover>
                                 </template>
                             </el-table-column>
