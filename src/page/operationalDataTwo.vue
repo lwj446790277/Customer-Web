@@ -30,7 +30,7 @@
           </el-form-item>
         </el-form>
         <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
-          <el-table-column prop="orderCreateTime" label="日期" align="center"></el-table-column>
+          <el-table-column prop="repaymentDate" label="日期" align="center"></el-table-column>
           <el-table-column prop="repayment_Count" label="还款笔数" align="center"></el-table-column>
           <el-table-column prop="collection_count" label="逾期还款笔数" align="center"></el-table-column>
           <el-table-column prop="repaymeny_collectiondata" label="逾期还款占比(%)" align="center"></el-table-column>
@@ -69,7 +69,7 @@ export default {
         end: "",
         platform: ""
       },
-      page: 0,
+      page: 1,
       Pagesize: 10,
       totalPageCount: 0,
       totalCount: 20

@@ -35,26 +35,26 @@
               <el-table-column
                 prop="realityBorrowMoney/makeLoans"
                 label="实借总金额/放款总金额"
-                width="120"
+                width="185"
                 align="center"
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.realityBorrowMoney}}/{{scope.row.makeLoans}}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="deferBeforeReturntime" label="延期前应还时间" width="120" align="center"></el-table-column>
-              <el-table-column prop="interestOnArrears" label="应还利息/应还金额" width="110" align="center">
+<!--              <el-table-column prop="deferBeforeReturntime" label="延期前应还时间" width="120" align="center"></el-table-column>-->
+              <el-table-column prop="interestOnArrears" label="应还利息/应还金额" width="160" align="center">
                 <template slot-scope="scope">
                   <span>{{scope.row.interestOnArrears}}/{{scope.row.makeLoans}}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="onceDeferredDay" label="每次延期天数" align="center"></el-table-column>
-              <el-table-column prop="deferAfterReturntime" label="延期后应还时间" width="120" align="center"></el-table-column>
-              <el-table-column prop="defeNum" label="延期次数/延期金额" width="110" align="center">
-                <template slot-scope="scope">
-                  <span>{{scope.row.defeNum}}/{{scope.row.defeMoney}}</span>
-                </template>
-              </el-table-column>
+<!--              <el-table-column prop="onceDeferredDay" label="每次延期天数" align="center"></el-table-column>-->
+<!--              <el-table-column prop="deferAfterReturntime" label="延期后应还时间" width="120" align="center"></el-table-column>-->
+<!--              <el-table-column prop="defeNum" label="延期次数/延期金额" width="110" align="center">-->
+<!--                <template slot-scope="scope">-->
+<!--                  <span>{{scope.row.defeNum}}/{{scope.row.defeMoney}}</span>-->
+<!--                </template>-->
+<!--              </el-table-column>-->
               <el-table-column label="操作" align="center">
                 <!-- <template slot="header" slot-scope="scope">
                 <el-button type="success" @click="Onekey(scope)" size="mini">一键分配</el-button>
@@ -254,7 +254,7 @@
               </el-form-item>
             </el-form>
             <el-table border :data="tableDataFour" style="width: 100%">
-              <el-table-column prop="collectiondate" label="日期" align="center"></el-table-column>
+<!--              <el-table-column prop="collectiondate" label="日期" align="center"></el-table-column>-->
               <el-table-column prop="reallyName" label="催收员" align="center"></el-table-column>
               <el-table-column prop="collection_count" label="已分配总数" align="center"></el-table-column>
               <!-- <el-table-column prop="dialNum" label="未拨打数" align="center"></el-table-column> -->
@@ -262,7 +262,11 @@
               <el-table-column prop="connected" label="电话已接通数" align="center"></el-table-column>
               <el-table-column prop="sameday" label="当天未还款数" align="center"></el-table-column>
               <el-table-column prop="paymentmade" label="当天已还款数" align="center"></el-table-column>
-              <el-table-column prop="paymentmadeData" label="当天还款率(%)" align="center"></el-table-column>
+              <el-table-column prop="paymentmadeData" label="当天还款率(%)" align="center">
+<!--                  <template slot-scope="scope">-->
+<!--                      <span>{{scope.row.paymentmade}}/({{scope.row.paymentmade}}+{{scope.row.sameday}})</span>-->
+<!--                  </template>-->
+              </el-table-column>
             </el-table>
             <div class="block">
               <el-pagination
@@ -388,26 +392,26 @@ export default {
         start: "",
         end: ""
       },
-      page: 0,
+      page: 1,
       Pagesize: 10,
       totalPageCount: 0,
-      totalCount: 20,
-      pageOne: 0,
+      totalCount: 0,
+      pageOne: 1,
       PagesizeOne: 10,
       totalPageCountOne: 0,
-      totalCountOne: 20,
-      pageTwo: 0,
+      totalCountOne: 0,
+      pageTwo: 1,
       PagesizeTwo: 10,
       totalPageCountTwo: 0,
-      totalCountTwo: 20,
-      pageThree: 0,
+      totalCountTwo: 0,
+      pageThree: 1,
       PagesizeThree: 10,
       totalPageCountThree: 0,
-      totalCountThree: 20,
-      pageFour: 0,
+      totalCountThree: 0,
+      pageFour: 1,
       PagesizeFour: 10,
       totalPageCountFour: 0,
-      totalCountFour: 20,
+      totalCountFour: 0,
       show: true,
       hidden: false,
       shows: true,
@@ -426,7 +430,7 @@ export default {
   methods: {
     getData(page, Pagesize) {
       this.axios
-        .get("postloanor/postOrders", {
+        .get("postloanor/CollectionNoOrder", {
           params: {
             companyId: window.localStorage.getItem("companyid"),
             page,
@@ -500,7 +504,10 @@ export default {
           this.PagesizeThree = res.data.Collection.Pagesize;
           this.totalCountThree = res.data.Collection.length;
           // this.totalPageCount = res.data.pageUtil.totalPage
-        });
+          //   for (var i=0;i<res.data.Collection.length;i++){
+          //       res.data.Collection[i].paymentmadeData=((res.data.Collection[i].paymentmade/(res.data.Collection[i].sameday+res.data.Collection[i].paymentmade))*100).toFixed(2)
+          //   }
+        })
     },
     getFive(pageFour, PagesizeFour) {
       this.axios
@@ -625,6 +632,7 @@ export default {
             type: "warning",
             center: true
           });
+            this.getData();
         });
     },
     confi(type, orderId) {
@@ -642,7 +650,7 @@ export default {
               type: "warning",
               center: true
             });
-            this.getFive(this.page, this.Pagesize);
+              this.getFive(this.pageFour, this.PagesizeFour);
           } else {
             this.$confirm(res.data.desc, "提示", {
               type: "warning",
@@ -676,6 +684,7 @@ export default {
                 type: "warning",
                 center: true
               });
+                this.getData(this.page, this.Pagesize);
             });
         }
       }
