@@ -36,7 +36,6 @@
                     <el-table-column prop="cvr" label="UV到注册转化率(%)" width="170" align="center"></el-table-column>
                     <el-table-column prop="activatecount" label="激活人数" align="center"></el-table-column>
                     <el-table-column prop="authencount" label="认证人数" width="100" align="center"></el-table-column>
-                    <el-table-column prop="activatecount" label="激活人数" align="center"></el-table-column>
                     <el-table-column prop="applynum" label="申请人数" align="center"></el-table-column>
                     <el-table-column prop="cvr1" label="注册到申请转化率(%)" width="175" align="center"></el-table-column>
                     <el-table-column prop="machineauditpass" label="通过人数" width="100" align="center"></el-table-column>
