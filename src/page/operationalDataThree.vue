@@ -71,7 +71,7 @@ export default {
         end: "",
         platform: ""
       },
-      page: 0,
+      page: 1,
       pageSize: 10,
       totalPageCount: 0,
       totalCount: 20

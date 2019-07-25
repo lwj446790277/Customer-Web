@@ -9,41 +9,36 @@
                     <div class="main">
                         <el-form :model="form" :inline="true" class="demo-form-inline">
                             <el-form-item>
-                                <el-select v-model="form.name" placeholder="订单编号" style="width:150px">
-                                    <el-option label="订单编号" value="订单编号"></el-option>
-                                    <el-option label="姓名" value="姓名"></el-option>
-                                    <el-option label="手机号" value="手机号"></el-option>
-                                </el-select>
+                                <el-input placeholder="订单编号" v-model="form.id"></el-input>
                             </el-form-item>
-                            <el-form-item class="single">
-                                <el-input placeholder="订单编号/姓名/手机号" v-model="form.id"></el-input>
+                            <el-form-item>
+                                <el-input placeholder="姓名" v-model="form.name"></el-input>
                             </el-form-item>
-                            <el-form-item class="time">
-                                <el-select v-model="form.time" placeholder="订单时间" style="width:150px">
-                                    <el-option label="订单时间" value="订单时间"></el-option>
-                                    <el-option label="延借时间" value="延借时间"></el-option>
-                                    <el-option label="延期后应还" value="延期后应还"></el-option>
-                                </el-select>
+                            <el-form-item>
+                                <el-input placeholder="手机号" v-model="form.phone"></el-input>
                             </el-form-item>
-                            <el-form-item class="single">
+                            <el-form-item>
                                 <el-col :span="11">
-                                    <el-date-picker type="date" placeholder="起始时间" v-model="form.start"></el-date-picker>
+                                    <el-date-picker type="date" placeholder="实借起始时间" v-model="form.start"></el-date-picker>
                                 </el-col>
                             </el-form-item>
                             <el-form-item class="single">
                                 <el-col :span="11">
-                                    <el-date-picker type="date" placeholder="结束时间" v-model="form.end"></el-date-picker>
+                                    <el-date-picker type="date" placeholder="实借结束时间" v-model="form.end"></el-date-picker>
                                 </el-col>
                             </el-form-item>
                             <el-form-item>
-                                <el-select v-model="form.number" placeholder="已扣款次数" style="width:150px">
-                                    <!-- <el-option label="订单编号" value="订单编号"></el-option>
-                                    <el-option label="姓名" value="姓名"></el-option>
-                                    <el-option label="手机号" value="手机号"></el-option> -->
-                                </el-select>
+                                <el-col :span="11">
+                                    <el-date-picker type="date" placeholder="延期后应还起始时间" v-model="form.starts"></el-date-picker>
+                                </el-col>
                             </el-form-item>
                             <el-form-item class="single">
-                                <el-input placeholder="请输入整数" v-model="form.num"></el-input>
+                                <el-col :span="11">
+                                    <el-date-picker type="date" placeholder="延期后应还结束时间" v-model="form.ends"></el-date-picker>
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-input placeholder="已扣款次数" v-model="form.num"></el-input>
                             </el-form-item>
                             <el-form-item>
                                 <el-select v-model="form.level" placeholder="逾期等级" style="width:200px">
@@ -99,14 +94,7 @@
 					<h2>扣款记录表</h2>
                     <div class="main">
                         <el-form :model="formList" :inline="true" class="demo-form-inline">
-                            <el-form-item class="time">
-                                <el-select v-model="formList.time" placeholder="订单时间" style="width:150px">
-                                    <el-option label="订单时间" value="订单时间"></el-option>
-                                    <el-option label="延借时间" value="延借时间"></el-option>
-                                    <el-option label="延期后应还" value="延期后应还"></el-option>
-                                </el-select>
-                            </el-form-item>
-                            <el-form-item class="single">
+                            <el-form-item>
                                 <el-col :span="11">
                                     <el-date-picker type="date" placeholder="起始时间" v-model="formList.start"></el-date-picker>
                                 </el-col>
@@ -157,19 +145,19 @@
         data(){
             return{
                 tableData: [],
-                activeName: "second",
+                activeName: "first",
                 form: {
                     name: "",
                     id: "",
-                    time: "",
+                    phone: "",
                     start: "",
                     end: "",
-                    number: "",
+                    starts: "",
+                    ends: "",
                     num: "",
                     level: ""
                 },
                 formList: {
-                    time: "",
                     start: "",
                     end: ""
                 },
@@ -184,7 +172,17 @@
                 this.multipleSelection = val;
             },
             Reset(){
-
+                this.form = {
+                    name: "",
+                    id: "",
+                    phone: "",
+                    start: "",
+                    end: "",
+                    starts: "",
+                    ends: "",
+                    num: "",
+                    level: ""
+                }
             },
             Search(){
 
