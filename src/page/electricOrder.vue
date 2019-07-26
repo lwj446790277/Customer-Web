@@ -32,7 +32,9 @@
                         </el-col>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="warning" @click="Reset" style="background-color:#e3e4e7;border:transparent;color:#000">重置</el-button>
+                        <el-button type="warning" @click="Reset"
+                                   style="background-color:#e3e4e7;border:transparent;color:#000">重置
+                        </el-button>
                         <el-button type="primary" @click="Search">搜索</el-button>
                     </el-form-item>
                 </el-form>
@@ -50,14 +52,16 @@
                     </el-table-column>
                     <el-table-column label="审核操作" align="center">
                         <template slot-scope="scope">
-                            <el-popover :ref="`popover+${scope.$index}`" placement="bottom-end" width="200" trigger="click">
+                            <el-popover :ref="`popover+${scope.$index}`" placement="bottom-end" width="200"
+                                        trigger="click">
                                 <span class="content">确认通过该笔订单审核？</span>
                                 <el-button class="confire" size="mini" type="success" @click="createOrder(scope)">通过
                                 </el-button>
                                 <el-button type="success" size="mini" slot="reference">申请通过
                                 </el-button>
                             </el-popover>
-                            <el-popover :ref="`popover-${scope.$index}`" placement="bottom-end" width="200" trigger="click">
+                            <el-popover :ref="`popover-${scope.$index}`" placement="bottom-end" width="200"
+                                        trigger="click">
                                 <span class="content">确认拒绝该笔订单审核？</span>
                                 <el-button class="confire" size="mini" type="danger" @click="refuseOrder(scope)">拒绝
                                 </el-button>

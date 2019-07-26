@@ -8,15 +8,15 @@
                 <ul class="pic">
                     <li>
                         <img src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"/>
-                        <el-button type="primary">放大身份照</el-button>
+                        <el-button type="primary">查看详情</el-button>
                     </li>
                     <li>
                         <img src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"/>
-                        <el-button type="primary">放大国徽照</el-button>
+                        <el-button type="primary">查看详情</el-button>
                     </li>
                     <li>
                         <img src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"/>
-                        <el-button type="primary">放大人脸照</el-button>
+                        <el-button type="primary">查看详情</el-button>
                     </li>
                 </ul>
             </div>
@@ -26,19 +26,19 @@
                     <table border="1" cellspacing="0" cellpadding="20" class="news">
                         <tr>
                             <th>真实姓名</th>
-                            <td>{{name}}</td>
+                            <td>{{user}}</td>
                         </tr>
                         <tr>
                             <th>身份证号</th>
-                            <td>{{card}}</td>
+                            <td>{{user}}</td>
                         </tr>
                         <tr>
                             <th>年龄</th>
-                            <td>{{age}}</td>
+                            <td>{{user}}</td>
                         </tr>
                         <tr>
                             <th>省份</th>
-                            <td>{{province}}</td>
+                            <td>{{user}}</td>
                         </tr>
                     </table>
                 </li>
@@ -47,15 +47,15 @@
                     <table border="1" cellspacing="0" cellpadding="20" class="news">
                         <tr>
                             <th>注册登录手机号</th>
-                            <td>{{phone}}</td>
+                            <td>{{user}}</td>
                         </tr>
                         <tr>
                             <th>家庭地址</th>
-                            <td>{{Familyaddress}}</td>
+                            <td>{{user}}</td>
                         </tr>
                         <tr>
                             <th>详细地址</th>
-                            <td>{{Detailedaddress}}</td>
+                            <td>{{user}}</td>
                         </tr>
                     </table>
                 </li>
@@ -64,15 +64,15 @@
                     <table border="1" cellspacing="0" cellpadding="20" class="news">
                         <tr>
                             <th>开户行</th>
-                            <td>{{OpeningBank}}</td>
+                            <td>{{user}}</td>
                         </tr>
                         <tr>
                             <th>银行卡号</th>
-                            <td>{{BankCard}}</td>
+                            <td>{{user}}</td>
                         </tr>
                         <tr>
                             <th>绑定手机号</th>
-                            <td>{{Binding}}</td>
+                            <td>{{user}}</td>
                         </tr>
                     </table>
                 </li>
@@ -87,25 +87,38 @@
     	components: {
     		headTop,
 		},
+        watch: {   //监听值变化：map值
+            "$route": {
+                handler(route) {
+                    var that = this;
+                    if (route.path == '/personalInformation') {
+                        that.searchById();
+                    }
+                }
+            }
+        },
 		data(){
 			return{
-				name: "",
-                card: "",
-                age: "",
-                province: "",
-                phone: "",
-                Familyaddress: "",
-                Detailedaddress: "",
-                OpeningBank: "",
-                BankCard: "",
-                Binding: ""
+				user:{}
 			}
 		},
 		created(){
-			
+    	    var that = this;
+            that.axios.get('/user/queryUserAttesta', {
+                params: {userid:that.$route.query.id}
+            }).then(res => {
+                that.user = res.data.userAttestation;
+            })
 		},
 		methods:{
-			
+            searchById(){
+                var that = this;
+                that.axios.get('/user/queryUserAttesta', {
+                    params: {userid:that.$route.query.id}
+                }).then(res => {
+                    that.user = res.data.userAttestation;
+                })
+            }
 		}
     }
 </script>

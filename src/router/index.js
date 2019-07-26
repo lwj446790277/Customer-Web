@@ -158,7 +158,7 @@ const routes = [
             }, {
                 path: '/personalInformation',
                 component: personalInformation,
-                meta: ['贷后订单管理', '个人信息'],
+                meta: ['认证信息查看', '个人信息'],
             }, {
                 path: '/collectionOne',
                 component: collectionOne,

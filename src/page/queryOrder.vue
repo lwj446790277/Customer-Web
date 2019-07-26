@@ -18,22 +18,29 @@
                     <el-form-item>
                         <el-col :span="11">
                             <el-date-picker type="date" placeholder="注册起始时间"
+                                            value-format="yyyy-MM-dd"
+                                            @change="dateChangeStart"
                                             v-model="form.registestarttime"></el-date-picker>
                         </el-col>
                     </el-form-item>
                     <el-form-item class="single">
                         <el-col :span="11">
-                            <el-date-picker type="date" placeholder="注册结束时间" v-model="form.registeendtime"></el-date-picker>
+                            <el-date-picker type="date" placeholder="注册结束时间"
+                                            value-format="yyyy-MM-dd"
+                                            @change="dateChangeEnd"
+                                            v-model="form.registeendtime"></el-date-picker>
                         </el-col>
                     </el-form-item>
                     <el-form-item>
                         <el-select placeholder="引流平台" v-model="form.sourcename">
                             <el-option v-for="source in sourceList" :label="'引流平台 '+source.sourcename"
-                                    :value="source.id"></el-option>
+                                       :value="source.id"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="warning" @click="Reset" style="background-color:#e3e4e7;border:transparent;color:#000">重置</el-button>
+                        <el-button type="warning" @click="Reset"
+                                   style="background-color:#e3e4e7;border:transparent;color:#000">重置
+                        </el-button>
                         <el-button type="primary" @click="Search">搜索</el-button>
                     </el-form-item>
                 </el-form>
@@ -57,7 +64,11 @@
                     <el-table-column prop="orderdetails.interestInAll" label="总利息" align="center"></el-table-column>
                     <el-table-column prop="repaymentMoney" label="总还款" align="center"></el-table-column>
                     <el-table-column label="认证信息详情" align="center">
-                        <el-button type="primary" @click="">查看</el-button>
+                        <template slot-scope="scope">
+                            <router-link :to="{path:'/personalInformation',query:{id:scope.row.user.id}}">
+                                <el-button type="primary">查看</el-button>
+                            </router-link>
+                        </template>
                     </el-table-column>
                     <el-table-column label="借款信息详情" align="center">
                         <template slot-scope="scope">
@@ -187,8 +198,6 @@
                     ordernumber: "",
                     name: "",
                     phone: "",
-                    orderstarttime: "",
-                    orderendtime: "",
                     registestarttime: '',
                     registeendtime: ''
                 }
@@ -243,11 +252,21 @@
                     ordernumber: "",
                     name: "",
                     phone: "",
-                    orderstarttime: "",
-                    orderendtime: "",
                     registestarttime: '',
                     registeendtime: ''
                 }
+            },
+            dateChangeStart(val) {
+                var that = this;
+                that.form.registestarttime = val;
+            },
+            dateChangeEnd(val) {
+                var that = this;
+                that.form.registeendtime = val;
+            },
+            jumpCustomerInfo() {
+                var that = this;
+                that.$router.push('/personalInformation')
             },
             searchById() {
                 var that = this;
@@ -290,9 +309,9 @@
 <style lang="less">
     @import '../style/mixin';
 
-    .custom{
+    .custom {
         text-align: center;
-        line-height:40px;
+        line-height: 40px;
         width: 20%;
     }
 
