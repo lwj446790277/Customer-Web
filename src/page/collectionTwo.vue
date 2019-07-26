@@ -16,12 +16,12 @@
           </el-form-item>
           <el-form-item>
             <el-col :span="11">
-              <el-date-picker type="date" placeholder="实借起始时间" v-model="formList.start"></el-date-picker>
+              <el-date-picker type="date" placeholder="实借起始时间" v-model="formList.start" value-format="yyyy-MM-dd" @change="timeChange"></el-date-picker>
             </el-col>
           </el-form-item>
           <el-form-item class="single">
             <el-col :span="11">
-              <el-date-picker type="date" placeholder="实借结束时间" v-model="formList.end"></el-date-picker>
+              <el-date-picker type="date" placeholder="实借结束时间" v-model="formList.end" value-format="yyyy-MM-dd" @change="endChange"></el-date-picker>
             </el-col>
           </el-form-item>
           <el-form-item>
@@ -30,6 +30,7 @@
                 type="date"
                 placeholder="延期后应还起始时间"
                 v-model="formList.deferAfterReturntimeStatu_time"
+                value-format="yyyy-MM-dd" @change="starts"
               ></el-date-picker>
             </el-col>
           </el-form-item>
@@ -39,6 +40,7 @@
                 type="date"
                 placeholder="延期后应还结束时间"
                 v-model="formList.deferAfterReturntimeEnd_time"
+                value-format="yyyy-MM-dd" @change="ends"
               ></el-date-picker>
             </el-col>
           </el-form-item>
@@ -180,6 +182,20 @@ export default {
     this.get();
   },
   methods: {
+      timeChange(val){
+          // console.log(val)
+          this.formList.start = val
+      },
+      endChange(val){
+          this.formList.end = val
+      },
+      starts(val){
+          // console.log(val)
+          this.formList.deferAfterReturntimeStatu_time = val
+      },
+      ends(val){
+          this.formList.deferAfterReturntimeEnd_time = val
+      },
     getData(page, Pagesize) {
       this.axios
         .get("collection/BeoverdueYifenp", {
@@ -237,9 +253,20 @@ export default {
     },
     Reset() {
       this.clear();
-      this.getData(this.page, this.Pagesize);
     },
     Search() {
+        if(this.formList.start!=""){
+            this.formList.start = this.formList.start + " " + "00:00:00"
+        }
+        if(this.formList.end!=""){
+            this.formList.end = this.formList.end + " " + "23:59:59"
+        }
+        if(this.formList.deferAfterReturntimeStatu_time!=""){
+            this.formList.deferAfterReturntimeStatu_time = this.formList.deferAfterReturntimeStatu_time + " " + "00:00:00"
+        }
+        if(this.formList.deferAfterReturntimeEnd_time!=""){
+            this.formList.deferAfterReturntimeEnd_time = this.formList.deferAfterReturntimeEnd_time + " " + "23:59:59"
+        }
       if (this.formList.name == "姓名") {
         this.axios
           .get("collection/BeoverdueYifenp", {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <head-top></head-top>
-    <el-tabs v-model="activeName" type="card" class="firstcon">
+    <el-tabs v-model="activeName" type="card" class="firstcon" @tab-click="handleClick">
       <el-tab-pane label="综合统计" name="first">
         <div class="back">
           <h2>综合统计</h2>
@@ -26,17 +26,17 @@
               <table class="all fif">
                 <tr>
                   <td>今日回款总额</td>
-                  <td>今日还款人数</td>
+                  <td>今日回款笔数</td>
                   <td>今日延期笔数</td>
                   <td>今日逾后已还笔数</td>
                   <td>今日逾期已还金额</td>
                 </tr>
                 <tr>
-                  <th>{{one}}</th>
-                  <th>{{two}}</th>
-                  <th>{{three}}</th>
-                  <th>{{four}}</th>
-                  <th>{{four}}</th>
+                  <th>{{five}}</th>
+                  <th>{{six}}</th>
+                  <th>{{seven}}</th>
+                  <th>{{eight}}</th>
+                  <th>{{nine}}</th>
                 </tr>
               </table>
               <div class="leftl"></div>
@@ -50,11 +50,11 @@
                   <td>放款总笔数</td>
                 </tr>
                 <tr>
-                  <th>{{one}}</th>
-                  <th>{{two}}</th>
-                  <th>{{three}}</th>
-                  <th>{{four}}</th>
-                  <th>{{four}}</th>
+                  <th>{{first}}</th>
+                  <th>{{second}}</th>
+                  <th>{{third}}</th>
+                  <th>{{forth}}</th>
+                  <th>{{fifth}}</th>
                 </tr>
               </table>
               <table class="all fif">
@@ -66,11 +66,11 @@
                   <td>订单回款率</td>
                 </tr>
                 <tr>
-                  <th>{{one}}</th>
-                  <th>{{two}}</th>
-                  <th>{{three}}</th>
-                  <th>{{four}}%</th>
-                  <th>{{four}}%</th>
+                  <th>{{sixth}}</th>
+                  <th>{{seventh}}</th>
+                  <th>{{eighth}}</th>
+                  <th>{{ninth}}</th>
+                  <th>{{tenth}}</th>
                 </tr>
               </table>
               <div class="lef">
@@ -82,8 +82,8 @@
                     <td>逾前应收总金额</td>
                   </tr>
                   <tr>
-                    <th>{{one}}</th>
-                    <th>{{two}}</th>
+                    <th>{{one_two}}</th>
+                    <th>{{one_three}}</th>
                   </tr>
                 </table>
               </div>
@@ -97,9 +97,9 @@
                     <td>逾期应收总金额</td>
                   </tr>
                   <tr>
-                    <th>{{one}}</th>
-                    <th>{{two}}%</th>
-                    <th>{{four}}</th>
+                    <th>{{one_four}}</th>
+                    <th>{{one_five}}</th>
+                    <th>{{one_five}}</th>
                   </tr>
                 </table>
               </div>
@@ -111,32 +111,32 @@
         <div class="back">
           <h2>回收率报表</h2>
           <div class="main">
-            <el-date-picker type="date" placeholder="起始时间" v-model="start"></el-date-picker>
-            <el-date-picker type="date" placeholder="结束时间" v-model="end" class="picker"></el-date-picker>
+            <el-date-picker type="date" placeholder="起始时间" v-model="start" value-format="yyyy-MM-dd" @change="timeChange"></el-date-picker>
+            <el-date-picker type="date" placeholder="结束时间" v-model="end" class="picker" value-format="yyyy-MM-dd" @change="endChange"></el-date-picker>
             <el-button type="primary" @click="Search">搜索</el-button>
             <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
-              <el-table-column prop="name" label="应还日期" width="93" align="center"></el-table-column>
-              <el-table-column prop="name" label="应还订单" width="93" align="center"></el-table-column>
-              <el-table-column prop="address" label="逾前未还" width="93" align="center"></el-table-column>
-              <el-table-column prop="address" label="逾前已还" width="93" align="center"></el-table-column>
-              <el-table-column prop="address" label="逾后未还" width="93" align="center"></el-table-column>
-              <el-table-column prop="address" label="逾后已还" width="93" align="center"></el-table-column>
-              <el-table-column prop="address" label="已坏账" align="center"></el-table-column>
-              <el-table-column prop="address" label="应还金额" width="93" align="center"></el-table-column>
-              <el-table-column prop="address" label="实还金额" width="93" align="center"></el-table-column>
-              <el-table-column prop="address" label="延期费" align="center"></el-table-column>
-              <el-table-column prop="address" label="减免金额" width="93" align="center"></el-table-column>
-              <el-table-column prop="address" label="银行扣款金额" width="125" align="center"></el-table-column>
-              <el-table-column prop="address" label="待还金额" width="93" align="center"></el-table-column>
-              <el-table-column prop="address" label="逾期率" align="center"></el-table-column>
-              <el-table-column prop="address" label="回收率" align="center"></el-table-column>
+              <el-table-column prop="shouldtime" label="应还日期" width="120" align="center"></el-table-column>
+              <el-table-column prop="shouldorder" label="应还订单" width="93" align="center"></el-table-column>
+              <el-table-column prop="overduenotrepay" label="逾前未还" width="93" align="center"></el-table-column>
+              <el-table-column prop="overduerepay" label="逾前已还" width="93" align="center"></el-table-column>
+              <el-table-column prop="overdueafternotrepay" label="逾后未还" width="93" align="center"></el-table-column>
+              <el-table-column prop="overdueafterrepay" label="逾后已还" width="93" align="center"></el-table-column>
+              <el-table-column prop="baddebt" label="已坏账" align="center"></el-table-column>
+              <el-table-column prop="shouldmoney" label="应还金额" width="93" align="center"></el-table-column>
+              <el-table-column prop="realymoney" label="实还金额" width="93" align="center"></el-table-column>
+              <el-table-column prop="deferredmoney" label="延期费" align="center"></el-table-column>
+                <el-table-column prop="overduemoney" label="逾期费" align="center"></el-table-column>
+              <el-table-column prop="deratemoney" label="减免金额" width="93" align="center"></el-table-column>
+              <el-table-column prop="bankdeduction" label="银行扣款金额" width="125" align="center"></el-table-column>
+              <el-table-column prop="tobepaid" label="待还金额" width="93" align="center"></el-table-column>
+              <el-table-column prop="overduecvr" label="逾期率" align="center"></el-table-column>
+              <el-table-column prop="recovery" label="回收率" align="center"></el-table-column>
             </el-table>
             <div class="block">
               <el-pagination
                 :current-page.sync="page"
-                :page-sizes="[10, 15, 20, 25]"
                 :page-size.sync="pageSize"
-                layout="total, sizes, prev, pager, next, jumper"
+                layout="total, prev, pager, next, jumper"
                 :page-count="totalPageCount"
                 :total="totalCount"
                 @size-change="sizeChange"
@@ -172,23 +172,121 @@ export default {
       pageSize: 10,
       totalPageCount: 0,
       totalCount: 20,
-      one: "123",
-      two: "123",
-      three: "123",
-      four: "123"
+      one: "",
+      two: "",
+      three: "",
+      four: "",
+        five:"",
+        six: "",
+        seven: "",
+        eight: "",
+        nine: "",
+        first: "",
+        second: "",
+        third: "",
+        forth: "",
+        fifth: "",
+        sixth: "",
+        seventh: "",
+        eighth: "",
+        ninth: "",
+        tenth: "",
+        one_two: "",
+        one_three: "",
+        one_four: "",
+        one_five: "",
+        one_six: ""
     };
   },
   components: {
     headTop
   },
+    created(){
+      this.getData()
+    },
   methods: {
+      timeChange(val){
+          // console.log(val)
+          this.start = val
+      },
+      endChange(val){
+          this.end = val
+      },
+      get(page,pageSize){
+          this.axios.get('homepagetongji/recoveryStatement',{
+              params:{
+                  companyId: window.localStorage.getItem("companyid"),
+                  page,
+                  pageSize
+              }
+          }).then(res=>{
+              this.tableData = res.data.listtongjito
+              this.page = res.data.pageutil.page
+              this.pageSize = res.data.pageutil.pageSize
+              this.totalCount = res.data.pageutil.totalCount
+              this.totalPageCount = res.data.pageutil.totalPageCount
+          })
+      },
+      getData(){
+          this.axios.get('homepagetongji/queryAll',{
+              params:{
+                  companyId: window.localStorage.getItem("companyid")
+              }
+          }).then(res=>{
+            console.log(res.data)
+              this.one = res.data.todayloantotalmoney
+              this.two = res.data.todayloan
+              this.three = res.data.todayregiste
+              this.four = res.data.todayapply
+              this.five = res.data.todayreturtoalmoney
+              this.six = res.data.todayrepayment
+              this.seven = res.data.todaydeferred
+              this.eight = res.data.todayoverdue
+              this.nine = res.data.todayoveruetotalmoney
+              this.first = res.data.payrecmoney
+              this.second = res.data.repaymoney
+              this.third = res.data.sumregiste
+              this.forth = res.data.sumapply
+              this.fifth = res.data.sumloan
+              this.sixth = res.data.shouldMoney
+              this.seventh = res.data.realymoney
+              this.eighth = res.data.sumrepayment
+              this.ninth = res.data.paymentpasscvr
+              this.tenth = res.data.orderrepaycvr
+              this.one_two = res.data.overdue
+              this.one_three = res.data.overduemoney
+              this.one_four = res.data.overdue1
+              this.one_five = res.data.overduecvr
+              this.one_six = res.data.overshouldMoney
+          })
+      },
+      handleClick(){
+        if (this.activeName=="second"){
+            this.get(this.page,this.pageSize)
+        }
+      },
     sizeChange() {
       //   this.getData(this.page, this.pageSize);
     },
     currentChange() {
       //   this.getData(this.page, this.pageSize);
     },
-    Search() {}
+    Search() {
+        this.axios.get('homepagetongji/recoveryStatement',{
+            params:{
+                companyId: window.localStorage.getItem("companyid"),
+                shouldrepayStartTime: this.start,
+                shouldrepayEndTime: this.end,
+                page: this.page
+            }
+        }).then(res=>{
+            this.tableData = res.data.listtongjito
+            this.page = res.data.pageutil.page
+            this.pageSize = res.data.pageutil.pageSize
+            this.totalCount = res.data.pageutil.totalCount
+            this.totalPageCount = res.data.pageutil.totalPageCount
+        })
+    }
   }
 };
 </script>

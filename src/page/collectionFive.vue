@@ -149,7 +149,6 @@ export default {
     },
     Reset() {
       this.clear();
-      this.getData(this.page, this.Pagesize);
     },
     Search() {
       this.axios

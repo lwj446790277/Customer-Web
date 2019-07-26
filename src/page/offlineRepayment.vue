@@ -77,12 +77,12 @@
 							</el-form-item>
 							<el-form-item>
 								<el-col :span="11">
-									<el-date-picker type="date" placeholder="起始时间" v-model="form.start"></el-date-picker>
+									<el-date-picker type="date" placeholder="起始时间" v-model="form.start" value-format="yyyy-MM-dd" @change="timeChange"></el-date-picker>
 								</el-col>
 							</el-form-item>
 								<el-form-item class="single">
 								<el-col :span="11">
-									<el-date-picker type="date" placeholder="结束时间" v-model="form.end"></el-date-picker>
+									<el-date-picker type="date" placeholder="结束时间" v-model="form.end" value-format="yyyy-MM-dd" @change="endChange"></el-date-picker>
 								</el-col>
 							</el-form-item>
 							<el-form-item>
@@ -257,12 +257,12 @@
 							</el-form-item>
 							<el-form-item>
 								<el-col :span="11">
-									<el-date-picker type="date" placeholder="起始时间" v-model="formForth.start"></el-date-picker>
+									<el-date-picker type="date" placeholder="起始时间" v-model="formForth.start" value-format="yyyy-MM-dd" @change="start"></el-date-picker>
 								</el-col>
 							</el-form-item>
 								<el-form-item class="single">
 								<el-col :span="11">
-									<el-date-picker type="date" placeholder="结束时间" v-model="formForth.end"></el-date-picker>
+									<el-date-picker type="date" placeholder="结束时间" v-model="formForth.end" value-format="yyyy-MM-dd" @change="end"></el-date-picker>
 								</el-col>
 							</el-form-item>
 							<el-form-item>
@@ -375,6 +375,20 @@
 			this.get()
 		},
 		methods:{
+            timeChange(val){
+                // console.log(val)
+                this.form.start = val
+            },
+            endChange(val){
+                this.form.end = val
+            },
+            start(val){
+                // console.log(val)
+                this.formForth.start = val
+            },
+            end(val){
+                this.formForth.end = val
+            },
 			sizeChange() {
 			//   this.getData(this.page, this.pageSize);
 			},
@@ -497,7 +511,6 @@
 					start: "",
 					end: ""
 				}
-				this.getData(this.page, this.Pagesize)
 			},
 			ResetForth(){
 				this.formForth = {
@@ -507,9 +520,14 @@
 					start: "",
 					end: ""
 				}
-				this.getForth(this.pages,this.Pagesizes)
 			},
 			SearchForth(){
+                if(this.formForth.start!=""){
+                    this.formForth.start = this.formForth.start + " " + "00:00:00"
+                }
+                if(this.formForth.end!=""){
+                    this.formForth.end = this.formForth.end + " " + "23:59:59"
+                }
 				this.axios.get('fina/AllXiaOrder',{
 					params:{
 						companyId: window.localStorage.getItem("companyid"),
@@ -523,7 +541,13 @@
 					this.tableDataForth = res.data.Undertheline
 				})
 			},
-			Search(){    
+			Search(){
+                if(this.form.start!=""){
+                    this.form.start = this.form.start + " " + "00:00:00"
+                }
+                if(this.form.end!=""){
+                    this.form.end = this.form.end + " " + "23:59:59"
+                }
 				this.axios.get('fina/Orderoffline',{
 					params:{
 						companyId: window.localStorage.getItem("companyid"),

@@ -159,22 +159,22 @@
 							</el-form-item>
 							<el-form-item>
 								<el-col :span="11">
-									<el-date-picker type="date" placeholder="实借起始时间" v-model="formOne.start"></el-date-picker>
+									<el-date-picker type="date" placeholder="实借起始时间" v-model="formOne.start" value-format="yyyy-MM-dd" @change="timeChange"></el-date-picker>
 								</el-col>
 							</el-form-item>
 								<el-form-item class="single">
 								<el-col :span="11">
-									<el-date-picker type="date" placeholder="实借结束时间" v-model="formOne.end"></el-date-picker>
+									<el-date-picker type="date" placeholder="实借结束时间" v-model="formOne.end" value-format="yyyy-MM-dd" @change="endChange"></el-date-picker>
 								</el-col>
 							</el-form-item>
 							<el-form-item>
 								<el-col :span="11">
-									<el-date-picker type="date" placeholder="调账起始时间" v-model="formOne.accounttimestart_time"></el-date-picker>
+									<el-date-picker type="date" placeholder="调账起始时间" v-model="formOne.accounttimestart_time" value-format="yyyy-MM-dd" @change="accounttimestart_time"></el-date-picker>
 								</el-col>
 							</el-form-item>
 								<el-form-item class="single">
 								<el-col :span="11">
-									<el-date-picker type="date" placeholder="调账结束时间" v-model="formOne.accounttimeent_time"></el-date-picker>
+									<el-date-picker type="date" placeholder="调账结束时间" v-model="formOne.accounttimeent_time" value-format="yyyy-MM-dd" @change="accounttimeent_time"></el-date-picker>
 								</el-col>
 							</el-form-item>
 							<el-form-item>
@@ -240,22 +240,22 @@
 							</el-form-item>
 							<el-form-item>
 								<el-col :span="11">
-									<el-date-picker type="date" placeholder="实借起始时间" v-model="formTwo.start"></el-date-picker>
+									<el-date-picker type="date" placeholder="实借起始时间" v-model="formTwo.start" value-format="yyyy-MM-dd" @change="start"></el-date-picker>
 								</el-col>
 							</el-form-item>
 								<el-form-item class="single">
 								<el-col :span="11">
-									<el-date-picker type="date" placeholder="实借结束时间" v-model="formTwo.end"></el-date-picker>
+									<el-date-picker type="date" placeholder="实借结束时间" v-model="formTwo.end" value-format="yyyy-MM-dd" @change="end"></el-date-picker>
 								</el-col>
 							</el-form-item>
 							<el-form-item>
 								<el-col :span="11">
-									<el-date-picker type="date" placeholder="调账起始时间" v-model="formTwo.accounttimestart_time"></el-date-picker>
+									<el-date-picker type="date" placeholder="调账起始时间" v-model="formTwo.accounttimestart_time" value-format="yyyy-MM-dd" @change="timestart"></el-date-picker>
 								</el-col>
 							</el-form-item>
 								<el-form-item class="single">
 								<el-col :span="11">
-									<el-date-picker type="date" placeholder="调账结束时间" v-model="formTwo.accounttimeent_time"></el-date-picker>
+									<el-date-picker type="date" placeholder="调账结束时间" v-model="formTwo.accounttimeent_time" value-format="yyyy-MM-dd" @change="timeend"></el-date-picker>
 								</el-col>
 							</el-form-item>
 							<el-form-item>
@@ -317,22 +317,22 @@
 							</el-form-item>
 							<el-form-item>
 								<el-col :span="11">
-									<el-date-picker type="date" placeholder="实借起始时间" v-model="formThree.start"></el-date-picker>
+									<el-date-picker type="date" placeholder="实借起始时间" v-model="formThree.start" value-format="yyyy-MM-dd" @change="starts"></el-date-picker>
 								</el-col>
 							</el-form-item>
 								<el-form-item class="single">
 								<el-col :span="11">
-									<el-date-picker type="date" placeholder="实借结束时间" v-model="formThree.end"></el-date-picker>
+									<el-date-picker type="date" placeholder="实借结束时间" v-model="formThree.end" value-format="yyyy-MM-dd" @change="ends"></el-date-picker>
 								</el-col>
 							</el-form-item>
 							<el-form-item>
 								<el-col :span="11">
-									<el-date-picker type="date" placeholder="调账起始时间" v-model="formThree.accounttimestart_time"></el-date-picker>
+									<el-date-picker type="date" placeholder="调账起始时间" v-model="formThree.accounttimestart_time" value-format="yyyy-MM-dd" @change="started"></el-date-picker>
 								</el-col>
 							</el-form-item>
 								<el-form-item class="single">
 								<el-col :span="11">
-									<el-date-picker type="date" placeholder="调账结束时间" v-model="formThree.accounttimeent_time"></el-date-picker>
+									<el-date-picker type="date" placeholder="调账结束时间" v-model="formThree.accounttimeent_time" value-format="yyyy-MM-dd" @change="ended"></el-date-picker>
 								</el-col>
 							</el-form-item>
 							<el-form-item>
@@ -467,6 +467,48 @@
 			this.get()
 		},
 		methods:{
+            timeChange(val){
+                // console.log(val)
+                this.formOne.start = val
+            },
+            endChange(val){
+                this.formOne.end = val
+            },
+            accounttimestart_time(val){
+                // console.log(val)
+                this.formOne.accounttimestart_time = val
+            },
+            accounttimeent_time(val){
+                this.formOne.accounttimeent_time = val
+            },
+            start(val){
+                // console.log(val)
+                this.formTwo.start = val
+            },
+            end(val){
+                this.formTwo.end = val
+            },
+            timestart(val){
+                // console.log(val)
+                this.formTwo.accounttimestart_time = val
+            },
+            timeend(val){
+                this.formTwo.accounttimeent_time = val
+            },
+            starts(val){
+                // console.log(val)
+                this.formThree.start = val
+            },
+            ends(val){
+                this.formThree.end = val
+            },
+            started(val){
+                // console.log(val)
+                this.formThree.accounttimestart_time = val
+            },
+            ended(val){
+                this.formThree.accounttimeent_time = val
+            },
 			get(){
 				this.axios.get('fina/RepaymentAll',{
 					params:{
@@ -556,6 +598,18 @@
 				})
 			},
 			SearchTwo(){
+                if(this.formOne.start!=""){
+                    this.formOne.start = this.formOne.start + " " + "00:00:00"
+                }
+                if(this.formOne.end!=""){
+                    this.formOne.end = this.formOne.end + " " + "23:59:59"
+                }
+                if(this.formOne.accounttimestart_time!=""){
+                    this.formOne.accounttimestart_time = this.formOne.accounttimestart_time + " " + "00:00:00"
+                }
+                if(this.formOne.accounttimeent_time!=""){
+                    this.formOne.accounttimeent_time = this.formOne.accounttimeent_time + " " + "23:59:59"
+                }
 				this.axios.get('fina/SelectOrderAccount',{
 					params:{
 						companyId: "3",
@@ -573,6 +627,18 @@
 				})
 			},
 			SearchThree(){
+                if(this.formTwo.start!=""){
+                    this.formTwo.start = this.formTwo.start + " " + "00:00:00"
+                }
+                if(this.formTwo.end!=""){
+                    this.formTwo.end = this.formTwo.end + " " + "23:59:59"
+                }
+                if(this.formTwo.accounttimestart_time!=""){
+                    this.formTwo.accounttimestart_time = this.formTwo.accounttimestart_time + " " + "00:00:00"
+                }
+                if(this.formTwo.accounttimeent_time!=""){
+                    this.formTwo.accounttimeent_time = this.formTwo.accounttimeent_time + " " + "23:59:59"
+                }
 				this.axios.get('fina/SelectNoMoney',{
 					params:{
 						companyId: "3",
@@ -589,6 +655,18 @@
 				})
 			},
 			SearchFour(){
+                if(this.formThree.start!=""){
+                    this.formThree.start = this.formThree.start + " " + "00:00:00"
+                }
+                if(this.formThree.end!=""){
+                    this.formThree.end = this.formThree.end + " " + "23:59:59"
+                }
+                if(this.formThree.accounttimestart_time!=""){
+                    this.formThree.accounttimestart_time = this.formThree.accounttimestart_time + " " + "00:00:00"
+                }
+                if(this.formThree.accounttimeent_time!=""){
+                    this.formThree.accounttimeent_time = this.formThree.accounttimeent_time + " " + "23:59:59"
+                }
 				this.axios.get('fina/SelectOkMoney',{
 					params:{
 						companyId: "3",
@@ -614,7 +692,6 @@
 					accounttimestart_time: "",
 					accounttimeent_time: ""
 				}
-				this.getData(this.page, this.Pagesize)
 			},
 			ResetThree(){
 				this.formTwo = {
@@ -625,7 +702,6 @@
 					accounttimestart_time: "",
 					accounttimeent_time: ""
 				}
-				this.getOne(this.pageOne,this.PagesizeOne)
 			},
 			ResetFour(){
 				this.formThree = {
@@ -636,7 +712,6 @@
 					accounttimestart_time: "",
 					accounttimeent_time: ""
 				}
-				this.getTwo(this.pageTwo,this.PagesizeTwo)
 			},
 			save(){
 				this.axios.get('fina/AddAcount',{

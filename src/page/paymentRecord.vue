@@ -24,12 +24,12 @@
           </el-form-item>
           <el-form-item>
             <el-col :span="11">
-              <el-date-picker type="date" placeholder="起始时间" v-model="form.start"></el-date-picker>
+              <el-date-picker type="date" placeholder="起始时间" v-model="form.start" value-format="yyyy-MM-dd" @change="timeChange"></el-date-picker>
             </el-col>
           </el-form-item>
           <el-form-item class="single">
             <el-col :span="11">
-              <el-date-picker type="date" placeholder="结束时间" v-model="form.end"></el-date-picker>
+              <el-date-picker type="date" placeholder="结束时间" v-model="form.end" value-format="yyyy-MM-dd" @change="endChange"></el-date-picker>
             </el-col>
           </el-form-item>
           <el-form-item>
@@ -68,84 +68,104 @@
           customClass="custom"
           center
         >
-          <ul class="ul">
-            <li>
-              <span>订单编号:</span>
-              <span>{{id}}</span>
-            </li>
-            <li>
-              <span>姓名:</span>
-              <span>{{name}}</span>
-            </li>
-            <li>
-              <span>手机号:</span>
-              <span>{{phone}}</span>
-            </li>
-            <li>
-              <span>注册时间:</span>
-              <span>{{register}}</span>
-            </li>
-            <li>
-              <span>订单时间:</span>
-              <span>{{order}}</span>
-            </li>
-            <li>
-              <span>引流渠道:</span>
-              <span>{{drainage}}</span>
-            </li>
-            <!-- <li>
-            <span>机审时间:</span>
-            <span>{{audit}}</span>
-            </li>-->
-            <li>
-              <span>风控模型/分数:</span>
-              <span>{{risk}}/{{grade}}</span>
-            </li>
-            <!-- <li>
-            <span>人审时间:</span>
-            <span>{{trial}}</span>
-            </li>-->
-            <!-- <li>
-            <span>审核人员:</span>
-            <span>{{examine}}</span>
-            </li>-->
-            <li>
-              <span>贷款方式:</span>
-              <span>{{loan}}</span>
-            </li>
-            <li>
-              <span>还款期数:</span>
-              <span>{{repayment}}</span>
-            </li>
-            <li>
-              <span>实借/放款:</span>
-              <span>{{real}}/{{discharge}}</span>
-            </li>
-            <li>
-              <span>借款时间:</span>
-              <span>{{borr}}</span>
-            </li>
-            <li>
-              <span>总利息/总还款:</span>
-              <span>{{interest}}/{{still}}</span>
-            </li>
-            <li>
-              <span>延期次数/延期金额:</span>
-              <span>{{num}}/{{money}}</span>
-            </li>
-            <li>
-              <span>每次延期天数:</span>
-              <span>{{date}}</span>
-            </li>
-            <li>
-              <span>延期前还款时间:</span>
-              <span>{{betime}}</span>
-            </li>
-            <li>
-              <span>延期后还款时间:</span>
-              <span>{{aftime}}</span>
-            </li>
-          </ul>
+            <table cellpadding="10" cellspacing="0" class="bow" v-for="item in borrow">
+                <tr>
+                    <th>订单编号:</th>
+                    <td>
+                        <div>{{item.orderNumber}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>姓名:</th>
+                    <td>
+                        <div>{{item.name}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>手机号:</th>
+                    <td>
+                        <div>{{item.phone}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>注册时间:</th>
+                    <td>
+                        <div>{{item.registeTime}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>订单时间:</th>
+                    <td>
+                        <div>{{item.orderCreateTime}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>引流渠道:</th>
+                    <td>
+                        <div>{{item.drainageOfPlatformName}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>风控模型/分数:</th>
+                    <td>
+                        <div>{{item.riskcontrolname}}/{{item.riskmanagementFraction}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>贷款方式:</th>
+                    <td>
+                        <div>{{item.borrowMoneyWay}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>还款期数:</th>
+                    <td>
+                        <div>{{item.borrowTimeLimit}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>实借/放款:</th>
+                    <td>
+                        <div>{{item.realityBorrowMoney}}/{{item.makeLoans}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>借款时间:</th>
+                    <td>
+                        <div>{{item.orderCreateTime}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>总利息/总还款:</th>
+                    <td>
+                        <div>{{item.interestSum}}/{{item.Order_money}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>延期次数/延期金额:</th>
+                    <td>
+                        <div>{{item.defeNum}}/{{item.interestOnArrears}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>每次延期天数:</th>
+                    <td>
+                        <div>{{item.onceDeferredDay}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>延期前还款时间:</th>
+                    <td>
+                        <div>{{item.deferBeforeReturntime}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>延期后还款时间:</th>
+                    <td>
+                        <div>{{item.deferAfterReturntime}}</div>
+                    </td>
+                </tr>
+            </table>
         </el-dialog>
         <div class="block">
           <el-pagination
@@ -171,8 +191,8 @@ export default {
   },
   data() {
     return {
-      tableData: [],
-      borrow: [],
+      tableData: [{}],
+      borrow: [{orderNumber:1}],
       Thirdparty_interface: [],
       thirdparty_id: "",
       form: {
@@ -218,6 +238,13 @@ export default {
     this.get();
   },
   methods: {
+      timeChange(val){
+          // console.log(val)
+          this.form.start = val
+      },
+      endChange(val){
+          this.form.end = val
+      },
     getData(page, Pagesize) {
       this.axios
         .get("fina/Allpayment_record", {
@@ -263,9 +290,14 @@ export default {
         end: "",
         qudao: ""
       };
-      this.getData(this.page, this.Pagesize);
     },
     Search() {
+          if(this.form.start!=""){
+              this.form.start = this.form.start + " " + "00:00:00"
+          }
+        if(this.form.end!=""){
+            this.form.end = this.form.end + " " + "23:59:59"
+        }
       this.axios.get("fina/Allpayment_record", {
         params: {
           companyId: "3",
@@ -358,21 +390,36 @@ export default {
 .custom {
   text-align: center;
   width: 30%;
+    margin-top: -120px;
 }
-.ul {
-  width: 100%;
+.custom .el-dialog__header{
+    background-color: #1c8de0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #fff;
 }
-.ul li {
-  width: 100%;
-  margin-bottom: 20px;
+.custom .el-dialog__headerbtn .el-dialog__close{
+    color: #fff;
 }
-.ul li span {
-  width: 50%;
+.custom .el-dialog__headerbtn .el-dialog__close:hover{
+    color: #ccc;
 }
-.ul li span:first-child {
-  margin-right: 5px;
+.custom .el-dialog__title{
+    color: #fff;
+    font-weight: normal;
 }
-.ul li span:last-child {
-  margin-left: 5px;
+.bow{
+    width: 90%;
+    margin: 0 auto;
+}
+.bow tr th{
+    text-align: left;
+    width: 50%;
+}
+.bow tr td div{
+    width: 90%;
+    height: 30px;
+    line-height: 30px;
+    background-color: #f3f6fb;
 }
 </style>

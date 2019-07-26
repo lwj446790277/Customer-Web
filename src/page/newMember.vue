@@ -109,16 +109,16 @@
                             </el-form-item>
                         </el-form>
                         <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%;line-height: 60px;">
-                            <el-table-column prop="name" label="操作时间" width="150" align="center"></el-table-column>
+                            <el-table-column prop="name" label="操作时间" align="center"></el-table-column>
                             <el-table-column prop="name" label="操作人" align="center"></el-table-column>
-                            <el-table-column prop="address" label="扣款比例(%)" width="150" align="center"></el-table-column>
-                            <el-table-column prop="address" label="第三方服务总支出费" width="165" align="center"></el-table-column>
-                            <el-table-column prop="address" label="已选扣款用户总数" width="160" align="center"></el-table-column>
-                            <el-table-column prop="address" label="扣款失败用户数" width="160" align="center"></el-table-column>
-                            <el-table-column prop="address" label="成功扣款用户数" width="160" align="center"></el-table-column>
-                            <el-table-column prop="address" label="成功扣款用户比率(%)" width="175" align="center"></el-table-column> 
-                            <el-table-column prop="address" label="成功扣款总金额" width="160" align="center"></el-table-column>
-                            <el-table-column prop="address" label="查看扣款清单" width="160" align="center"></el-table-column>
+                            <el-table-column prop="address" label="扣款比例(%)" align="center"></el-table-column>
+                            <!--                            <el-table-column prop="address" label="第三方服务总支出费" width="165" align="center"></el-table-column>-->
+                            <el-table-column prop="address" label="已选扣款用户总数" align="center"></el-table-column>
+                            <el-table-column prop="address" label="扣款失败用户数" align="center"></el-table-column>
+                            <el-table-column prop="address" label="成功扣款用户数" align="center"></el-table-column>
+                            <!--                            <el-table-column prop="address" label="成功扣款用户比率(%)" width="175" align="center"></el-table-column> -->
+                            <el-table-column prop="address" label="成功扣款总金额" align="center"></el-table-column>
+                            <el-table-column prop="address" label="查看扣款清单" align="center"></el-table-column>
                         </el-table>
                         <div class="block">
                             <el-pagination

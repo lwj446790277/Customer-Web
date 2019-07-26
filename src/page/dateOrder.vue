@@ -186,12 +186,12 @@
               </el-form-item>-->
               <el-form-item>
                 <el-col :span="11">
-                  <el-date-picker type="date" placeholder="起始时间" v-model="formThree.start"></el-date-picker>
+                  <el-date-picker type="date" placeholder="起始时间" v-model="formThree.start" value-format="yyyy-MM-dd" @change="timeChange"></el-date-picker>
                 </el-col>
               </el-form-item>
               <el-form-item class="single">
                 <el-col :span="11">
-                  <el-date-picker type="date" placeholder="结束时间" v-model="formThree.end"></el-date-picker>
+                  <el-date-picker type="date" placeholder="结束时间" v-model="formThree.end" value-format="yyyy-MM-dd" @change="endChange"></el-date-picker>
                 </el-col>
               </el-form-item>
               <el-form-item>
@@ -241,12 +241,12 @@
               </el-form-item>-->
               <el-form-item>
                 <el-col :span="11">
-                  <el-date-picker type="date" placeholder="起始时间" v-model="formFour.start"></el-date-picker>
+                  <el-date-picker type="date" placeholder="起始时间" v-model="formFour.start" value-format="yyyy-MM-dd" @change="start"></el-date-picker>
                 </el-col>
               </el-form-item>
               <el-form-item class="single">
                 <el-col :span="11">
-                  <el-date-picker type="date" placeholder="结束时间" v-model="formFour.end"></el-date-picker>
+                  <el-date-picker type="date" placeholder="结束时间" v-model="formFour.end" value-format="yyyy-MM-dd" @change="end"></el-date-picker>
                 </el-col>
               </el-form-item>
               <el-form-item>
@@ -552,6 +552,20 @@ export default {
       }
       console.log(this.String);
     },
+      timeChange(val){
+          // console.log(val)
+          this.formThree.start = val
+      },
+      endChange(val){
+          this.formThree.end = val
+      },
+      start(val){
+          // console.log(val)
+          this.formFour.start = val
+      },
+      end(val){
+          this.formFour.end = val
+      },
     Search() {
       this.axios.get("postloanor/NoCollection", {
           params: {
@@ -566,6 +580,12 @@ export default {
         })
     },
     SearchThird() {
+        if(this.formThree.start!=""){
+            this.formThree.start = this.formThree.start + " " + "00:00:00"
+        }
+        if(this.formThree.end!=""){
+            this.formThree.end = this.formThree.end + " " + "23:59:59"
+        }
       this.axios
         .get("postloanor/CollectionRecoveryrate", {
           params: {
@@ -579,6 +599,12 @@ export default {
         });
     },
     SearchForth() {
+        if(this.formFour.start!=""){
+            this.formFour.start = this.formFour.start + " " + "00:00:00"
+        }
+        if(this.formFour.end!=""){
+            this.formFour.end = this.formFour.end + " " + "23:59:59"
+        }
       this.axios
         .get("postloanor/OverdueUser", {
           params: {

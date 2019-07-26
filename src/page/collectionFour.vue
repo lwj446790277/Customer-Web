@@ -12,12 +12,12 @@
           </el-form-item>-->
           <el-form-item>
             <el-col :span="11">
-              <el-date-picker type="date" placeholder="起始时间" v-model="form.start"></el-date-picker>
+              <el-date-picker type="date" placeholder="起始时间" v-model="form.start" value-format="yyyy-MM-dd" @change="timeChange"></el-date-picker>
             </el-col>
           </el-form-item>
           <el-form-item class="single">
             <el-col :span="11">
-              <el-date-picker type="date" placeholder="结束时间" v-model="form.end"></el-date-picker>
+              <el-date-picker type="date" placeholder="结束时间" v-model="form.end" value-format="yyyy-MM-dd" @change="endChange"></el-date-picker>
             </el-col>
           </el-form-item>
           <el-form-item>
@@ -41,7 +41,7 @@
           tooltip-effect="dark"
           style="width: 100%;line-height: 60px"
         >
-          <el-table-column prop="collectionTime" label="日期" align="center"></el-table-column>
+<!--          <el-table-column prop="collectionTime" label="日期" align="center"></el-table-column>-->
           <el-table-column prop="reallyName" label="催收员姓名" align="center"></el-table-column>
           <el-table-column prop="collection_count" label="分配订单数" align="center"></el-table-column>
           <el-table-column prop="sameday" label="承诺还款订单数" align="center"></el-table-column>
@@ -94,6 +94,13 @@ export default {
     this.getData(this.page, this.Pagesize);
   },
   methods: {
+      timeChange(val){
+          // console.log(val)
+          this.form.start = val
+      },
+      endChange(val){
+          this.form.end = val
+      },
     getData(page, Pagesize) {
       this.axios
         .get("collection/CollectionUserLv", {
@@ -137,13 +144,18 @@ export default {
     },
     Reset() {
       this.clear();
-      this.getData(this.page, this.Pagesize);
     },
     change(id) {
       console.log(id);
       this.id = id;
     },
     Search() {
+        if(this.form.start!=""){
+            this.form.start = this.form.start + " " + "00:00:00"
+        }
+        if(this.form.end!=""){
+            this.form.end = this.form.end + " " + "23:59:59"
+        }
       this.axios
         .get("collection/CollectionUserLv", {
           params: {

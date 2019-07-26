@@ -26,21 +26,21 @@
 							<el-table-column label="发送历史批次" align="center">
 								<template slot-scope="scope">
 									<!-- <span class="blue" @click="open">{{scope.row.interestPenaltySum}}</span> -->
-									<span class="blue" @click="open(scope.row.collection_time)">查看批次</span>
+									<span class="blue" @click="open(scope.row.collection_time)">共{{scope.row.shortmessagesize}}次</span>
 								</template>
 							</el-table-column>
 							<el-table-column label="操作" align="center">
 								<template slot-scope="scope">
-									<span @click="next(scope.row.phonesa,scope.row.phonenum)" class="blue">下一步</span>
+									<span @click="next(scope.row.phonesa,scope.row.phonenum,scope.row.collection_time)" class="blue">下一步</span>
 								</template>
 							</el-table-column>
 						</el-table>
 						<el-dialog title="发送历史批次" :visible.sync="dialogTableVisible" center>
 							<el-table border :data="gridData">
-								<el-table-column property="collection_time" label="第几批次" align="center"></el-table-column>
+<!--								<el-table-column property="collection_time" label="第几批次" align="center"></el-table-column>-->
 								<el-table-column property="send_time" label="操作时间" align="center"></el-table-column>
 								<el-table-column property="phonenum" label="已选用户条数" align="center"></el-table-column>
-								<el-table-column property="successnum" label="成功发送条数" align="center"></el-table-column>
+<!--								<el-table-column property="successnum" label="成功发送条数" align="center"></el-table-column>-->
 							</el-table>
 						</el-dialog>
 						<el-dialog title="选择短信模板" :visible.sync="dialogVisible" customClass="dia" center>
@@ -76,10 +76,10 @@
 							<el-table-column prop="send_time" label="最后操作时间" align="center"></el-table-column>
 							<el-table-column prop="collection_time" label="逾前还款日期" align="center"></el-table-column>
 							<el-table-column prop="phonenum" label="已选用户条数" align="center"></el-table-column>
-							<el-table-column prop="successnum" label="成功发送条数" align="center"></el-table-column>
+<!--							<el-table-column prop="successnum" label="成功发送条数" align="center"></el-table-column>-->
 							<el-table-column prop="paymentmoney" label="发送历史批次" align="center">
 								<template slot-scope="scope">
-									<span class="blue" @click="opens(scope.row.collection_time)">查看批次</span>
+									<span class="blue" @click="opens(scope.row.collection_time)">共{{scope.row.shortmessagesize}}次</span>
 								</template>
 							</el-table-column>
 						</el-table>
@@ -94,10 +94,10 @@
                         </div>
 						<el-dialog title="发送历史批次" :visible.sync="dialogTable" center>
 							<el-table border :data="sendData">
-								<el-table-column property="collectionTime" label="第几批次" align="center"></el-table-column>
-								<el-table-column property="collectionStatus" label="操作时间" align="center"></el-table-column>
-								<el-table-column property="promise_money" label="已选用户条数" align="center"></el-table-column>
-								<el-table-column property="orderStatus" label="成功发送条数" align="center"></el-table-column>
+<!--								<el-table-column property="collectionTime" label="第几批次" align="center"></el-table-column>-->
+								<el-table-column property="send_time" label="操作时间" align="center"></el-table-column>
+								<el-table-column property="phonenum" label="已选用户条数" align="center"></el-table-column>
+<!--								<el-table-column property="successnum" label="成功发送条数" align="center"></el-table-column>-->
 							</el-table>
 						</el-dialog>
 					</div>
@@ -127,9 +127,10 @@
 					name: ""
 				},
 				type: "",
-				desc: "111",
+				desc: "123",
 				phonesa: "",
 				phonenum: "",
+                collection_time: "",
                 page: 1,
                 Pagesize: 10,
                 totalPageCount: 0,
@@ -144,17 +145,18 @@
 				this.dialogTableVisible = true
 				this.axios.get('sms/AllCollection',{
 					params: {
-						collection_time
+                        collection_time
 					}
 				}).then(res=>{
 					this.gridData = res.data.Shortmessage
 				})
 			},
-			next(phonesa,phonenum){
+			next(phonesa,phonenum,collection_time){
 				this.dialogVisible = true
 				console.log(phonesa)
 				this.phonesa = phonesa
 				this.phonenum = phonenum
+                this.collection_time = collection_time
 			},
 			opens(collection_time){
 				this.dialogTable = true
@@ -163,7 +165,7 @@
 						collection_time
 					}
 				}).then(res=>{
-					this.gridData = res.data.Shortmessage
+					this.sendData = res.data.Shortmessage
 				})
 			},
 			change(){
@@ -214,9 +216,10 @@
                         params: {
                             companyid: window.localStorage.getItem("companyid"),
                             msg: this.desc,
-                            phone: this.phonesa.join(),
-                            // phone: 18270683860,
-                            phonenum: this.phonenum
+                            // phone: this.phonesa.join(),
+                            phone: 15219990556,
+                            phonenum: this.phonenum,
+                            collection_time: this.collection_time
                         }
 				}).then(res=>{
 					this.$confirm(res.data.desc, '提示', {

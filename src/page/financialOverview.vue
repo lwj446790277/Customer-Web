@@ -6,19 +6,19 @@
 			<h2>财务总览</h2>
 			<div class="main">
 				<el-form :model="form" :inline="true" class="demo-form-inline">
+<!--					<el-form-item>-->
+<!--						<el-select v-model="form.time" placeholder="操作时间" style="width:150px">-->
+<!--							<el-option label="操作时间" value="操作时间"></el-option>-->
+<!--						</el-select>-->
+<!--					</el-form-item>-->
 					<el-form-item>
-						<el-select v-model="form.time" placeholder="操作时间" style="width:150px">
-							<el-option label="操作时间" value="操作时间"></el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item class="single">
 						<el-col :span="11">
-							<el-date-picker type="date" placeholder="起始时间" v-model="form.start"></el-date-picker>
+							<el-date-picker type="date" placeholder="起始时间" v-model="form.start" value-format="yyyy-MM-dd" @change="timeChange"></el-date-picker>
 						</el-col>
 					</el-form-item>
 						<el-form-item class="single">
 						<el-col :span="11">
-							<el-date-picker type="date" placeholder="结束时间" v-model="form.end"></el-date-picker>
+							<el-date-picker type="date" placeholder="结束时间" v-model="form.end" value-format="yyyy-MM-dd" @change="endChange"></el-date-picker>
 						</el-col>	
 					</el-form-item>
 					<el-form-item>
@@ -103,6 +103,13 @@
 			this.getData(this.page,this.Pagesize)
 		},
 		methods:{
+            timeChange(val){
+                // console.log(val)
+                this.form.start = val
+            },
+            endChange(val){
+                this.form.end = val
+            },
 			getData( page, Pagesize ){
 				this.axios.get('fina/financialoverview',{
 					params:{
@@ -131,6 +138,12 @@
 				})
 			},
 			Search(){
+                if(this.form.start!=""){
+                    this.form.start = this.form.start + " " + "00:00:00"
+                }
+                if(this.form.end!=""){
+                    this.form.end = this.form.end + " " + "23:59:59"
+                }
 				console.log(this.tableData)
 				this.axios.get('fina/financialoverview',{
 					params:{

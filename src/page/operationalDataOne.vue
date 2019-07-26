@@ -7,12 +7,12 @@
         <el-form :model="form" :inline="true" class="demo-form-inline">
           <el-form-item>
             <el-col :span="11">
-              <el-date-picker type="date" placeholder="起始时间" v-model="form.start"></el-date-picker>
+              <el-date-picker type="date" placeholder="起始时间" v-model="form.start" value-format="yyyy-MM-dd" @change="timeChange"></el-date-picker>
             </el-col>
           </el-form-item>
           <el-form-item class="single">
             <el-col :span="11">
-              <el-date-picker type="date" placeholder="结束时间" v-model="form.end"></el-date-picker>
+              <el-date-picker type="date" placeholder="结束时间" v-model="form.end" value-format="yyyy-MM-dd" @change="endChange"></el-date-picker>
             </el-col>
           </el-form-item>
           <el-form-item>
@@ -88,6 +88,13 @@ export default {
     this.get();
   },
   methods: {
+      timeChange(val){
+          // console.log(val)
+          this.form.start = val
+      },
+      endChange(val){
+          this.form.end = val
+      },
     getData(page, Pagesize) {
       this.axios
         .get("operation/platformsNum", {
@@ -131,17 +138,21 @@ export default {
     },
     Reset() {
       this.clear();
-      this.getData(this.page, this.Pagesize);
     },
     Search() {
+        if(this.form.start!=""){
+            this.form.start = this.form.start + " " + "00:00:00"
+        }
+        if(this.form.end!=""){
+            this.form.end = this.form.end + " " + "23:59:59"
+        }
       this.axios
         .get("operation/platformsNum", {
           params: {
             companyId: window.localStorage.getItem("companyid"),
             start_time: this.form.start,
-            end_time: this.form.end
-            // page,
-            // Pagesize
+            end_time: this.form.end,
+              drainageOfPlatformId: this.form.platform
           }
         })
         .then(res => {
