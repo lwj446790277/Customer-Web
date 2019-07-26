@@ -9,18 +9,18 @@
                     <tr>
                         <th>选择协议</th>
                         <td>
-                            <el-radio-group v-model = "selectedValue">
-                                <el-radio label="1">关于我们</el-radio>
-                                <el-radio label="2">用户协议</el-radio>
-                                <el-radio label="3">贷款协议</el-radio>
-                                <el-radio label="4">延期协议</el-radio>
+                            <el-radio-group v-model="selectedId" @change="selectedChange">
+                                <el-radio
+                                    v-for="(text, index) in textList"
+                                    :label="text.id"
+                                >{{text.agreementtype}}
+                                </el-radio>
                             </el-radio-group>
-
                         </td>
                     </tr>
                 </table>
                 <div class="edit_container">
-                        <quill-editor v-model="content"
+                    <quill-editor v-model="content"
                                   ref="myQuillEditor"
                                   class="editer"
                                   :options="editorOption"
@@ -37,49 +37,80 @@
 
 <script>
     import headTop from '../components/headTop'
-    import { quillEditor } from 'vue-quill-editor'
+    import {quillEditor} from 'vue-quill-editor'
 
     export default {
-        data(){
+        data() {
             return {
+                textList: [],
                 content: '',
-                selectedValue:{},
-                editorOption: {
-			        
-		        }
+                contentId: '',
+                selectedId: undefined,
+                editorOption: {},
             }
         },
-    	components: {
-    		headTop,
-    		quillEditor,
-    	},
+        components: {
+            headTop,
+            quillEditor,
+        },
         computed: {
-          	editor() {
-	        	return this.$refs.myQuillEditor.quill
-	      	}
+            editor() {
+                return this.$refs.myQuillEditor.quill
+            }
+        },
+        beforeCreate() {
+            var that = this;
+            that.axios.get('/editagreement/queryAll', {
+                params: {companyId: window.localStorage.getItem("companyid")}
+            }).then(res => {
+                that.textList = res.data;
+            })
         },
         methods: {
-		    onEditorReady(editor) {
-		        console.log('editor ready!', editor)
-		    },
-		    submit(){
+            selectedChange(id) {
+                var that = this;
+                that.axios.get('/editagreement/selectByPrimaryKey', {
+                    params: {typeid: id}
+                }).then(res => {
+                    that.content = res.data.agreementcontent;
+                    that.contentId = res.data.id;
+                })
+            },
+            onEditorReady(editor) {
+                console.log('editor ready!', editor)
+            },
+            submit() {
                 console.log(this.content);
-                this.$message.success('提交成功！');
+                var that = this;
+                that.axios.get('/editagreement/updateByPrimaryKeyWithBLOBs', {
+                    params: {id: that.contentId, agreementcontent: that.content}
+                }).then(res => {
+                    this.$message.success('修改成功');
+                })
             }
         },
     }
 </script>
 
 <style lang="less">
-	@import '../style/mixin';
-	.edit_container{
-		padding: 40px;
-		margin-bottom: 40px;
-	}
-	.editer{
-		height: 350px;
-	}
-	.submit_btn{
-		text-align: center;
-	}
+    @import '../style/mixin';
+
+    .edit_container {
+        padding: 40px;
+        margin-bottom: 40px;
+    }
+
+    .editer {
+        height: 350px;
+    }
+
+    .submit_btn {
+        text-align: center;
+    }
+
+    .main {
+        padding: 20px;
+        background-color: #fff;
+        min-height: 70vh;
+    }
 </style>

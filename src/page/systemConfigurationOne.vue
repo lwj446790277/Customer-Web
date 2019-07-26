@@ -721,7 +721,6 @@ h2 {
   background-color: #f3f6fb;
   border: transparent;
   border-radius: 0;
-  color: #396fff;
   text-align: center;
 }
 
