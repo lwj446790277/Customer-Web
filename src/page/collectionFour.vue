@@ -151,20 +151,18 @@ export default {
     },
     Search() {
         if(this.form.start!=""){
-            this.form.start = this.form.start + " " + "00:00:00"
+            var start = this.form.start + " " + "00:00:00"
         }
         if(this.form.end!=""){
-            this.form.end = this.form.end + " " + "23:59:59"
+            var end = this.form.end + " " + "23:59:59"
         }
       this.axios
         .get("collection/CollectionUserLv", {
           params: {
             companyId: window.localStorage.getItem("companyid"),
-            start_time: this.form.start,
-            end_time: this.form.end,
+            start_time: start,
+            end_time: end,
             collectionMemberId: this.id
-            // page: this.page,
-            // Pagesize: this.Pagesize
           }
         })
         .then(res => {

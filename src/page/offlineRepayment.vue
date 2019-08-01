@@ -128,8 +128,11 @@
 					<div class="main">
 						<el-form :model="formList" :inline="true" class="demo-form-inline">
 							<el-form-item>
-								<el-input placeholder="订单编号" v-model="formList.id"></el-input>
+								<el-input placeholder="手机号" v-model="formList.phone"></el-input>
 							</el-form-item>
+                            <el-form-item>
+                                <el-input placeholder="身份证号" v-model="formList.idcard"></el-input>
+                            </el-form-item>
 							<el-form-item>
 								<el-button type="primary" @click="Searchs">搜索</el-button>
 							</el-form-item>
@@ -153,6 +156,12 @@
 									<div>{{phone}}</div>
 								</td>
 							</tr>
+                            <tr>
+                                <th>身份证号</th>
+                                <td>
+                                    <div>{{idcard}}</div>
+                                </td>
+                            </tr>
 							<tr>
 								<th>贷款方式</th>
 								<td>
@@ -344,7 +353,8 @@
 					end: ""
 				},
 				formList: {
-					id: ""
+				    phone: "",
+                    idcard: ""
 				},
 				formForth: {
 					id: "",
@@ -357,6 +367,7 @@
 				orderNumber: "",
 				name: "",
 				phone: "",
+                idcard: "",
 				borrowMoneyWay: "",
 				borrowTimeLimit: "",
 				orderCreateTime: "",
@@ -471,7 +482,7 @@
 				if(this.receive=="支出"){
 					this.axios.get('fina/AddUndert',{
 						params:{
-							finance_id: window.localStorage.getItem("companyid"),
+							finance_id: window.localStorage.getItem("userid"),
 							project_name: this.program,    
 							repayment: this.qudao,
 							expenditure: this.money,
@@ -488,7 +499,7 @@
 				}else{
 					this.axios.get('fina/AddUndert',{
 						params:{
-							finance_id: window.localStorage.getItem("companyid"),
+							finance_id: window.localStorage.getItem("userid"),
 							project_name: this.program,
 							repayment: this.qudao,
 							income: this.money,
@@ -523,10 +534,10 @@
 			},
 			SearchForth(){
                 if(this.formForth.start!=""){
-                    this.formForth.start = this.formForth.start + " " + "00:00:00"
+                    var starts = this.formForth.start + " " + "00:00:00"
                 }
                 if(this.formForth.end!=""){
-                    this.formForth.end = this.formForth.end + " " + "23:59:59"
+                    var ends = this.formForth.end + " " + "23:59:59"
                 }
 				this.axios.get('fina/AllXiaOrder',{
 					params:{
@@ -534,8 +545,8 @@
 						orderNumber: this.formForth.id,
 						name: this.formForth.name,
 						phone: this.formForth.phone,
-						start_time: this.formForth.start,
-						end_time: this.formForth.end
+						start_time: starts,
+						end_time: ends
 					}
 				}).then(res=>{
 					this.tableDataForth = res.data.Undertheline
@@ -543,18 +554,18 @@
 			},
 			Search(){
                 if(this.form.start!=""){
-                    this.form.start = this.form.start + " " + "00:00:00"
+                    var start = this.form.start + " " + "00:00:00"
                 }
                 if(this.form.end!=""){
-                    this.form.end = this.form.end + " " + "23:59:59"
+                    var end = this.form.end + " " + "23:59:59"
                 }
 				this.axios.get('fina/Orderoffline',{
 					params:{
 						companyId: window.localStorage.getItem("companyid"),
 						repaymentnumber: this.form.fang,
 						repaymentnumber: this.form.huan,
-						start_time: this.form.start,
-						end_time: this.form.end
+						start_time: start,
+						end_time: end
 					}
 				}).then(res=>{
 					this.tableData = res.data.PaymentRecord
@@ -563,7 +574,8 @@
 			Searchs(){
 				this.axios.get('fina/OrderAcount',{
 					params:{
-						orderNumber:this.formList.id,
+                        phone:this.formList.phone,
+                        idcard_number:this.formList.idcard,
 						companyId: window.localStorage.getItem("companyid")
 					}
 				}).then(res=>{
@@ -571,6 +583,7 @@
 					this.orderNumber = res.data.Orderdetails.orderNumber
 					this.name = res.data.Orderdetails.name
 					this.phone = res.data.Orderdetails.phone
+                    this.idcard = res.data.Orderdetails.idcard_number
 					this.borrowMoneyWay = res.data.Orderdetails.borrowMoneyWay
 					this.borrowTimeLimit = res.data.Orderdetails.borrowTimeLimit
 					this.orderCreateTime = res.data.Orderdetails.orderCreateTime
@@ -589,7 +602,7 @@
 						orderId: this.orderId,
 						offusermoney: this.amountmoney,
 						remarks: this.remarks,
-						fina_id: "1"
+						fina_id: window.localStorage.getItem("userid")
 					}
 				}).then(res=>{
 					if(res.data.code==200){
@@ -619,7 +632,7 @@
 	.main{
 		padding: 20px;
 		background-color: #fff;
-  		min-height: 80vh;
+  		min-height: 90vh;
 	}
 	.single {
 		margin-left: -15px;

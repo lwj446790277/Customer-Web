@@ -8,14 +8,12 @@
 					<h2>新增线上调账</h2>
 					<div class="mains">
 						<el-form :model="form" :inline="true" class="demo-form-inline">
-							<!-- <el-form-item>
-								<el-select v-model="form.time" placeholder="订单编号" style="width:150px">
-									<el-option label="订单编号" value="订单编号"></el-option>
-								</el-select>
-							</el-form-item> -->
 							<el-form-item>
-								<el-input placeholder="订单编号" v-model="form.id"></el-input>
+								<el-input placeholder="手机号" v-model="form.phone"></el-input>
 							</el-form-item>
+                            <el-form-item>
+                                <el-input placeholder="身份证号" v-model="form.idcard"></el-input>
+                            </el-form-item>
 							<el-form-item>
 								<el-button type="primary" @click="Search">搜索</el-button>
 							</el-form-item>
@@ -39,6 +37,12 @@
 									<div>{{phone}}</div>
 								</td>
 							</tr>
+                            <tr>
+                                <th>身份证号</th>
+                                <td>
+                                    <div>{{idcard}}</div>
+                                </td>
+                            </tr>
 							<tr>
 								<th>贷款方式</th>
 								<td>
@@ -59,8 +63,8 @@
 							</tr>
 							<tr>
 								<th>借款总金额/放款总金额</th>
-								<td class="red">
-									<div>{{realityBorrowMoney}}/{{makeLoans}}</div>
+								<td>
+									<div class="red">{{realityBorrowMoney}}/{{makeLoans}}</div>
 								</td>
 							</tr>
 							<tr>
@@ -77,8 +81,8 @@
 							</tr>
 							<tr>
 								<th>含逾总利息/扣款后应还总金额</th>
-								<td class="red">
-									<div>{{interestPenaltySum}}/{{realityBorrowMoney}}</div>
+								<td>
+									<div class="red">{{interestPenaltySum}}/{{realityBorrowMoney}}</div>
 								</td>
 							</tr>
 							<tr>
@@ -398,13 +402,14 @@
 				totalCount: 20,
 				activeName: "first",
 				form: {
-					time: "",
-					id: ""
+					phone: "",
+					idcard: ""
 				},
 				orderId: "",
 				orderNumber: "",
 				name: "",
 				phone: "",
+                idcard: "",
 				borrowMoneyWay: "",
 				borrowTimeLimit: "",
 				orderCreateTime: "",
@@ -577,7 +582,8 @@
 			Search(){
 				this.axios.get('fina/OrderAcount',{
 					params:{
-						orderNumber:this.form.id,
+						phone:this.form.phone,
+                        idcard_number:this.form.idcard,
 						companyId: window.localStorage.getItem("companyid")
 					}
 				}).then(res=>{
@@ -585,6 +591,7 @@
 					this.orderNumber = res.data.Orderdetails.orderNumber
 					this.name = res.data.Orderdetails.name
 					this.phone = res.data.Orderdetails.phone
+                    this.idcard = res.data.Orderdetails.idcard_number
 					this.borrowMoneyWay = res.data.Orderdetails.borrowMoneyWay
 					this.borrowTimeLimit = res.data.Orderdetails.borrowTimeLimit
 					this.orderCreateTime = res.data.Orderdetails.orderCreateTime
@@ -599,28 +606,28 @@
 			},
 			SearchTwo(){
                 if(this.formOne.start!=""){
-                    this.formOne.start = this.formOne.start + " " + "00:00:00"
+                    var start = this.formOne.start + " " + "00:00:00"
                 }
                 if(this.formOne.end!=""){
-                    this.formOne.end = this.formOne.end + " " + "23:59:59"
+                    var end = this.formOne.end + " " + "23:59:59"
                 }
                 if(this.formOne.accounttimestart_time!=""){
-                    this.formOne.accounttimestart_time = this.formOne.accounttimestart_time + " " + "00:00:00"
+                    var accounttimestart_time = this.formOne.accounttimestart_time + " " + "00:00:00"
                 }
                 if(this.formOne.accounttimeent_time!=""){
-                    this.formOne.accounttimeent_time = this.formOne.accounttimeent_time + " " + "23:59:59"
+                    var accounttimeent_time = this.formOne.accounttimeent_time + " " + "23:59:59"
                 }
 				this.axios.get('fina/SelectOrderAccount',{
 					params:{
-						companyId: "3",
+						companyId: window.localStorage.getItem("companyid"),
 						orderNumber: this.formOne.id,
 						phone: this.formOne.phone,
 						name: this.formOne.name,
 						repaymentSource: this.formOne.qudao,
-						start_time: this.formOne.start,
-						end_time: this.formOne.end,
-						accounttimestart_time: this.formOne.accounttimestart_time,
-						accounttimeent_time: this.formOne.accounttimeent_time
+						start_time: start,
+						end_time: end,
+						accounttimestart_time: accounttimestart_time,
+						accounttimeent_time: accounttimeent_time
 					}
 				}).then(res=>{
 				this.tableData = res.data.Accountadjustment
@@ -628,27 +635,27 @@
 			},
 			SearchThree(){
                 if(this.formTwo.start!=""){
-                    this.formTwo.start = this.formTwo.start + " " + "00:00:00"
+                    var start = this.formTwo.start + " " + "00:00:00"
                 }
                 if(this.formTwo.end!=""){
-                    this.formTwo.end = this.formTwo.end + " " + "23:59:59"
+                    var end = this.formTwo.end + " " + "23:59:59"
                 }
                 if(this.formTwo.accounttimestart_time!=""){
-                    this.formTwo.accounttimestart_time = this.formTwo.accounttimestart_time + " " + "00:00:00"
+                    var accounttimestart_time = this.formTwo.accounttimestart_time + " " + "00:00:00"
                 }
                 if(this.formTwo.accounttimeent_time!=""){
-                    this.formTwo.accounttimeent_time = this.formTwo.accounttimeent_time + " " + "23:59:59"
+                    var accounttimeent_time = this.formTwo.accounttimeent_time + " " + "23:59:59"
                 }
 				this.axios.get('fina/SelectNoMoney',{
 					params:{
-						companyId: "3",
+						companyId: window.localStorage.getItem("companyid"),
 						orderNumber: this.formTwo.id,
 						phone: this.formTwo.phone,
 						name: this.formTwo.name,
-						start_time: this.formTwo.start,
-						end_time: this.formTwo.end,
-						accounttimestart_time: this.formTwo.accounttimestart_time,
-						accounttimeent_time: this.formTwo.accounttimeent_time
+						start_time: start,
+						end_time: end,
+						accounttimestart_time: accounttimestart_time,
+						accounttimeent_time: accounttimeent_time
 					}
 				}).then(res=>{
 					this.tableOne = res.data.Accountadjustment
@@ -656,27 +663,27 @@
 			},
 			SearchFour(){
                 if(this.formThree.start!=""){
-                    this.formThree.start = this.formThree.start + " " + "00:00:00"
+                    var start = this.formThree.start + " " + "00:00:00"
                 }
                 if(this.formThree.end!=""){
-                    this.formThree.end = this.formThree.end + " " + "23:59:59"
+                    var end = this.formThree.end + " " + "23:59:59"
                 }
                 if(this.formThree.accounttimestart_time!=""){
-                    this.formThree.accounttimestart_time = this.formThree.accounttimestart_time + " " + "00:00:00"
+                    var accounttimestart_time = this.formThree.accounttimestart_time + " " + "00:00:00"
                 }
                 if(this.formThree.accounttimeent_time!=""){
-                    this.formThree.accounttimeent_time = this.formThree.accounttimeent_time + " " + "23:59:59"
+                    var accounttimeent_time = this.formThree.accounttimeent_time + " " + "23:59:59"
                 }
 				this.axios.get('fina/SelectOkMoney',{
 					params:{
-						companyId: "3",
+						companyId: window.localStorage.getItem("companyid"),
 						orderNumber: this.formThree.id,
 						phone: this.formThree.phone,
 						name: this.formThree.name,
-						start_time: this.formThree.start,
-						end_time: this.formThree.end,
-						accounttimestart_time: this.formThree.accounttimestart_time,
-						accounttimeent_time: this.formThree.accounttimeent_time
+						start_time: start,
+						end_time: end,
+						accounttimestart_time: accounttimestart_time,
+						accounttimeent_time: accounttimeent_time
 					}
 				}).then(res=>{
 					this.tableTwo = res.data.Accountadjustment
@@ -718,12 +725,12 @@
 					params:{
 						orderId: this.orderId,
 						repaymentSource: this.qudao,
-						totalamount: this.totalamount,
+						// totalamount: this.totalamount,
 						amountmoney: this.amountmoney,
 						remarks: this.remarks,
 						accounttime: this.accounttime,
 						totalamount: this.totalMoney,
-						sys_uerId: 1
+						sys_uerId: window.localStorage.getItem("userid")
 					}
 				}).then(res=>{
 					this.$confirm(res.data.desc, '提示', {

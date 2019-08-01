@@ -17,6 +17,7 @@
                         <el-menu-item index="userList">注册用户信息</el-menu-item>
                         <el-menu-item index="userInteraction">白名单用户</el-menu-item>
                         <el-menu-item index="blackList">黑名单用户</el-menu-item>
+                        <el-menu-item index="shortMessageSending">注册用户短信发送</el-menu-item>
                     </el-submenu>
                     <el-submenu index="4">
                         <template slot="title"><img src="../assets/img/财务管理.png">财务管理</template>
@@ -24,6 +25,7 @@
                         <el-menu-item index="repaymentPlan">还款实时流水</el-menu-item>
                         <el-menu-item index="repaymentRecord">延期和扣款查询</el-menu-item>
                         <el-menu-item index="manualTransfer">线上减免调账</el-menu-item>
+                        <el-menu-item index="artificialDelay">人工延期设置</el-menu-item>
                         <el-menu-item index="offlineRepayment">线下调账</el-menu-item>
                         <el-menu-item index="newMember">银行卡自动扣款</el-menu-item>
                         <el-menu-item index="financialOverview">财务总览</el-menu-item>
@@ -36,7 +38,6 @@
                         <el-menu-item index="badOrder">已坏账订单</el-menu-item>
                         <el-menu-item index="channelThree">逾前短信提醒</el-menu-item>
                         <!-- <el-menu-item index="personalInformation">个人信息</el-menu-item> -->
-                        <!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
                     </el-submenu>
                     <el-submenu index="6">
                         <template slot="title"><img src="../assets/img/催收.png">催收预警及管理</template>
@@ -53,22 +54,17 @@
                         <el-menu-item index="operationalDataTwo">还款数据</el-menu-item>
                         <el-menu-item index="operationalDataThree">逾期数据</el-menu-item>
                         <!-- <el-menu-item index="operationalDataFour">收支数据</el-menu-item> -->
-                        <!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
                     </el-submenu>
                     <el-submenu index="8">
                         <template slot="title"><img src="../assets/img/app.png">APP管理设置</template>
                         <el-menu-item index="windControlOne">轮播图设置</el-menu-item>
                         <el-menu-item index="systemConfigurationTextEdit">协议编辑</el-menu-item>
                         <el-menu-item index="windControlThree">联系客服和关于我们</el-menu-item>
-                        <!-- <el-menu-item index="newMember">用户数据</el-men-item> -->
                     </el-submenu>
                     <el-submenu index="9">
                         <template slot="title"><img src="../assets/img/渠道.png">渠道管理</template>
                         <el-menu-item index="channelOne">渠道数据查询</el-menu-item>
                         <el-menu-item index="channelTwo">渠道设置管理</el-menu-item>
-                        <!-- <el-menu-item index="channelThree">渠道注册数据</el-menu-item>
-                        <el-menu-item index="channelFour">渠道对外注册数据及结算</el-menu-item> -->
-                        <!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
                     </el-submenu>
                     <el-submenu index="10">
                         <template slot="title"><img src="../assets/img/设置.png">系统配置</template>
@@ -80,18 +76,7 @@
                         <el-menu-item index="systemConfigurationSix">逾期等级设置</el-menu-item>
                         <el-menu-item index="systemConfigurationSeven">角色权限管理</el-menu-item>
                         <el-menu-item index="systemConfigurationEight">渠道预设和紧急设置</el-menu-item>
-                        <!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
                     </el-submenu>
-                    <!-- <el-submenu index="11">
-                        <template slot="title"><i class="el-icon-star-on"></i>紧急按钮</template>
-                        <el-menu-item index="visitor">暂时未定</el-menu-item> -->
-                    <!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
-                    <!-- </el-submenu>
-                    <el-submenu index="12">
-                        <template slot="title"><i class="el-icon-setting"></i>全局说明(技术)</template>
-                        <el-menu-item index="adminSet">说明</el-menu-item> -->
-                    <!-- <el-menu-item index="sendMessage">发送通知</el-menu-item> -->
-                    <!-- </el-submenu> -->
                 </el-menu>
                 <el-menu id="customer_info" :default-active="defaultActive" style="min-height: 100%;display:none" theme="dark"
                          router>

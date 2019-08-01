@@ -139,17 +139,17 @@
 			},
 			Search(){
                 if(this.form.start!=""){
-                    this.form.start = this.form.start + " " + "00:00:00"
+                    var start = this.form.start + " " + "00:00:00"
                 }
                 if(this.form.end!=""){
-                    this.form.end = this.form.end + " " + "23:59:59"
+                    var end = this.form.end + " " + "23:59:59"
                 }
 				console.log(this.tableData)
 				this.axios.get('fina/financialoverview',{
 					params:{
 						companyId: "3",
-						start_time: this.form.start,
-						end_time: this.form.end
+						start_time: start,
+						end_time: end
 					}
 				}).then(res=>{
 					var bankcardName = res.data.Bankdeduction.bankcardName.split(",")
