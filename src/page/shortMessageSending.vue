@@ -83,11 +83,24 @@
             };
         },
         created() {
-            this.getData(this.page, this.Pagesize);
+            // this.getData(this.page, this.Pagesize);
         },
         methods: {
-            getData(){
-
+            getData(page,Pagesize){
+                this.axios
+                    .get("", {
+                        params: {
+                            companyId: window.localStorage.getItem("companyid"),
+                            page,
+                            Pagesize
+                        }
+                    })
+                    .then(res => {
+                        this.tableData = res.data.Orderdetails;
+                        this.page = res.data.Orderdetails.page;
+                        this.Pagesize = res.data.Orderdetails.Pagesize;
+                        this.totalCount = res.data.Orderdetails.length;
+                    });
             },
             add(){
                 this.dialogTable = true
@@ -99,7 +112,7 @@
                     if(this.message=="3"){
                         this.content="333"
                     }else{
-                        this.message="111"
+                        this.content="111"
                     }
                 }
             },
