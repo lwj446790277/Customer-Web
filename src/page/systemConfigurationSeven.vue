@@ -2,7 +2,7 @@
     <div class="fillcontain">
         <head-top></head-top>
         <!-- <p class="explain_text">系统配置7</p> -->
-        <el-dialog :title="title" :visible.sync="centerDialogVisible" customClass="customWidth" center>
+        <el-dialog title="新增角色" :visible.sync="addActorDialogVisible" customClass="customWidth" center>
             <div class="top">
                 <el-button type="warning" @click="centerDialogVisible = false">取消</el-button>
                 <el-input placeholder="输入角色名称" class="inp"></el-input>
@@ -17,485 +17,40 @@
                     <th>可操作二级菜单功能</th>
                     <th>可操作三级菜单功能</th>
                 </tr>
-                <tr>
-                    <td rowspan="2">
-                        <span>平台首页</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>综合统计</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>回收率报表</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td rowspan="4">
-                        <span>订单管理</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>机审订单</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td rowspan="2">
-                        <span>人工复审</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>机审拒绝未人审</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>已机审已人审</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>订单查询</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td rowspan="8">
-                        <span>贷后订单管理</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td rowspan="5">
-                        <span>订单查询</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>未逾期未分配</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>未逾期已分配</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>逾前催收率报表</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>逾前催收员报表</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>我的逾期催收订单</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>已还订单</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>已逾期订单</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>已坏账订单</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td rowspan="6">
-                        <span>催收预警及管理</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td rowspan="2">
-                        <span>催单分配员工</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>已逾期未分配</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>已逾期已分配</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td rowspan="2">
-                        <span>催单订单报表</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>催收率报表</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>催收员工作报表</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td rowspan="2">
-                        <span>我的催收订单</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>已分配未催收</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>已分配已催收</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td rowspan="4">
-                        <span>用户管理</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>用户认证信息</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td rowspan="2">
-                        <span>黑名单用户</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>机审判定黑名单</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>人工添加黑名单</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>白名单用户</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td rowspan="10">
-                        <span>财务管理</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>支付记录</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>还款计划</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>还款记录</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td rowspan="2">
-                        <span>线上手工调账</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>新增线上调账</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>线上调账记录表</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td rowspan="2">
-                        <span>线下手工调账</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>新增线下调账</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>线下调账记录表</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td rowspan="2">
-                        <span>银行卡自动扣款</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>一键扣款</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>扣款记录表</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>财务总览</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td rowspan="2">
-                        <span>渠道管理</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>渠道数据查询</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>渠道设置管理</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td rowspan="4">
-                        <span>运营数据</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>平台总数据</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>还款数据</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>逾期数据</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>收支数据</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td rowspan="3">
-                        <span>APP管理设置</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>轮播图设置</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <!-- <tr>
-                    <td>
-                        <span>虚拟宣传页</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr> -->
-                <tr>
-                    <td>
-                        <span>编辑协议</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>联系客服和关于我们</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td rowspan="8">
-                        <span>后台设置</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>贷款类型配置</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>申请条件配置</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>认证信息配置</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>第三方接口设置</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>分控设置管理</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>逾期等级设置</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>/</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td rowspan="2">
-                        <span>角色权限设置</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                    <td>
-                        <span>新增编辑账号</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>账号列表</span>
-                        <el-checkbox v-model="checked"></el-checkbox>
-                    </td>
-                </tr>
+                <template v-for="(actor, index1) in actorList">
+                    <tr>
+                        <template v-if="!!actor.cros">
+                            <td :rowspan="actor.cros">
+                                {{actor.firstlevelmenu}}
+                            </td>
+                        </template>
+                        <template v-if="!!actor.cros2">
+                            <td :rowspan="actor.cros2">
+                                {{actor.secondlevelmenu}}
+                                <template v-if="actor.thirdlevelmenu =='/'">
+                                    <el-checkbox :id="actor.id"></el-checkbox>
+                                    <label class="el-checkbox" id="47">
+                                        <span class="el-checkbox__input is-checked">
+                                            <span class="el-checkbox__inner"></span>
+                                            <input type="checkbox" class="el-checkbox__original" value="">
+                                        </span>
+                                    </label>
+                                </template>
+                            </td>
+                        </template>
+                        <template v-if="actor.thirdlevelmenu != '/'">
+                            <td>
+                                {{actor.thirdlevelmenu}}
+                                <el-checkbox :id="actor.id"></el-checkbox>
+                            </td>
+                        </template>
+                        <template v-else>
+                            <td>
+                                {{actor.thirdlevelmenu}}
+                            </td>
+                        </template>
+                    </tr>
+                </template>
             </table>
         </el-dialog>
         <el-tabs v-model="activeName" type="card">
@@ -504,33 +59,46 @@
                     <h2>角色权限</h2>
                     <div class="main">
                         <el-table border :data="tableData" style="width: 100%;line-height: 60px;">
-                            <el-table-column prop="name" label="角色名称" align="center"></el-table-column>
-                            <el-table-column prop="name" label="角色描述" align="center"></el-table-column>
-                            <el-table-column prop="address" label="角色开关" align="center"></el-table-column>
-                            <el-table-column prop="address" label="编辑" align="center">
+                            <el-table-column prop="rolename" label="角色名称" align="center"></el-table-column>
+                            <el-table-column prop="roledescribe" label="角色描述" align="center"></el-table-column>
+                            <el-table-column prop="stateName" label="角色状态" align="center"></el-table-column>
+                            <el-table-column label="编辑" align="center">
                                 <template slot-scope="scope">
                                     <el-button type="primary" @click="edit(scope.row)">编辑</el-button>
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="address" label="删除" align="center">
+                            <el-table-column prop="address" label="修改状态" align="center">
                                 <template slot-scope="scope">
-                                    <el-popover placement="bottom-end" width="300" trigger="click">
-                                        <span class="content">确认删除该轮播图吗？</span>
-                                        <el-button class="confire" type="success" @click="confire(scope.row)">是的</el-button>
-                                        <el-button type="danger" slot="reference" @click="delet(scope.row)">删除</el-button>
+                                    <el-popover placement="bottom-end" width="300" trigger="click"
+                                                :ref="`popover-${scope.$index}`">
+                                        <span class="content">确认修改该角色状态吗？</span>
+                                        <el-button class="confire" type="success" @click="changeActor(scope)">是的
+                                        </el-button>
+                                        <el-button type="danger" slot="reference">修改
+                                        </el-button>
                                     </el-popover>
                                 </template>
                             </el-table-column>
                         </el-table>
-                        <div class="open" @click="centerDialogVisible = true">
+                        <div class="open" @click="openAddActorDialog()">
                             <!-- <i class="el-icon-circle-plus-outline"></i> -->
                             <i class="el-icon-plus"></i>
                             <span>新增角色</span>
                         </div>
+                        <div class="block">
+                            <el-pagination
+                                :current-page="page"
+                                :page-size.sync="pageSize"
+                                layout="total, prev, pager, next, jumper"
+                                :page-count="totalPageCount"
+                                :total="totalCount"
+                                @current-change="currentChange"
+                            ></el-pagination>
+                        </div>
                     </div>
                 </div>
             </el-tab-pane>
-            <el-dialog :title="titles" :visible.sync="centerDialogVisibles" customClass="customWidths" center>
+            <el-dialog title="新增用户" :visible.sync="centerDialogVisibles" customClass="customWidths" center>
                 <table border="0" cellspacing="0" cellpadding="20" class="table" center>
                     <tr>
                         <th>用户名</th>
@@ -553,7 +121,8 @@
                     <tr>
                         <th>角色名称</th>
                         <td>
-                            <el-select v-model="addUserObject.listRoleIdString" placeholder="选择角色" style="width: 100%;">
+                            <el-select multiple v-model="addUserObject.listRoleIdString" placeholder="选择角色"
+                                       style="width: 100%;">
                                 <el-option v-for="role in roleList" :label="role.rolename"
                                            :value="role.roleid"></el-option>
                             </el-select>
@@ -588,10 +157,11 @@
                     <tr>
                         <th>角色名称</th>
                         <td>
-                            <el-select v-model="editUserObject.listRoleIdString" placeholder="选择角色"
+                            <el-select multiple v-model="editUserObject.listRoleIdString" placeholder="选择角色"
                                        style="width: 100%;">
                                 <el-option v-for="role in roleList" :label="role.rolename"
-                                           :value="role.roleid"></el-option>
+                                           :value="role.roleid">
+                                </el-option>
                             </el-select>
                         </td>
                     </tr>
@@ -608,7 +178,7 @@
                         <el-form :model="form" :inline="true" class="demo-form-inline">
                             <el-form-item>
                                 <el-input placeholder="用户名称" v-model="form.account"
-                                        class="input-with-select"></el-input>
+                                          class="input-with-select"></el-input>
                             </el-form-item>
                             <el-form-item>
                                 <el-select v-model="form.status" placeholder="用户状态" style="width:150px">
@@ -638,7 +208,7 @@
                                                 :ref="`popover-${scope.$index}`">
                                         <span class="content">确认修改用户当前状态吗？</span>
                                         <el-button class="confire" type="success"
-                                                @click="deleteUser(scope,scope.row.status)">是的
+                                                   @click="deleteUser(scope,scope.row.status)">是的
                                         </el-button>
                                         <el-button type="danger" slot="reference" @click="">修改状态</el-button>
                                     </el-popover>
@@ -652,12 +222,12 @@
                         </div>
                         <div class="block">
                             <el-pagination
-                                :current-page="page"
-                                :page-size.sync="pageSize"
+                                :current-page="page2"
+                                :page-size.sync="pageSize2"
                                 layout="total, prev, pager, next, jumper"
-                                :page-count="totalPageCount"
-                                :total="totalCount"
-                                @current-change="currentChange"
+                                :page-count="totalPageCount2"
+                                :total="totalCount2"
+                                @current-change="currentChange2"
                             ></el-pagination>
                         </div>
                     </div>
@@ -674,14 +244,29 @@
         components: {
             headTop,
         },
+        beforeCreate() {
+            var that = this;
+            that.axios.get('/role/queryAll', {
+                params: {companyId: window.localStorage.getItem("companyid"), page: 1}
+            }).then(res => {
+                that.tableData = res.data.rolelist;
+                that.page = res.data.pageutil.page;
+                that.totalPageCount = res.data.pageutil.totalPageCount;
+                that.totalCount = res.data.pageutil.totalCount;
+                that.pageSize = res.data.pageutil.pageSize;
+                for (var i = 0; i < that.tableData.length; i++) {
+                    that.tableData[i].stateName = that.tableData[i].status == 1 ? '开启' : '关闭';
+                }
+            });
+        },
         data() {
             return {
                 addUserObject: {},
                 editUserObject: {},
                 roleList: [],
-                title: "新增/编辑权限",
-                centerDialogVisible: false,
-                titles: "新增用户",
+                actorList: [],
+                addDialogSelectedList: [],
+                addActorDialogVisible: false,
                 centerDialogVisibles: false,
                 editUserDialogVisibles: false,
                 checked: true,
@@ -696,9 +281,13 @@
                     status: ""
                 },
                 page: 1,
-                pageSize:10,
-                totalPageCount:0,
-                totalCount:0,
+                pageSize: 10,
+                totalPageCount: 0,
+                totalCount: 0,
+                page2: 1,
+                pageSize2: 10,
+                totalPageCount2: 0,
+                totalCount2: 0,
                 activeName: 'first',
                 active: 1,
                 prev: false,
@@ -713,7 +302,7 @@
             }
         },
         methods: {
-            pre() {
+            /*pre() {
                 this.active = 1;
                 this.prev = false;
                 this.nexts = true;
@@ -726,6 +315,70 @@
                 this.nexts = false;
                 this.completes = true;
                 this.table = false;
+            },*/
+            openAddActorDialog() {
+                var that = this;
+                that.addActorDialogVisible = true;
+                that.axios.get('/role/queryAllFunctions').then(res => {
+                    that.actorList = {};
+                    var tempList = res.data;
+                    var first = '';
+                    var firstCros = 0;
+                    var firstIndex = 0;
+                    var second = '';
+                    var secondCros = 0;
+                    var secondIndex = 0;
+                    for (var i = 0; i < tempList.length; i++) {
+                        if (first == tempList[i].firstlevelmenu) {
+                            tempList[i].firstlevelmenu = undefined;
+                            firstCros++;
+
+                            if (second == tempList[i].secondlevelmenu) {
+                                tempList[i].secondlevelmenu = undefined;
+                                secondCros++;
+                            } else {
+                                second = tempList[i].secondlevelmenu;
+                                tempList[secondIndex].cros2 = secondCros;
+                                secondCros = 1;
+                                secondIndex = i;
+                            }
+                        } else {
+                            first = tempList[i].firstlevelmenu;
+                            tempList[firstIndex].cros = firstCros;
+                            firstCros = 1;
+                            firstIndex = i;
+                            second = tempList[i].secondlevelmenu;
+                            tempList[secondIndex].cros2 = secondCros;
+                            secondCros = 1;
+                            secondIndex = i;
+                        }
+                        if (!tempList[i].thirdlevelmenu) {
+                            tempList[i].thirdlevelmenu = '/'
+                        }
+                        if (i == tempList.length - 1) {
+                            first = tempList[i].firstlevelmenu;
+                            tempList[firstIndex].cros = firstCros;
+                            second = tempList[i].secondlevelmenu;
+                            tempList[secondIndex].cros2 = secondCros;
+                        }
+                    }
+                    console.log(tempList);
+                    that.actorList = tempList;
+                });
+            },
+            changeActor(scope) {
+                var that = this;
+                var id = scope.row.id;
+                scope._self.$refs[`popover-${scope.$index}`].doClose();
+                that.axios.get('', {
+                    params: {id: id}
+                }).then(res => {
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功'
+                    });
+                    that.Search2();
+                });
             },
             complete() {
                 this.activeName = "second";
@@ -737,21 +390,26 @@
                     status: ""
                 }
             },
-            currentChange(){
+            currentChange() {
 
+            },
+            currentChange2(page) {
+                var that = this;
+                that.page2 = page;
+                that.Search();
             },
             Search() {
                 var that = this;
                 var url = '';
-                var param = {page: that.page, companyId: window.localStorage.getItem("companyid")};
-                if (!that. form.account && !that. form.status) {
+                var param = {page: that.page2, companyId: window.localStorage.getItem("companyid")};
+                if (!that.form.account && !that.form.status) {
                     url = '/sysuser/queryAll';
                 } else {
                     url = 'sysuser/queryAllByLike';
                     param = {
-                        page: that.page,
-                        status: that. form.status,
-                        account: that. form.account,
+                        page: that.page2,
+                        status: that.form.status,
+                        account: that.form.account,
                         companyId: window.localStorage.getItem("companyid")
                     }
                 }
@@ -759,12 +417,12 @@
                     params: param
                 }).then(res => {
                     that.tableDatas = res.data.sysuserlist;
-                    that.page = res.data.pageutil.page;
-                    that.totalPageCount = res.data.pageutil.totalPageCount;
-                    that.totalCount = res.data.pageutil.totalCount;
-                    that.pageSize = res.data.pageutil.pageSize;
-                    if(!that.tableDatas.length){
-                        return ;
+                    that.page2 = res.data.pageutil.page;
+                    that.totalPageCount2 = res.data.pageutil.totalPageCount;
+                    that.totalCount2 = res.data.pageutil.totalCount;
+                    that.pageSize2 = res.data.pageutil.pageSize;
+                    if (!that.tableDatas.length) {
+                        return;
                     }
                     for (var i = 0; i < that.tableDatas.length; i++) {
                         that.tableDatas[i].loginstate = that.tableDatas[i].loginstate == 1 ? '登陆' : '未登陆';
@@ -776,6 +434,7 @@
             addUser() {
                 var that = this;
                 var param = that.addUserObject;
+                param.listRoleIdString = param.listRoleIdString.join(',');
                 param.companyid = window.localStorage.getItem("companyid")
                 that.axios.get('/sysuser/insert', {
                     params: param
@@ -791,6 +450,7 @@
             editUser() {
                 var that = this;
                 var param = that.editUserObject;
+                param.listRoleIdString = param.listRoleIdString.join(',');
                 param.companyid = window.localStorage.getItem("companyid")
                 that.axios.get('/sysuser/updateByPrimaryKey', {
                     params: param
@@ -820,6 +480,7 @@
             },
             openAddUserDialog() {
                 var that = this;
+                taht.addUserObject = {};
                 that.centerDialogVisibles = true;
                 that.axios.get('/sysuser/queryAllCompany', {
                     params: null
@@ -829,18 +490,25 @@
             },
             openEditUserDialog(object) {
                 var that = this;
-                if (!that.roleList || that.roleList.length == 0) {
-                    that.axios.get('/sysuser/queryAllCompany', {
-                        params: null
+                that.axios.get('/sysuser/queryAllCompany', {
+                    params: null
+                }).then(res => {
+                    that.roleList = res.data.listrole;
+                    that.axios.get('/sysuser/selectByPrimaryKey', {
+                        params: {userid: object.userid}
                     }).then(res => {
-                        that.roleList = res.data.listrole;
-                        that.editUserObject = object;
-                        that.editUserDialogVisibles = true;
+                        that.editUserObject = res.data.sysuser;
+                        that.editUserObject.listRoleIdString = that.editUserObject.listRoleIdString.split(',');
+                        if (that.editUserObject.listRoleIdString.constructor == String) {
+                            Number(that.editUserObject.listRoleIdString);
+                        } else if (that.editUserObject.listRoleIdString.constructor == Array) {
+                            for (var i = 0; i < that.editUserObject.listRoleIdString.length; i++) {
+                                that.editUserObject.listRoleIdString[i] = Number(that.editUserObject.listRoleIdString[i]);
+                            }
+                        }
                     })
-                } else {
-                    that.editUserObject = object;
-                    that.editUserDialogVisibles = true;
-                }
+                })
+                that.editUserDialogVisibles = true;
             },
         }
     }

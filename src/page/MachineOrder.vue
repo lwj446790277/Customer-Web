@@ -148,11 +148,9 @@ export default {
       var param = that.form;
       param.companyId = window.localStorage.getItem("companyid");
       param.page = that.page;
-      that.axios
-        .get("/order/queryAllUser", {
+      that.axios.get("/order/queryAllUser", {
           params: param
-        })
-        .then(res => {
+        }).then(res => {
           that.tableData = res.data.listuser;
           that.page = res.data.pageutil.page;
           that.totalPageCount = res.data.pageutil.totalPageCount;
