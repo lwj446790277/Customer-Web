@@ -22,6 +22,7 @@ const queryOrder = r => require.ensure([], () => r(require('@/page/queryOrder'))
 const userList = r => require.ensure([], () => r(require('@/page/userList')), 'userList');
 const userInteraction = r => require.ensure([], () => r(require('@/page/userInteraction')), 'userInteraction');
 const blackList = r => require.ensure([], () => r(require('@/page/blackList')), 'blackList');
+const shortMessageSending = r => require.ensure([], () => r(require('@/page/shortMessageSending')), 'shortMessageSending');
 // 这里是财务管理
 const paymentRecord = r => require.ensure([], () => r(require('@/page/paymentRecord')), 'paymentRecord');
 const repaymentPlan = r => require.ensure([], () => r(require('@/page/repaymentPlan')), 'repaymentPlan');
@@ -30,6 +31,7 @@ const manualTransfer = r => require.ensure([], () => r(require('@/page/manualTra
 const offlineRepayment = r => require.ensure([], () => r(require('@/page/offlineRepayment')), 'offlineRepayment');
 const newMember = r => require.ensure([], () => r(require('@/page/newMember')), 'newMember');
 const financialOverview = r => require.ensure([], () => r(require('@/page/financialOverview')), 'financialOverview');
+const artificialDelay = r => require.ensure([], () => r(require('@/page/artificialDelay')), 'artificialDelay');
 // 这里是货后订单管理
 const dateOrder = r => require.ensure([], () => r(require('@/page/dateOrder')), 'dateOrder');
 const returnOrder = r => require.ensure([], () => r(require('@/page/returnOrder')), 'returnOrder');
@@ -108,6 +110,10 @@ const routes = [
                 component: blackList,
                 meta: ['用户管理', '黑名单用户'],
             }, {
+                path: '/shortMessageSending',
+                component: shortMessageSending,
+                meta: ['用户管理', '注册用户短信发送'],
+            }, {
                 path: '/paymentRecord',
                 component: paymentRecord,
                 meta: ['财务管理', '放款实时流水'],
@@ -123,6 +129,10 @@ const routes = [
                 path: '/manualTransfer',
                 component: manualTransfer,
                 meta: ['财务管理', '线上减免调账'],
+            }, {
+                path: '/artificialDelay',
+                component: artificialDelay,
+                meta: ['财务管理', '人工延期设置'],
             }, {
                 path: '/offlineRepayment',
                 component: offlineRepayment,

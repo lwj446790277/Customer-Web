@@ -172,7 +172,7 @@
 				if(this.type=="2"){
 					this.desc="222"
 				}else{
-					if(this.type=="2"){
+					if(this.type=="3"){
 						this.desc="333"
 					}else{
 						this.desc="111"

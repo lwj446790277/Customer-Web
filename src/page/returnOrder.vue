@@ -241,28 +241,28 @@ export default {
     },
     Search() {
         if(this.formList.start!=""){
-            this.formList.start = this.formList.start + " " + "00:00:00"
+            var start = this.formList.start + " " + "00:00:00"
         }
         if(this.formList.end!=""){
-            this.formList.end = this.formList.end + " " + "23:59:59"
+            var end = this.formList.end + " " + "23:59:59"
         }
         if(this.formList.deferBeforeReturntimeStatu_time!=""){
-            this.formList.deferBeforeReturntimeStatu_time = this.formList.deferBeforeReturntimeStatu_time + " " + "00:00:00"
+            var deferBeforeReturntimeStatu_time = this.formList.deferBeforeReturntimeStatu_time + " " + "00:00:00"
         }
         if(this.formList.deferBeforeReturntimeEnd_time!=""){
-            this.formList.deferBeforeReturntimeEnd_time = this.formList.deferBeforeReturntimeEnd_time + " " + "23:59:59"
+            var deferBeforeReturntimeEnd_time = this.formList.deferBeforeReturntimeEnd_time + " " + "23:59:59"
         }
         if(this.formList.deferAfterReturntimeStatu_time!=""){
-            this.formList.deferAfterReturntimeStatu_time = this.formList.deferAfterReturntimeStatu_time + " " + "00:00:00"
+            var deferAfterReturntimeStatu_time = this.formList.deferAfterReturntimeStatu_time + " " + "00:00:00"
         }
         if(this.formList.deferAfterReturntimeEnd_time!=""){
-            this.formList.deferAfterReturntimeEnd_time = this.formList.deferAfterReturntimeEnd_time + " " + "23:59:59"
+            var deferAfterReturntimeEnd_time = this.formList.deferAfterReturntimeEnd_time + " " + "23:59:59"
         }
         if(this.formList.realtimeStatu_time!=""){
-            this.formList.realtimeStatu_time = this.formList.realtimeStatu_time + " " + "00:00:00"
+            var realtimeStatu_time = this.formList.realtimeStatu_time + " " + "00:00:00"
         }
         if(this.formList.realtimeEnd_time!=""){
-            this.formList.realtimeEnd_time = this.formList.realtimeEnd_time + " " + "23:59:59"
+            var realtimeEnd_time = this.formList.realtimeEnd_time + " " + "23:59:59"
         }
       this.axios
         .get("postloanor/YihuanOrders", {
@@ -271,18 +271,14 @@ export default {
             orderNumber: this.formList.id,
             name: this.formList.name,
             phone: this.formList.phone,
-            start_time: this.formList.start,
-            end_time: this.formList.end,
-            deferBeforeReturntimeStatu_time: this.formList
-              .deferBeforeReturntimeStatu_time,
-            deferBeforeReturntimeEnd_time: this.formList
-              .deferBeforeReturntimeEnd_time,
-            deferAfterReturntimeStatu_time: this.formList
-              .deferAfterReturntimeStatu_time,
-            deferAfterReturntimeEnd_time: this.formList
-              .deferAfterReturntimeEnd_time,
-            realtimeStatu_time: this.formList.realtimeStatu_time,
-            realtimeEnd_time: this.formList.realtimeEnd_time
+            start_time: start,
+            end_time: end,
+            deferBeforeReturntimeStatu_time: deferBeforeReturntimeStatu_time,
+            deferBeforeReturntimeEnd_time: deferBeforeReturntimeEnd_time,
+            deferAfterReturntimeStatu_time: deferAfterReturntimeStatu_time,
+            deferAfterReturntimeEnd_time: deferAfterReturntimeEnd_time,
+            realtimeStatu_time: realtimeStatu_time,
+            realtimeEnd_time: realtimeEnd_time
           }
         })
         .then(res => {

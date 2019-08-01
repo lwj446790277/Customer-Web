@@ -298,16 +298,16 @@ export default {
     },
     Search() {
         if(this.form.start!=""){
-            this.form.start = this.form.start + " " + "00:00:00"
+            var start = this.form.start + " " + "00:00:00"
         }
         if(this.form.end!=""){
-            this.form.end = this.form.end + " " + "23:59:59"
+            var end = this.form.end + " " + "23:59:59"
         }
         if(this.form.deferAfterReturntimeStatu_time!=""){
-            this.form.deferAfterReturntimeStatu_time = this.form.deferAfterReturntimeStatu_time + " " + "00:00:00"
+            var deferAfterReturntimeStatu_time = this.form.deferAfterReturntimeStatu_time + " " + "00:00:00"
         }
         if(this.form.deferAfterReturntimeEnd_time!=""){
-            this.form.deferAfterReturntimeEnd_time = this.form.deferAfterReturntimeEnd_time + " " + "23:59:59"
+            var deferAfterReturntimeEnd_time = this.form.deferAfterReturntimeEnd_time + " " + "23:59:59"
         }
       this.axios
         .get("collection/YiCollection", {
@@ -317,12 +317,10 @@ export default {
             name: this.form.name,
             phone: this.form.phone,
             overdueGrade: this.form.level,
-            start_time: this.form.start,
-            end_time: this.form.end,
-            deferAfterReturntimeStatu_time: this.form
-              .deferAfterReturntimeStatu_time,
-            deferAfterReturntimeEnd_time: this.form
-              .deferAfterReturntimeEnd_time
+            start_time: start,
+            end_time: end,
+            deferAfterReturntimeStatu_time: deferAfterReturntimeStatu_time,
+            deferAfterReturntimeEnd_time: deferAfterReturntimeEnd_time
           }
         })
         .then(res => {

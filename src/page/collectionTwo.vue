@@ -256,82 +256,36 @@ export default {
     },
     Search() {
         if(this.formList.start!=""){
-            this.formList.start = this.formList.start + " " + "00:00:00"
+            var start = this.formList.start + " " + "00:00:00"
         }
         if(this.formList.end!=""){
-            this.formList.end = this.formList.end + " " + "23:59:59"
+            var end = this.formList.end + " " + "23:59:59"
         }
         if(this.formList.deferAfterReturntimeStatu_time!=""){
-            this.formList.deferAfterReturntimeStatu_time = this.formList.deferAfterReturntimeStatu_time + " " + "00:00:00"
+            var deferAfterReturntimeStatu_time = this.formList.deferAfterReturntimeStatu_time + " " + "00:00:00"
         }
         if(this.formList.deferAfterReturntimeEnd_time!=""){
-            this.formList.deferAfterReturntimeEnd_time = this.formList.deferAfterReturntimeEnd_time + " " + "23:59:59"
+            var deferAfterReturntimeEnd_time = this.formList.deferAfterReturntimeEnd_time + " " + "23:59:59"
         }
-      if (this.formList.name == "姓名") {
         this.axios
           .get("collection/BeoverdueYifenp", {
             params: {
               companyId: window.localStorage.getItem("companyid"),
-              orderNumber: this.form.id,
-              name: this.form.name,
-              phone: this.form.phone,
+              orderNumber: this.formList.id,
+              name: this.formList.name,
+              phone: this.formList.phone,
               overdueGrade: this.formList.level,
               collectionStatus: this.formList.type,
               collectionMemberId: this.formList.person,
-              start_time: this.formList.start,
-              end_time: this.formList.end,
-              deferAfterReturntimeStatu_time: this.formList
-                .deferAfterReturntimeStatu_time,
-              deferAfterReturntimeEnd_time: this.formList
-                .deferAfterReturntimeEnd_time
+              start_time: start,
+              end_time: end,
+              deferAfterReturntimeStatu_time: deferAfterReturntimeStatu_time,
+              deferAfterReturntimeEnd_time: deferAfterReturntimeEnd_time
             }
           })
           .then(res => {
             this.tableData = res.data.Orderdetails;
           });
-      } else {
-        if (this.formList.name == "手机号") {
-          this.axios
-            .get("collection/BeoverdueYifenp", {
-              params: {
-                companyId: window.localStorage.getItem("companyid"),
-                phone: this.formList.single,
-                overdueGrade: this.formList.level,
-                collectionStatus: this.formList.type,
-                collectionMemberId: this.formList.person,
-                start_time: this.formList.start,
-                end_time: this.formList.end,
-                deferAfterReturntimeStatu_time: this.formList
-                  .deferAfterReturntimeStatu_time,
-                deferAfterReturntimeEnd_time: this.formList
-                  .deferAfterReturntimeEnd_time
-              }
-            })
-            .then(res => {
-              this.tableData = res.data.Orderdetails;
-            });
-        } else {
-          this.axios
-            .get("collection/BeoverdueYifenp", {
-              params: {
-                companyId: window.localStorage.getItem("companyid"),
-                orderNumber: this.formList.single,
-                overdueGrade: this.formList.level,
-                collectionStatus: this.formList.type,
-                collectionMemberId: this.formList.person,
-                start_time: this.formList.start,
-                end_time: this.formList.end,
-                deferAfterReturntimeStatu_time: this.formList
-                  .deferAfterReturntimeStatu_time,
-                deferAfterReturntimeEnd_time: this.formList
-                  .deferAfterReturntimeEnd_time
-              }
-            })
-            .then(res => {
-              this.tableData = res.data.Orderdetails;
-            });
-        }
-      }
     },
     open(id) {
       this.dialogTableVisible = true;

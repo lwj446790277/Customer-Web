@@ -23,8 +23,8 @@
           <el-table-column prop="deferAfterReturntime" label="时间" align="center"></el-table-column>
           <el-table-column prop="orderNum" label="延期笔数" align="center"></el-table-column>
           <el-table-column prop="interestOnArrearsSum" label="延期费" align="center"></el-table-column>
-          <el-table-column prop="address" label="银行扣款笔数" align="center"></el-table-column>
-          <el-table-column prop="address" label="银行扣款金额" align="center"></el-table-column>
+          <el-table-column prop="branKnum" label="银行扣款笔数" align="center"></el-table-column>
+          <el-table-column prop="brankMoney" label="银行扣款金额" align="center"></el-table-column>
         </el-table>
         <div class="block">
           <el-pagination
@@ -111,17 +111,17 @@ export default {
     },
     Search() {
         if(this.form.start!=""){
-            this.form.start = this.form.start + " " + "00:00:00"
+            var start = this.form.start + " " + "00:00:00"
         }
         if(this.form.end!=""){
-            this.form.end = this.form.end + " " + "23:59:59"
+            var end = this.form.end + " " + "23:59:59"
         }
       this.axios
         .get("fina/DelayStatistics", {
           params: {
             companyId: "3",
-            startu_time: this.form.start,
-            end_time: this.form.end
+            startu_time: start,
+            end_time: end
           }
         })
         .then(res => {

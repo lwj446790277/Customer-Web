@@ -581,17 +581,17 @@ export default {
     },
     SearchThird() {
         if(this.formThree.start!=""){
-            this.formThree.start = this.formThree.start + " " + "00:00:00"
+            var start = this.formThree.start + " " + "00:00:00"
         }
         if(this.formThree.end!=""){
-            this.formThree.end = this.formThree.end + " " + "23:59:59"
+            var end = this.formThree.end + " " + "23:59:59"
         }
       this.axios
         .get("postloanor/CollectionRecoveryrate", {
           params: {
             companyId: window.localStorage.getItem("companyid"),
-            start_time: this.formThree.start,
-            end_time: this.formThree.end
+            start_time: start,
+            end_time: end
           }
         })
         .then(res => {
@@ -600,17 +600,17 @@ export default {
     },
     SearchForth() {
         if(this.formFour.start!=""){
-            this.formFour.start = this.formFour.start + " " + "00:00:00"
+            var start = this.formFour.start + " " + "00:00:00"
         }
         if(this.formFour.end!=""){
-            this.formFour.end = this.formFour.end + " " + "23:59:59"
+            var end = this.formFour.end + " " + "23:59:59"
         }
       this.axios
         .get("postloanor/OverdueUser", {
           params: {
             companyId: window.localStorage.getItem("companyid"),
-            start_time: this.formFour.start,
-            end_time: this.formFour.end
+            start_time: start,
+            end_time: end
           }
         })
         .then(res => {
