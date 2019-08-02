@@ -12,14 +12,25 @@
                         <el-input placeholder="请输入手机号" v-model="form.phone" class="input"></el-input>
                     </el-form-item>
                     <el-form-item>
+                        <el-select placeholder="注册客户端" v-model="form.registeClient">
+                            <el-option label="安卓Android端" value="android"></el-option>
+                            <el-option label="苹果IOS端" value="ios"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item>
                         <el-col :span="11">
                             <el-date-picker type="date" placeholder="注册起始时间"
+                                            value-format="yyyy-MM-dd"
+                                            @change="dateChangeStart"
                                             v-model="form.registeTimeStart"></el-date-picker>
                         </el-col>
                     </el-form-item>
                     <el-form-item class="single">
                         <el-col :span="11">
-                            <el-date-picker type="date" placeholder="注册结束时间" v-model="form.registeTimeEnd"></el-date-picker>
+                            <el-date-picker type="date" placeholder="注册结束时间"
+                                            value-format="yyyy-MM-dd"
+                                            @change="dateChangeEnd"
+                                            v-model="form.registeTimeEnd"></el-date-picker>
                         </el-col>
                     </el-form-item>
                     <el-form-item>
@@ -44,7 +55,9 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="warning" @click="Reset" style="background-color:#e3e4e7;border:transparent;color:#000">重置</el-button>
+                        <el-button type="warning" @click="Reset"
+                                   style="background-color:#e3e4e7;border:transparent;color:#000">重置
+                        </el-button>
                         <el-button type="primary" @click="Search">搜索</el-button>
                     </el-form-item>
                 </el-form>
@@ -53,9 +66,10 @@
                     <el-table-column prop="registeclient" label="客户端类型" align="center"></el-table-column>
                     <el-table-column prop="name" label="姓名" align="center"></el-table-column>
                     <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
-                    <el-table-column prop="userattestationstatus" label="个人信用" width="130" align="center"></el-table-column>
+                    <el-table-column prop="userattestationstatus" label="个人信用" width="130"
+                                     align="center"></el-table-column>
                     <el-table-column prop="operaattestationstatus" label="手机运营商" width="140"
-                                    align="center"></el-table-column>
+                                     align="center"></el-table-column>
                     <el-table-column prop="bankattestationstatus" label="收款银行卡" align="center"></el-table-column>
                     <!--      <el-table-column prop="address" label="芝麻授信" width="130" align="center"></el-table-column>-->
                     <el-table-column prop="address" label="查看认证信息" align="center">
@@ -110,6 +124,7 @@
                     userattestationstatus: "",
                     bankattestationstatus: "",
                     operaattestationstatus: "",
+                    registeClient: ""
                 },
                 tableData: [{id: 1}],
                 page: 1,
@@ -144,6 +159,14 @@
             // this.initData();
         },
         methods: {
+            dateChangeStart(val) {
+                var that = this;
+                that.form.registeTimeStart = val;
+            },
+            dateChangeEnd(val) {
+                var that = this;
+                that.form.registeTimeEnd = val;
+            },
             currentChange(val) {
                 var that = this;
                 that.page = val;
@@ -158,10 +181,18 @@
                     userattestationstatus: "",
                     bankattestationstatus: "",
                     operaattestationstatus: "",
+                    registeClient: ""
                 }
             },
             Search() {
                 var that = this;
+                if (!!that.form.phone && that.form.phone.length != 11) {
+                    this.$message({
+                        type: "error",
+                        message: '请输入11位手机号'
+                    });
+                    return false;
+                }
                 var param = that.form;
                 param.companyId = window.localStorage.getItem("companyid");
                 param.page = that.page;

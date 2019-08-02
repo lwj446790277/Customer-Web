@@ -95,7 +95,7 @@
         },
         data() {
             return {
-                tableData: [{}],
+                tableData: [],
                 page: 1,
                 pageSize: 10,
                 totalPageCount: 0,
@@ -155,6 +155,13 @@
             },
             Search() {
                 var that = this;
+                if (!!that.form.phone && that.form.phone.length != 11) {
+                    this.$message({
+                        type: "error",
+                        message: '请输入11位手机号'
+                    });
+                    return false;
+                }
                 var param = that.form;
                 param.companyId = window.localStorage.getItem("companyid");
                 param.page = that.page;
