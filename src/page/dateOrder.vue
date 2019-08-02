@@ -45,16 +45,16 @@
 <!--              <el-table-column prop="deferBeforeReturntime" label="延期前应还时间" width="120" align="center"></el-table-column>-->
               <el-table-column prop="interestOnArrears" label="应还利息/应还金额" width="160" align="center">
                 <template slot-scope="scope">
-                  <span>{{scope.row.interestOnArrears}}/{{scope.row.makeLoans}}</span>
+                  <span>{{scope.row.interestInAll}}/{{scope.row.makeLoans}}</span>
                 </template>
               </el-table-column>
 <!--              <el-table-column prop="onceDeferredDay" label="每次延期天数" align="center"></el-table-column>-->
-<!--              <el-table-column prop="deferAfterReturntime" label="延期后应还时间" width="120" align="center"></el-table-column>-->
-<!--              <el-table-column prop="defeNum" label="延期次数/延期金额" width="110" align="center">-->
-<!--                <template slot-scope="scope">-->
-<!--                  <span>{{scope.row.defeNum}}/{{scope.row.defeMoney}}</span>-->
-<!--                </template>-->
-<!--              </el-table-column>-->
+<!--                <el-table-column prop="deferAfterReturntime" label="延期后应还时间" width="120" align="center"></el-table-column>-->
+<!--                <el-table-column prop="defeNum" label="延期次数/延期金额" width="110" align="center">-->
+<!--                    <template slot-scope="scope">-->
+<!--                        <span>{{scope.row.defeNum}}/{{scope.row.defeMoney}}</span>-->
+<!--                    </template>-->
+<!--                </el-table-column>-->
               <el-table-column label="操作" align="center">
                 <!-- <template slot="header" slot-scope="scope">
                 <el-button type="success" @click="Onekey(scope)" size="mini">一键分配</el-button>
@@ -140,7 +140,7 @@
                 align="center"
               >
                 <template slot-scope="scope">
-                  <span>{{scope.row.interestOnArrears}}/{{scope.row.makeLoans}}</span>
+                  <span>{{scope.row.interestInAll}}/{{scope.row.makeLoans}}</span>
                 </template>
               </el-table-column>
               <el-table-column prop="onceDeferredDay" label="每次延期天数" width="90" align="center"></el-table-column>
@@ -505,7 +505,10 @@ export default {
           this.totalCountThree = res.data.Collection.length;
           // this.totalPageCount = res.data.pageUtil.totalPage
           //   for (var i=0;i<res.data.Collection.length;i++){
-          //       res.data.Collection[i].paymentmadeData=((res.data.Collection[i].paymentmade/(res.data.Collection[i].sameday+res.data.Collection[i].paymentmade))*100).toFixed(2)
+          //       res.data.Collection[i].paymentmadeData=((res.data.Collection[i].paymentmade/(res.data.Collection[i].sameday+res.data.Collection[i].paymentmade))*100)
+          //       if(res.data.Collection[i].paymentmadeData!=0){
+          //           res.data.Collection[i].paymentmadeData = (res.data.Collection[i].paymentmadeData).toFixed(2)
+          //       }
           //   }
         })
     },

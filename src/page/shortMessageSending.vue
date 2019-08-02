@@ -9,10 +9,10 @@
                         <tr>
                             <th>选择客户类型</th>
                             <td>
-                                <el-select v-model="type" placeholder="ios" style="width:200px">
+                                <el-select v-model="type" placeholder="ios" style="width:200px" @change="changeType">
                                     <el-option label="ios" value="ios"></el-option>
-                                    <el-option label="安卓" value="安卓"></el-option>
-                                    <el-option label="全部" value="全部"></el-option>
+                                    <el-option label="安卓" value="android"></el-option>
+                                    <el-option label="全部" value=""></el-option>
                                 </el-select>
                             </td>
                         </tr>
@@ -43,10 +43,10 @@
                 </el-dialog>
                 <el-button type="success" @click="add" class="aps">添加短信</el-button>
                 <el-table border :data="tableData" style="width: 100%">
-                    <el-table-column prop="orderNumber" label="操作时间" align="center"></el-table-column>
-                    <el-table-column prop="name" label="客户端类型" align="center"></el-table-column>
-                    <el-table-column prop="phone" label="已选注册用户" align="center"></el-table-column>
-                    <el-table-column prop="drainageOfPlatformName" label="短信内容" align="center"></el-table-column>
+                    <el-table-column prop="send_time" label="操作时间" align="center"></el-table-column>
+                    <el-table-column prop="user_type" label="客户端类型" align="center"></el-table-column>
+                    <el-table-column prop="usernum" label="已选注册用户" align="center"></el-table-column>
+                    <el-table-column prop="short_text" label="短信内容" align="center"></el-table-column>
                 </el-table>
                 <div class="block">
                     <el-pagination
@@ -71,6 +71,7 @@
         data() {
             return {
                 tableData: [],
+                phones: [],
                 dialogTable: false,
                 type: "",
                 message: "",
@@ -83,27 +84,34 @@
             };
         },
         created() {
-            // this.getData(this.page, this.Pagesize);
+            this.getData(this.page,this.Pagesize);
         },
         methods: {
             getData(page,Pagesize){
-                this.axios
-                    .get("", {
-                        params: {
-                            companyId: window.localStorage.getItem("companyid"),
-                            page,
-                            Pagesize
-                        }
-                    })
-                    .then(res => {
-                        this.tableData = res.data.Orderdetails;
-                        this.page = res.data.Orderdetails.page;
-                        this.Pagesize = res.data.Orderdetails.Pagesize;
-                        this.totalCount = res.data.Orderdetails.length;
-                    });
+                this.axios.get("sms/AllUserShortMessage", {
+                    params: {
+                        companyId: window.localStorage.getItem("companyid"),
+                        page,
+                        Pagesize
+                    }
+                }).then(res => {
+                    this.tableData = res.data.Usershortmessage;
+                    this.page = res.data.Usershortmessage.page;
+                    this.Pagesize = res.data.Usershortmessage.Pagesize;
+                    this.totalCount = res.data.Usershortmessage.length;
+                });
             },
             add(){
                 this.dialogTable = true
+                this.axios.get("sms/UserTypeShortMessage", {
+                    params: {
+                        companyId: window.localStorage.getItem("companyid"),
+                        registeClient: this.type
+                    }
+                }).then(res => {
+                    this.people = res.data.phonNum
+                    this.phones = res.data.phones
+                });
             },
             change(){
                 if(this.message=="2"){
@@ -116,8 +124,27 @@
                     }
                 }
             },
+            changeType(){
+                this.axios.get("sms/UserTypeShortMessage", {
+                    params: {
+                        companyId: window.localStorage.getItem("companyid"),
+                        registeClient: this.type
+                    }
+                }).then(res => {
+                    this.people = res.data.phone.length
+                });
+            },
             send(){
-
+                this.axios.get("sms/AddUserShort", {
+                    params: {
+                        companyId: window.localStorage.getItem("companyid"),
+                        user_type: this.type,
+                        usernum: this.people,
+                        short_text: this.message
+                    }
+                }).then(res => {
+                    this.people = res.data.phone.length
+                });
             }
         }
     }

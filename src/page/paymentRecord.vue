@@ -33,7 +33,7 @@
             </el-col>
           </el-form-item>
           <el-form-item>
-            <el-select v-model="form.qudao" placeholder="放款渠道" style="width:150px" @change="change">
+            <el-select v-model="form.qudao" placeholder="放款渠道" style="width:150px">
               <el-option
                 v-for="item in Thirdparty_interface"
                 :key="item.value"
@@ -57,7 +57,7 @@
           <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
           <el-table-column prop="address" label="订单查询" align="center">
             <template slot-scope="scope">
-              <span class="blue" @click="jie(scope.row.orderNumber)">借款信息</span>
+              <span class="blue" @click="jie(scope.row.orderId)">借款信息</span>
             </template>
           </el-table-column>
         </el-table>
@@ -278,9 +278,6 @@ export default {
     currentChange() {
       //   this.getData(this.page, this.pageSize);
     },
-    change(id) {
-      this.thirdparty_id = id;
-    },
     Reset() {
       this.form = {
         id: "",
@@ -304,7 +301,7 @@ export default {
           orderNumber:  this.form.id,
           phone:  this.form.phone,
           name: this.form.name,
-          thirdparty_id: this.thirdparty_id,
+          thirdparty_id: this.form.qudao,
           start_time: start,
           end_time: end
         }
@@ -313,13 +310,13 @@ export default {
         this.tableData = res.data.PaymentRecord;
       })
     },
-    jie(orderNumber) {
+    jie(orderId) {
       this.centerDialogVisible = true;
       this.axios
         .get("fina/PaymentOrder", {
           params: {
             companyId: window.localStorage.getItem("companyid"),
-            orderNumber
+              orderId
           }
         })
         .then(res => {
