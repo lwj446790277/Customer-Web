@@ -729,7 +729,7 @@
 						amountmoney: this.amountmoney,
 						remarks: this.remarks,
 						accounttime: this.accounttime,
-						totalamount: this.totalMoney,
+                        totalamount: this.totalMoney,
 						sys_uerId: window.localStorage.getItem("userid")
 					}
 				}).then(res=>{

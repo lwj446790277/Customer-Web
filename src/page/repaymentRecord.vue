@@ -119,7 +119,7 @@ export default {
       this.axios
         .get("fina/DelayStatistics", {
           params: {
-            companyId: "3",
+            companyId: window.localStorage.getItem("companyid"),
             startu_time: start,
             end_time: end
           }

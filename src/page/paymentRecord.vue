@@ -297,7 +297,7 @@ export default {
         }
       this.axios.get("fina/Allpayment_record", {
         params: {
-          companyId: "3",
+          companyId: window.localStorage.getItem("companyid"),
           orderNumber:  this.form.id,
           phone:  this.form.phone,
           name: this.form.name,
@@ -316,7 +316,7 @@ export default {
         .get("fina/PaymentOrder", {
           params: {
             companyId: window.localStorage.getItem("companyid"),
-              orderId
+            orderId
           }
         })
         .then(res => {
@@ -357,9 +357,6 @@ export default {
 //   text-align: center;
 //   font-size: 20px;
 //   color: #333;
-// }
-// .el-table {
-//   overflow: auto !important;
 // }
 .main {
   padding: 20px;
