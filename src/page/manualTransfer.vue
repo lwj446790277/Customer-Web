@@ -92,11 +92,11 @@
 								</td>
 							</tr>
 						</table>
-						<table cellpadding="20" cellspacing="0" class="tabs">
+						<table cellpadding="20" cellspacing="0" class="tabse">
 							<tr>
 								<th>还款渠道</th>
 								<td>
-									<el-select v-model="qudao" placeholder="还款渠道" class="inpu">
+									<el-select v-model="qudao" placeholder="还款渠道" style="width: 70%">
 										<el-option v-for="item in Thirdparty_interface" :key="item.value" :label="item.name" :value="item.id"></el-option>
 									</el-select>
 								</td>
@@ -104,19 +104,19 @@
 							<tr>
 								<th>输入减免金额</th>
 								<td>
-									<el-input class="inpu" v-model="amountmoney" @blur="blur"></el-input>
+									<el-input class="inpus" v-model="amountmoney" @blur="blur"></el-input>
 								</td>
 							</tr>
 							<tr>
 								<th>减免后应还总金额</th>
 								<td class="red">
-									<div>{{totalMoney}}</div>
+									<div class="gray">{{totalMoney}}</div>
 								</td>
 							</tr>
 							<tr>
 								<th>还款备注</th>
 								<td>
-									<el-input class="inpu" v-model="remarks"></el-input>
+									<el-input class="inpus" v-model="remarks"></el-input>
 								</td>
 							</tr>
 							<tr>
@@ -774,11 +774,11 @@
 		float: left;
 		margin-right: -2px;
 	}
-	.tabs{
+	.tabse{
 		width: 50%;
 		border-color: #dfe6ec;
 	}
-	.tabs td .el-input .el-input__inner {
+	.tabse td .el-input .el-input__inner {
 		background-color: #f3f6fb;
 		border: transparent;
 	}
@@ -800,7 +800,15 @@
 		line-height: 40px;
 		background-color: #f3f6fb;
 	}
-	.red div{
+    .tabse td{
+        text-align: left;
+    }
+    .tabse td div{
+        margin-top: 0px;
+        margin-bottom: 0px;
+        text-align: center;
+    }
+	.red div.gray{
 		margin-top: -10px;
 		margin-bottom: -10px;
 		width: 67%;
@@ -809,7 +817,7 @@
 		padding-left: 10px;
 		background-color: #f3f6fb;
 	}
-	.inpu{
+	.inpus{
 		width: 70%;
 		margin-top: -10px;
 		margin-bottom: -10px;

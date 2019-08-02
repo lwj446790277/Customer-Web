@@ -380,7 +380,7 @@
                     params: {
                         extensionfee: this.num,
                         remarks: this.desc,
-                        sys_userId: 1,
+                        sys_userId: window.localStorage.getItem("userid"),
                         orderId: this.orderId,
                         onceDeferredDay: this.onceDeferredDay
                     }
@@ -513,6 +513,10 @@
         width: 70%;
         margin-top: -10px;
         margin-bottom: -10px;
+    }
+
+    .tabs td .el-input{
+        margin-left: -20px;
     }
 
     .save {

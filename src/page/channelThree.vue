@@ -11,9 +11,9 @@
 							<el-form-item>
 								<el-select v-model="form.name" placeholder="离最后逾前还款日" style="width:200px">
 									<el-option label="当天" value="0"></el-option>
-									<el-option label="提前1天" value="1"></el-option>
-									<el-option label="提前2天" value="2"></el-option>
-									<el-option label="提前3天" value="3"></el-option>
+									<el-option label="往后1天" value="1"></el-option>
+									<el-option label="往后2天" value="2"></el-option>
+									<el-option label="往后3天" value="3"></el-option>
 								</el-select>
 							</el-form-item>
 							<el-form-item>
