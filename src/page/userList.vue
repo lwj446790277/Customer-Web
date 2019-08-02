@@ -50,6 +50,7 @@
                 </el-form>
                 <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
                     <el-table-column prop="registetime" label="注册时间" align="center"></el-table-column>
+                    <el-table-column prop="registeclient" label="客户端类型" align="center"></el-table-column>
                     <el-table-column prop="name" label="姓名" align="center"></el-table-column>
                     <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
                     <el-table-column prop="userattestationstatus" label="个人信用" width="130" align="center"></el-table-column>
