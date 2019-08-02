@@ -19,12 +19,16 @@
                             <el-form-item>
                                 <el-col :span="11">
                                     <el-date-picker type="date" placeholder="注册起始时间"
+                                                    value-format="yyyy-MM-dd"
+                                                    @change="dateChangeStart"
                                                     v-model="form.registestarttime"></el-date-picker>
                                 </el-col>
                             </el-form-item>
                             <el-form-item class="single">
                                 <el-col :span="11">
                                     <el-date-picker type="date" placeholder="注册结束时间"
+                                                    value-format="yyyy-MM-dd"
+                                                    @change="dateChangeEnd"
                                                     v-model="form.registeendtime"></el-date-picker>
                                 </el-col>
                             </el-form-item>
@@ -46,12 +50,12 @@
                             <el-table-column prop="user.idcard" label="身份证号" width="93" align="center"></el-table-column>
                             <el-table-column prop="user.sourcename" label="引流平台" width="93"
                                             align="center"></el-table-column>
-                            <el-table-column prop="borrowMoneyWay" label="客户端类型" align="center"></el-table-column>
-                            <el-table-column prop="" label="借款次数" width="93" align="center"></el-table-column>
-                            <el-table-column prop="" label="最后借款时间" align="center"></el-table-column>
-                            <el-table-column prop="" label="最后借款金额" align="center"></el-table-column>
+                            <el-table-column prop="user.registeclient" label="客户端类型" align="center"></el-table-column>
+                            <el-table-column prop="howManyTimesBorMoney" label="借款次数" width="93" align="center"></el-table-column>
+                            <el-table-column prop="orderCreateTime" label="最后借款时间" align="center"></el-table-column>
+                            <el-table-column prop="realityBorrowMoney" label="最后借款金额" align="center"></el-table-column>
                             <el-table-column prop="deferrTime" label="延期次数" align="center"></el-table-column>
-                            <el-table-column prop="" label="延期金额" align="center"></el-table-column>
+                            <el-table-column prop="deferrMoney" label="延期金额" align="center"></el-table-column>
                             <el-table-column prop="deferAfterReturntime" label="最后应还时间" align="center"></el-table-column>
                             <el-table-column prop="orderdetails.overdueNumberOfDays" label="逾期天数" width="93"
                                             align="center"></el-table-column>
@@ -278,9 +282,24 @@
             });
         },
         methods: {
+            dateChangeStart(val) {
+                var that = this;
+                that.form.registestarttime = val;
+            },
+            dateChangeEnd(val) {
+                var that = this;
+                that.form.registeendtime = val;
+            },
             getMessage(){},
             Search() {
                 var that = this;
+                if (!!that.form.phone && that.form.phone.length != 11) {
+                    this.$message({
+                        type: "error",
+                        message: '请输入11位手机号'
+                    });
+                    return false;
+                }
                 var param = that.form;
                 param.companyid = window.localStorage.getItem("companyid");
                 param.page = that.page;

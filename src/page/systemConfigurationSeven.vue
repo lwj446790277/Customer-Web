@@ -3,10 +3,11 @@
         <head-top></head-top>
         <!-- <p class="explain_text">系统配置7</p> -->
         <el-dialog title="新增角色" :visible.sync="addActorDialogVisible" customClass="customWidth" center>
-            <div class="top">
+            <div>
                 <el-button type="warning" @click="centerDialogVisible = false">取消</el-button>
-                <el-input placeholder="输入角色名称" class="inp"></el-input>
-                <el-button type="primary" @click="centerDialogVisible = false">保存</el-button>
+                <el-input placeholder="输入角色名称" style="width: 200px" v-model="addActorObject.rolename" class="inp"></el-input>
+                <el-input placeholder="输入角色描述" style="width: 200px" v-model="addActorObject.roledescribe" class="inp"></el-input>
+                <el-button type="primary" @click="addActor">保存</el-button>
             </div>
             <table border="1" cellspacing="0" cellpadding="15" class="tables">
                 <tr>
@@ -26,22 +27,68 @@
                         </template>
                         <template v-if="!!actor.cros2">
                             <td :rowspan="actor.cros2">
-                                {{actor.secondlevelmenu}}
                                 <template v-if="actor.thirdlevelmenu =='/'">
-                                    <el-checkbox :id="actor.id"></el-checkbox>
-                                    <label class="el-checkbox" id="47">
-                                        <span class="el-checkbox__input is-checked">
-                                            <span class="el-checkbox__inner"></span>
-                                            <input type="checkbox" class="el-checkbox__original" value="">
-                                        </span>
-                                    </label>
+                                    <el-checkbox @change="checked=>changeSelected(checked,actor.id)">
+                                        {{actor.secondlevelmenu}}
+                                    </el-checkbox>
+                                </template>
+                                <template v-else>
+                                    {{actor.secondlevelmenu}}
                                 </template>
                             </td>
                         </template>
                         <template v-if="actor.thirdlevelmenu != '/'">
                             <td>
+                                <el-checkbox :id="actor.id">{{actor.thirdlevelmenu}}</el-checkbox>
+                            </td>
+                        </template>
+                        <template v-else>
+                            <td>
                                 {{actor.thirdlevelmenu}}
-                                <el-checkbox :id="actor.id"></el-checkbox>
+                            </td>
+                        </template>
+                    </tr>
+                </template>
+            </table>
+        </el-dialog>
+        <el-dialog title="编辑角色" :visible.sync="editActorDialogVisible" customClass="customWidth" center>
+            <div>
+                <el-button type="warning" @click="centerDialogVisible = false">取消</el-button>
+                <el-input placeholder="输入角色名称" style="width: 200px" v-model="editActorObject.rolename" class="inp"></el-input>
+                <el-input placeholder="输入角色描述" style="width: 200px" v-model="editActorObject.roledescribe" class="inp"></el-input>
+                <el-button type="primary" @click="addActor">保存</el-button>
+            </div>
+            <table border="1" cellspacing="0" cellpadding="15" class="tables">
+                <tr>
+                    <th colspan="3">功能操作权限</th>
+                </tr>
+                <tr>
+                    <th>可操作一级菜单功能</th>
+                    <th>可操作二级菜单功能</th>
+                    <th>可操作三级菜单功能</th>
+                </tr>
+                <template v-for="(actor, index1) in actorList">
+                    <tr>
+                        <template v-if="!!actor.cros">
+                            <td :rowspan="actor.cros">
+                                {{actor.firstlevelmenu}}
+                            </td>
+                        </template>
+                        <template v-if="!!actor.cros2">
+                            <td :rowspan="actor.cros2">
+                                <template v-if="actor.thirdlevelmenu =='/'">
+                                    <el-checkbox @change="checked=>changeSelected(checked,actor.id)">
+                                        {{actor.secondlevelmenu}}
+                                    </el-checkbox>
+                                </template>
+                                <template v-else>
+                                    {{actor.secondlevelmenu}}
+                                </template>
+                            </td>
+                        </template>
+                        <template v-if="actor.thirdlevelmenu != '/'">
+                            <td>
+                                <el-checkbox :id="actor.id">{{actor.thirdlevelmenu}}</el-checkbox>
                             </td>
                         </template>
                         <template v-else>
@@ -64,7 +111,7 @@
                             <el-table-column prop="stateName" label="角色状态" align="center"></el-table-column>
                             <el-table-column label="编辑" align="center">
                                 <template slot-scope="scope">
-                                    <el-button type="primary" @click="edit(scope.row)">编辑</el-button>
+                                    <el-button type="primary" @click="openEditActorDialog(scope.row)">编辑</el-button>
                                 </template>
                             </el-table-column>
                             <el-table-column prop="address" label="修改状态" align="center">
@@ -72,7 +119,7 @@
                                     <el-popover placement="bottom-end" width="300" trigger="click"
                                                 :ref="`popover-${scope.$index}`">
                                         <span class="content">确认修改该角色状态吗？</span>
-                                        <el-button class="confire" type="success" @click="changeActor(scope)">是的
+                                        <el-button class="confire" type="success" @click="changeActorState(scope)">是的
                                         </el-button>
                                         <el-button type="danger" slot="reference">修改
                                         </el-button>
@@ -261,15 +308,17 @@
         },
         data() {
             return {
+                addActorObject: {},
+                editActorObject:{},
                 addUserObject: {},
                 editUserObject: {},
                 roleList: [],
                 actorList: [],
                 addDialogSelectedList: [],
+                editActorDialogVisible:false,
                 addActorDialogVisible: false,
                 centerDialogVisibles: false,
                 editUserDialogVisibles: false,
-                checked: true,
                 name: "",
                 pass: "",
                 person: "",
@@ -302,23 +351,52 @@
             }
         },
         methods: {
-            /*pre() {
-                this.active = 1;
-                this.prev = false;
-                this.nexts = true;
-                this.completes = false;
-                this.table = true;
+            Search1() {
+                var that = this;
+                that.axios.get('/role/queryAll', {
+                    params: {companyId: window.localStorage.getItem("companyid"), page: 1}
+                }).then(res => {
+                    that.tableData = res.data.rolelist;
+                    that.page = res.data.pageutil.page;
+                    that.totalPageCount = res.data.pageutil.totalPageCount;
+                    that.totalCount = res.data.pageutil.totalCount;
+                    that.pageSize = res.data.pageutil.pageSize;
+                    for (var i = 0; i < that.tableData.length; i++) {
+                        that.tableData[i].stateName = that.tableData[i].status == 1 ? '开启' : '关闭';
+                    }
+                });
             },
-            next() {
-                this.active = 2;
-                this.prev = true;
-                this.nexts = false;
-                this.completes = true;
-                this.table = false;
-            },*/
+            addActor() {
+                var that = this;
+                var param = that.addActorObject;
+                param.listfunctionIdString = that.addDialogSelectedList.join(',');
+                param.companyid = window.localStorage.getItem("companyid")
+                that.axios.get('/role/insert', {
+                    params: param
+                }).then(res => {
+                    this.$message({
+                        type: 'success',
+                        message: '添加成功'
+                    });
+                    this.Search1();
+                    that.addActorDialogVisible = false;
+                })
+            },
+            changeSelected(e, id) {
+                var that = this;
+                if (e.target.checked) {
+                    that.addDialogSelectedList.push(id);
+                } else {
+                    var index = that.addDialogSelectedList.indexOf(id);
+                    if (index > -1) {
+                        that.addDialogSelectedList.splice(index, 1);
+                    }
+                }
+            },
             openAddActorDialog() {
                 var that = this;
                 that.addActorDialogVisible = true;
+                that.addActorObject = {};
                 that.axios.get('/role/queryAllFunctions').then(res => {
                     that.actorList = {};
                     var tempList = res.data;
@@ -362,11 +440,59 @@
                             tempList[secondIndex].cros2 = secondCros;
                         }
                     }
-                    console.log(tempList);
                     that.actorList = tempList;
                 });
             },
-            changeActor(scope) {
+            openEditActorDialog() {
+                var that = this;
+                that.editActorDialogVisible = true;
+                that.axios.get('/role/queryAllFunctions').then(res => {
+                    that.actorList = {};
+                    var tempList = res.data;
+                    var first = '';
+                    var firstCros = 0;
+                    var firstIndex = 0;
+                    var second = '';
+                    var secondCros = 0;
+                    var secondIndex = 0;
+                    for (var i = 0; i < tempList.length; i++) {
+                        if (first == tempList[i].firstlevelmenu) {
+                            tempList[i].firstlevelmenu = undefined;
+                            firstCros++;
+
+                            if (second == tempList[i].secondlevelmenu) {
+                                tempList[i].secondlevelmenu = undefined;
+                                secondCros++;
+                            } else {
+                                second = tempList[i].secondlevelmenu;
+                                tempList[secondIndex].cros2 = secondCros;
+                                secondCros = 1;
+                                secondIndex = i;
+                            }
+                        } else {
+                            first = tempList[i].firstlevelmenu;
+                            tempList[firstIndex].cros = firstCros;
+                            firstCros = 1;
+                            firstIndex = i;
+                            second = tempList[i].secondlevelmenu;
+                            tempList[secondIndex].cros2 = secondCros;
+                            secondCros = 1;
+                            secondIndex = i;
+                        }
+                        if (!tempList[i].thirdlevelmenu) {
+                            tempList[i].thirdlevelmenu = '/'
+                        }
+                        if (i == tempList.length - 1) {
+                            first = tempList[i].firstlevelmenu;
+                            tempList[firstIndex].cros = firstCros;
+                            second = tempList[i].secondlevelmenu;
+                            tempList[secondIndex].cros2 = secondCros;
+                        }
+                    }
+                    that.actorList = tempList;
+                });
+            },
+            changeActorState(scope) {
                 var that = this;
                 var id = scope.row.id;
                 scope._self.$refs[`popover-${scope.$index}`].doClose();

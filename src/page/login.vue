@@ -71,8 +71,7 @@
         },
         methods: {
             ...mapActions(['getAdminData']),
-            async submitForm(formName) {
-                console.log(this.loginForm.username)
+            async submitForm() {
                 this.axios.get('login/loginap', {
                     params: {account: this.loginForm.username, pwd: this.loginForm.password}
                 }).then(res => {
