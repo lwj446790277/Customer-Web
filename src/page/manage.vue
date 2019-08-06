@@ -78,7 +78,8 @@
                         <el-menu-item index="systemConfigurationEight">渠道预设和紧急设置</el-menu-item>
                     </el-submenu>
                 </el-menu>
-                <el-menu id="customer_info" :default-active="defaultActive" style="min-height: 100%;display:none" theme="dark"
+                <el-menu id="customer_info" :default-active="defaultActive" style="min-height: 100%;display:none"
+                         theme="dark"
                          router>
                     <el-submenu index="2">
                         <template slot="title"><img src="../assets/img/订单管理.png">认证信息查看</template>
@@ -117,7 +118,7 @@
                     var that = this;
                     if (route.path == '/personalInformation') {
                         that.changeLeftList();
-                    }else{
+                    } else {
                         that.initLeftList();
                     }
                 }
@@ -126,15 +127,15 @@
         methods: {
             changeLeftList() {
                 var main = document.getElementById('main');
-                main.style.display='none';
+                main.style.display = 'none';
                 var customer_info = document.getElementById('customer_info');
-                customer_info.style.display='';
+                customer_info.style.display = '';
             },
-            initLeftList(){
+            initLeftList() {
                 var main = document.getElementById('main');
-                main.style.display='';
+                main.style.display = '';
                 var customer_info = document.getElementById('customer_info');
-                customer_info.style.display='none';
+                customer_info.style.display = 'none';
             }
         }
     }
@@ -143,6 +144,19 @@
 
 <style lang="less">
     @import '../style/mixin';
+
+    #main {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 16.7%;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            display: block;
+        }
+    }
 
     .manage_page {
 

@@ -52,7 +52,7 @@
                                             align="center"></el-table-column>
                             <el-table-column prop="user.registeclient" label="客户端类型" align="center"></el-table-column>
                             <el-table-column prop="howManyTimesBorMoney" label="借款次数" width="93" align="center"></el-table-column>
-                            <el-table-column prop="orderCreateTime" label="最后借款时间" align="center"></el-table-column>
+                           <!-- <el-table-column prop="orderCreateTime" label="最后借款时间" align="center"></el-table-column>
                             <el-table-column prop="realityBorrowMoney" label="最后借款金额" align="center"></el-table-column>
                             <el-table-column prop="deferrTime" label="延期次数" align="center"></el-table-column>
                             <el-table-column prop="deferrMoney" label="延期金额" align="center"></el-table-column>
@@ -61,7 +61,7 @@
                                             align="center"></el-table-column>
                             <el-table-column prop="overdueGrade" label="逾期等级" width="93" align="center"></el-table-column>
                             <el-table-column prop="orderdetails.interestInAll" label="含逾总利息" width="120" align="center"></el-table-column>
-                            <el-table-column prop="repaymentMoney" label="应还总金额" width="120" align="center"></el-table-column>
+                            <el-table-column prop="repaymentMoney" label="应还总金额" width="120" align="center"></el-table-column>-->
                             <el-table-column label="认证信息" align="center">
                                 <template slot-scope="scope">
                                     <span class="blue" @click="getMessage(scope)">查看</span>

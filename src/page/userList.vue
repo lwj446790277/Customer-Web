@@ -63,21 +63,21 @@
                 </el-form>
                 <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
                     <el-table-column prop="registetime" label="注册时间" align="center"></el-table-column>
-                    <el-table-column prop="registeclient" label="客户端类型" align="center"></el-table-column>
+                    <el-table-column prop="registeclient" label="客户端" align="center"></el-table-column>
                     <el-table-column prop="name" label="姓名" align="center"></el-table-column>
                     <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
                     <el-table-column prop="userattestationstatus" label="个人信用" width="130"
                                      align="center"></el-table-column>
-                    <el-table-column prop="operaattestationstatus" label="手机运营商" width="140"
+                    <el-table-column prop="operaattestationstatus" label="运营商" width="140"
                                      align="center"></el-table-column>
-                    <el-table-column prop="bankattestationstatus" label="收款银行卡" align="center"></el-table-column>
+                    <el-table-column prop="bankattestationstatus" label="银行卡" align="center"></el-table-column>
                     <!--      <el-table-column prop="address" label="芝麻授信" width="130" align="center"></el-table-column>-->
-                    <el-table-column prop="address" label="查看认证信息" align="center">
+                    <el-table-column prop="address" label="认证信息" align="center">
                         <template slot-scope="scope">
                             <span class="blue" @click="refu(scope)">认证信息</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="address" label="查看借款信息" align="center">
+                    <el-table-column prop="address" label="借款信息" align="center">
                         <template slot-scope="scope">
                             <router-link :to="{path:'/queryOrder',query:{key:scope.row.name,value:scope.row.phone}}">
                                 <span class="blue">借款信息</span>
@@ -149,9 +149,9 @@
                 that.totalCount = res.data.pageutil.totalCount;
                 that.pageSize = res.data.pageutil.pageSize;
                 for (var i = 0; i < that.tableData.length; i++) {
-                    that.tableData[i].userattestationstatus = that.tableData[i].userattestationstatus == 0 ? '未认证' : that.tableData[i].userattestationstatus == 1 ? '已认证' : '认证中';
-                    that.tableData[i].operaattestationstatus = that.tableData[i].operaattestationstatus == 0 ? '未认证' : that.tableData[i].operaattestationstatus == 1 ? '已认证' : '认证中';
-                    that.tableData[i].bankattestationstatus = that.tableData[i].bankattestationstatus == 0 ? '未认证' : that.tableData[i].bankattestationstatus == 1 ? '已认证' : '认证中';
+                    that.tableData[i].userattestationstatus = that.tableData[i].userattestationstatus == 1 ? '已认证' : '未认证';
+                    that.tableData[i].operaattestationstatus = that.tableData[i].operaattestationstatus == 1 ? '已认证' : '未认证';
+                    that.tableData[i].bankattestationstatus = that.tableData[i].bankattestationstatus == 1 ? '已认证' : '未认证';
                 }
             });
         },
