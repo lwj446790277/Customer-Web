@@ -134,11 +134,8 @@
                 page: 1,
                 Pagesize: 10,
                 totalPageCount: 0,
-                totalCount: 20
+                totalCount: 0
 			}
-		},
-		created(){
-			
 		},
 		methods:{
 			open(collection_time){
@@ -153,7 +150,7 @@
 			},
 			next(phonesa,phonenum,collection_time){
 				this.dialogVisible = true
-				console.log(phonesa)
+				// console.log(phonesa)
 				this.phonesa = phonesa
 				this.phonenum = phonenum
                 this.collection_time = collection_time
@@ -166,8 +163,8 @@
 					}
 				}).then(res=>{
 					this.sendData = res.data.Shortmessage
-				})
-			},
+                })
+            },
 			change(){
 				if(this.type=="2"){
 					this.desc="222"
@@ -179,7 +176,7 @@
 					}
 				}
 			},
-            getData(page, Pagesize) {
+            getData(page, Pagesize){
                 this.axios
                     .get("sms/AllShortMessage", {
                         params: {
@@ -211,13 +208,13 @@
 				})
 			},
 			send(){
-				console.log(this.phonesa.join())
+				// console.log(this.phonesa.join())
                     this.axios.get('sms/SendSms',{
                         params: {
                             companyid: window.localStorage.getItem("companyid"),
                             msg: this.desc,
-                            // phone: this.phonesa.join(),
-                            phone: 15219990556,
+                            phone: this.phonesa.join(),
+                            // phone: 15219990556,
                             phonenum: this.phonenum,
                             collection_time: this.collection_time
                         }

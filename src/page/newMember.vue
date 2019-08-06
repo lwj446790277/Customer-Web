@@ -57,7 +57,7 @@
                             </el-form-item>
                         </el-form>
                         <el-table border :data="tableData" tooltip-effect="dark" @selection-change="handleSelectionChange" style="width: 100%;line-height: 60px;">
-                            <el-table-column type="selection" width="55"></el-table-column>
+                            <el-table-column type="selection" width="55" align="center"></el-table-column>
                             <el-table-column prop="orderNumber" label="编号" align="center"></el-table-column>
                             <el-table-column prop="trueName" label="姓名" align="center"></el-table-column>
                             <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
@@ -173,7 +173,7 @@
                             </el-form-item>
                         </el-form>
                         <el-table border :data="tableDatas" tooltip-effect="dark" style="width: 100%;line-height: 60px;">
-                            <el-table-column prop="deduction_time" label="操作时间" align="center"></el-table-column>
+                            <el-table-column prop="deduction_time" label="操作时间" width="175" align="center"></el-table-column>
                             <el-table-column prop="account" label="操作人" align="center"></el-table-column>
                             <el-table-column prop="deductionproportion" label="扣款比例(%)" align="center"></el-table-column>
 <!--                            <el-table-column prop="address" label="第三方服务总支出费" width="165" align="center"></el-table-column>-->
@@ -245,11 +245,11 @@
                 page: 1,
                 Pagesize: 10,
                 totalPageCount: 0,
-                totalCount: 20,
+                totalCount: 0,
                 pages: 1,
                 Pagesizes: 10,
                 totalPageCounts: 0,
-                totalCounts: 20,
+                totalCounts: 0,
                 title: "",
                 Table: false,
                 Tables: false,
@@ -274,21 +274,18 @@
         },
         methods:{
             starts(val){
-                // console.log(val)
                 this.form.start = val
             },
             ends(val){
                 this.form.end = val
             },
             started(val){
-                // console.log(val)
                 this.form.starts = val
             },
             ended(val){
                 this.form.ends = val
             },
             start(val){
-                // console.log(val)
                 this.formList.start = val
             },
             end(val){
@@ -456,6 +453,7 @@
                     }
                 }).then(res=>{
                     this.tableData = res.data.Orderdetails
+                    this.totalCount = res.data.Orderdetails.length
                 })
             },
             watch(trueName,orderId){
@@ -495,6 +493,7 @@
                     }
                 }).then(res=>{
                     this.tableDatas = res.data.Bankdeduction
+                    this.totalCounts = res.data.Bankdeduction.length
                     for (var i=0;i<res.data.Bankdeduction.length;i++){
                         res.data.Bankdeduction[i].cdata=((res.data.Bankdeduction[i].chengNum/res.data.Bankdeduction[i].userNum)*100)
                         if(res.data.Bankdeduction[i].cdata!=0){

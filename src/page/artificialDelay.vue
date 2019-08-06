@@ -260,7 +260,7 @@
                 page: 1,
                 Pagesize: 10,
                 totalPageCount: 0,
-                totalCount: 20,
+                totalCount: 0,
                 orderId: "",
                 visible: false,
                 orderNumber: "",
@@ -405,11 +405,12 @@
                         orderId: this.formList.id,
                         phone: this.formList.phone,
                         name: this.formList.name,
-                        start_time: start,
+                        statu_time: start,
                         end_time: end
                     }
                 }).then(res=>{
                     this.tableData = res.data.Offlinedelay
+                    this.totalCount = res.data.Offlinedelay.length
                 })
             }
 

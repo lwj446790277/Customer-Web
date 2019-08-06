@@ -11,7 +11,7 @@
 							<tr>
 								<th>项目名</th>  
 								<td>
-									<el-input v-model="program"></el-input>
+									<el-input v-model="program" placeholder="请输入项目名"></el-input>
 								</td>
 							</tr>
 							<tr>
@@ -34,19 +34,19 @@
 							<tr>
 								<th>{{liushui}}</th>
 								<td>
-									<el-input v-model="huan"></el-input>
+									<el-input v-model="huan" placeholder="请输入银行卡交易流水号"></el-input>
 								</td>
 							</tr>
 							<tr>
 								<th>输入金额</th>
 								<td>
-									<el-input v-model="money"></el-input>
+									<el-input v-model="money" placeholder="保留两位小数"></el-input>
 								</td>
 							</tr>
 							<tr>
 								<th>备注</th>
 								<td>
-									<el-input v-model="remarks"></el-input>
+									<el-input v-model="remarks" placeholder="请输入备注"></el-input>
 								</td>
 							</tr>
 						</table>
@@ -70,11 +70,11 @@
 					<div class="main">
 						<el-form :model="form" :inline="true" class="demo-form-inline">
 							<el-form-item>
-								<el-input placeholder="放款流水号" v-model="form.fang"></el-input>
+								<el-input placeholder="放款/还款流水号" v-model="form.fang"></el-input>
 							</el-form-item>
-							<el-form-item>
-								<el-input placeholder="还款流水号" v-model="form.huan"></el-input>
-							</el-form-item>
+<!--							<el-form-item>-->
+<!--								<el-input placeholder="还款流水号" v-model="form.huan"></el-input>-->
+<!--							</el-form-item>-->
 							<el-form-item>
 								<el-col :span="11">
 									<el-date-picker type="date" placeholder="起始时间" v-model="form.start" value-format="yyyy-MM-dd" @change="timeChange"></el-date-picker>
@@ -99,11 +99,11 @@
 							</ul>
 						</div> -->
 						<el-table border :data="tableData" tooltip-effect="dark" style="width: 100%;line-height: 60px">
-							<el-table-column prop="underthe_time" label="日期" align="center"></el-table-column>
+							<el-table-column prop="offinetransfertime" label="日期" align="center"></el-table-column>
 							<el-table-column prop="account" label="财务操作人" align="center"></el-table-column>
-							<el-table-column prop="project_name" label="项目名" align="center"></el-table-column>
-							<el-table-column prop="repayment" label="放款/还款渠道" align="center"></el-table-column>
-							<el-table-column prop="repaymentnumber" label="放款/还款流水号" align="center"></el-table-column>
+							<el-table-column prop="projectname" label="项目名" align="center"></el-table-column>
+							<el-table-column prop="thname" label="放款/还款渠道" align="center"></el-table-column>
+							<el-table-column prop="number" label="放款/还款流水号" align="center"></el-table-column>
 							<el-table-column prop="income" label="收入" align="center"></el-table-column>
 							<el-table-column prop="expenditure" label="支出" align="center"></el-table-column>
 							<el-table-column prop="remarks" label="备注" align="center"></el-table-column>
@@ -115,8 +115,6 @@
 							layout="total, prev, pager, next, jumper"
 							:page-count="totalPageCount"
 							:total="totalCount"
-							@size-change="sizeChange"
-							@current-change="currentChange"
 							></el-pagination>
 						</div>
 					</div>
@@ -288,15 +286,15 @@
 							</ul>
 						</div> -->
 						<el-table border :data="tableDataForth" tooltip-effect="dark" style="width: 100%;line-height: 60px">
-							<el-table-column prop="underthe_time" label="操作时间" align="center"></el-table-column>
-							<el-table-column prop="account" label="操作人" align="center"></el-table-column>
-							<el-table-column prop="orderNumber" label="用户订单" align="center"></el-table-column>
-							<el-table-column prop="name" label="用户姓名" align="center"></el-table-column>
-							<el-table-column prop="phone" label="手机号" align="center"></el-table-column>
-							<el-table-column prop="makeLoans" label="减免前应还金额" align="center"></el-table-column>
-							<el-table-column prop="income" label="线下用户已还金额" align="center"></el-table-column>
-							<el-table-column prop="remarks" label="还款备注" align="center"></el-table-column>
-						</el-table>
+                        <el-table-column prop="sedn_time" label="操作时间" align="center"></el-table-column>
+                        <el-table-column prop="account" label="操作人" align="center"></el-table-column>
+                        <el-table-column prop="orderNumber" label="用户订单" align="center"></el-table-column>
+                        <el-table-column prop="name" label="用户姓名" align="center"></el-table-column>
+                        <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
+                        <el-table-column prop="makeLoans" label="减免前应还金额" align="center"></el-table-column>
+                        <el-table-column prop="offusermoney" label="线下用户已还金额" align="center"></el-table-column>
+                        <el-table-column prop="remarks" label="还款备注" align="center"></el-table-column>
+                    </el-table>
 						<div class="block">
 							<el-pagination
 							:current-page.sync="pages"
@@ -304,8 +302,6 @@
 							layout="total, prev, pager, next, jumper"
 							:page-count="totalPageCounts"
 							:total="totalCounts"
-							@size-change="sizeChange"
-							@current-change="currentChange"
 							></el-pagination>
 						</div>
 					</div>
@@ -341,11 +337,11 @@
 				page: 1,
 				Pagesize: 10,
 				totalPageCount: 0,
-				totalCount: 20,
-				pages: 0,
+				totalCount: 0,
+				pages: 1,
 				pageSizes: 10,
 				totalPageCounts: 0,
-				totalCounts: 20,
+				totalCounts: 0,
 				form: {
 					fang: "",
 					huan: "",
@@ -400,12 +396,6 @@
             end(val){
                 this.formForth.end = val
             },
-			sizeChange() {
-			//   this.getData(this.page, this.pageSize);
-			},
-			currentChange() {
-			//   this.getData(this.page, this.pageSize);
-			},
 			handleClick(tab, event) {
 				if(this.activeName == "second"){
 					this.getData(this.page,this.Pagesize)
@@ -436,6 +426,16 @@
 					this.page = res.data.Undertheline.page
 					this.Pagesize = res.data.Undertheline.Pagesize
 					this.totalCount = res.data.Undertheline.length
+                    var line = res.data.Undertheline
+                    for (var i=0;i<line.length;i++){
+                        if(line[i].state=="支出"){
+                            this.tableData[i].income = 0
+                            this.tableData[i].expenditure = line[i].money
+                        }else {
+                            this.tableData[i].income = line[i].money
+                            this.tableData[i].expenditure = 0
+                        }
+                    }
 				})
 			},
 			getForth( pages, pageSizes ){
@@ -479,42 +479,33 @@
 				}
 			},
 			add(){
-				if(this.receive=="支出"){
-					this.axios.get('fina/AddUndert',{
-						params:{
-							finance_id: window.localStorage.getItem("userid"),
-							project_name: this.program,    
-							repayment: this.qudao,
-							expenditure: this.money,
-							repaymentnumber: this.huan,
-							remarks: this.remarks
-						}
-					}).then(res=>{
-						this.$confirm(res.data.desc, '提示', {
-                            type: 'warning',
-                            center: true
-						})
-						this.visible = false
-					})
-				}else{
-					this.axios.get('fina/AddUndert',{
-						params:{
-							finance_id: window.localStorage.getItem("userid"),
-							project_name: this.program,
-							repayment: this.qudao,
-							income: this.money,
-							repaymentnumber: this.huan,
-							remarks: this.remarks
-						}
-					}).then(res=>{
-						this.$confirm(res.data.desc, '提示', {
-                            type: 'warning',
-                            center: true
-						})
-						this.visible = false
-					})
-				}
+                this.axios.get('fina/AddUndert',{
+                    params:{
+                        finance_id: window.localStorage.getItem("userid"),
+                        projectname : this.program,
+                        channel: this.qudao,
+                        state: this.receive,
+                        money: this.money,
+                        number: this.huan,
+                        remarks: this.remarks,
+                        sys_userId: window.localStorage.getItem("userid")
+                    }
+                }).then(res=>{
+                    this.$confirm(res.data.desc, '提示', {
+                        type: 'warning',
+                        center: true
+                    })
+                    this.visible = false
+                })
 			},
+            clear(){
+                this.program = ""
+                this.receive = ""
+                this.qudao =""
+                this.huan = ""
+                this.money = ""
+                this.remarks = ""
+            },
 			Reset(){
 				this.form = {
 					fang: "",
@@ -550,6 +541,7 @@
 					}
 				}).then(res=>{
 					this.tableDataForth = res.data.Undertheline
+                    this.totalCounts = res.data.Undertheline.length
 				})
 			},
 			Search(){
@@ -563,12 +555,23 @@
 					params:{
 						companyId: window.localStorage.getItem("companyid"),
 						repaymentnumber: this.form.fang,
-						repaymentnumber: this.form.huan,
+						// repaymentnumber: this.form.huan,
 						start_time: start,
 						end_time: end
 					}
 				}).then(res=>{
-					this.tableData = res.data.PaymentRecord
+					this.tableData = res.data.Undertheline
+                    this.totalCount = res.data.Undertheline.length
+                    var line = res.data.Undertheline
+                    for (var i=0;i<line.length;i++){
+                        if(line[i].state=="支出"){
+                            this.tableData[i].income = 0
+                            this.tableData[i].expenditure = line[i].money
+                        }else {
+                            this.tableData[i].income = line[i].money
+                            this.tableData[i].expenditure = 0
+                        }
+                    }
 				})
 			},
 			Searchs(){
