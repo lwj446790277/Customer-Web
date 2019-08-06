@@ -181,7 +181,7 @@
                             <el-table-column prop="shiNum" label="扣款失败用户数" align="center"></el-table-column>
                             <el-table-column prop="chengNum" label="成功扣款用户数" align="center"></el-table-column>
                             <el-table-column prop="cdata" label="成功扣款用户比率(%)" width="175" align="center"></el-table-column>
-                            <el-table-column prop="chengMoney" label="成功扣款总金额" align="center"></el-table-column>
+                            <el-table-column prop="deduction_money" label="成功扣款总金额" align="center"></el-table-column>
                             <el-table-column label="查看扣款清单" align="center">
                                 <template slot-scope="scope">
                                     <span class="blue" @click="watchs(scope.row.deduction_time)">扣款清单</span>

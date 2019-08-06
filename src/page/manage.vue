@@ -53,7 +53,7 @@
                         <el-menu-item index="operationalDataOne">平台总数据</el-menu-item>
                         <el-menu-item index="operationalDataTwo">还款数据</el-menu-item>
                         <el-menu-item index="operationalDataThree">逾期数据</el-menu-item>
-                        <!-- <el-menu-item index="operationalDataFour">收支数据</el-menu-item> -->
+<!--                         <el-menu-item index="operationalDataFour">收支数据</el-menu-item>-->
                     </el-submenu>
                     <el-submenu index="8">
                         <template slot="title"><img src="../assets/img/app.png">APP管理设置</template>
