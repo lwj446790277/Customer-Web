@@ -131,7 +131,7 @@
                         registeClient: this.type
                     }
                 }).then(res => {
-                    this.people = res.data.phone.length
+                    this.people = res.data.phonNum
                 });
             },
             send(){
@@ -140,7 +140,7 @@
                         companyId: window.localStorage.getItem("companyid"),
                         user_type: this.type,
                         usernum: this.people,
-                        short_text: this.message
+                        short_text: this.content
                     }
                 }).then(res => {
                     this.people = res.data.phone.length

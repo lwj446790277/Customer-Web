@@ -147,7 +147,7 @@
 				console.log(this.tableData)
 				this.axios.get('fina/financialoverview',{
 					params:{
-						companyId: "3",
+						companyId: window.localStorage.getItem("companyid"),
 						start_time: start,
 						end_time: end
 					}

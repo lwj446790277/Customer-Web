@@ -171,7 +171,7 @@ export default {
       page: 1,
       pageSize: 10,
       totalPageCount: 0,
-      totalCount: 20,
+      totalCount: 0,
       one: "",
       two: "",
       three: "",
@@ -234,6 +234,9 @@ export default {
               }
           }).then(res=>{
             console.log(res.data)
+              if(res.data.todayloantotalmoney==null){
+                  res.data.todayloantotalmoney = 0
+              }
               this.one = res.data.todayloantotalmoney
               this.two = res.data.todayloan
               this.three = res.data.todayregiste

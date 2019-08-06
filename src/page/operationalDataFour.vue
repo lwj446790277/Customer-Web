@@ -35,6 +35,12 @@
           @current-change="currentChange"
         ></el-pagination>
       </div>
+<!--        <el-badge :value="value" :max="99" class="item">-->
+<!--            <el-button size="small">评论</el-button>-->
+<!--        </el-badge>-->
+<!--        <el-badge :value="value" :max="10" class="item">-->
+<!--            <el-button size="small">回复</el-button>-->
+<!--        </el-badge>-->
     </div>
   </div>
 </template>
@@ -87,7 +93,7 @@ export default {
       page: 1,
       pageSize: 10,
     //   totalPageCount: 0,
-    //   totalCount: 20
+    //   totalCount: 0,
     };
   },
   methods: {
@@ -96,7 +102,8 @@ export default {
 	  console.log(val)
 	  this.pageSize = val
     },
-    currentChange() {
+    currentChange(val) {
+        console.log(val)
       //   this.getData(this.page, this.pageSize);
     },
     Search() {}
@@ -113,6 +120,9 @@ export default {
 		let end = start + this.pageSize;
 		return this.tableData.slice(start,end);
 	},
+      value(){
+          return this.tableData.length;
+      }
   }
 };
 </script>
@@ -135,5 +145,9 @@ export default {
 }
 .single {
   margin-left: -15px;
+}
+.item {
+    margin-top: 10px;
+    margin-right: 40px;
 }
 </style>
