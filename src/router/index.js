@@ -9,6 +9,8 @@ Vue.prototype.axios = axios;
 Vue.use(Router)
 
 const personalInformation = r => require.ensure([], () => r(require('@/page/personalInformation')), 'personalInformation');
+const mailList = r => require.ensure([], () => r(require('@/page/mailList')), 'mailList');
+const riskManagement = r => require.ensure([], () => r(require('@/page/riskManagement')), 'riskManagement');
 const login = r => require.ensure([], () => r(require('@/page/login')), 'login');
 const manage = r => require.ensure([], () => r(require('@/page/manage')), 'manage');
 const home = r => require.ensure([], () => r(require('@/page/home')), 'home');
@@ -169,6 +171,14 @@ const routes = [
                 path: '/personalInformation',
                 component: personalInformation,
                 meta: ['认证信息查看', '个人信息'],
+            }, {
+                path: '/mailList',
+                component: mailList,
+                meta: ['认证信息查看', '通讯录列表'],
+            }, {
+                path: '/riskManagement',
+                component: riskManagement,
+                meta: ['认证信息查看', '风控报告'],
             }, {
                 path: '/collectionOne',
                 component: collectionOne,
