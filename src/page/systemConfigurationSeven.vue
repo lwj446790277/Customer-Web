@@ -5,8 +5,10 @@
         <el-dialog title="新增角色" :visible.sync="addActorDialogVisible" customClass="customWidth" center>
             <div>
                 <el-button type="warning" @click="centerDialogVisible = false">取消</el-button>
-                <el-input placeholder="输入角色名称" style="width: 200px" v-model="addActorObject.rolename" class="inp"></el-input>
-                <el-input placeholder="输入角色描述" style="width: 200px" v-model="addActorObject.roledescribe" class="inp"></el-input>
+                <el-input placeholder="输入角色名称" style="width: 200px" v-model="addActorObject.rolename"
+                          class="inp"></el-input>
+                <el-input placeholder="输入角色描述" style="width: 200px" v-model="addActorObject.roledescribe"
+                          class="inp"></el-input>
                 <el-button type="primary" @click="addActor">保存</el-button>
             </div>
             <table border="1" cellspacing="0" cellpadding="15" class="tables">
@@ -39,7 +41,9 @@
                         </template>
                         <template v-if="actor.thirdlevelmenu != '/'">
                             <td>
-                                <el-checkbox :id="actor.id">{{actor.thirdlevelmenu}}</el-checkbox>
+                                <el-checkbox @change="checked=>changeSelected(checked,actor.id)">
+                                    {{actor.thirdlevelmenu}}
+                                </el-checkbox>
                             </td>
                         </template>
                         <template v-else>
@@ -54,8 +58,10 @@
         <el-dialog title="编辑角色" :visible.sync="editActorDialogVisible" customClass="customWidth" center>
             <div>
                 <el-button type="warning" @click="centerDialogVisible = false">取消</el-button>
-                <el-input placeholder="输入角色名称" style="width: 200px" v-model="editActorObject.rolename" class="inp"></el-input>
-                <el-input placeholder="输入角色描述" style="width: 200px" v-model="editActorObject.roledescribe" class="inp"></el-input>
+                <el-input placeholder="输入角色名称" style="width: 200px" v-model="editActorObject.rolename"
+                          class="inp"></el-input>
+                <el-input placeholder="输入角色描述" style="width: 200px" v-model="editActorObject.roledescribe"
+                          class="inp"></el-input>
                 <el-button type="primary" @click="addActor">保存</el-button>
             </div>
             <table border="1" cellspacing="0" cellpadding="15" class="tables">
@@ -67,7 +73,7 @@
                     <th>可操作二级菜单功能</th>
                     <th>可操作三级菜单功能</th>
                 </tr>
-                <template v-for="(actor, index1) in actorList">
+                <template v-for="(actor, index) in editActorList">
                     <tr>
                         <template v-if="!!actor.cros">
                             <td :rowspan="actor.cros">
@@ -77,7 +83,7 @@
                         <template v-if="!!actor.cros2">
                             <td :rowspan="actor.cros2">
                                 <template v-if="actor.thirdlevelmenu =='/'">
-                                    <el-checkbox @change="checked=>changeSelected(checked,actor.id)">
+                                    <el-checkbox v-model="actor.selected" @change="checked=>changeEditSelected(checked,actor.id)">
                                         {{actor.secondlevelmenu}}
                                     </el-checkbox>
                                 </template>
@@ -88,7 +94,9 @@
                         </template>
                         <template v-if="actor.thirdlevelmenu != '/'">
                             <td>
-                                <el-checkbox :id="actor.id">{{actor.thirdlevelmenu}}</el-checkbox>
+                                <el-checkbox v-model="actor.selected" @change="checked=>changeEditSelected(checked,actor.id)">
+                                    {{actor.thirdlevelmenu}}
+                                </el-checkbox>
                             </td>
                         </template>
                         <template v-else>
@@ -309,13 +317,15 @@
         data() {
             return {
                 addActorObject: {},
-                editActorObject:{},
+                editActorObject: {},
                 addUserObject: {},
                 editUserObject: {},
                 roleList: [],
                 actorList: [],
+                editActorList:[],
                 addDialogSelectedList: [],
-                editActorDialogVisible:false,
+                editDialogSelectedList:[],
+                editActorDialogVisible: false,
                 addActorDialogVisible: false,
                 centerDialogVisibles: false,
                 editUserDialogVisibles: false,
@@ -354,7 +364,7 @@
             Search1() {
                 var that = this;
                 that.axios.get('/role/queryAll', {
-                    params: {companyId: window.localStorage.getItem("companyid"), page: 1}
+                    params: {companyId: window.localStorage.getItem("companyid"), page: that.page}
                 }).then(res => {
                     that.tableData = res.data.rolelist;
                     that.page = res.data.pageutil.page;
@@ -382,6 +392,17 @@
                     that.addActorDialogVisible = false;
                 })
             },
+            changeEditSelected(e, id){
+                var that = this;
+                if (e.target.checked) {
+                    that.editDialogSelectedList.push(id);
+                } else {
+                    var index = that.editDialogSelectedList.indexOf(id);
+                    if (index > -1) {
+                        that.editDialogSelectedList.splice(index, 1);
+                    }
+                }
+            },
             changeSelected(e, id) {
                 var that = this;
                 if (e.target.checked) {
@@ -398,7 +419,7 @@
                 that.addActorDialogVisible = true;
                 that.addActorObject = {};
                 that.axios.get('/role/queryAllFunctions').then(res => {
-                    that.actorList = {};
+                    that.actorList = [];
                     var tempList = res.data;
                     var first = '';
                     var firstCros = 0;
@@ -443,12 +464,16 @@
                     that.actorList = tempList;
                 });
             },
-            openEditActorDialog() {
+            openEditActorDialog(row) {
                 var that = this;
                 that.editActorDialogVisible = true;
-                that.axios.get('/role/queryAllFunctions').then(res => {
-                    that.actorList = {};
-                    var tempList = res.data;
+                that.axios.get('/role/editByRoleid', {
+                    params: {roleid: row.roleid}
+                }).then(res => {
+                    that.editActorList = [];
+                    that.editActorObject = res.data.role;
+                    var tempList = res.data.listall;
+                    var selectedList = res.data.listByRoleid;
                     var first = '';
                     var firstCros = 0;
                     var firstIndex = 0;
@@ -456,6 +481,11 @@
                     var secondCros = 0;
                     var secondIndex = 0;
                     for (var i = 0; i < tempList.length; i++) {
+                        for(var j = 0; j < selectedList.length; j++){
+                            if(selectedList[j].id == tempList[i].id){
+                                 tempList[i].selected = true;
+                            }
+                        }
                         if (first == tempList[i].firstlevelmenu) {
                             tempList[i].firstlevelmenu = undefined;
                             firstCros++;
@@ -489,21 +519,26 @@
                             tempList[secondIndex].cros2 = secondCros;
                         }
                     }
-                    that.actorList = tempList;
+                    that.editDialogSelectedList = [];
+                    for(var i = 0; i < selectedList.length; i++){
+                       that.editDialogSelectedList.push(selectedList[i].id);
+                    }
+                    that.editActorList = tempList;
                 });
             },
             changeActorState(scope) {
                 var that = this;
-                var id = scope.row.id;
+                var id = scope.row.roleid;
                 scope._self.$refs[`popover-${scope.$index}`].doClose();
-                that.axios.get('', {
-                    params: {id: id}
+                var state = scope.row.status == 1 ? 2 : 1;
+                that.axios.get('/role/updateStatus', {
+                    params: {id: id, status: state}
                 }).then(res => {
                     this.$message({
                         type: 'success',
-                        message: '删除成功'
+                        message: '状态修改成功'
                     });
-                    that.Search2();
+                    that.Search1();
                 });
             },
             complete() {
@@ -516,8 +551,10 @@
                     status: ""
                 }
             },
-            currentChange() {
-
+            currentChange(page) {
+                var that = this;
+                that.page = page;
+                that.Search1();
             },
             currentChange2(page) {
                 var that = this;

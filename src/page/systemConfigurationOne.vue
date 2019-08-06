@@ -214,7 +214,7 @@
               <el-table border :data="detailTable3Data">
                 <el-table-column label="逾期第X天前" align="center">
                   <template scope="scope">
-                    <el-input v-model="scope.row.overduehowmanydaysage" placeholder="请输入逾期天数"></el-input>
+                    <el-input type="number" v-model="scope.row.overduehowmanydaysage" placeholder="请输入逾期天数"></el-input>
                   </template>
                 </el-table-column>
                 <el-table-column label="罚息利率" align="center">
@@ -279,7 +279,7 @@
               </el-table>
               <br />
               <center>
-                <el-button center @click="addRow()">添加逾期等级</el-button>
+                <el-button center @click="addRow()">添加提额等级</el-button>
               </center>
             </el-dialog>
           </div>
