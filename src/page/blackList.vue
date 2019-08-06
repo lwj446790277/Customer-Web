@@ -35,11 +35,13 @@
                             <el-form-item>
                                 <el-select placeholder="引流平台" v-model="form.sourcename">
                                     <el-option v-for="source in sourceList" :label="source.sourcename"
-                                            :value="source.id"></el-option>
+                                               :value="source.id"></el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item>
-                                <el-button type="warning" @click="Reset" style="background-color:#e3e4e7;border:transparent;color:#000">重置</el-button>
+                                <el-button type="warning" @click="Reset"
+                                           style="background-color:#e3e4e7;border:transparent;color:#000">重置
+                                </el-button>
                                 <el-button type="primary" @click="Search">搜索</el-button>
                             </el-form-item>
                         </el-form>
@@ -47,21 +49,23 @@
                             <el-table-column prop="user.registetime" label="注册时间" align="center"></el-table-column>
                             <el-table-column prop="user.name" label="姓名" align="center"></el-table-column>
                             <el-table-column prop="user.phone" label="手机号" align="center"></el-table-column>
-                            <el-table-column prop="user.idcard" label="身份证号" width="93" align="center"></el-table-column>
+                            <el-table-column prop="user.idcard" label="身份证号" width="93"
+                                             align="center"></el-table-column>
                             <el-table-column prop="user.sourcename" label="引流平台" width="93"
-                                            align="center"></el-table-column>
+                                             align="center"></el-table-column>
                             <el-table-column prop="user.registeclient" label="客户端类型" align="center"></el-table-column>
-                            <el-table-column prop="howManyTimesBorMoney" label="借款次数" width="93" align="center"></el-table-column>
-                           <!-- <el-table-column prop="orderCreateTime" label="最后借款时间" align="center"></el-table-column>
-                            <el-table-column prop="realityBorrowMoney" label="最后借款金额" align="center"></el-table-column>
-                            <el-table-column prop="deferrTime" label="延期次数" align="center"></el-table-column>
-                            <el-table-column prop="deferrMoney" label="延期金额" align="center"></el-table-column>
-                            <el-table-column prop="deferAfterReturntime" label="最后应还时间" align="center"></el-table-column>
-                            <el-table-column prop="orderdetails.overdueNumberOfDays" label="逾期天数" width="93"
-                                            align="center"></el-table-column>
-                            <el-table-column prop="overdueGrade" label="逾期等级" width="93" align="center"></el-table-column>
-                            <el-table-column prop="orderdetails.interestInAll" label="含逾总利息" width="120" align="center"></el-table-column>
-                            <el-table-column prop="repaymentMoney" label="应还总金额" width="120" align="center"></el-table-column>-->
+                            <el-table-column prop="howManyTimesBorMoney" label="借款次数" width="93"
+                                             align="center"></el-table-column>
+                            <!-- <el-table-column prop="orderCreateTime" label="最后借款时间" align="center"></el-table-column>
+                             <el-table-column prop="realityBorrowMoney" label="最后借款金额" align="center"></el-table-column>
+                             <el-table-column prop="deferrTime" label="延期次数" align="center"></el-table-column>
+                             <el-table-column prop="deferrMoney" label="延期金额" align="center"></el-table-column>
+                             <el-table-column prop="deferAfterReturntime" label="最后应还时间" align="center"></el-table-column>
+                             <el-table-column prop="orderdetails.overdueNumberOfDays" label="逾期天数" width="93"
+                                             align="center"></el-table-column>
+                             <el-table-column prop="overdueGrade" label="逾期等级" width="93" align="center"></el-table-column>
+                             <el-table-column prop="orderdetails.interestInAll" label="含逾总利息" width="120" align="center"></el-table-column>
+                             <el-table-column prop="repaymentMoney" label="应还总金额" width="120" align="center"></el-table-column>-->
                             <el-table-column label="认证信息" align="center">
                                 <template slot-scope="scope">
                                     <span class="blue" @click="getMessage(scope)">查看</span>
@@ -107,21 +111,34 @@
                                 <el-input placeholder="身份证号" v-model="form2.idcard"></el-input>
                             </el-form-item>
                             <el-form-item>
-                                <el-button type="warning" @click="Reset2" style="background-color:#e3e4e7;border:transparent;color:#000">重置</el-button>
+                                <el-select placeholder="黑名单类型" v-model="form2.blackType">
+                                    <el-option label="逾期自动判定" value="1"></el-option>
+                                    <el-option label="重复用户" value="2"></el-option>
+                                    <el-option label="手工录入" value="3"></el-option>
+                                    <el-option label="第三方黑名单" value="4"></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="warning" @click="Reset2"
+                                           style="background-color:#e3e4e7;border:transparent;color:#000">重置
+                                </el-button>
                                 <el-button type="primary" @click="Search2()">搜索</el-button>
                             </el-form-item>
-                            <el-button type="success" @click="batch" class="confire" style="background-color:#19b293">批量导入</el-button>
+                            <el-button type="success" @click="batch" class="confire" style="background-color:#19b293">
+                                批量导入
+                            </el-button>
                         </el-form>
                         <el-table border :data="blackList2" style="width: 100%">
                             <el-table-column prop="name" label="姓名" align="center"></el-table-column>
                             <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
                             <el-table-column prop="idcard" label="身份证号" align="center"></el-table-column>
+                            <el-table-column prop="blackTypeName" label="类型" align="center"></el-table-column>
                             <el-table-column prop="operationtime" label="最后编辑时间" align="center"></el-table-column>
                             <el-table-column prop="account" label="操作成员" align="center"></el-table-column>
                             <el-table-column label="操作" align="center">
                                 <template slot-scope="scope">
-                                    <span @click="editDialogShow(scope.row)" class="blue">编辑</span>
-                                    <span class="zhong">|</span>
+                                    <!--<span @click="editDialogShow(scope.row)" class="blue">编辑</span>
+                                    <span class="zhong">|</span>-->
                                     <el-popover placement="bottom-end" width="300" trigger="click"
                                                 :ref="`popover-${scope.$index}`">
                                         <span class="content">确认将该用户从黑名单删除吗？</span>
@@ -236,6 +253,7 @@
                     name: '',
                     phone: '',
                     idcard: '',
+                    blackType: '',
                 },
                 blackList: [{id: 1}],
                 blackList2: [{id: 1}],
@@ -278,6 +296,24 @@
                     that.totalPageCount2 = res.data.pageutil.totalPageCount;
                     that.totalCount2 = res.data.pageutil.totalCount;
                     that.pageSize2 = res.data.pageutil.pageSize;
+                    if (!!that.blackList2.length) {
+                        for (var i = 0; i < that.blackList2.length; i++) {
+                            switch (that.blackList2[i].blackType) {
+                                case '1':
+                                    that.blackList2[i].blackTypeName = "逾期自动判定";
+                                    break;
+                                case '2':
+                                    that.blackList2[i].blackTypeName = "重复用户";
+                                    break;
+                                case '3':
+                                    that.blackList2[i].blackTypeName = "手工录入";
+                                    break;
+                                case '4':
+                                    that.blackList2[i].blackTypeName = "第三方黑名单";
+                                    break;
+                            }
+                        }
+                    }
                 });
             });
         },
@@ -290,7 +326,8 @@
                 var that = this;
                 that.form.registeendtime = val;
             },
-            getMessage(){},
+            getMessage() {
+            },
             Search() {
                 var that = this;
                 if (!!that.form.phone && that.form.phone.length != 11) {
@@ -326,6 +363,24 @@
                     that.totalPageCount2 = res.data.pageutil.totalPageCount;
                     that.totalCount2 = res.data.pageutil.totalCount;
                     that.pageSize2 = res.data.pageutil.pageSize;
+                    if (!!that.blackList2.length) {
+                        for (var i = 0; i < that.blackList2.length; i++) {
+                            switch (that.blackList2[i].blackType) {
+                                case '1':
+                                    that.blackList2[i].blackTypeName = "逾期自动判定";
+                                    break;
+                                case '2':
+                                    that.blackList2[i].blackTypeName = "重复用户";
+                                    break;
+                                case '3':
+                                    that.blackList2[i].blackTypeName = "手工录入";
+                                    break;
+                                case '4':
+                                    that.blackList2[i].blackTypeName = "第三方黑名单";
+                                    break;
+                            }
+                        }
+                    }
                 });
             },
             deleteBlackState(scope) {
@@ -402,6 +457,7 @@
                     name: '',
                     phone: '',
                     idcard: '',
+                    blackType: ''
                 };
             },
             batch() {
@@ -467,7 +523,7 @@
         cursor: pointer;
     }
 
-    .zhong{
+    .zhong {
         margin-left: 5px;
         margin-right: 5px;
     }

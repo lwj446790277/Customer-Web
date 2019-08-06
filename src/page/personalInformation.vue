@@ -2,21 +2,27 @@
     <div class="fillcontain">
         <head-top></head-top>
         <!-- <p class="explain_text">个人信息</p> -->
-		<div class="main">
+        <div class="main">
             <div class="idcard">
                 <span class="tit">身份证与人脸图</span>
                 <ul class="pic">
                     <li>
-                        <img src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"/>
-                        <el-button type="primary">查看详情</el-button>
+                        <div style="width: 450px; height:300px;">
+                            <img :src="user.headurl" width="100%" height="100%"/>
+                            <el-button type="primary">查看详情</el-button>
+                        </div>
                     </li>
                     <li>
-                        <img src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"/>
-                        <el-button type="primary">查看详情</el-button>
+                        <div style="width: 450px; height:300px;">
+                            <img :src="user.nationalemblemurl" width="100%" height="100%"/>
+                            <el-button type="primary">查看详情</el-button>
+                        </div>
                     </li>
                     <li>
-                        <img src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"/>
-                        <el-button type="primary">查看详情</el-button>
+                        <div style="width: 450px; height:300px;">
+                            <img :src="user.headurl" width="100%" height="100%"/>
+                            <el-button type="primary">查看详情</el-button>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -26,19 +32,19 @@
                     <table border="1" cellspacing="0" cellpadding="20" class="news">
                         <tr>
                             <th>真实姓名</th>
-                            <td>{{user}}</td>
+                            <td>{{user.truename}}</td>
                         </tr>
                         <tr>
                             <th>身份证号</th>
-                            <td>{{user}}</td>
+                            <td>{{user.idcardNumber}}</td>
                         </tr>
                         <tr>
                             <th>年龄</th>
-                            <td>{{user}}</td>
+                            <td>{{user.age}}</td>
                         </tr>
                         <tr>
                             <th>省份</th>
-                            <td>{{user}}</td>
+                            <td>{{user.province}}</td>
                         </tr>
                     </table>
                 </li>
@@ -47,15 +53,15 @@
                     <table border="1" cellspacing="0" cellpadding="20" class="news">
                         <tr>
                             <th>注册登录手机号</th>
-                            <td>{{user}}</td>
+                            <td>{{user.phone}}</td>
                         </tr>
                         <tr>
                             <th>家庭地址</th>
-                            <td>{{user}}</td>
+                            <td>{{user.address}}</td>
                         </tr>
                         <tr>
                             <th>详细地址</th>
-                            <td>{{user}}</td>
+                            <td>{{user.detailaddress}}</td>
                         </tr>
                     </table>
                 </li>
@@ -64,15 +70,15 @@
                     <table border="1" cellspacing="0" cellpadding="20" class="news">
                         <tr>
                             <th>开户行</th>
-                            <td>{{user}}</td>
+                            <td>{{card.bankcardTypeName}}</td>
                         </tr>
                         <tr>
                             <th>银行卡号</th>
-                            <td>{{user}}</td>
+                            <td>{{card.bankcardName}}</td>
                         </tr>
                         <tr>
                             <th>绑定手机号</th>
-                            <td>{{user}}</td>
+                            <td>{{card.tiedCardPhone}}</td>
                         </tr>
                     </table>
                 </li>
@@ -82,11 +88,12 @@
 </template>
 
 <script>
-	import headTop from '../components/headTop'
+    import headTop from '../components/headTop'
+
     export default {
-    	components: {
-    		headTop,
-		},
+        components: {
+            headTop,
+        },
         watch: {   //监听值变化：map值
             "$route": {
                 handler(route) {
@@ -97,90 +104,106 @@
                 }
             }
         },
-		data(){
-			return{
-				user:{}
-			}
-		},
-		created(){
-    	    var that = this;
+        data() {
+            return {
+                user: {},
+                card: {},
+            }
+        },
+        created() {
+            var that = this;
             that.axios.get('/user/queryUserAttesta', {
-                params: {userid:that.$route.query.id}
+                params: {userid: that.$route.query.id}
             }).then(res => {
                 that.user = res.data.userAttestation;
+                that.card = res.data.bankcard;
             })
-		},
-		methods:{
-            searchById(){
+        },
+        methods: {
+            searchById() {
                 var that = this;
                 that.axios.get('/user/queryUserAttesta', {
-                    params: {userid:that.$route.query.id}
+                    params: {userid: that.$route.query.id}
                 }).then(res => {
                     that.user = res.data.userAttestation;
+                    that.card = res.data.bankcard;
                 })
             }
-		}
+        }
     }
 </script>
 
 <style lang="less">
-	@import '../style/mixin';
-	.explain_text{
-		margin-top: 20px;
-		text-align: center;
-		font-size: 20px;
-		color: #333;
-	}
-	.main{
-		padding: 20px;
+    @import '../style/mixin';
+
+    .explain_text {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 20px;
+        color: #333;
     }
-    .idcard{
+
+    .main {
+        padding: 20px;
+    }
+
+    .idcard {
         width: 100%;
         height: 430px;
         border: 1px solid #999;
     }
-    .tit{
+
+    .tit {
         display: block;
         text-align: center;
         line-height: 40px;
         border-bottom: 1px solid #999;
     }
-    .pic{
+
+    .pic {
         width: 100%;
     }
-    .pic li{
+
+    .pic li {
         width: 33.3%;
         float: left;
         text-align: center;
         padding-top: 20px;
     }
-    .pic li img{
+
+    .pic li img {
         width: 80%;
         margin-bottom: 15px;
     }
-    .bottom{
+
+    .bottom {
         width: 100%;
         margin-top: 20px;
     }
-    .bottom li{
+
+    .bottom li {
         width: 30%;
         float: left;
         border: 1px solid #999;
     }
-    .cen{
+
+    .cen {
         margin-left: 4.62%;
         margin-right: 4.99%;
     }
-    .news{
+
+    .news {
         border-color: #dfe6ec;
         width: 94%;
         margin: 15px auto;
     }
-    .news th{
+
+    .news th {
         width: 40%;
         text-align: center;
     }
-    .news td{
+
+    .news td {
         text-align: center;
     }
 </style>
