@@ -84,8 +84,8 @@
                     <el-submenu index="2">
                         <template slot="title"><img src="../assets/img/订单管理.png">认证信息查看</template>
                         <el-menu-item index="personalInformation">个人信息</el-menu-item>
-                        <el-menu-item index="electricOrder">通讯录列表</el-menu-item>
-                        <el-menu-item index="manualReview">风控报告</el-menu-item>
+                        <el-menu-item index="mailList">通讯录列表</el-menu-item>
+                        <el-menu-item index="riskManagement">风控报告</el-menu-item>
                         <el-menu-item index="queryOrder">返回</el-menu-item>
                     </el-submenu>
                 </el-menu>

@@ -22,24 +22,24 @@
                     </el-form-item>
                 </el-form>
                 <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
-                    <el-table-column prop="orderNumber" label="订单编号" align="center"></el-table-column>
-                    <el-table-column prop="name" label="真实姓名" align="center"></el-table-column>
-                    <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
-                    <el-table-column prop="borrowMoneyWay" label="贷款方式" align="center"></el-table-column>
-                    <el-table-column prop="borrowTimeLimit" label="还款期数" align="center"></el-table-column>
-                    <el-table-column prop="orderCreateTime" label="实借时间" align="center"></el-table-column>
+                    <el-table-column prop="orderNumber" label="订单编号" width="93" align="center"></el-table-column>
+                    <el-table-column prop="name" label="真实姓名" width="93" align="center"></el-table-column>
+                    <el-table-column prop="phone" label="手机号" width="130" align="center"></el-table-column>
+                    <el-table-column prop="borrowMoneyWay" label="贷款方式" width="93" align="center"></el-table-column>
+                    <el-table-column prop="borrowTimeLimit" label="还款期数" width="93" align="center"></el-table-column>
+                    <el-table-column prop="orderCreateTime" label="实借时间" width="175" align="center"></el-table-column>
                     <el-table-column prop="realityBorrowMoney" label="实借总金额" width="120"
                                      align="center"></el-table-column>
-                    <el-table-column prop="deferAfterReturntime" label="延期后应还时间" align="center"></el-table-column>
-                    <el-table-column prop="overdueNumberOfDays" label="逾期天数" align="center"></el-table-column>
-                    <el-table-column prop="overdueGrade" label="逾期等级" align="center"></el-table-column>
+                    <el-table-column prop="deferAfterReturntime" label="延期后应还时间" width="175" align="center"></el-table-column>
+                    <el-table-column prop="overdueNumberOfDays" label="逾期天数" width="93" align="center"></el-table-column>
+                    <el-table-column prop="overdueGrade" label="逾期等级" width="93" align="center"></el-table-column>
                     <el-table-column prop="shouldReapyMoney" label="逾期罚金/含逾应还总金额" width="140" align="center">
                         <template slot-scope="scope">
                             <span>{{scope.row.interestPenaltySum}}/{{scope.row.order_money}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="collectionTime" label="分配时间" align="center"></el-table-column>
-                    <el-table-column label="用户状态" width="120" align="center">
+                    <el-table-column prop="collectionTime" label="分配时间" width="175" align="center"></el-table-column>
+                    <el-table-column label="用户状态" width="150" align="center">
                         <template slot-scope="scope">
                             <el-select v-model="scope.row.ismg">
                                 <el-option
@@ -51,8 +51,8 @@
                             </el-select>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="promise_money" label="承诺还清部分金额" align="center"></el-table-column>
-                    <el-table-column label="操作" align="center">
+                    <el-table-column prop="promise_money" label="承诺还清部分金额" width="175" align="center"></el-table-column>
+                    <el-table-column label="操作" width="93" align="center">
                         <template slot-scope="scope">
                             <el-popover placement="bottom-end" width="300" trigger="click">
                                 <div v-if="show">
@@ -62,13 +62,13 @@
                                 <div v-if="hidden">
                                     <p>该用户的状态可在"已分配已催收"中查看</p>
                                     <!-- <el-button @click="visible = !visible">返回</el-button> -->
-                                    <el-button class="confire" type="success" @click="confire(scope.row.ismg)">好的
+                                    <el-button class="confire" type="success" @click="confire(scope.row.ismg,scope.row.promise_money,scope.row.collectionId)">好的
                                     </el-button>
                                 </div>
                                 <span
                                     class="blue"
                                     slot="reference"
-                                    @click="see(scope.row.ismg,scope.row.promise_money,scope.row.orderId)"
+                                    @click="see(scope.row.ismg,scope.row.promise_money,scope.row.collectionId)"
                                 >完成联系</span>
                             </el-popover>
                         </template>
@@ -126,6 +126,8 @@
                     .get("collection/FenpeiWeiCollection", {
                         params: {
                             companyId: window.localStorage.getItem("companyid"),
+                            // collectionMemberId: window.localStorage.getItem("userid"),
+                            collectionMemberId: 2,
                             page,
                             Pagesize
                         }
@@ -156,6 +158,7 @@
                     })
                     .then(res => {
                         this.tableData = res.data.Orderdetails;
+                        this.totalCount = res.data.Orderdetails.length;
                     })
             },
             see(ismg) {
@@ -168,18 +171,24 @@
                     this.hidden = false;
                 }
             },
-            confire(ismg, promise_money, orderId) {
+            confire(ismg, promise_money, collectionId) {
                 this.axios
                     .get("collection/AddCollectiondertilas", {
                         params: {
-                            user_type: ismg,
-                            Collectionmoney: promise_money,
-                            orderId: orderId
+                            usertype: ismg,
+                            promise_money: promise_money,
+                            collectionId,
+                            collectionStatus: "已接通"
                         }
                     })
                     .then(res => {
-                        this.tableData = res.data.Orderdetails;
-                        this.totalCount = res.data.Orderdetails.length;
+                        if(res.data.code==200){
+                            this.$confirm(res.data.desc, '提示', {
+                                type: 'warning',
+                                center: true
+                            })
+                            this.tableData = res.data.Orderdetails;
+                        }
                     });
             }
         }

@@ -26,26 +26,26 @@
                                             value-format="yyyy-MM-dd" @change="endChange"></el-date-picker>
                         </el-col>
                     </el-form-item>
-                    <el-form-item>
-                        <el-col :span="11">
-                            <el-date-picker
-                                type="date"
-                                placeholder="延期后应还起始时间"
-                                v-model="formList.deferAfterReturntimeStatu_time"
-                                value-format="yyyy-MM-dd" @change="starts"
-                            ></el-date-picker>
-                        </el-col>
-                    </el-form-item>
-                    <el-form-item class="single">
-                        <el-col :span="11">
-                            <el-date-picker
-                                type="date"
-                                placeholder="延期后应还结束时间"
-                                v-model="formList.deferAfterReturntimeEnd_time"
-                                value-format="yyyy-MM-dd" @change="ends"
-                            ></el-date-picker>
-                        </el-col>
-                    </el-form-item>
+<!--                    <el-form-item>-->
+<!--                        <el-col :span="11">-->
+<!--                            <el-date-picker-->
+<!--                                type="date"-->
+<!--                                placeholder="延期后应还起始时间"-->
+<!--                                v-model="formList.deferAfterReturntimeStatu_time"-->
+<!--                                value-format="yyyy-MM-dd" @change="starts"-->
+<!--                            ></el-date-picker>-->
+<!--                        </el-col>-->
+<!--                    </el-form-item>-->
+<!--                    <el-form-item class="single">-->
+<!--                        <el-col :span="11">-->
+<!--                            <el-date-picker-->
+<!--                                type="date"-->
+<!--                                placeholder="延期后应还结束时间"-->
+<!--                                v-model="formList.deferAfterReturntimeEnd_time"-->
+<!--                                value-format="yyyy-MM-dd" @change="ends"-->
+<!--                            ></el-date-picker>-->
+<!--                        </el-col>-->
+<!--                    </el-form-item>-->
                     <el-form-item>
                         <el-select v-model="formList.type" placeholder="催收状态" style="width:150px">
                             <el-option label="催收成功" value="催收成功"></el-option>
@@ -190,19 +190,17 @@
         },
         methods: {
             timeChange(val) {
-                // console.log(val)
                 this.formList.start = val
             },
             endChange(val) {
                 this.formList.end = val
             },
-            starts(val) {
-                // console.log(val)
-                this.formList.deferAfterReturntimeStatu_time = val
-            },
-            ends(val) {
-                this.formList.deferAfterReturntimeEnd_time = val
-            },
+            // starts(val) {
+            //     this.formList.deferAfterReturntimeStatu_time = val
+            // },
+            // ends(val) {
+            //     this.formList.deferAfterReturntimeEnd_time = val
+            // },
             getData(page, Pagesize) {
                 this.axios
                     .get("collection/BeoverdueYifenp", {
@@ -265,12 +263,12 @@
                 if (this.formList.end != "") {
                     var end = this.formList.end + " " + "23:59:59"
                 }
-                if (this.formList.deferAfterReturntimeStatu_time != "") {
-                    var deferAfterReturntimeStatu_time = this.formList.deferAfterReturntimeStatu_time + " " + "00:00:00"
-                }
-                if (this.formList.deferAfterReturntimeEnd_time != "") {
-                    var deferAfterReturntimeEnd_time = this.formList.deferAfterReturntimeEnd_time + " " + "23:59:59"
-                }
+                // if (this.formList.deferAfterReturntimeStatu_time != "") {
+                //     var deferAfterReturntimeStatu_time = this.formList.deferAfterReturntimeStatu_time + " " + "00:00:00"
+                // }
+                // if (this.formList.deferAfterReturntimeEnd_time != "") {
+                //     var deferAfterReturntimeEnd_time = this.formList.deferAfterReturntimeEnd_time + " " + "23:59:59"
+                // }
                 this.axios
                     .get("collection/BeoverdueYifenp", {
                         params: {
@@ -283,8 +281,8 @@
                             collectionMemberId: this.formList.person,
                             start_time: start,
                             end_time: end,
-                            deferAfterReturntimeStatu_time: deferAfterReturntimeStatu_time,
-                            deferAfterReturntimeEnd_time: deferAfterReturntimeEnd_time
+                            // deferAfterReturntimeStatu_time: deferAfterReturntimeStatu_time,
+                            // deferAfterReturntimeEnd_time: deferAfterReturntimeEnd_time
                         }
                     })
                     .then(res => {
