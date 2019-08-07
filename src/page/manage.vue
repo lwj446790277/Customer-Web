@@ -116,7 +116,7 @@
             "$route": {
                 handler(route) {
                     var that = this;
-                    if (route.path == '/personalInformation') {
+                    if (route.path == '/personalInformation' || route.path == '/mailList' || route.path == '/riskManagement') {
                         that.changeLeftList();
                     } else {
                         that.initLeftList();

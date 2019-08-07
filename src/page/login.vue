@@ -9,7 +9,7 @@
                     <!-- <input v-model="loginForm.username" placeholder="用户名" class="username" /> -->
                 </el-form-item>
                 <el-form-item prop="password">
-                    <el-input type="password" placeholder="密码" v-model="loginForm.password" class="password" @keyup.enter="submitForm('loginForm')"></el-input>
+                    <el-input type="password" @keyup.enter.native="submitForm" placeholder="密码" v-model="loginForm.password" class="password" @keyup.enter="submitForm('loginForm')"></el-input>
                     <!-- <input v-model="loginForm.password" placeholder="密码" class="password" /> -->
                 </el-form-item>
                 <el-form-item>
@@ -68,15 +68,6 @@
         },
         computed: {
             ...mapState(['adminInfo']),
-        },
-        created(){
-            var that = this;
-            document.onkeydown = function(e) {
-                var key = window.event.keyCode;
-                if (key == 13) {
-                    that.submitForm();
-                }
-            }
         },
         methods: {
             ...mapActions(['getAdminData']),
