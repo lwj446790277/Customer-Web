@@ -124,7 +124,7 @@
                 <el-dialog :title="title" :visible.sync="dialogTableVisible" center>
                     <el-form :model="formList" :inline="true" class="demo-form-inline">
                         <el-form-item>
-                            <el-select v-model="formList.type" placeholder="选择状态" style="width:150px">
+                            <el-select v-model="formList.type" placeholder="请选择用户态度" style="width:150px">
                                 <el-option label="承诺还款" value="承诺还款"></el-option>
                                 <el-option label="承诺还清一部分" value="承诺还清一部分"></el-option>
                                 <el-option label="电话无人接听" value="电话无人接听"></el-option>
@@ -139,10 +139,9 @@
                         </el-form-item>
                     </el-form>
                     <el-table border :data="gridData">
-                        <el-table-column property="collectionTime" label="催收时间" align="center"></el-table-column>
-                        <el-table-column property="collectionStatus" label="用户状态" align="center"></el-table-column>
-                        <el-table-column property="promise_money" label="承诺还款金额" align="center"></el-table-column>
-                        <el-table-column property="orderStatus" label="订单状态" align="center"></el-table-column>
+                        <el-table-column property="collection_time" label="催收时间" align="center"></el-table-column>
+                        <el-table-column property="user_type" label="用户态度" align="center"></el-table-column>
+                        <el-table-column property="collectionmoney" label="承诺还款金额" align="center"></el-table-column>
                     </el-table>
                 </el-dialog>
                 <div class="block">
@@ -249,13 +248,11 @@
                 this.dialogTableVisible = true;
                 this.orderId = orderId;
                 this.title = name;
-                this.axios
-                    .get("collection/Collectiondetails", {
+                this.axios.get("collection/Collectiondetails", {
                         params: {
                             orderId
                         }
-                    })
-                    .then(res => {
+                    }).then(res => {
                         this.gridData = res.data.Orderdetails;
                         this.collectionMemberId = res.data.Orderdetails.collectionMemberId;
                     });
@@ -263,12 +260,12 @@
             add() {
                 console.log(this.collectionMemberId);
                 this.axios
-                    .get("collection/AddCollectiondertilas", {
+                    .get("collection/AddColl", {
                         params: {
+                            user_type: this.formList.type,
+                            collectionmoney: this.formList.money,
                             orderId: this.orderId,
-                            collectionMemberId: 1,
-                            collectionStatus: this.formList.type,
-                            promise_money: this.formList.money
+                            collectionMemberId: window.localStorage.getItem("userid")
                         }
                     })
                     .then(res => {

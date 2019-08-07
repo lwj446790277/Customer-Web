@@ -62,7 +62,7 @@
                           class="inp"></el-input>
                 <el-input placeholder="输入角色描述" style="width: 200px" v-model="editActorObject.roledescribe"
                           class="inp"></el-input>
-                <el-button type="primary" @click="addActor">保存</el-button>
+                <el-button type="primary" @click="SaveEditActor">保存</el-button>
             </div>
             <table border="1" cellspacing="0" cellpadding="15" class="tables">
                 <tr>
@@ -83,7 +83,8 @@
                         <template v-if="!!actor.cros2">
                             <td :rowspan="actor.cros2">
                                 <template v-if="actor.thirdlevelmenu =='/'">
-                                    <el-checkbox v-model="actor.selected" @change="checked=>changeEditSelected(checked,actor.id)">
+                                    <el-checkbox v-model="actor.selected"
+                                                 @change="checked=>changeEditSelected(checked,actor.id)">
                                         {{actor.secondlevelmenu}}
                                     </el-checkbox>
                                 </template>
@@ -94,7 +95,8 @@
                         </template>
                         <template v-if="actor.thirdlevelmenu != '/'">
                             <td>
-                                <el-checkbox v-model="actor.selected" @change="checked=>changeEditSelected(checked,actor.id)">
+                                <el-checkbox v-model="actor.selected"
+                                             @change="checked=>changeEditSelected(checked,actor.id)">
                                     {{actor.thirdlevelmenu}}
                                 </el-checkbox>
                             </td>
@@ -130,6 +132,18 @@
                                         <el-button class="confire" type="success" @click="changeActorState(scope)">是的
                                         </el-button>
                                         <el-button type="danger" slot="reference">修改
+                                        </el-button>
+                                    </el-popover>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="address" label="删除角色" align="center">
+                                <template slot-scope="scope">
+                                    <el-popover placement="bottom-end" width="300" trigger="click"
+                                                :ref="`popover+${scope.$index}`">
+                                        <span class="content">确认删除角色吗？</span>
+                                        <el-button class="confire" type="success" @click="deleteActor(scope)">是的
+                                        </el-button>
+                                        <el-button type="danger" slot="reference">删除
                                         </el-button>
                                     </el-popover>
                                 </template>
@@ -263,9 +277,21 @@
                                                 :ref="`popover-${scope.$index}`">
                                         <span class="content">确认修改用户当前状态吗？</span>
                                         <el-button class="confire" type="success"
-                                                   @click="deleteUser(scope,scope.row.status)">是的
+                                                   @click="updateUserState(scope,scope.row.status)">是的
                                         </el-button>
                                         <el-button type="danger" slot="reference" @click="">修改状态</el-button>
+                                    </el-popover>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="address" label="删除用户" align="center">
+                                <template slot-scope="scope">
+                                    <el-popover placement="bottom-end" width="300" trigger="click"
+                                                :ref="`popover+${scope.$index}`">
+                                        <span class="content">确认删除当前用户吗？</span>
+                                        <el-button class="confire" type="success"
+                                                   @click="deleteUser(scope)">是的
+                                        </el-button>
+                                        <el-button type="danger" slot="reference" @click="">删除用户</el-button>
                                     </el-popover>
                                 </template>
                             </el-table-column>
@@ -322,9 +348,9 @@
                 editUserObject: {},
                 roleList: [],
                 actorList: [],
-                editActorList:[],
+                editActorList: [],
                 addDialogSelectedList: [],
-                editDialogSelectedList:[],
+                editDialogSelectedList: [],
                 editActorDialogVisible: false,
                 addActorDialogVisible: false,
                 centerDialogVisibles: false,
@@ -361,6 +387,22 @@
             }
         },
         methods: {
+            SaveEditActor() {
+                var that = this;
+                var param = that.editActorObject;
+                param.listfunctionIdString = that.editDialogSelectedList.join(',');
+                param.companyid = window.localStorage.getItem("companyid")
+                that.axios.get('/role/updateByPrimaryKey', {
+                    params: param
+                }).then(res => {
+                    this.$message({
+                        type: 'success',
+                        message: '编辑成功'
+                    });
+                    this.Search1();
+                    that.editActorDialogVisible = false;
+                })
+            },
             Search1() {
                 var that = this;
                 that.axios.get('/role/queryAll', {
@@ -392,7 +434,7 @@
                     that.addActorDialogVisible = false;
                 })
             },
-            changeEditSelected(e, id){
+            changeEditSelected(e, id) {
                 var that = this;
                 if (e.target.checked) {
                     that.editDialogSelectedList.push(id);
@@ -481,9 +523,9 @@
                     var secondCros = 0;
                     var secondIndex = 0;
                     for (var i = 0; i < tempList.length; i++) {
-                        for(var j = 0; j < selectedList.length; j++){
-                            if(selectedList[j].id == tempList[i].id){
-                                 tempList[i].selected = true;
+                        for (var j = 0; j < selectedList.length; j++) {
+                            if (selectedList[j].id == tempList[i].id) {
+                                tempList[i].selected = true;
                             }
                         }
                         if (first == tempList[i].firstlevelmenu) {
@@ -520,8 +562,8 @@
                         }
                     }
                     that.editDialogSelectedList = [];
-                    for(var i = 0; i < selectedList.length; i++){
-                       that.editDialogSelectedList.push(selectedList[i].id);
+                    for (var i = 0; i < selectedList.length; i++) {
+                        that.editDialogSelectedList.push(selectedList[i].id);
                     }
                     that.editActorList = tempList;
                 });
@@ -537,6 +579,21 @@
                     this.$message({
                         type: 'success',
                         message: '状态修改成功'
+                    });
+                    that.Search1();
+                });
+            },
+            deleteActor(scope) {
+                var that = this;
+                var id = scope.row.roleid;
+                scope._self.$refs[`popover+${scope.$index}`].doClose();
+                var state = scope.row.status == 1 ? 2 : 1;
+                that.axios.get('/role/upaFalseDel', {
+                    params: {roleid: id}
+                }).then(res => {
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功'
                     });
                     that.Search1();
                 });
@@ -626,7 +683,7 @@
                     that.editUserDialogVisibles = false;
                 })
             },
-            deleteUser(scope, currentState) {
+            updateUserState(scope, currentState) {
                 var that = this;
                 var id = scope.row.userid;
                 scope._self.$refs[`popover-${scope.$index}`].doClose();
@@ -643,7 +700,7 @@
             },
             openAddUserDialog() {
                 var that = this;
-                taht.addUserObject = {};
+                that.addUserObject = {};
                 that.centerDialogVisibles = true;
                 that.axios.get('/sysuser/queryAllCompany', {
                     params: null
@@ -661,7 +718,11 @@
                         params: {userid: object.userid}
                     }).then(res => {
                         that.editUserObject = res.data.sysuser;
-                        that.editUserObject.listRoleIdString = that.editUserObject.listRoleIdString.split(',');
+                        if (!that.editUserObject.listRoleIdString) {
+                            that.editUserObject.listRoleIdString = [];
+                        }else{
+                            that.editUserObject.listRoleIdString = that.editUserObject.listRoleIdString.split(',');
+                        }
                         if (that.editUserObject.listRoleIdString.constructor == String) {
                             Number(that.editUserObject.listRoleIdString);
                         } else if (that.editUserObject.listRoleIdString.constructor == Array) {
@@ -673,6 +734,20 @@
                 })
                 that.editUserDialogVisibles = true;
             },
+            deleteUser(scope) {
+                var that = this;
+                var id = scope.row.userid;
+                scope._self.$refs[`popover+${scope.$index}`].doClose();
+                that.axios.get('/sysuser/upaFalseDel', {
+                    params: {id: id}
+                }).then(res => {
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功'
+                    });
+                    this.Search();
+                })
+            }
         }
     }
 </script>
