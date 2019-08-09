@@ -53,7 +53,7 @@
                         <el-menu-item index="operationalDataOne">平台总数据</el-menu-item>
                         <el-menu-item index="operationalDataTwo">还款数据</el-menu-item>
                         <el-menu-item index="operationalDataThree">逾期数据</el-menu-item>
-<!--                         <el-menu-item index="operationalDataFour">收支数据</el-menu-item>-->
+                        <!--                         <el-menu-item index="operationalDataFour">收支数据</el-menu-item>-->
                     </el-submenu>
                     <el-submenu index="8">
                         <template slot="title"><img src="../assets/img/app.png">APP管理设置</template>
@@ -86,7 +86,7 @@
                         <el-menu-item index="personalInformation">个人信息</el-menu-item>
                         <el-menu-item index="mailList">通讯录列表</el-menu-item>
                         <el-menu-item index="riskManagement">风控报告</el-menu-item>
-                        <el-menu-item index="queryOrder">返回</el-menu-item>
+                        <el-menu-item :index="lastPage">返回</el-menu-item>
                     </el-submenu>
                 </el-menu>
             </el-col>
@@ -109,8 +109,18 @@
         data() {
             return {
                 main: false,
-                customer_info: false
+                customer_info: false,
+                lastPage: 'manage'
             }
+        },
+        beforeRouteUpdate(to, from, next) {
+            var that = this;
+            if (to.path == '/personalInformation') {
+                that.lastPage = from.path;
+            }
+            next(vm => {
+                // console.log(from)  上一页面的路由信息
+            })
         },
         watch: {   //监听值变化：map值
             "$route": {

@@ -103,32 +103,28 @@
                 this.form.end = val
             },
             getData(page, Pagesize) {
-                this.axios
-                    .get("operation/platformsNum", {
-                        params: {
-                            companyId: window.localStorage.getItem("companyid"),
-                            page,
-                            Pagesize
-                        }
-                    })
-                    .then(res => {
-                        this.tableData = res.data.Orders;
-                        this.page = res.data.Orders.page;
-                        this.Pagesize = res.data.Orders.Pagesize;
-                        this.totalCount = res.data.Orders.length;
-                        // this.totalPageCount = res.data.pageUtil.totalPage
-                    });
+                this.axios.get("operation/platformsNum", {
+                    params: {
+                        companyId: window.localStorage.getItem("companyid"),
+                        page,
+                        Pagesize
+                    }
+                }).then(res => {
+                    this.tableData = res.data.Orders;
+                    this.page = res.data.Orders.page;
+                    this.Pagesize = res.data.Orders.Pagesize;
+                    this.totalCount = res.data.Orders.length;
+                    // this.totalPageCount = res.data.pageUtil.totalPage
+                });
             },
             get() {
-                this.axios
-                    .get("operation/AllDrainage", {
-                        params: {
-                            companyId: window.localStorage.getItem("companyid")
-                        }
-                    })
-                    .then(res => {
-                        this.platform = res.data.Drainage_of_platform;
-                    });
+                this.axios.get("operation/AllDrainage", {
+                    params: {
+                        companyId: window.localStorage.getItem("companyid")
+                    }
+                }).then(res => {
+                    this.platform = res.data.Drainage_of_platform;
+                });
             },
             sizeChange() {
                 //   this.getData(this.page, this.pageSize);
@@ -153,19 +149,17 @@
                 if (this.form.end != "") {
                     var end = this.form.end + " " + "23:59:59"
                 }
-                this.axios
-                    .get("operation/platformsNum", {
-                        params: {
-                            companyId: window.localStorage.getItem("companyid"),
-                            start_time: start,
-                            end_time: end,
-                            drainageOfPlatformId: this.form.platform
-                        }
-                    })
-                    .then(res => {
-                        this.tableData = res.data.Orders;
-                        this.totalCount = res.data.Orders.length;
-                    });
+                this.axios.get("operation/platformsNum", {
+                    params: {
+                        companyId: window.localStorage.getItem("companyid"),
+                        start_time: start,
+                        end_time: end,
+                        drainageOfPlatformId: this.form.platform
+                    }
+                }).then(res => {
+                    this.tableData = res.data.Orders;
+                    this.totalCount = res.data.Orders.length;
+                });
             }
         }
     }

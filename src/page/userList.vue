@@ -37,7 +37,6 @@
                         <el-select placeholder="个人信息认证" v-model="form.userattestationstatus">
                             <el-option label="个人信息认证 未认证" value="0"></el-option>
                             <el-option label="个人信息认证 已认证" value="1"></el-option>
-                            <el-option label="个人信息认证 认证中" value="2"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item>
@@ -51,7 +50,6 @@
                         <el-select placeholder="收款银行卡" v-model="form.bankattestationstatus">
                             <el-option label="收款银行卡 未认证" value="0"></el-option>
                             <el-option label="收款银行卡 已认证" value="1"></el-option>
-                            <el-option label="收款银行卡 认证中" value="2"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item>
@@ -74,7 +72,9 @@
                     <!--      <el-table-column prop="address" label="芝麻授信" width="130" align="center"></el-table-column>-->
                     <el-table-column prop="address" label="认证信息" align="center">
                         <template slot-scope="scope">
-                            <span class="blue" @click="refu(scope)">认证信息</span>
+                            <router-link :to="{path:'/personalInformation',query:{id:scope.row.id}}">
+                                <span class="blue">查看</span>
+                            </router-link>
                         </template>
                     </el-table-column>
                     <el-table-column prop="address" label="借款信息" align="center">
@@ -126,7 +126,7 @@
                     operaattestationstatus: "",
                     registeClient: ""
                 },
-                tableData: [{id: 1}],
+                tableData: [],
                 page: 1,
                 pageSize: 10,
                 totalPageCount: 0,
@@ -149,9 +149,9 @@
                 that.totalCount = res.data.pageutil.totalCount;
                 that.pageSize = res.data.pageutil.pageSize;
                 for (var i = 0; i < that.tableData.length; i++) {
-                    that.tableData[i].userattestationstatus = that.tableData[i].userattestationstatus == 1 ? '已认证' : '未认证';
-                    that.tableData[i].operaattestationstatus = that.tableData[i].operaattestationstatus == 1 ? '已认证' : '未认证';
-                    that.tableData[i].bankattestationstatus = that.tableData[i].bankattestationstatus == 1 ? '已认证' : '未认证';
+                    that.tableData[i].userattestationstatus = that.tableData[i].userattestationstatus == 0 ? '未认证' : that.tableData[i].userattestationstatus == 1 ? '已认证' : '认证中';
+                    that.tableData[i].operaattestationstatus = that.tableData[i].operaattestationstatus == 0 ? '未认证' : that.tableData[i].operaattestationstatus == 1 ? '已认证' : '认证中';
+                    that.tableData[i].bankattestationstatus = that.tableData[i].bankattestationstatus == 0 ? '未认证' : that.tableData[i].bankattestationstatus == 1 ? '已认证' : '认证中';
                 }
             });
         },
@@ -222,10 +222,18 @@
                         operator: window.localStorage.getItem("userid")
                     }
                 }).then(res => {
-                    this.$message({
-                        type: 'success',
-                        message: '拉黑成功'
-                    });
+                    if (res.data == 0) {
+                        this.$message({
+                            type: 'error',
+                            message: '添加失败,该用户还有未结算的订单'
+                        });
+                    } else {
+                        this.$message({
+                            type: 'success',
+                            message: '拉黑成功'
+                        });
+                    }
+
                     that.Search();
                 })
             }

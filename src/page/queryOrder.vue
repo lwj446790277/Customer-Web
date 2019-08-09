@@ -67,7 +67,7 @@
                     <el-table-column prop="orderdetails.makeLoans" label="实借" align="center"></el-table-column>
                     <el-table-column prop="orderdetails.realityAccount" label="放款" align="center"></el-table-column>
                     <el-table-column prop="deferrTime" label="延期次数" align="center"></el-table-column>
-                    <el-table-column prop="" label="延期金额" align="center"></el-table-column>
+                    <el-table-column prop="deferrMoney" label="延期金额" align="center"></el-table-column>
                     <el-table-column prop="orderdetails.interestInAll" label="总利息" align="center"></el-table-column>
                     <el-table-column prop="repaymentMoney" label="总还款" align="center"></el-table-column>
                     <el-table-column label="认证信息详情" align="center">

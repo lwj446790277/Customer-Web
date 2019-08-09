@@ -53,7 +53,11 @@
                     <el-table-column prop="shareOfStateName" label="机审结果" align="center"></el-table-column>
                     <el-table-column prop="account" label="审核员" align="center"></el-table-column>
                     <el-table-column label="认证信息详情" align="center">
-                        <el-button type="primary" @click="orderDetailShow()">查看</el-button>
+                        <template slot-scope="scope">
+                            <router-link :to="{path:'/personalInformation',query:{id:scope.row.id}}">
+                                <el-button type="primary">查看</el-button>
+                            </router-link>
+                        </template>
                     </el-table-column>
                 </el-table>
                 <div class="block">

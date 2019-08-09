@@ -2,9 +2,9 @@
     <div class="fillcontain">
         <head-top></head-top>
         <el-tabs v-model="activeName" type="card">
-            <el-tab-pane label="机审判定黑名单" name="first">
+            <el-tab-pane label="逾期黑名单" name="first">
                 <div class="back">
-                    <h2>机审判定黑名单</h2>
+                    <h2>逾期黑名单</h2>
                     <div class="table_container">
                         <el-form :model="form" :inline="true" class="demo-form-inline">
                             <el-form-item>
@@ -66,9 +66,11 @@
                              <el-table-column prop="overdueGrade" label="逾期等级" width="93" align="center"></el-table-column>
                              <el-table-column prop="orderdetails.interestInAll" label="含逾总利息" width="120" align="center"></el-table-column>
                              <el-table-column prop="repaymentMoney" label="应还总金额" width="120" align="center"></el-table-column>-->
-                            <el-table-column label="认证信息" align="center">
+                            <el-table-column label="认证信息" width="140" align="center">
                                 <template slot-scope="scope">
-                                    <span class="blue" @click="getMessage(scope)">查看</span>
+                                    <router-link :to="{path:'/personalInformation',query:{id:scope.row.id}}">
+                                        <span class="blue">查看</span>
+                                    </router-link>
                                 </template>
                             </el-table-column>
                             <el-table-column label="操作" width="140" align="center">
@@ -386,7 +388,7 @@
             deleteBlackState(scope) {
                 var that = this;
                 scope._self.$refs[`popover+${scope.$index}`].doClose();
-                var id = scope.row.id;
+                var id = scope.row.userId;
                 that.axios.get('/user/removeBlacklist', {
                     params: {userId: id, companyId: window.localStorage.getItem("companyid")}
                 }).then(res => {
@@ -400,9 +402,10 @@
             deleteBlackUser(scope) {
                 var that = this;
                 var id = scope.row.id;
+                var userId = scope.row.userid;
                 scope._self.$refs[`popover-${scope.$index}`].doClose();
                 that.axios.get('/blacklistuser/upaFalseDel', {
-                    params: {id: id}
+                    params: {id: id,userid:userId}
                 }).then(res => {
                     this.$message({
                         type: 'success',

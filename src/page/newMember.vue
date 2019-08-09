@@ -42,12 +42,12 @@
                             </el-form-item>
                             <el-form-item>
                                 <el-col :span="11">
-                                    <el-date-picker type="date" placeholder="延期后应还起始时间" v-model="form.starts" value-format="yyyy-MM-dd" @change="started"></el-date-picker>
+                                    <el-date-picker type="date" placeholder="最后应还起始时间" v-model="form.starts" value-format="yyyy-MM-dd" @change="started"></el-date-picker>
                                 </el-col>
                             </el-form-item>
                             <el-form-item class="single">
                                 <el-col :span="11">
-                                    <el-date-picker type="date" placeholder="延期后应还结束时间" v-model="form.ends" value-format="yyyy-MM-dd" @change="ended"></el-date-picker>
+                                    <el-date-picker type="date" placeholder="最后应还结束时间" v-model="form.ends" value-format="yyyy-MM-dd" @change="ended"></el-date-picker>
                                 </el-col>
                             </el-form-item>
                             <el-form-item>
@@ -70,7 +70,7 @@
                                     <span>{{scope.row.realityBorrowMoney}}/{{scope.row.makeLoans}}</span>
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="deferAfterReturntime" label="延期后应还时间" width="140" align="center"></el-table-column>
+                            <el-table-column prop="deferAfterReturntime" label="最后应还时间" width="140" align="center"></el-table-column>
                             <el-table-column prop="overdueGrade" label="逾期等级" width="93" align="center"></el-table-column>
                             <el-table-column prop="overdueNumberOfDays" label="逾期天数" width="93" align="center"></el-table-column>
                             <el-table-column label="逾期罚金/含逾应还总金额" width="200" align="center">

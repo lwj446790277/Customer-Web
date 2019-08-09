@@ -5,7 +5,7 @@
             <p class="manage_but">USER LOGIN</p>
             <el-form :model="loginForm" :rules="rules" ref="loginForm" class="loginForm">
                 <el-form-item prop="username">
-                    <el-input v-model="loginForm.username" placeholder="用户名" class="username"><span>dsfsf</span></el-input>
+                    <el-input v-model="loginForm.username" placeholder="用户名" class="username"><span></span></el-input>
                     <!-- <input v-model="loginForm.username" placeholder="用户名" class="username" /> -->
                 </el-form-item>
                 <el-form-item prop="password">

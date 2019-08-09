@@ -44,7 +44,7 @@
                     </td>
                     <td></td>
 				</tr>
-				<tr>
+				<!--<tr>
 					<th>允许签约的银行类型 (用"/"符号隔开)
 					</th>
 					<td>
@@ -52,7 +52,7 @@
                                   autocomplete="off" validateevent="true" class="el-textarea__inner nmsl"
                                   style="min-height: 33px; margin-top: 0px; margin-bottom: 0px; height: 58px;"></textarea>
                     </td>
-				</tr>
+				</tr>-->
                 <tr>
                     <td colspan="2">
                         <center><el-button type="primary" @click="save()">保存</el-button></center>

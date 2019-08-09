@@ -6,9 +6,8 @@
             <el-breadcrumb-item v-for="(item, index) in $route.meta" :key="index">{{item}}</el-breadcrumb-item>
         </el-breadcrumb>
         <el-dropdown @command="handleCommand" menu-align='start'>
-            <img :src="baseImgPath + adminInfo.avatar" class="avator">
+            <span style="margin-right: 10px;"><font color="white">{{userName}}</font></span>
             <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="home">首页</el-dropdown-item>
                 <el-dropdown-item command="signout" @click="loginOut">退出</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
@@ -24,6 +23,7 @@
         data() {
             return {
                 baseImgPath,
+                userName:window.localStorage.getItem('account')
             }
         },
         created() {
@@ -55,7 +55,18 @@
                 }
             },
             loginOut() {
-
+                this.axios.get('/login/logOut', {
+                    params: {userId:window.localStorage.getItem("userid")}
+                }).then(res => {
+                    this.$message({
+                        type: 'success',
+                        message: '退出成功'
+                    });
+                    window.localStorage.removeItem("companyid")
+                    window.localStorage.removeItem("account")
+                    window.localStorage.removeItem("userid")
+                    this.$router.push('/')
+                })
             }
         }
     }
