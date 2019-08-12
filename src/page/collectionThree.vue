@@ -30,13 +30,13 @@
                     tooltip-effect="dark"
                     style="width: 100%;line-height: 60px"
                 >
-                    <el-table-column prop="orderCreateTime" label="日期" align="center" class="red"></el-table-column>
+                    <el-table-column prop="realtime" label="日期" align="center" class="red"></el-table-column>
                     <el-table-column prop="orderNum" label="累计订单总数" align="center"></el-table-column>
                     <el-table-column prop="collection_count" label="累计分配订单数" align="center"></el-table-column>
                     <el-table-column prop="sameday" label="累计承诺还款订单数" align="center"></el-table-column>
                     <el-table-column prop="paymentmade" label="累计未还清订单数" align="center"></el-table-column>
                     <el-table-column prop="connected" label="累计坏账订单数" align="center"></el-table-column>
-                    <el-table-column prop="collNumdata" label="累计催回率(%)" align="center">
+                    <el-table-column prop="dataCol" label="累计催回率(%)" align="center">
                         <!-- <template slot-scope="scope">
                         <span>{{scope.row.collNumdata}}%</span>
                         </template>-->
@@ -93,13 +93,12 @@
                         page,
                         Pagesize
                     }
-                })
-                    .then(res => {
-                        this.tableData = res.data.Collection;
-                        this.page = res.data.Collection.page;
-                        this.Pagesize = res.data.Collection.Pagesize;
-                        this.totalCount = res.data.Collection.length;
-                    });
+                }).then(res => {
+                    this.tableData = res.data.Collection;
+                    this.page = res.data.Collection.page;
+                    this.Pagesize = res.data.Collection.Pagesize;
+                    this.totalCount = res.data.Collection.length;
+                });
             },
             Reset() {
                 this.form = {
@@ -114,18 +113,16 @@
                 if (this.form.end != "") {
                     var end = this.form.end + " " + "23:59:59"
                 }
-                this.axios
-                    .get("collection/CollectionLv", {
-                        params: {
-                            companyId: window.localStorage.getItem("companyid"),
-                            startu_time: start,
-                            end_time: end
-                        }
-                    })
-                    .then(res => {
-                        this.tableData = res.data.Collection;
-                        this.totalCount = res.data.Collection.length;
-                    });
+                this.axios.get("collection/CollectionLv", {
+                    params: {
+                        companyId: window.localStorage.getItem("companyid"),
+                        startu_time: start,
+                        end_time: end
+                    }
+                }).then(res => {
+                    this.tableData = res.data.Collection;
+                    this.totalCount = res.data.Collection.length;
+                });
             }
         }
     };

@@ -22,11 +22,11 @@
                     </el-form-item>
                 </el-form>
                 <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
-                    <el-table-column prop="deduction_time" label="时间" align="center"></el-table-column>
+                    <el-table-column prop="deferredTime" label="时间" align="center"></el-table-column>
                     <el-table-column prop="orderNum" label="延期笔数" align="center"></el-table-column>
-                    <el-table-column prop="interestOnArrearsSum" label="延期费" align="center"></el-table-column>
-                    <el-table-column prop="branKnum" label="银行扣款笔数" align="center"></el-table-column>
-                    <el-table-column prop="deduction_money" label="银行扣款金额" align="center"></el-table-column>
+                    <el-table-column prop="deferredamount" label="延期费" align="center"></el-table-column>
+                    <el-table-column prop="deduction_money" label="银行扣款笔数" align="center"></el-table-column>
+                    <el-table-column prop="userNum" label="银行扣款金额" align="center"></el-table-column>
                 </el-table>
                 <div class="block">
                     <el-pagination
@@ -102,10 +102,10 @@
             },
             Search() {
                 if (this.form.start != "") {
-                    var start = this.form.start + " " + "00:00:00"
+                    var start = this.form.start
                 }
                 if (this.form.end != "") {
-                    var end = this.form.end + " " + "23:59:59"
+                    var end = this.form.end
                 }
                 this.axios
                     .get("fina/DelayStatistics", {

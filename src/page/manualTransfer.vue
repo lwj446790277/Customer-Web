@@ -709,7 +709,7 @@
                 this.axios.get('fina/AddAcount', {
                     params: {
                         orderId: this.orderId,
-                        repaymentSource: this.qudao,
+                        rename_id: this.qudao,
                         amountmoney: this.amountmoney,
                         remarks: this.remarks,
                         accounttime: this.accounttime,

@@ -210,16 +210,6 @@
                 }
             }
         },
-        watch: {   //监听值变化：map值
-            "$route": {
-                handler(route) {
-                    var that = this;
-                    if (route.path == '/queryOrder') {
-                        that.searchById();
-                    }
-                }
-            }
-        },
         beforeCreate() {
             var that = this;
             if (!!that.$route.query.value && !!that.$route.query.key) {
@@ -274,14 +264,6 @@
             jumpCustomerInfo() {
                 var that = this;
                 that.$router.push('/personalInformation')
-            },
-            searchById() {
-                var that = this;
-                if (!!that.$route.query.value && !!that.$route.query.key) {
-                    that.form.name = that.$route.query.key;
-                    that.form.phone = that.$route.query.value;
-                    that.Search();
-                }
             },
             Search() {
                 var that = this;

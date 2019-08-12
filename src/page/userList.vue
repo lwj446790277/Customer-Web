@@ -79,9 +79,9 @@
                     </el-table-column>
                     <el-table-column prop="address" label="借款信息" align="center">
                         <template slot-scope="scope">
-                            <router-link :to="{path:'/queryOrder',query:{key:scope.row.name,value:scope.row.phone}}">
-                                <span class="blue">借款信息</span>
-                            </router-link>
+
+                            <span class="blue" @click="openOrderDialog(scope.row.id)">借款信息</span>
+
                         </template>
                     </el-table-column>
                     <el-table-column label="操作" show-overflow-tooltip align="center">
@@ -104,6 +104,43 @@
                         @current-change="currentChange"
                     ></el-pagination>
                 </div>
+                <el-dialog title="借款信息" :visible.sync="dialogTableVisible">
+                    <el-table :data="tableData2">
+                        <el-table-column prop="orderNumber" label="订单编号" align="center"></el-table-column>
+                        <el-table-column prop="user.name" label="姓名" align="center"></el-table-column>
+                        <el-table-column prop="user.phone" label="手机号" align="center"></el-table-column>
+                        <el-table-column prop="user.registeclient" label="客户端类型" align="center"></el-table-column>
+                        <el-table-column prop="user.registetime" label="注册时间" width="93"
+                                         align="center"></el-table-column>
+                        <el-table-column prop="orderCreateTime" label="订单时间" width="93"
+                                         align="center"></el-table-column>
+                        <el-table-column prop="user.sourcename" label="引流渠道" width="93"
+                                         align="center"></el-table-column>
+                        <el-table-column prop="riskcontrolname" label="风控模型" align="center"></el-table-column>
+                        <el-table-column prop="riskmanagementFraction" label="风控分数" align="center"></el-table-column>
+                        <el-table-column prop="user.account" label="审核人员" width="93" align="center"></el-table-column>
+                        <el-table-column prop="borrowMoneyWay" label="贷款方式" width="93" align="center"></el-table-column>
+                        <el-table-column prop="borrowTimeLimit" label="还款期数" width="93"
+                                         align="center"></el-table-column>
+                        <el-table-column prop="howManyTimesBorMoney" label="第几次借款" align="center"></el-table-column>
+                        <el-table-column prop="orderdetails.makeLoans" label="实借" align="center"></el-table-column>
+                        <el-table-column prop="orderdetails.realityAccount" label="放款" align="center"></el-table-column>
+                        <el-table-column prop="deferrTime" label="延期次数" align="center"></el-table-column>
+                        <el-table-column prop="deferrMoney" label="延期金额" align="center"></el-table-column>
+                        <el-table-column prop="orderdetails.interestInAll" label="总利息" align="center"></el-table-column>
+                        <el-table-column prop="repaymentMoney" label="总还款" align="center"></el-table-column>
+                    </el-table>
+                    <div class="block">
+                        <el-pagination
+                            :current-page="page2"
+                            :page-size.sync="pageSize2"
+                            layout="total, prev, pager, next, jumper"
+                            :page-count="totalPageCount2"
+                            :total="totalCount2"
+                            @current-change="currentChange2"
+                        ></el-pagination>
+                    </div>
+                </el-dialog>
             </div>
         </div>
     </div>
@@ -132,7 +169,14 @@
                 totalPageCount: 0,
                 totalCount: 0,
                 visible: false,
-                value: ""
+                tableData2: [],
+                page2: 1,
+                pageSize2: 10,
+                totalPageCount2: 0,
+                totalCount2: 0,
+                dialogTableVisible: false,
+                value: "",
+                selectedId: 0,
             };
         },
         components: {
@@ -159,6 +203,41 @@
             // this.initData();
         },
         methods: {
+            Search2() {
+                var that = this;
+                that.dialogTableVisible = true;
+                var param = {};
+                param.companyid = window.localStorage.getItem("companyid");
+                param.page = that.page2;
+                param.userid = that.selectedId;
+                that.axios.get('/user/queryAllOrdersByUserid', {
+                    params: param
+                }).then(res => {
+                    that.tableData2 = res.data.listorders;
+                    that.page2 = res.data.pageutil.page;
+                    that.totalPageCount2 = res.data.pageutil.totalPageCount;
+                    that.totalCount2 = res.data.pageutil.totalCount;
+                    that.pageSize2 = res.data.pageutil.pageSize;
+                });
+            },
+            openOrderDialog(id) {
+                var that = this;
+                that.selectedId = id;
+                that.dialogTableVisible = true;
+                var param = {};
+                param.companyid = window.localStorage.getItem("companyid");
+                param.page = 1;
+                param.userid = that.selectedId;
+                that.axios.get('/user/queryAllOrdersByUserid', {
+                    params: param
+                }).then(res => {
+                    that.tableData2 = res.data.listorders;
+                    that.page2 = res.data.pageutil.page;
+                    that.totalPageCount2 = res.data.pageutil.totalPageCount;
+                    that.totalCount2 = res.data.pageutil.totalCount;
+                    that.pageSize2 = res.data.pageutil.pageSize;
+                });
+            },
             dateChangeStart(val) {
                 var that = this;
                 that.form.registeTimeStart = val;
@@ -171,6 +250,11 @@
                 var that = this;
                 that.page = val;
                 that.Search();
+            },
+            currentChange2(val) {
+                var that = this;
+                that.page = val;
+                that.Search2();
             },
             Reset() {
                 this.form = {

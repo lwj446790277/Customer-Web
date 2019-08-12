@@ -46,7 +46,7 @@
                 </el-form>
                 <el-table border :data="tableData" style="width: 100%">
                     <el-table-column prop="remittanceTime" label="流水号时间" align="center"></el-table-column>
-                    <el-table-column prop="name" label="放款渠道" align="center"></el-table-column>
+                    <el-table-column prop="sourceName" label="放款渠道" align="center"></el-table-column>
                     <el-table-column prop="pipelinenumber" label="放款流水号" align="center"></el-table-column>
                     <el-table-column prop="paymentmoney" label="放款金额" align="center"></el-table-column>
                     <el-table-column prop="orderNumber" label="订单编号" align="center"></el-table-column>
