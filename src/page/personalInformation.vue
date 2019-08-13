@@ -2,87 +2,95 @@
     <div class="fillcontain">
         <head-top></head-top>
         <!-- <p class="explain_text">个人信息</p> -->
-        <div class="main">
-            <div class="idcard">
-                <span class="tit">身份证与人脸图</span>
-                <ul class="pic">
+        <div class="back">
+            <h2>身份证及人脸查询</h2>
+            <div class="main">
+                <table cellpadding="30" cellspacing="0" class="table" style="width: 100%;margin-left: 0px;">
+                    <tr>
+                        <td>
+                            <div style="width: 200px; height:200px;">
+                                <img :src="user.headurl" width="100%" height="100%"/>
+                                <div type="primary"
+                                     style="margin-top:-5px;background-color:#0e85e0;width: 200px;height: 25px;text-align: center">
+                                    <font color="white">正面照</font></div>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="width: 200px; height:200px;">
+                                <img :src="user.nationalemblemurl" width="100%" height="100%"/>
+                                <div type="primary"
+                                     style="margin-top:-5px;background-color:#0e85e0;width: 200px;height: 25px;text-align: center">
+                                    <font color="white">背面照</font></div>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="width: 200px; height:200px;">
+                                <img :src="user.headurl" width="100%" height="100%"/>
+                                <div type="primary"
+                                     style="margin-top:-5px;background-color:#0e85e0;width: 200px;height: 25px;text-align: center">
+                                    <font color="white">人脸照</font></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <ul class="bottom">
                     <li>
-                        <div style="width: 450px; height:300px;">
-                            <img :src="user.headurl" width="100%" height="100%"/>
-                            <el-button type="primary">查看详情</el-button>
-                        </div>
+                        <span class="tit">身份证信息</span>
+                        <table border="1" cellspacing="0" cellpadding="20" class="news">
+                            <tr>
+                                <th>真实姓名</th>
+                                <td>{{user.truename}}</td>
+                            </tr>
+                            <tr>
+                                <th>身份证号</th>
+                                <td>{{user.idcardNumber}}</td>
+                            </tr>
+                            <tr>
+                                <th>年龄</th>
+                                <td>{{user.age}}</td>
+                            </tr>
+                            <tr>
+                                <th>省份</th>
+                                <td>{{user.province}}</td>
+                            </tr>
+                        </table>
+                    </li>
+                    <li class="cen">
+                        <span class="tit">定位信息</span>
+                        <table border="1" cellspacing="0" cellpadding="20" class="news">
+                            <tr>
+                                <th>注册登录手机号</th>
+                                <td>{{user.phone}}</td>
+                            </tr>
+                            <tr>
+                                <th>家庭地址</th>
+                                <td>{{user.address}}</td>
+                            </tr>
+                            <tr>
+                                <th>详细地址</th>
+                                <td>{{user.detailaddress}}</td>
+                            </tr>
+                        </table>
                     </li>
                     <li>
-                        <div style="width: 450px; height:300px;">
-                            <img :src="user.nationalemblemurl" width="100%" height="100%"/>
-                            <el-button type="primary">查看详情</el-button>
-                        </div>
-                    </li>
-                    <li>
-                        <div style="width: 450px; height:300px;">
-                            <img :src="user.headurl" width="100%" height="100%"/>
-                            <el-button type="primary">查看详情</el-button>
-                        </div>
+                        <span class="tit">收款银行卡</span>
+                        <table border="1" cellspacing="0" cellpadding="20" class="news">
+                            <tr>
+                                <th>开户行</th>
+                                <td>{{card.bankcardTypeName}}</td>
+                            </tr>
+                            <tr>
+                                <th>银行卡号</th>
+                                <td>{{card.bankcardName}}</td>
+                            </tr>
+                            <tr>
+                                <th>绑定手机号</th>
+                                <td>{{card.tiedCardPhone}}</td>
+                            </tr>
+                        </table>
                     </li>
                 </ul>
             </div>
-            <ul class="bottom">
-                <li>
-                    <span class="tit">身份证信息</span>
-                    <table border="1" cellspacing="0" cellpadding="20" class="news">
-                        <tr>
-                            <th>真实姓名</th>
-                            <td>{{user.truename}}</td>
-                        </tr>
-                        <tr>
-                            <th>身份证号</th>
-                            <td>{{user.idcardNumber}}</td>
-                        </tr>
-                        <tr>
-                            <th>年龄</th>
-                            <td>{{user.age}}</td>
-                        </tr>
-                        <tr>
-                            <th>省份</th>
-                            <td>{{user.province}}</td>
-                        </tr>
-                    </table>
-                </li>
-                <li class="cen">
-                    <span class="tit">定位信息</span>
-                    <table border="1" cellspacing="0" cellpadding="20" class="news">
-                        <tr>
-                            <th>注册登录手机号</th>
-                            <td>{{user.phone}}</td>
-                        </tr>
-                        <tr>
-                            <th>家庭地址</th>
-                            <td>{{user.address}}</td>
-                        </tr>
-                        <tr>
-                            <th>详细地址</th>
-                            <td>{{user.detailaddress}}</td>
-                        </tr>
-                    </table>
-                </li>
-                <li>
-                    <span class="tit">收款银行卡</span>
-                    <table border="1" cellspacing="0" cellpadding="20" class="news">
-                        <tr>
-                            <th>开户行</th>
-                            <td>{{card.bankcardTypeName}}</td>
-                        </tr>
-                        <tr>
-                            <th>银行卡号</th>
-                            <td>{{card.bankcardName}}</td>
-                        </tr>
-                        <tr>
-                            <th>绑定手机号</th>
-                            <td>{{card.tiedCardPhone}}</td>
-                        </tr>
-                    </table>
-                </li>
-            </ul>
         </div>
     </div>
 </template>
@@ -110,7 +118,7 @@
                 card: {},
             }
         },
-        created() {
+        beforeCreate() {
             var that = this;
             that.axios.get('/user/queryUserAttesta', {
                 params: {userid: that.$route.query.id}
@@ -122,6 +130,9 @@
         methods: {
             searchById() {
                 var that = this;
+                if(!that.$route.query.id){
+                    return false;
+                }
                 that.axios.get('/user/queryUserAttesta', {
                     params: {userid: that.$route.query.id}
                 }).then(res => {
@@ -145,6 +156,8 @@
 
     .main {
         padding: 20px;
+        background-color: #fff;
+        min-height: 70vh;
     }
 
     .idcard {

@@ -84,8 +84,8 @@
                     <el-submenu index="2">
                         <template slot="title"><img src="../assets/img/订单管理.png">认证信息查看</template>
                         <el-menu-item index="personalInformation">个人信息</el-menu-item>
-                        <el-menu-item index="mailList">通讯录列表</el-menu-item>
-                        <el-menu-item index="riskManagement">风控报告</el-menu-item>
+                        <el-menu-item :index="mailList">通讯录列表</el-menu-item>
+                        <el-menu-item :index="riskManagement">风控报告</el-menu-item>
                         <el-menu-item :index="lastPage">返回</el-menu-item>
                     </el-submenu>
                 </el-menu>
@@ -110,13 +110,19 @@
             return {
                 main: false,
                 customer_info: false,
-                lastPage: 'manage'
+                lastPage: 'manage',
+                mailList: 'mailList',
+                riskManagement: 'riskManagement',
             }
         },
         beforeRouteUpdate(to, from, next) {
             var that = this;
-            if (to.path == '/personalInformation') {
+            if (to.path == '/personalInformation' && from.path != '/mailList' && from.path != '/riskManagement') {
                 that.lastPage = from.path;
+            }
+            if (to.path == '/personalInformation' && !!to.query.id) {
+                that.mailList = 'mailList' + '?id=' + to.query.id;
+                that.riskManagement = 'riskManagement' + '?id=' + to.query.id;
             }
             next(vm => {
                 // console.log(from)  上一页面的路由信息

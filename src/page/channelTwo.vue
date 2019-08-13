@@ -9,7 +9,7 @@
                     <el-table-column prop="sourcename" label="渠道名称" align="center"></el-table-column>
                     <el-table-column prop="account" label="账户" align="center"></el-table-column>
                     <el-table-column prop="link" label="链接" align="center"></el-table-column>
-                    <el-table-column prop="status" label="状态" align="center"></el-table-column>
+                    <el-table-column prop="statusName" label="状态" align="center"></el-table-column>
                     <el-table-column prop="discount" label="折扣率" align="center"></el-table-column>
                     <el-table-column prop="rmmodlename" label="风控" align="center"></el-table-column>
                     <el-table-column prop="name" label="模板" align="center"></el-table-column>
@@ -129,6 +129,15 @@
                                 </el-select>
                             </td>
                         </tr>
+                        <tr>
+                            <th>状态</th>
+                            <td>
+                                <el-select v-model="editChannelObject.status" placeholder="选择模板" style="width: 100%;">
+                                    <el-option label="开启" value="1">开启</el-option>
+                                    <el-option label="关闭" value="2">关闭</el-option>
+                                </el-select>
+                            </td>
+                        </tr>
                     </table>
                     <div style="float: right;margin-bottom: 5px">
                         <el-button type="warning" @click="editChannelDialogVisible = false">取消</el-button>
@@ -181,6 +190,11 @@
                 that.page = res.data.pageutil.page;
                 that.totalPageCount = res.data.pageutil.totalPageCount;
                 that.totalCount = res.data.pageutil.totalCount;
+                if(!!that.tableData){
+                    for(var i =0;i<that.tableData.length;i++){
+                        that.tableData[i].statusName = that.tableData[i].status ==1?"开启":"关闭"
+                    }
+                }
             })
         },
         methods: {
@@ -211,6 +225,11 @@
                     that.page = res.data.pageutil.page;
                     that.totalPageCount = res.data.pageutil.totalPageCount;
                     that.totalCount = res.data.pageutil.totalCount;
+                    if(!!that.tableData){
+                        for(var i =0;i<that.tableData.length;i++){
+                            that.tableData[i].statusName = that.tableData[i].status ==1?"开启":"关闭"
+                        }
+                    }
                 })
             },
             addChannel() {

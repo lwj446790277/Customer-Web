@@ -12,7 +12,8 @@
                                 <el-select v-model="type" placeholder="ios" style="width:200px" @change="changeType">
                                     <el-option label="ios" value="ios"></el-option>
                                     <el-option label="安卓" value="android"></el-option>
-                                    <el-option label="全部" value=""></el-option>
+                                    <el-option label="全部" value="
+"></el-option>
                                 </el-select>
                             </td>
                         </tr>
@@ -64,6 +65,7 @@
 
 <script>
     import headTop from "../components/headTop";
+
     export default {
         components: {
             headTop
@@ -84,10 +86,10 @@
             };
         },
         created() {
-            this.getData(this.page,this.Pagesize);
+            this.getData(this.page, this.Pagesize);
         },
         methods: {
-            getData(page,Pagesize){
+            getData(page, Pagesize) {
                 this.axios.get("sms/AllUserShortMessage", {
                     params: {
                         companyId: window.localStorage.getItem("companyid"),
@@ -101,7 +103,7 @@
                     this.totalCount = res.data.Usershortmessage.length;
                 });
             },
-            add(){
+            add() {
                 this.dialogTable = true
                 this.axios.get("sms/UserTypeShortMessage", {
                     params: {
@@ -113,18 +115,18 @@
                     this.phones = res.data.phones
                 });
             },
-            change(){
-                if(this.message=="2"){
-                    this.content="222"
-                }else{
-                    if(this.message=="3"){
-                        this.content="333"
-                    }else{
-                        this.content="111"
+            change() {
+                if (this.message == "2") {
+                    this.content = "222"
+                } else {
+                    if (this.message == "3") {
+                        this.content = "333"
+                    } else {
+                        this.content = "111"
                     }
                 }
             },
-            changeType(){
+            changeType() {
                 this.axios.get("sms/UserTypeShortMessage", {
                     params: {
                         companyId: window.localStorage.getItem("companyid"),
@@ -134,16 +136,24 @@
                     this.people = res.data.phonNum
                 });
             },
-            send(){
+            send() {
                 this.axios.get("sms/AddUserShort", {
                     params: {
                         companyId: window.localStorage.getItem("companyid"),
                         user_type: this.type,
                         usernum: this.people,
-                        short_text: this.content
+                        short_text: this.content,
+                        phone: this.phones.join(','),
+                        sys_userId:window.localStorage.getItem('userid')
                     }
                 }).then(res => {
-                    this.people = res.data.phone.length
+                    if (res.data.code == 200)
+                        this.$message({
+                            type: 'success',
+                            message: '发送成功'
+                        });
+                    this.getData(this.page, this.Pagesize);
+                    this.dialogTable = false;
                 });
             }
         }
@@ -152,25 +162,31 @@
 
 <style lang="less">
     @import "../style/mixin";
+
     .main {
         padding: 20px;
         background-color: #fff;
         min-height: 70vh;
     }
-    .aps{
+
+    .aps {
         margin-bottom: 20px;
     }
-    .cus{
+
+    .cus {
         width: 30%;
         text-align: center;
     }
-    .tab_ons{
+
+    .tab_ons {
         margin: 0 auto;
     }
-    .tab_ons th{
+
+    .tab_ons th {
         width: 50%;
     }
-    .tab_ons td div.gray{
+
+    .tab_ons td div.gray {
         margin-top: -10px;
         margin-bottom: -10px;
         width: 100%;
@@ -178,11 +194,13 @@
         line-height: 40px;
         background-color: #f3f6fb;
     }
+
     .block {
         padding-top: 20px;
         text-align: center;
     }
-    .send{
+
+    .send {
         margin-top: 15px;
     }
 </style>

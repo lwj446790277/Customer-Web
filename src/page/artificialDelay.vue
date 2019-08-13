@@ -184,13 +184,15 @@
                             <el-form-item>
                                 <el-col :span="11">
                                     <el-date-picker type="date" placeholder="起始时间"
-                                                    v-model="formList.start" value-format="yyyy-MM-dd" @change="timeChange"></el-date-picker>
+                                                    v-model="formList.start" value-format="yyyy-MM-dd"
+                                                    @change="timeChange"></el-date-picker>
                                 </el-col>
                             </el-form-item>
                             <el-form-item class="single">
                                 <el-col :span="11">
                                     <el-date-picker type="date" placeholder="结束时间"
-                                                    v-model="formList.end" value-format="yyyy-MM-dd" @change="endChange"></el-date-picker>
+                                                    v-model="formList.end" value-format="yyyy-MM-dd"
+                                                    @change="endChange"></el-date-picker>
                                 </el-col>
                             </el-form-item>
                             <el-form-item>
@@ -292,11 +294,11 @@
             this.getData()
         },
         methods: {
-            timeChange(val){
+            timeChange(val) {
                 // console.log(val)
                 this.formList.start = val
             },
-            endChange(val){
+            endChange(val) {
                 this.formList.end = val
             },
             handleSelectionChange(val) {
@@ -329,14 +331,14 @@
                     this.overdueHowdayCanDeferred = res.data.Deferred_settings.overdueHowdayCanDeferred
                 })
             },
-            get(page,Pagesize){
-                this.axios.get('fina/Delaylabor',{
-                    params:{
+            get(page, Pagesize) {
+                this.axios.get('fina/Delaylabor', {
+                    params: {
                         companyId: window.localStorage.getItem("companyid"),
                         page,
                         Pagesize
                     }
-                }).then(res=>{
+                }).then(res => {
                     this.tableData = res.data.Offlinedelay
                     this.page = res.data.Offlinedelay.page
                     this.Pagesize = res.data.Offlinedelay.Pagesize
@@ -344,8 +346,8 @@
                 })
             },
             handleClick(tab, event) {
-                if(this.activeName == "second"){
-                    this.get(this.page,this.Pagesize)
+                if (this.activeName == "second") {
+                    this.get(this.page, this.Pagesize)
                 }
             },
             Search() {
@@ -356,6 +358,13 @@
                         companyId: window.localStorage.getItem("companyid")
                     }
                 }).then(res => {
+                    if (res.data.Orderdetails == '无数据') {
+                        this.$message({
+                            type: "error",
+                            message: "无数据"
+                        });
+                        return false;
+                    }
                     this.orderId = res.data.Orderdetails.orderId
                     this.orderNumber = res.data.Orderdetails.orderNumber
                     this.name = res.data.Orderdetails.name
@@ -384,7 +393,7 @@
                         orderId: this.orderId,
                         onceDeferredDay: this.onceDeferredDay
                     }
-                }).then(res=>{
+                }).then(res => {
                     this.$confirm(res.data.desc, '提示', {
                         type: 'warning',
                         center: true
@@ -392,15 +401,15 @@
                     this.visible = false
                 })
             },
-            Searchs(){
-                if(this.formList.start!=""){
+            Searchs() {
+                if (this.formList.start != "") {
                     var start = this.formList.start + " " + "00:00:00"
                 }
-                if(this.formList.end!=""){
+                if (this.formList.end != "") {
                     var end = this.formList.end + " " + "23:59:59"
                 }
-                this.axios.get('fina/Delaylabor',{
-                    params:{
+                this.axios.get('fina/Delaylabor', {
+                    params: {
                         companyId: window.localStorage.getItem("companyid"),
                         orderId: this.formList.id,
                         phone: this.formList.phone,
@@ -408,7 +417,7 @@
                         statu_time: start,
                         end_time: end
                     }
-                }).then(res=>{
+                }).then(res => {
                     this.tableData = res.data.Offlinedelay
                     this.totalCount = res.data.Offlinedelay.length
                 })
@@ -516,7 +525,7 @@
         margin-bottom: -10px;
     }
 
-    .tabs td .el-input{
+    .tabs td .el-input {
         margin-left: -20px;
     }
 
@@ -527,7 +536,7 @@
         margin-right: 20%;
     }
 
-    .el-popover p{
+    .el-popover p {
         font-size: 16px;
         margin-bottom: 15px;
     }

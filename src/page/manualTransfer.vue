@@ -585,6 +585,13 @@
                         companyId: window.localStorage.getItem("companyid")
                     }
                 }).then(res => {
+                    if (res.data.Orderdetails == '无数据') {
+                        this.$message({
+                            type: "error",
+                            message: "无数据"
+                        });
+                        return false;
+                    }
                     this.orderId = res.data.Orderdetails.orderId
                     this.orderNumber = res.data.Orderdetails.orderNumber
                     this.name = res.data.Orderdetails.name

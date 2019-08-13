@@ -16,7 +16,7 @@ export const signout = () => fetch('/admin/signout');
  * 获取用户信息
  */
 
-export const getAdminInfo = () => fetch('/admin/info');
+export const getAdminInfo = () => {};
 
 /**
  * api请求量
