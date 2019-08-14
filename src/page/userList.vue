@@ -61,6 +61,7 @@
                 </el-form>
                 <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
                     <el-table-column prop="registetime" label="注册时间" align="center"></el-table-column>
+                    <el-table-column prop="sourcename" label="渠道" align="center"></el-table-column>
                     <el-table-column prop="registeclient" label="客户端" align="center"></el-table-column>
                     <el-table-column prop="name" label="姓名" align="center"></el-table-column>
                     <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
@@ -123,8 +124,7 @@
                         <el-table-column prop="borrowTimeLimit" label="还款期数" width="93"
                                          align="center"></el-table-column>
                         <el-table-column prop="howManyTimesBorMoney" label="第几次借款" align="center"></el-table-column>
-                        <el-table-column prop="orderdetails.makeLoans" label="实借" align="center"></el-table-column>
-                        <el-table-column prop="orderdetails.realityAccount" label="放款" align="center"></el-table-column>
+                        <el-table-column prop="orderdetails.makeLoans" label="放款" align="center"></el-table-column>
                         <el-table-column prop="deferrTime" label="延期次数" align="center"></el-table-column>
                         <el-table-column prop="deferrMoney" label="延期金额" align="center"></el-table-column>
                         <el-table-column prop="orderdetails.interestInAll" label="总利息" align="center"></el-table-column>

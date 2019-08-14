@@ -55,6 +55,7 @@
                     <el-table-column prop="name" label="姓名" align="center"></el-table-column>
                     <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
                     <el-table-column prop="sourcename" label="渠道" align="center"></el-table-column>
+                    <el-table-column prop="registeclient" label="客户端" align="center"></el-table-column>
                     <el-table-column prop="rmModleName" label="风控" align="center"></el-table-column>
                     <el-table-column prop="riskControlPoints" label="风控分数" align="center"></el-table-column>
                     <el-table-column prop="shareOfStateName" label="机审结果" align="center"></el-table-column>

@@ -423,6 +423,7 @@
         methods: {
             openEditLoanDialog() {
                 var that = this;
+                that.jiekuanEditObject.productid = that.jiekuanObject.productid;
                 that.jiekuanEditObject.borrowingscheme = that.jiekuanObject.borrowingscheme;
                 that.jiekuanEditObject.id = that.jiekuanObject.id;
                 that.jiekuanEditObject.companyid = that.jiekuanObject.companyid;

@@ -38,7 +38,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>借款渠道</th>
+                        <th>放款渠道</th>
                         <td>
                             <el-radio-group v-model="editObject.loansource">
                                 <el-radio
@@ -50,7 +50,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>收款渠道</th>
+                        <th>回款渠道</th>
                         <td>
                             <el-radio-group v-model="editObject.repaymentsource">
                                 <el-radio

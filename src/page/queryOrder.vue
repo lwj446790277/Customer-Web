@@ -64,8 +64,7 @@
                     <el-table-column prop="borrowMoneyWay" label="贷款方式" width="93" align="center"></el-table-column>
                     <el-table-column prop="borrowTimeLimit" label="还款期数" width="93" align="center"></el-table-column>
                     <el-table-column prop="howManyTimesBorMoney" label="第几次借款" align="center"></el-table-column>
-                    <el-table-column prop="orderdetails.makeLoans" label="实借" align="center"></el-table-column>
-                    <el-table-column prop="orderdetails.realityAccount" label="放款" align="center"></el-table-column>
+                    <el-table-column prop="orderdetails.makeLoans" label="放款" align="center"></el-table-column>
                     <el-table-column prop="deferrTime" label="延期次数" align="center"></el-table-column>
                     <el-table-column prop="deferrMoney" label="延期金额" align="center"></el-table-column>
                     <el-table-column prop="orderdetails.interestInAll" label="总利息" align="center"></el-table-column>
@@ -125,7 +124,7 @@
                         </li>
                         <li>
                             <span>人审时间:</span>
-                            <span> </span>
+                            <span> {{order.user.operationTime}}</span>
                         </li>
                         <li>
                             <span>审核人员:</span>
@@ -144,28 +143,24 @@
                             <span> {{order.orderdetails.makeLoans}}/{{order.orderdetails.realityAccount}} </span>
                         </li>
                         <li>
-                            <span>借款时间:</span>
-                            <span> </span>
-                        </li>
-                        <li>
                             <span>总利息/总还款:</span>
                             <span> {{order.orderdetails.interestInAll}}/{{order.repaymentMoney}} </span>
                         </li>
                         <li>
                             <span>延期次数/延期金额:</span>
-                            <span> {{order.deferrTime}}/ </span>
+                            <span> {{order.deferrTime}}/ {{order.deferrMoney}}</span>
                         </li>
                         <li>
                             <span>每次延期天数:</span>
-                            <span> </span>
+                            <span>{{order.postponeDate}} </span>
                         </li>
                         <li>
                             <span>延期前还款时间:</span>
-                            <span> </span>
+                            <span>{{order.shouldReturnTime}} </span>
                         </li>
                         <li>
                             <span>延期后还款时间:</span>
-                            <span> </span>
+                            <span> {{order.deferAfterReturntime}}</span>
                         </li>
                     </ul>
                 </el-dialog>
