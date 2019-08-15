@@ -11,85 +11,85 @@
                             <tr>
                                 <th>抓取时间</th>
                                 <td>
-                                    <div>{{time}}</div>
+                                    <div>{{user.update_time}}</div>
                                 </td>
                             </tr>
                             <tr>
                                 <th>用户姓名</th>
                                 <td>
-                                    <div>{{name}}</div>
+                                    <div>{{user.real_name}}</div>
                                 </td>
                             </tr>
                             <tr>
                                 <th>身份证号</th>
                                 <td>
-                                    <div>{{idcard}}</div>
+                                    <div>{{user.id_card}}</div>
                                 </td>
                             </tr>
                             <tr>
                                 <th>电话号码</th>
                                 <td>
-                                    <div>{{phone}}</div>
+                                    <div>{{user.phone}}</div>
                                 </td>
                             </tr>
                             <tr>
                                 <th>号码类型（地区+三大运营商）</th>
                                 <td>
-                                    <div>{{borrowMoneyWay}}</div>
+                                    <div>{{user.user_source}}</div>
                                 </td>
                             </tr>
                             <tr>
                                 <th>号码注册地址</th>
                                 <td>
-                                    <div>{{borrowTimeLimit}}</div>
+                                    <div>{{user.addr}}</div>
                                 </td>
                             </tr>
                             <tr>
                                 <th>入网时间</th>
                                 <td>
-                                    <div>{{orderCreateTime}}</div>
+                                    <div>{{user.reg_time}}</div>
                                 </td>
                             </tr>
                             <tr>
                                 <th>当前账户余额</th>
                                 <td>
-                                    <div>{{realityBorrowMoney}}</div>
+                                    <div>{{user.phone_remain}}</div>
                                 </td>
                             </tr>
                             <tr>
                                 <th>套餐名称</th>
                                 <td>
-                                    <div>{{deferAfterReturntime}}</div>
+                                    <div>{{user.package_name}}</div>
                                 </td>
                             </tr>
                             <tr>
                                 <th>用户积分</th>
                                 <td>
-                                    <div>{{overdueNumberOfDays}}</div>
+                                    <div>{{user.score}}</div>
                                 </td>
                             </tr>
                             <tr>
                                 <th>用户星级</th>
                                 <td>
-                                    <div>{{interestPenaltySum}}</div>
+                                    <div>{{user.star_level}}</div>
                                 </td>
                             </tr>
                             <tr>
                                 <th>用户实名状态</th>
                                 <td>
-                                    <div>{{pipelinenumber}}</div>
+                                    <div>{{user.authentication}}</div>
                                 </td>
                             </tr>
                             <tr>
                                 <th>客户状态</th>
                                 <td>
-                                    <div>{{pipelinenumber}}</div>
+                                    <div>{{user.phone_status}}</div>
                                 </td>
                             </tr>
                             <tr>
                                 <th>其他联系人号码</th>
                                 <td>
-                                    <div>{{pipelinenumber}}</div>
+                                    <div>{{user.contact_phone}}</div>
                                 </td>
                             </tr>
                         </table>
@@ -100,17 +100,27 @@
                 <div class="back">
                     <h2>通话记录信息</h2>
                     <div class="main">
-                        <el-table border :data="tableData" style="width: 100%;line-height: 60px;">
-                            <el-table-column prop="type" label="通话时间" align="center"></el-table-column>
-                            <el-table-column prop="name" label="对方号码" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="通讯类型" align="center"></el-table-column>
-                            <el-table-column prop="name" label="通话地点" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="呼叫类型" align="center"></el-table-column>
-                            <el-table-column prop="name" label="业务类型" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="通话时长(秒)" align="center"></el-table-column>
-                            <el-table-column prop="name" label="优惠套餐" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="费用" align="center"></el-table-column>
+                        <el-table border :data="currentTelData" style="width: 100%;line-height: 60px;">
+                            <el-table-column prop="call_time" label="通话时间" align="center"></el-table-column>
+                            <el-table-column prop="receive_phone" label="对方号码" align="center"></el-table-column>
+                            <el-table-column prop="trade_type" label="通讯类型" align="center"></el-table-column>
+                            <el-table-column prop="trade_addr" label="通话地点" align="center"></el-table-column>
+                            <el-table-column prop="call_type" label="呼叫类型" align="center"></el-table-column>
+                            <el-table-column prop="business_name" label="业务类型" align="center"></el-table-column>
+                            <el-table-column prop="trade_time" label="通话时长(秒)" align="center"></el-table-column>
+                            <el-table-column prop="special_offer" label="优惠套餐" align="center"></el-table-column>
+                            <el-table-column prop="fee" label="费用" align="center"></el-table-column>
                         </el-table>
+                        <div class="block">
+                            <el-pagination
+                                :current-page.sync="page"
+                                :page-size.sync="pageSize"
+                                @current-change="currentChange"
+                                layout="total, prev, pager, next, jumper"
+                                :page-count="totalPageCount"
+                                :total="totalCount"
+                            ></el-pagination>
+                        </div>
                     </div>
                 </div>
             </el-tab-pane>
@@ -131,344 +141,402 @@
                     </div>
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="月账单记录" name="forth">
-                <div class="back">
-                    <h2>月账单记录</h2>
-                    <div class="main">
-                        <el-table border :data="tableData" style="width: 100%;line-height: 60px;">
-                            <el-table-column prop="type" label="月份" align="center"></el-table-column>
-                            <el-table-column prop="name" label="当月话费" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="实际缴纳费用" align="center"></el-table-column>
-                            <el-table-column prop="name" label="套餐固定费用" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="额外套餐费-短信" align="center"></el-table-column>
-                            <el-table-column prop="name" label="额外套餐费-通话" align="center"></el-table-column>
-                            <el-table-column prop="name" label="额外套餐费-流量" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="增值业务费" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="优惠费" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="本人替他人代付费" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="他人替本人代付费" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="其他费用" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="当月积分" align="center"></el-table-column>
-                        </el-table>
-                    </div>
-                </div>
-            </el-tab-pane>
-            <el-tab-pane label="流量记录" name="fifth">
-                <div class="back">
-                    <h2>流量记录</h2>
-                    <div class="main">
-                        <el-table border :data="tableData" style="width: 100%;line-height: 60px;">
-                            <el-table-column prop="type" label="起始时间" align="center"></el-table-column>
-                            <el-table-column prop="name" label="通信地点" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="优惠套餐" align="center"></el-table-column>
-                            <el-table-column prop="name" label="业务名称" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="总时长(秒)" align="center"></el-table-column>
-                            <el-table-column prop="name" label="总流量(KB)" align="center"></el-table-column>
-                            <el-table-column prop="name" label="网络类型" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="上网方式" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="通信费用" align="center"></el-table-column>
-                        </el-table>
-                    </div>
-                </div>
-            </el-tab-pane>
-            <el-tab-pane label="充值记录" name="sixth">
-                <div class="back">
-                    <h2>充值记录</h2>
-                    <div class="main">
-                        <el-table border :data="tableData" style="width: 100%;line-height: 60px;">
-                            <el-table-column prop="type" label="充值时间" align="center"></el-table-column>
-                            <el-table-column prop="name" label="充值方式" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="充值金额" align="center"></el-table-column>
-                        </el-table>
-                    </div>
-                </div>
-            </el-tab-pane>
-            <el-tab-pane label="上网记录" name="seventh">
-                <div class="back">
-                    <h2>上网记录</h2>
-                    <div class="main">
-                        <el-table border :data="tableData" style="width: 100%;line-height: 60px;">
-                            <el-table-column prop="type" label="开始时间" width="93" align="center"></el-table-column>
-                            <el-table-column prop="name" label="业务类型" width="93" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="流量类型" width="93" align="center"></el-table-column>
-                            <el-table-column prop="name" label="业务名称" width="93" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="流量名称" width="93" align="center"></el-table-column>
-                            <el-table-column prop="name" label="时长(秒)" width="93" align="center"></el-table-column>
-                            <el-table-column prop="name" label="通信类型" width="93" align="center"></el-table-column>
-                            <el-table-column prop="name" label="流量类型" width="93" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="上传流量(KB)" width="125" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="下载流量(KB)" width="125" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="总流量(KB)" width="110" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="本地ip" width="93" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="访问ip" width="93" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="浏览器提示" width="110" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="访问网址" width="93" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="域名" align="center"></el-table-column>
-                        </el-table>
-                    </div>
-                </div>
-            </el-tab-pane>
-            <el-tab-pane label="亲情网信息" name="eighth">
-                <div class="back">
-                    <h2>亲情网信息</h2>
-                    <div class="main">
-                        <el-table border :data="tableData" style="width: 100%;line-height: 60px;">
-                            <el-table-column prop="type" label="编号" align="center"></el-table-column>
-                            <el-table-column prop="name" label="亲情网手机号码" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="短号" align="center"></el-table-column>
-                            <el-table-column prop="name" label="归属地" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="成员类型" align="center"></el-table-column>
-                            <el-table-column prop="name" label="加入日期" align="center"></el-table-column>
-                            <el-table-column prop="name" label="结束日期" align="center"></el-table-column>
-                        </el-table>
-                    </div>
-                </div>
-            </el-tab-pane>
-            <el-tab-pane label="月份总信息" name="ninth">
-                <div class="back">
-                    <h2>月份总信息</h2>
-                    <div class="main">
-                        <table cellpadding="20" cellspacing="0" class="account_news">
-                            <tr>
-                                <th>账单可抓取月份数</th>
-                                <td>
-                                    <div>{{time}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>账单抓取失败月份数</th>
-                                <td>
-                                    <div>{{name}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>账单未空月份数</th>
-                                <td>
-                                    <div>{{idcard}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>具体每月抓取状态</th>
-                                <td>
-                                    <div>{{phone}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>通话可抓取月份数</th>
-                                <td>
-                                    <div>{{borrowMoneyWay}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>通话抓取失败月份数</th>
-                                <td>
-                                    <div>{{borrowTimeLimit}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>通话未空月份数</th>
-                                <td>
-                                    <div>{{orderCreateTime}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>具体每月抓取状态</th>
-                                <td>
-                                    <div>{{realityBorrowMoney}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>短信可抓取月份数</th>
-                                <td>
-                                    <div>{{deferAfterReturntime}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>短信抓取失败月份数</th>
-                                <td>
-                                    <div>{{overdueNumberOfDays}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>短信未空月份数</th>
-                                <td>
-                                    <div>{{interestPenaltySum}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>具体每月抓取状态</th>
-                                <td>
-                                    <div>{{pipelinenumber}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>流量可抓取月份数</th>
-                                <td>
-                                    <div>{{deferAfterReturntime}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>流量抓取失败月份数</th>
-                                <td>
-                                    <div>{{overdueNumberOfDays}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>流量未空月份数</th>
-                                <td>
-                                    <div>{{interestPenaltySum}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>具体每月抓取状态</th>
-                                <td>
-                                    <div>{{pipelinenumber}}</div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </el-tab-pane>
-            <el-tab-pane label="调用次数记录" name="tenth">
-                <div class="back">
-                    <h2>调用次数记录</h2>
-                    <div class="main">
-                        <table cellpadding="20" cellspacing="0" class="account_news">
-                            <tr>
-                                <th>相同手机号过去1小时内调用次数</th>
-                                <td>
-                                    <div>{{time}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>相同手机号过去3小时内调用次数</th>
-                                <td>
-                                    <div>{{name}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>相同手机号过去12小时内调用次数</th>
-                                <td>
-                                    <div>{{idcard}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>相同手机号过去1天内调用次数</th>
-                                <td>
-                                    <div>{{phone}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>相同手机号过去3天内调用次数</th>
-                                <td>
-                                    <div>{{borrowMoneyWay}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>相同手机号过去7天内调用次数</th>
-                                <td>
-                                    <div>{{borrowTimeLimit}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>相同手机号过去14天内调用次数</th>
-                                <td>
-                                    <div>{{orderCreateTime}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>相同手机号过去30天内调用次数</th>
-                                <td>
-                                    <div>{{realityBorrowMoney}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>相同手机号过去60天内调用次数</th>
-                                <td>
-                                    <div>{{deferAfterReturntime}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>相同身份证过去1小时内调用次数</th>
-                                <td>
-                                    <div>{{overdueNumberOfDays}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>相同身份证过去3小时内调用次数</th>
-                                <td>
-                                    <div>{{interestPenaltySum}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>相同身份证过去12小时内调用次数</th>
-                                <td>
-                                    <div>{{pipelinenumber}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>相同身份证过去1天内调用次数</th>
-                                <td>
-                                    <div>{{deferAfterReturntime}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>相同身份证过去3天内调用次数</th>
-                                <td>
-                                    <div>{{overdueNumberOfDays}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>相同身份证过去7天内调用次数</th>
-                                <td>
-                                    <div>{{interestPenaltySum}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>相同身份证过去14天内调用次数</th>
-                                <td>
-                                    <div>{{pipelinenumber}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>相同身份证过去30天内调用次数</th>
-                                <td>
-                                    <div>{{pipelinenumber}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>相同身份证过去60天内调用次数</th>
-                                <td>
-                                    <div>{{pipelinenumber}}</div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </el-tab-pane>
+            <!--
+              <el-tab-pane label="月账单记录" name="forth">
+                  <div class="back">
+                      <h2>月账单记录</h2>
+                      <div class="main">
+                          <el-table border :data="tableData" style="width: 100%;line-height: 60px;">
+                              <el-table-column prop="type" label="月份" align="center"></el-table-column>
+                              <el-table-column prop="name" label="当月话费" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="实际缴纳费用" align="center"></el-table-column>
+                              <el-table-column prop="name" label="套餐固定费用" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="额外套餐费-短信" align="center"></el-table-column>
+                              <el-table-column prop="name" label="额外套餐费-通话" align="center"></el-table-column>
+                              <el-table-column prop="name" label="额外套餐费-流量" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="增值业务费" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="优惠费" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="本人替他人代付费" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="他人替本人代付费" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="其他费用" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="当月积分" align="center"></el-table-column>
+                          </el-table>
+                      </div>
+                  </div>
+              </el-tab-pane>
+              <el-tab-pane label="流量记录" name="fifth">
+                  <div class="back">
+                      <h2>流量记录</h2>
+                      <div class="main">
+                          <el-table border :data="tableData" style="width: 100%;line-height: 60px;">
+                              <el-table-column prop="type" label="起始时间" align="center"></el-table-column>
+                              <el-table-column prop="name" label="通信地点" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="优惠套餐" align="center"></el-table-column>
+                              <el-table-column prop="name" label="业务名称" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="总时长(秒)" align="center"></el-table-column>
+                              <el-table-column prop="name" label="总流量(KB)" align="center"></el-table-column>
+                              <el-table-column prop="name" label="网络类型" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="上网方式" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="通信费用" align="center"></el-table-column>
+                          </el-table>
+                      </div>
+                  </div>
+              </el-tab-pane>
+              <el-tab-pane label="充值记录" name="sixth">
+                  <div class="back">
+                      <h2>充值记录</h2>
+                      <div class="main">
+                          <el-table border :data="tableData" style="width: 100%;line-height: 60px;">
+                              <el-table-column prop="type" label="充值时间" align="center"></el-table-column>
+                              <el-table-column prop="name" label="充值方式" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="充值金额" align="center"></el-table-column>
+                          </el-table>
+                      </div>
+                  </div>
+              </el-tab-pane>
+              <el-tab-pane label="上网记录" name="seventh">
+                  <div class="back">
+                      <h2>上网记录</h2>
+                      <div class="main">
+                          <el-table border :data="tableData" style="width: 100%;line-height: 60px;">
+                              <el-table-column prop="type" label="开始时间" width="93" align="center"></el-table-column>
+                              <el-table-column prop="name" label="业务类型" width="93" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="流量类型" width="93" align="center"></el-table-column>
+                              <el-table-column prop="name" label="业务名称" width="93" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="流量名称" width="93" align="center"></el-table-column>
+                              <el-table-column prop="name" label="时长(秒)" width="93" align="center"></el-table-column>
+                              <el-table-column prop="name" label="通信类型" width="93" align="center"></el-table-column>
+                              <el-table-column prop="name" label="流量类型" width="93" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="上传流量(KB)" width="125" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="下载流量(KB)" width="125" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="总流量(KB)" width="110" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="本地ip" width="93" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="访问ip" width="93" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="浏览器提示" width="110" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="访问网址" width="93" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="域名" align="center"></el-table-column>
+                          </el-table>
+                      </div>
+                  </div>
+              </el-tab-pane>
+              <el-tab-pane label="亲情网信息" name="eighth">
+                  <div class="back">
+                      <h2>亲情网信息</h2>
+                      <div class="main">
+                          <el-table border :data="tableData" style="width: 100%;line-height: 60px;">
+                              <el-table-column prop="type" label="编号" align="center"></el-table-column>
+                              <el-table-column prop="name" label="亲情网手机号码" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="短号" align="center"></el-table-column>
+                              <el-table-column prop="name" label="归属地" align="center"></el-table-column>
+                              <el-table-column prop="phone" label="成员类型" align="center"></el-table-column>
+                              <el-table-column prop="name" label="加入日期" align="center"></el-table-column>
+                              <el-table-column prop="name" label="结束日期" align="center"></el-table-column>
+                          </el-table>
+                      </div>
+                  </div>
+              </el-tab-pane>
+              <el-tab-pane label="月份总信息" name="ninth">
+                  <div class="back">
+                      <h2>月份总信息</h2>
+                      <div class="main">
+                          <table cellpadding="20" cellspacing="0" class="account_news">
+                              <tr>
+                                  <th>账单可抓取月份数</th>
+                                  <td>
+                                      <div>{{time}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>账单抓取失败月份数</th>
+                                  <td>
+                                      <div>{{name}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>账单未空月份数</th>
+                                  <td>
+                                      <div>{{idcard}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>具体每月抓取状态</th>
+                                  <td>
+                                      <div>{{phone}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>通话可抓取月份数</th>
+                                  <td>
+                                      <div>{{borrowMoneyWay}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>通话抓取失败月份数</th>
+                                  <td>
+                                      <div>{{borrowTimeLimit}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>通话未空月份数</th>
+                                  <td>
+                                      <div>{{orderCreateTime}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>具体每月抓取状态</th>
+                                  <td>
+                                      <div>{{realityBorrowMoney}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>短信可抓取月份数</th>
+                                  <td>
+                                      <div>{{deferAfterReturntime}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>短信抓取失败月份数</th>
+                                  <td>
+                                      <div>{{overdueNumberOfDays}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>短信未空月份数</th>
+                                  <td>
+                                      <div>{{interestPenaltySum}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>具体每月抓取状态</th>
+                                  <td>
+                                      <div>{{pipelinenumber}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>流量可抓取月份数</th>
+                                  <td>
+                                      <div>{{deferAfterReturntime}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>流量抓取失败月份数</th>
+                                  <td>
+                                      <div>{{overdueNumberOfDays}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>流量未空月份数</th>
+                                  <td>
+                                      <div>{{interestPenaltySum}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>具体每月抓取状态</th>
+                                  <td>
+                                      <div>{{pipelinenumber}}</div>
+                                  </td>
+                              </tr>
+                          </table>
+                      </div>
+                  </div>
+              </el-tab-pane>
+              <el-tab-pane label="调用次数记录" name="tenth">
+                  <div class="back">
+                      <h2>调用次数记录</h2>
+                      <div class="main">
+                          <table cellpadding="20" cellspacing="0" class="account_news">
+                              <tr>
+                                  <th>相同手机号过去1小时内调用次数</th>
+                                  <td>
+                                      <div>{{time}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>相同手机号过去3小时内调用次数</th>
+                                  <td>
+                                      <div>{{name}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>相同手机号过去12小时内调用次数</th>
+                                  <td>
+                                      <div>{{idcard}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>相同手机号过去1天内调用次数</th>
+                                  <td>
+                                      <div>{{phone}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>相同手机号过去3天内调用次数</th>
+                                  <td>
+                                      <div>{{borrowMoneyWay}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>相同手机号过去7天内调用次数</th>
+                                  <td>
+                                      <div>{{borrowTimeLimit}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>相同手机号过去14天内调用次数</th>
+                                  <td>
+                                      <div>{{orderCreateTime}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>相同手机号过去30天内调用次数</th>
+                                  <td>
+                                      <div>{{realityBorrowMoney}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>相同手机号过去60天内调用次数</th>
+                                  <td>
+                                      <div>{{deferAfterReturntime}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>相同身份证过去1小时内调用次数</th>
+                                  <td>
+                                      <div>{{overdueNumberOfDays}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>相同身份证过去3小时内调用次数</th>
+                                  <td>
+                                      <div>{{interestPenaltySum}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>相同身份证过去12小时内调用次数</th>
+                                  <td>
+                                      <div>{{pipelinenumber}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>相同身份证过去1天内调用次数</th>
+                                  <td>
+                                      <div>{{deferAfterReturntime}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>相同身份证过去3天内调用次数</th>
+                                  <td>
+                                      <div>{{overdueNumberOfDays}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>相同身份证过去7天内调用次数</th>
+                                  <td>
+                                      <div>{{interestPenaltySum}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>相同身份证过去14天内调用次数</th>
+                                  <td>
+                                      <div>{{pipelinenumber}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>相同身份证过去30天内调用次数</th>
+                                  <td>
+                                      <div>{{pipelinenumber}}</div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <th>相同身份证过去60天内调用次数</th>
+                                  <td>
+                                      <div>{{pipelinenumber}}</div>
+                                  </td>
+                              </tr>
+                          </table>
+                      </div>
+                  </div>
+              </el-tab-pane>
+              -->
         </el-tabs>
     </div>
 </template>
 
 <script>
     import headTop from '../components/headTop'
+
     export default {
         components: {
             headTop,
         },
-        data(){
-            return{
+        data() {
+            return {
                 activeName: "first",
-                tableData: []
+                tableData: [],
+                userJson: {},
+                user: {},
+                telDetailData: [],
+                currentTelData: [],
+                page: 1,
+                pageSize: 10,
+                totalPageCount: 0,
+                totalCount: 0
             }
         },
-        created(){
+        watch: {   //监听值变化：map值
+            "$route": {
+                handler(route) {
+                    var that = this;
+                    if (route.path == '/riskManagement') {
+                        that.id = route.query.id;
+                        that.Search();
+                    }
+                }
+            }
+        },
+        created() {
             // this.getData(this.page,this.Pagesize)
             // this.get()
         },
-        methods:{
-            handleClick(){
+        methods: {
+            handleClick() {
 
+            },
+            currentChange(page) {
+                var that = this;
+                that.page = page;
+                that.currentTelData = [];
+                that.currentTelData = that.telDetailData.slice(page * 10, (page + 1) * 10);
+            },
+            Search() {
+                var that = this;
+                that.axios.get('/user/queryUserAttesta', {
+                    params: {userid: that.id}
+                }).then(res => {
+                    that.userJson = JSON.parse(res.data.operator.operatorjson);
+                    if (that.userJson.error != 200) {
+                        that.userJson = {};
+                    }
+                    that.user = that.userJson.wd_api_mobilephone_getdatav2_response.data.data_list[0].userdata;
+                    that.user.authentication = that.user.authentication == 0 ? '未知' : that.user.authentication == 1 ? '已认证' : that.user.authentication == 2 ? '未认证' : '其他'
+                    that.user.phone_status = that.user.phone_status == 0 ? '未知' : that.user.phone_status == 1 ? '正常' : that.user.phone_status == 2 ? '停机' : that.user.phone_status == 3 ? '单向停机' : '其他'
+
+                    var telData = that.userJson.wd_api_mobilephone_getdatav2_response.data.data_list[0].teldata;
+                    that.telDetailData = [];
+                    if (!!telData.length) {
+                        for (var i = 0; i < telData.length; i++) {
+                            if (!!telData[i].items.length) {
+                                for (var j = 0; j < telData[i].items.length; j++) {
+                                    that.telDetailData.push(telData[i].items[j]);
+                                }
+                            }
+                        }
+                    }
+                    var shortMessageData = that.userJson.wd_api_mobilephone_getdatav2_response.data.data_list[0].teldata;
+                    that.totalCount = that.telDetailData.length;
+                    that.totalPageCount = that.telDetailData.length / 10;
+                    that.currentChange(1);
+                })
             }
         }
     }
@@ -480,23 +548,28 @@
     .el-tabs__header {
         margin: 0;
     }
-    .main{
+
+    .main {
         padding: 20px;
         background-color: #fff;
         min-height: 70vh;
     }
-    .account_news{
+
+    .account_news {
         width: 50%;
         margin: 0 auto;
     }
-    .account_news th{
+
+    .account_news th {
         width: 50%;
         text-align: left;
     }
-    .account_news td{
+
+    .account_news td {
         text-align: center;
     }
-    .account_news td div{
+
+    .account_news td div {
         margin-top: -10px;
         margin-bottom: -10px;
         width: 90%;

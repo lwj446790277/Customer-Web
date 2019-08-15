@@ -12,8 +12,7 @@
                                 <el-select v-model="type" placeholder="ios" style="width:200px" @change="changeType">
                                     <el-option label="ios" value="ios"></el-option>
                                     <el-option label="安卓" value="android"></el-option>
-                                    <el-option label="全部" value="
-"></el-option>
+                                    <el-option label="全部" value=""></el-option>
                                 </el-select>
                             </td>
                         </tr>

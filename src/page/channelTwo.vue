@@ -78,6 +78,12 @@
                                 </el-select>
                             </td>
                         </tr>
+                        <tr>
+                            <th>验证码</th>
+                            <td>
+                                <el-input v-model="addChannelObject.token" placeholder="请输入验证码"></el-input>
+                            </td>
+                        </tr>
                     </table>
                     <div style="float: right;margin-bottom: 5px">
                         <el-button type="warning" @click="addChannelDialogVisible = false">取消</el-button>
@@ -127,6 +133,12 @@
                                     <el-option v-for="template in templateList" :label="template.name"
                                             :value="template.name"></el-option>
                                 </el-select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>验证码</th>
+                            <td>
+                                <el-input v-model="editChannelObject.token" placeholder="请输入验证码"></el-input>
                             </td>
                         </tr>
                         <tr>

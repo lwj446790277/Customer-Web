@@ -38,6 +38,7 @@
 <script>
     import headTop from '../components/headTop'
     import {quillEditor} from 'vue-quill-editor'
+    import qs from 'qs'
 
     export default {
         data() {
@@ -82,9 +83,13 @@
             submit() {
                 console.log(this.content);
                 var that = this;
-                that.axios.get('/editagreement/updateByPrimaryKeyWithBLOBs', {
-                    params: {id: that.contentId, agreementcontent: that.content}
-                }).then(res => {
+                that.axios.post('/editagreement/updateByPrimaryKeyWithBLOBs',
+                    qs.stringify({id: that.contentId, agreementcontent: that.content})
+                    , {
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        }
+                    }).then(res => {
                     this.$message.success('修改成功');
                 })
             }
@@ -105,6 +110,7 @@
     }
 
     .submit_btn {
+        background-color: white;
         text-align: center;
     }
 

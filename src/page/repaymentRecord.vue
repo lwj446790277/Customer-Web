@@ -25,8 +25,8 @@
                     <el-table-column prop="deferredTime" label="时间" align="center"></el-table-column>
                     <el-table-column prop="orderNum" label="延期笔数" align="center"></el-table-column>
                     <el-table-column prop="deferredamount" label="延期费" align="center"></el-table-column>
-                    <el-table-column prop="deduction_money" label="银行扣款笔数" align="center"></el-table-column>
-                    <el-table-column prop="userNum" label="银行扣款金额" align="center"></el-table-column>
+                    <el-table-column prop="userNum" label="银行扣款笔数" align="center"></el-table-column>
+                    <el-table-column prop="deduction_money" label="银行扣款金额" align="center"></el-table-column>
                 </el-table>
                 <div class="block">
                     <el-pagination

@@ -116,29 +116,29 @@
             }
         },
         beforeCreate() {
-            // var that = this;
-            // that.axios.get('/order/queryAllUserPeople', {
-            //     params: {companyId: window.localStorage.getItem("companyid"), page: 1}
-            // }).then(res => {
-            //     that.tableData = res.data.listuser;
-            //     that.page = res.data.pageutil.page;
-            //     that.totalPageCount = res.data.pageutil.totalPageCount;
-            //     that.totalCount = res.data.pageutil.totalCount;
-            //     that.pageSize = res.data.pageutil.pageSize;
-            //     for (var i = 0; i < that.tableData.length; i++) {
-            //         if (that.tableData[i].shareOfState == 0) {
-            //             that.tableData[i].shareOfStateName = "机审未通过";
-            //         } else if (that.tableData[i].shareOfState == 1) {
-            //             that.tableData[i].shareOfStateName = "需要人工审核";
-            //         } else if (that.tableData[i].shareOfState == 2) {
-            //             that.tableData[i].shareOfStateName = "机审通过";
-            //         } else if (that.tableData[i].shareOfState == 3) {
-            //             that.tableData[i].shareOfStateName = "人审未通过";
-            //         } else if (that.tableData[i].shareOfState == 4) {
-            //             that.tableData[i].shareOfStateName = "人审通过";
-            //         }
-            //     }
-            // })
+            var that = this;
+            that.axios.get('/order/queryAllUserPeople', {
+                params: {companyId: window.localStorage.getItem("companyid"), page: 1}
+            }).then(res => {
+                that.tableData = res.data.listuser;
+                that.page = res.data.pageutil.page;
+                that.totalPageCount = res.data.pageutil.totalPageCount;
+                that.totalCount = res.data.pageutil.totalCount;
+                that.pageSize = res.data.pageutil.pageSize;
+                for (var i = 0; i < that.tableData.length; i++) {
+                    if (that.tableData[i].shareOfState == 0) {
+                        that.tableData[i].shareOfStateName = "机审未通过";
+                    } else if (that.tableData[i].shareOfState == 1) {
+                        that.tableData[i].shareOfStateName = "需要人工审核";
+                    } else if (that.tableData[i].shareOfState == 2) {
+                        that.tableData[i].shareOfStateName = "机审通过";
+                    } else if (that.tableData[i].shareOfState == 3) {
+                        that.tableData[i].shareOfStateName = "人审未通过";
+                    } else if (that.tableData[i].shareOfState == 4) {
+                        that.tableData[i].shareOfStateName = "人审通过";
+                    }
+                }
+            })
         },
         methods: {
             Reset() {

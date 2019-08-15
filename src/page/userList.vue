@@ -232,6 +232,43 @@
                     params: param
                 }).then(res => {
                     that.tableData2 = res.data.listorders;
+                    for (var i = 0; i < that.tableData2.length; i++) {
+                        if (!that.tableData2[i].user.account) {
+                            that.tableData2[i].user.account = "机审";
+                        }
+                        if (!that.tableData2[i].deferrTime) {
+                            that.tableData2[i].deferrTime = 0;
+                        }
+                        if (!that.tableData2[i].deferrMoney) {
+                            that.tableData2[i].deferrMoney = 0;
+                        }
+                        if (!that.tableData2[i].repaymentMoney) {
+                            that.tableData2[i].repaymentMoney = 0;
+                        }
+
+                        if (!that.tableData2[i].user.operationTime || !that.tableData2[i].user.operationTime == 0) {
+                            that.tableData2[i].user.operationTime = '暂无';
+                        }
+                        if (!that.tableData2[i].user.account) {
+                            that.tableData2[i].user.account = '暂无';
+                        }
+
+                        if (!that.tableData2[i].repaymentMoney) {
+                            that.tableData2[i].repaymentMoney = 0;
+                        }
+                        if (!that.tableData2[i].deferrTime) {
+                            that.tableData2[i].deferrTime = 0;
+                        }
+                        if (!that.tableData2[i].deferrMoney) {
+                            that.tableData2[i].deferrMoney = 0;
+                        }
+                        if (!that.tableData2[i].postponeDate) {
+                            that.tableData2[i].postponeDate = 0;
+                        }
+                        if (!that.tableData2[i].deferAfterReturntime || that.tableData[i].deferAfterReturntime == 0) {
+                            that.tableData2[i].deferAfterReturntime = '暂无';
+                        }
+                    }
                     that.page2 = res.data.pageutil.page;
                     that.totalPageCount2 = res.data.pageutil.totalPageCount;
                     that.totalCount2 = res.data.pageutil.totalCount;

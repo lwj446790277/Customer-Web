@@ -278,6 +278,14 @@
                 };
             },
             Search() {
+
+                if (!!this.form.phone && this.form.phone.length != 11) {
+                    this.$message({
+                        type: "error",
+                        message: '请输入11位手机号'
+                    });
+                    return false;
+                }
                 if (this.form.start != "") {
                     var start = this.form.start + " " + "00:00:00"
                 }

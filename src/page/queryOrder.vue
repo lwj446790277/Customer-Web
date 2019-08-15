@@ -140,7 +140,7 @@
                         </li>
                         <li>
                             <span>实借/放款:</span>
-                            <span> {{order.orderdetails.makeLoans}}/{{order.orderdetails.realityAccount}} </span>
+                            <span> {{order.orderdetails.realityBorrowMoney}}/{{order.orderdetails.makeLoans}} </span>
                         </li>
                         <li>
                             <span>总利息/总还款:</span>
@@ -217,6 +217,11 @@
                     params: param
                 }).then(res => {
                     that.tableData = res.data.listorders;
+                    for (var i = 0; i < that.tableData.length; i++) {
+                        if (!that.tableData[i].user.account) {
+                            that.tableData[i].user.account = "机审";
+                        }
+                    }
                     that.page = res.data.pageutil.page;
                     that.totalPageCount = res.data.pageutil.totalPageCount;
                     that.totalCount = res.data.pageutil.totalCount;
@@ -230,6 +235,43 @@
                 }).then(res => {
                     that.sourceList = res.data.listsource;
                     that.tableData = res.data.listorders;
+                    for (var i = 0; i < that.tableData.length; i++) {
+                        if (!that.tableData[i].user.account) {
+                            that.tableData[i].user.account = "机审";
+                        }
+                        if (!that.tableData[i].deferrTime) {
+                            that.tableData[i].deferrTime = 0;
+                        }
+                        if (!that.tableData[i].deferrMoney) {
+                            that.tableData[i].deferrMoney = 0;
+                        }
+                        if (!that.tableData[i].repaymentMoney) {
+                            that.tableData[i].repaymentMoney = 0;
+                        }
+
+                        if (!that.tableData[i].user.operationTime || !that.tableData[i].user.operationTime == 0) {
+                            that.tableData[i].user.operationTime = '暂无';
+                        }
+                        if (!that.tableData[i].user.account) {
+                            that.tableData[i].user.account = '暂无';
+                        }
+
+                        if (!that.tableData[i].repaymentMoney) {
+                            that.tableData[i].repaymentMoney = 0;
+                        }
+                        if (!that.tableData[i].deferrTime) {
+                            that.tableData[i].deferrTime = 0;
+                        }
+                        if (!that.tableData[i].deferrMoney) {
+                            that.tableData[i].deferrMoney = 0;
+                        }
+                        if (!that.tableData[i].postponeDate) {
+                            that.tableData[i].postponeDate = 0;
+                        }
+                        if (!that.tableData[i].deferAfterReturntime || that.tableData[i].deferAfterReturntime == 0) {
+                            that.tableData[i].deferAfterReturntime = '暂无';
+                        }
+                    }
                     that.page = res.data.pageutil.page;
                     that.totalPageCount = res.data.pageutil.totalPageCount;
                     that.totalCount = res.data.pageutil.totalCount;
@@ -276,6 +318,43 @@
                     params: param
                 }).then(res => {
                     that.tableData = res.data.listorders;
+                    for (var i = 0; i < that.tableData.length; i++) {
+                        if (!that.tableData[i].user.account) {
+                            that.tableData[i].user.account = "机审";
+                        }
+                        if (!that.tableData[i].deferrTime) {
+                            that.tableData[i].deferrTime = 0;
+                        }
+                        if (!that.tableData[i].deferrMoney) {
+                            that.tableData[i].deferrMoney = 0;
+                        }
+                        if (!that.tableData[i].repaymentMoney) {
+                            that.tableData[i].repaymentMoney = 0;
+                        }
+
+                        if (!that.tableData[i].user.operationTime || !that.tableData[i].user.operationTime == 0) {
+                            that.tableData[i].user.operationTime = '暂无';
+                        }
+                        if (!that.tableData[i].user.account) {
+                            that.tableData[i].user.account = '暂无';
+                        }
+
+                        if (!that.tableData[i].repaymentMoney) {
+                            that.tableData[i].repaymentMoney = 0;
+                        }
+                        if (!that.tableData[i].deferrTime) {
+                            that.tableData[i].deferrTime = 0;
+                        }
+                        if (!that.tableData[i].deferrMoney) {
+                            that.tableData[i].deferrMoney = 0;
+                        }
+                        if (!that.tableData[i].postponeDate) {
+                            that.tableData[i].postponeDate = 0;
+                        }
+                        if (!that.tableData[i].deferAfterReturntime || that.tableData[i].deferAfterReturntime == 0) {
+                            that.tableData[i].deferAfterReturntime = '暂无';
+                        }
+                    }
                     that.page = res.data.pageutil.page;
                     that.totalPageCount = res.data.pageutil.totalPageCount;
                     that.totalCount = res.data.pageutil.totalCount;

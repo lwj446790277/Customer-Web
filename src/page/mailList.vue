@@ -7,7 +7,7 @@
                 <div class="back">
                     <h2>紧急联系人</h2>
                     <div class="main">
-                        <el-table border :data="user" style="width: 100%;line-height: 60px;">
+                        <el-table border :data="tableData" style="width: 100%;line-height: 60px;">
                             <el-table-column prop="linkmanonerelation" label="关系类型" align="center"></el-table-column>
                             <el-table-column prop="linkmanonename" label="姓名" align="center"></el-table-column>
                             <el-table-column prop="linkmanonephone" label="手机号" align="center"></el-table-column>
@@ -53,7 +53,6 @@
         data() {
             return {
                 tableData: [],
-                user:{},
                 tableDatas: [],
                 activeName: "first",
                 id: -1,
@@ -87,7 +86,17 @@
                 that.axios.get('/user/queryUserAttesta', {
                     params: {userid: that.id}
                 }).then(res => {
-                    that.user = res.data.userAttestation;
+                    that.tableData = [];
+                    var result = {};
+                    result.linkmanonename = res.data.userAttestation.linkmanonename;
+                    result.linkmanonephone = res.data.userAttestation.linkmanonephone;
+                    result.linkmanonerelation = res.data.userAttestation.linkmanonerelation;
+                    that.tableData.push(result);
+                    var result2 = {};
+                    result2.linkmanonename = res.data.userAttestation.linkmantwoname;
+                    result2.linkmanonephone = res.data.userAttestation.linkmantwophone;
+                    result2.linkmanonerelation = res.data.userAttestation.linkmantworelation;
+                    that.tableData.push(result2);
                 })
             }
         }
