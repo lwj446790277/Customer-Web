@@ -12,7 +12,7 @@ import axios from 'axios'
 
 Vue.prototype.$axios = axios;
 
-axios.defaults.baseURL = 'http://192.168.0.161:8080/zhita_xiaodai_admin/'
+axios.defaults.baseURL = 'http://192.168.0.169:8080/zhita_xiaodai_admin/'
 //axios.defaults.baseURL = 'http://39.98.83.65:8080/zhita_xiaodai_admin/'
 axios.defaults.withCredentials = true
 axios.interceptors.response.use(function (res) {

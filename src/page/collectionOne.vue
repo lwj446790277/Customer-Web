@@ -48,7 +48,7 @@
                     <el-table-column prop="borrowTimeLimit" label="还款期数" align="center"></el-table-column>
                     <el-table-column prop="orderCreateTime" label="实借时间" align="center"></el-table-column>
                     <el-table-column prop="realityBorrowMoney" label="实借总金额" align="center"></el-table-column>
-                    <el-table-column prop="shouldReturnTime" label="延期后应还时间" align="center"></el-table-column>
+                    <el-table-column prop="deferAfterReturntime" label="延期后应还时间" align="center"></el-table-column>
                     <el-table-column prop="overdueNumberOfDays" label="逾期天数" align="center"></el-table-column>
                     <el-table-column prop="interestPenaltySum" label="逾期罚金/含逾应还总金额" align="center">
                         <template slot-scope="scope">

@@ -26,7 +26,7 @@
                             <el-table-column label="发送历史批次" align="center">
                                 <template slot-scope="scope">
                                     <!-- <span class="blue" @click="open">{{scope.row.interestPenaltySum}}</span> -->
-                                    <span class="blue" @click="open(scope.row.collection_time)">共{{scope.row.shortmessagesize}}次</span>
+                                    <span class="blue" @click="open(scope.row.collection_time)">查看历史批次</span>
                                 </template>
                             </el-table-column>
                             <el-table-column label="操作" align="center">
@@ -81,7 +81,7 @@
                             <!--							<el-table-column prop="successnum" label="成功发送条数" align="center"></el-table-column>-->
                             <el-table-column prop="paymentmoney" label="发送历史批次" align="center">
                                 <template slot-scope="scope">
-                                    <span class="blue" @click="opens(scope.row.collection_time)">共{{scope.row.shortmessagesize}}次</span>
+                                    <span class="blue" @click="opens(scope.row.collection_time)">查看历史批次</span>
                                 </template>
                             </el-table-column>
                         </el-table>

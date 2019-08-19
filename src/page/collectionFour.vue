@@ -39,12 +39,7 @@
                         <el-button type="primary" @click="Search">搜索</el-button>
                     </el-form-item>
                 </el-form>
-                <el-table
-                    border
-                    :data="tableData"
-                    tooltip-effect="dark"
-                    style="width: 100%;line-height: 60px"
-                >
+                <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%;line-height: 60px">
                     <!--          <el-table-column prop="collectionTime" label="日期" align="center"></el-table-column>-->
                     <el-table-column prop="realtime" label="日期" align="center" class="red"></el-table-column>
                     <el-table-column prop="reallyName" label="催收员姓名" align="center"></el-table-column>

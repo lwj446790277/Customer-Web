@@ -233,7 +233,6 @@ export default {
                   companyId: window.localStorage.getItem("companyid")
               }
           }).then(res=>{
-            console.log(res.data)
               if(res.data.todayloantotalmoney==null){
                   res.data.todayloantotalmoney = 0
               }

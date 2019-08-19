@@ -481,7 +481,6 @@
         },
         methods: {
             sta(val) {
-                console.log(val)
                 this.accounttime = val
             },
             timeChange(val) {
@@ -713,6 +712,27 @@
                 }
             },
             save() {
+                if(!this.qudao){
+                    this.$message({
+                        type: "error",
+                        message: "请先选择渠道"
+                    });
+                    return false;
+                }
+                if(!this.accounttime){
+                    this.$message({
+                        type: "error",
+                        message: "请先选择日期"
+                    });
+                    return false;
+                }
+                if(!this.amountmoney){
+                    this.$message({
+                        type: "error",
+                        message: "请先输入减免金额"
+                    });
+                    return false;
+                }
                 this.axios.get('fina/AddAcount', {
                     params: {
                         orderId: this.orderId,
@@ -724,11 +744,10 @@
                         sys_uerId: window.localStorage.getItem("userid")
                     }
                 }).then(res => {
-                    this.$confirm(res.data.desc, '提示', {
-                        type: 'warning',
-                        center: true
-                    })
-                    this.visible = false
+                    this.$message({
+                        type: "success",
+                        message: "保存成功"
+                    });
                 })
             },
             blur() {
