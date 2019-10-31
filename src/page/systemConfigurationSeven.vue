@@ -30,7 +30,7 @@
                         <template v-if="!!actor.cros2">
                             <td :rowspan="actor.cros2">
                                 <template v-if="actor.thirdlevelmenu =='/'">
-                                    <el-checkbox @change="checked=>changeSelected(checked,actor.id)">
+                                    <el-checkbox @change="(checked)=>changeSelected(checked,actor.id)">
                                         {{actor.secondlevelmenu}}
                                     </el-checkbox>
                                 </template>
@@ -41,7 +41,7 @@
                         </template>
                         <template v-if="actor.thirdlevelmenu != '/'">
                             <td>
-                                <el-checkbox @change="checked=>changeSelected(checked,actor.id)">
+                                <el-checkbox @change="(checked)=>changeSelected(checked,actor.id)">
                                     {{actor.thirdlevelmenu}}
                                 </el-checkbox>
                             </td>
@@ -57,11 +57,8 @@
         </el-dialog>
         <el-dialog title="编辑角色" :visible.sync="editActorDialogVisible" customClass="customWidth" center>
             <div>
-                <el-button type="warning" @click="centerDialogVisible = false">取消</el-button>
-                <el-input placeholder="输入角色名称" style="width: 200px" v-model="editActorObject.rolename"
-                          class="inp"></el-input>
-                <el-input placeholder="输入角色描述" style="width: 200px" v-model="editActorObject.roledescribe"
-                          class="inp"></el-input>
+                <el-input placeholder="输入角色名称" style="width: 200px" v-model="editActorObject.rolename" class="inp"></el-input>
+                <el-input placeholder="输入角色描述" style="width: 200px" v-model="editActorObject.roledescribe" class="inp"></el-input>
                 <el-button type="primary" @click="SaveEditActor">保存</el-button>
             </div>
             <table border="1" cellspacing="0" cellpadding="15" class="tables">
@@ -83,8 +80,7 @@
                         <template v-if="!!actor.cros2">
                             <td :rowspan="actor.cros2">
                                 <template v-if="actor.thirdlevelmenu =='/'">
-                                    <el-checkbox v-model="actor.selected"
-                                                 @change="checked=>changeEditSelected(checked,actor.id)">
+                                    <el-checkbox v-model="actor.selected" @change="(val)=>changeEditSelected(val, actor.id)">
                                         {{actor.secondlevelmenu}}
                                     </el-checkbox>
                                 </template>
@@ -95,8 +91,7 @@
                         </template>
                         <template v-if="actor.thirdlevelmenu != '/'">
                             <td>
-                                <el-checkbox v-model="actor.selected"
-                                             @change="checked=>changeEditSelected(checked,actor.id)">
+                                <el-checkbox v-model="actor.selected" @change="(checked)=>changeEditSelected(checked,actor.id)">
                                     {{actor.thirdlevelmenu}}
                                 </el-checkbox>
                             </td>
@@ -111,62 +106,127 @@
             </table>
         </el-dialog>
         <el-tabs v-model="activeName" type="card">
-            <el-tab-pane label="角色权限" name="first">
-                <div class="back">
-                    <h2>角色权限</h2>
-                    <div class="main">
-                        <el-table border :data="tableData" style="width: 100%;line-height: 60px;">
-                            <el-table-column prop="rolename" label="角色名称" align="center"></el-table-column>
-                            <el-table-column prop="roledescribe" label="角色描述" align="center"></el-table-column>
-                            <el-table-column prop="stateName" label="角色状态" align="center"></el-table-column>
-                            <el-table-column label="编辑" align="center">
-                                <template slot-scope="scope">
-                                    <el-button type="primary" @click="openEditActorDialog(scope.row)">编辑</el-button>
-                                </template>
-                            </el-table-column>
-                            <el-table-column prop="address" label="修改状态" align="center">
-                                <template slot-scope="scope">
-                                    <el-popover placement="bottom-end" width="300" trigger="click"
-                                                :ref="`popover-${scope.$index}`">
-                                        <span class="content">确认修改该角色状态吗？</span>
-                                        <el-button class="confire" type="success" @click="changeActorState(scope)">是的
-                                        </el-button>
-                                        <el-button type="danger" slot="reference">修改
-                                        </el-button>
-                                    </el-popover>
-                                </template>
-                            </el-table-column>
-                            <el-table-column prop="address" label="删除角色" align="center">
-                                <template slot-scope="scope">
-                                    <el-popover placement="bottom-end" width="300" trigger="click"
-                                                :ref="`popover+${scope.$index}`">
-                                        <span class="content">确认删除角色吗？</span>
-                                        <el-button class="confire" type="success" @click="deleteActor(scope)">是的
-                                        </el-button>
-                                        <el-button type="danger" slot="reference">删除
-                                        </el-button>
-                                    </el-popover>
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                        <div class="open" @click="openAddActorDialog()">
-                            <!-- <i class="el-icon-circle-plus-outline"></i> -->
-                            <i class="el-icon-plus"></i>
-                            <span>新增角色</span>
-                        </div>
-                        <div class="block">
-                            <el-pagination
-                                :current-page="page"
-                                :page-size.sync="pageSize"
-                                layout="total, prev, pager, next, jumper"
-                                :page-count="totalPageCount"
-                                :total="totalCount"
-                                @current-change="currentChange"
-                            ></el-pagination>
+            <template v-if="isInArray(62)">
+                <el-tab-pane label="角色权限" name="first">
+                    <div class="back">
+                        <h2>角色权限</h2>
+                        <div class="main">
+                            <el-table border :data="tableData" style="width: 100%;line-height: 60px;">
+                                <el-table-column :resizable='false' prop="rolename" label="角色名称" align="center"></el-table-column>
+                                <el-table-column :resizable='false' prop="roledescribe" label="角色描述" align="center"></el-table-column>
+                                <el-table-column :resizable='false' prop="stateName" label="角色状态" align="center"></el-table-column>
+                                <el-table-column :resizable='false' label="编辑" align="center">
+                                    <template slot-scope="scope">
+                                        <el-button type="primary" @click="openEditActorDialog(scope.row)">编辑</el-button>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column :resizable='false' prop="address" label="修改状态" align="center">
+                                    <template slot-scope="scope">
+                                        <el-popover placement="bottom-end" width="300" trigger="click" :ref="`popover-${scope.$index}`">
+                                            <span class="content">确认修改该角色状态吗？</span>
+                                            <el-button class="confire" type="success" @click="changeActorState(scope)">是的</el-button>
+                                            <el-button type="danger" slot="reference">修改</el-button>
+                                        </el-popover>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column :resizable='false' prop="address" label="删除角色" align="center">
+                                    <template slot-scope="scope">
+                                        <el-popover placement="bottom-end" width="300" trigger="click" :ref="`popover+${scope.$index}`">
+                                            <span class="content">确认删除角色吗？</span>
+                                            <el-button class="confire" type="success" @click="deleteActor(scope)">是的</el-button>
+                                            <el-button type="danger" slot="reference">删除</el-button>
+                                        </el-popover>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                            <div class="open" @click="openAddActorDialog()">
+                                <!-- <i class="el-icon-circle-plus-outline"></i> -->
+                                <i class="el-icon-plus"></i>
+                                <span>新增角色</span>
+                            </div>
+                            <div class="block">
+                                <el-pagination
+                                    :current-page="page"
+                                    :page-size="pageSize"
+                                    layout="total, prev, pager, next, jumper"
+                                    :page-count="totalPageCount"
+                                    :total="totalCount"
+                                    @current-change="currentChange"
+                                ></el-pagination>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </el-tab-pane>
+                </el-tab-pane>
+            </template>
+            <template v-if="isInArray(63)">
+                <el-tab-pane label="账号列表" name="second">
+                    <div class="back">
+                        <h2>账号列表</h2>
+                        <div class="main">
+                            <el-form :model="form" :inline="true" class="demo-form-inline">
+                                <el-form-item>
+                                    <el-input placeholder="用户名称" v-model="form.account" class="input-with-select"></el-input>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-select v-model="form.status" placeholder="用户状态" style="width:150px">
+                                        <el-option label="开启" value="1"></el-option>
+                                        <el-option label="关闭" value="2"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-button type="warning" @click="Reset">重置</el-button>
+                                    <el-button type="primary" @click="Search">搜索</el-button>
+                                </el-form-item>
+                            </el-form>
+                            <el-table border :data="tableDatas" style="width: 100%;line-height: 60px;">
+                                <el-table-column :resizable='false' prop="rolestr" label="角色名称" align="center"></el-table-column>
+                                <el-table-column :resizable='false' prop="account" label="用户名称" align="center"></el-table-column>
+                                <el-table-column :resizable='false' prop="phone" label="手机号" align="center"></el-table-column>
+                                <el-table-column :resizable='false' prop="loginstate" label="登录状态" align="center"></el-table-column>
+                                <el-table-column :resizable='false' prop="logintime" label="登录时间" align="center"></el-table-column>
+                                <el-table-column :resizable='false' prop="status" label="账号状态" align="center"></el-table-column>
+                                <el-table-column :resizable='false' prop="address" label="编辑" align="center">
+                                    <template slot-scope="scope">
+                                        <el-button type="primary" @click="openEditUserDialog(scope.row)">编辑</el-button>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column :resizable='false' prop="address" label="修改状态" align="center">
+                                    <template slot-scope="scope">
+                                        <el-popover placement="bottom-end" width="300" trigger="click" :ref="`popover-${scope.$index}`">
+                                            <span class="content">确认修改用户当前状态吗？</span>
+                                            <el-button class="confire" type="success" @click="updateUserState(scope,scope.row.status)">是的</el-button>
+                                            <el-button type="danger" slot="reference" @click="">修改状态</el-button>
+                                        </el-popover>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column :resizable='false' prop="address" label="删除用户" align="center">
+                                    <template slot-scope="scope">
+                                        <el-popover placement="bottom-end" width="300" trigger="click" :ref="`popover+${scope.$index}`">
+                                            <span class="content">确认删除当前用户吗？</span>
+                                            <el-button class="confire" type="success" @click="deleteUser(scope)">是的</el-button>
+                                            <el-button type="danger" slot="reference" @click="">删除用户</el-button>
+                                        </el-popover>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                            <div class="open" @click="openAddUserDialog()">
+                                <i class="el-icon-plus"></i>
+                                <span>新增用户</span>
+                            </div>
+                            <div class="block">
+                                <el-pagination
+                                    :current-page="page2"
+                                    :page-size="pageSize2"
+                                    layout="total, prev, pager, next, jumper"
+                                    :page-count="totalPageCount2"
+                                    :total="totalCount2"
+                                    @current-change="currentChange2"
+                                ></el-pagination>
+                            </div>
+                        </div>
+                    </div>
+                </el-tab-pane>
+            </template>
             <el-dialog title="新增用户" :visible.sync="centerDialogVisibles" customClass="customWidths" center>
                 <table border="0" cellspacing="0" cellpadding="20" class="table" center>
                     <tr>
@@ -175,12 +235,12 @@
                             <el-input v-model="addUserObject.account" placeholder="请输入用户名"></el-input>
                         </td>
                     </tr>
-                    <tr>
+                    <!--<tr>
                         <th>密码</th>
                         <td>
                             <el-input v-model="addUserObject.pwd" placeholder="请输入密码"></el-input>
                         </td>
-                    </tr>
+                    </tr>-->
                     <tr>
                         <th>手机号</th>
                         <td>
@@ -190,7 +250,7 @@
                     <tr>
                         <th>角色名称</th>
                         <td>
-                            <el-select multiple v-model="addUserObject.listRoleIdString" placeholder="选择角色"
+                            <el-select v-model="addUserObject.listRoleIdString" placeholder="选择角色"
                                        style="width: 100%;">
                                 <el-option v-for="role in roleList" :label="role.rolename"
                                            :value="role.roleid"></el-option>
@@ -211,12 +271,12 @@
                             <el-input v-model="editUserObject.account" placeholder="请输入用户名"></el-input>
                         </td>
                     </tr>
-                    <tr>
+                    <!--<tr>
                         <th>密码</th>
                         <td>
                             <el-input v-model="editUserObject.pwd" placeholder="请输入密码"></el-input>
                         </td>
-                    </tr>
+                    </tr>-->
                     <tr>
                         <th>手机号</th>
                         <td>
@@ -226,11 +286,8 @@
                     <tr>
                         <th>角色名称</th>
                         <td>
-                            <el-select multiple v-model="editUserObject.listRoleIdString" placeholder="选择角色"
-                                       style="width: 100%;">
-                                <el-option v-for="role in roleList" :label="role.rolename"
-                                           :value="role.roleid">
-                                </el-option>
+                            <el-select v-model="editUserObject.listRoleIdString" placeholder="选择角色" style="width: 100%;">
+                                <el-option v-for="role in roleList" :label="role.rolename" :value="role.roleid"></el-option>
                             </el-select>
                         </td>
                     </tr>
@@ -240,80 +297,6 @@
                     <el-button type="primary" @click="editUser">保存</el-button>
                 </div>
             </el-dialog>
-            <el-tab-pane label="账号列表" name="second">
-                <div class="back">
-                    <h2>账号列表</h2>
-                    <div class="main">
-                        <el-form :model="form" :inline="true" class="demo-form-inline">
-                            <el-form-item>
-                                <el-input placeholder="用户名称" v-model="form.account"
-                                          class="input-with-select"></el-input>
-                            </el-form-item>
-                            <el-form-item>
-                                <el-select v-model="form.status" placeholder="用户状态" style="width:150px">
-                                    <el-option label="开启" value="1"></el-option>
-                                    <el-option label="关闭" value="2"></el-option>
-                                </el-select>
-                            </el-form-item>
-                            <el-form-item>
-                                <el-button type="warning" @click="Reset">重置</el-button>
-                                <el-button type="primary" @click="Search">搜索</el-button>
-                            </el-form-item>
-                        </el-form>
-                        <el-table border :data="tableDatas" style="width: 100%;line-height: 60px;">
-                            <el-table-column prop="rolestr" label="角色名称" align="center"></el-table-column>
-                            <el-table-column prop="account" label="用户名称" align="center"></el-table-column>
-                            <el-table-column prop="loginstate" label="登录状态" align="center"></el-table-column>
-                            <el-table-column prop="logintime" label="登录时间" align="center"></el-table-column>
-                            <el-table-column prop="status" label="账号状态" align="center"></el-table-column>
-                            <el-table-column prop="address" label="编辑" align="center">
-                                <template slot-scope="scope">
-                                    <el-button type="primary" @click="openEditUserDialog(scope.row)">编辑</el-button>
-                                </template>
-                            </el-table-column>
-                            <el-table-column prop="address" label="修改状态" align="center">
-                                <template slot-scope="scope">
-                                    <el-popover placement="bottom-end" width="300" trigger="click"
-                                                :ref="`popover-${scope.$index}`">
-                                        <span class="content">确认修改用户当前状态吗？</span>
-                                        <el-button class="confire" type="success"
-                                                   @click="updateUserState(scope,scope.row.status)">是的
-                                        </el-button>
-                                        <el-button type="danger" slot="reference" @click="">修改状态</el-button>
-                                    </el-popover>
-                                </template>
-                            </el-table-column>
-                            <el-table-column prop="address" label="删除用户" align="center">
-                                <template slot-scope="scope">
-                                    <el-popover placement="bottom-end" width="300" trigger="click"
-                                                :ref="`popover+${scope.$index}`">
-                                        <span class="content">确认删除当前用户吗？</span>
-                                        <el-button class="confire" type="success"
-                                                   @click="deleteUser(scope)">是的
-                                        </el-button>
-                                        <el-button type="danger" slot="reference" @click="">删除用户</el-button>
-                                    </el-popover>
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                        <div class="open" @click="openAddUserDialog()">
-                            <!-- <i class="el-icon-circle-plus-outline"></i> -->
-                            <i class="el-icon-plus"></i>
-                            <span>新增用户</span>
-                        </div>
-                        <div class="block">
-                            <el-pagination
-                                :current-page="page2"
-                                :page-size.sync="pageSize2"
-                                layout="total, prev, pager, next, jumper"
-                                :page-count="totalPageCount2"
-                                :total="totalCount2"
-                                @current-change="currentChange2"
-                            ></el-pagination>
-                        </div>
-                    </div>
-                </div>
-            </el-tab-pane>
         </el-tabs>
     </div>
 </template>
@@ -325,20 +308,13 @@
         components: {
             headTop,
         },
-        beforeCreate() {
-            var that = this;
-            that.axios.get('/role/queryAll', {
-                params: {companyId: window.localStorage.getItem("companyid"), page: 1}
-            }).then(res => {
-                that.tableData = res.data.rolelist;
-                that.page = res.data.pageutil.page;
-                that.totalPageCount = res.data.pageutil.totalPageCount;
-                that.totalCount = res.data.pageutil.totalCount;
-                that.pageSize = res.data.pageutil.pageSize;
-                for (var i = 0; i < that.tableData.length; i++) {
-                    that.tableData[i].stateName = that.tableData[i].status == 1 ? '开启' : '关闭';
-                }
-            });
+        created() {
+            if (this.isInArray(62)) {
+                this.Search();
+            }
+            if (this.isInArray(63)) {
+                this.Search1();
+            }
         },
         data() {
             return {
@@ -387,6 +363,11 @@
             }
         },
         methods: {
+            isInArray: function (val) {
+                var that = this;
+                var testStr = ',' + window.localStorage.getItem("role") + ",";
+                return testStr.indexOf("," + val + ",") != -1;
+            },
             SaveEditActor() {
                 var that = this;
                 var param = that.editActorObject;
@@ -436,7 +417,7 @@
             },
             changeEditSelected(e, id) {
                 var that = this;
-                if (e.target.checked) {
+                if (e) {
                     that.editDialogSelectedList.push(id);
                 } else {
                     var index = that.editDialogSelectedList.indexOf(id);
@@ -447,7 +428,7 @@
             },
             changeSelected(e, id) {
                 var that = this;
-                if (e.target.checked) {
+                if (e) {
                     that.addDialogSelectedList.push(id);
                 } else {
                     var index = that.addDialogSelectedList.indexOf(id);
@@ -654,7 +635,7 @@
             addUser() {
                 var that = this;
                 var param = that.addUserObject;
-                param.listRoleIdString = param.listRoleIdString.join(',');
+                param.listRoleIdString = param.listRoleIdString;
                 param.companyid = window.localStorage.getItem("companyid")
                 that.axios.get('/sysuser/insert', {
                     params: param
@@ -670,7 +651,7 @@
             editUser() {
                 var that = this;
                 var param = that.editUserObject;
-                param.listRoleIdString = param.listRoleIdString.join(',');
+                param.listRoleIdString = param.listRoleIdString;
                 param.companyid = window.localStorage.getItem("companyid")
                 that.axios.get('/sysuser/updateByPrimaryKey', {
                     params: param
@@ -718,18 +699,18 @@
                         params: {userid: object.userid}
                     }).then(res => {
                         that.editUserObject = res.data.sysuser;
-                        if (!that.editUserObject.listRoleIdString) {
-                            that.editUserObject.listRoleIdString = [];
-                        }else{
-                            that.editUserObject.listRoleIdString = that.editUserObject.listRoleIdString.split(',');
-                        }
-                        if (that.editUserObject.listRoleIdString.constructor == String) {
-                            Number(that.editUserObject.listRoleIdString);
-                        } else if (that.editUserObject.listRoleIdString.constructor == Array) {
-                            for (var i = 0; i < that.editUserObject.listRoleIdString.length; i++) {
-                                that.editUserObject.listRoleIdString[i] = Number(that.editUserObject.listRoleIdString[i]);
-                            }
-                        }
+                        /*   if (!that.editUserObject.listRoleIdString) {
+                               that.editUserObject.listRoleIdString = [];
+                           } else {
+                               that.editUserObject.listRoleIdString = that.editUserObject.listRoleIdString.split(',');
+                           }
+                           if (that.editUserObject.listRoleIdString.constructor == String) {
+                               Number(that.editUserObject.listRoleIdString);
+                           } else if (that.editUserObject.listRoleIdString.constructor == Array) {
+                               for (var i = 0; i < that.editUserObject.listRoleIdString.length; i++) {
+                                   that.editUserObject.listRoleIdString[i] = Number(that.editUserObject.listRoleIdString[i]);
+                               }
+                           }*/
                     })
                 })
                 that.editUserDialogVisibles = true;

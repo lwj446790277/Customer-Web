@@ -8,9 +8,9 @@
                     <h2>紧急联系人</h2>
                     <div class="main">
                         <el-table border :data="tableData" style="width: 100%;line-height: 60px;">
-                            <el-table-column prop="linkmanonerelation" label="关系类型" align="center"></el-table-column>
-                            <el-table-column prop="linkmanonename" label="姓名" align="center"></el-table-column>
-                            <el-table-column prop="linkmanonephone" label="手机号" align="center"></el-table-column>
+                            <el-table-column :resizable='false' prop="linkmanonerelation" label="关系类型" align="center"></el-table-column>
+                            <el-table-column :resizable='false' prop="linkmanonename" label="姓名" align="center"></el-table-column>
+                            <el-table-column :resizable='false' prop="linkmanonephone" label="手机号" align="center"></el-table-column>
                         </el-table>
                     </div>
                 </div>
@@ -20,21 +20,10 @@
                     <h2>通讯录</h2>
                     <div class="main">
                         <el-form :model="form" :inline="true" class="demo-form-inline">
-                            <el-form-item>
-                                <el-input placeholder="姓名" v-model="form.name"></el-input>
-                            </el-form-item>
-                            <el-form-item>
-                                <el-input placeholder="手机号" v-model="form.phone"></el-input>
-                            </el-form-item>
-                            <el-form-item>
-                                <el-button type="primary" @click="Search">搜索</el-button>
-                            </el-form-item>
                         </el-form>
-                        <el-table border :data="tableDatas" tooltip-effect="dark"
-                                  style="width: 100%;line-height: 60px;">
-                            <el-table-column type="index" width="400" align="center"></el-table-column>
-                            <el-table-column prop="name" label="姓名" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
+                        <el-table border :data="tableDatas" tooltip-effect="dark" style="width: 100%;line-height: 60px;">
+                            <el-table-column :resizable='false' prop="name" label="姓名" align="center"></el-table-column>
+                            <el-table-column :resizable='false' prop="phone" label="手机号" align="center"></el-table-column>
                         </el-table>
                     </div>
                 </div>
@@ -74,15 +63,18 @@
             }
         },
         created() {
-            // this.getData(this.page,this.Pagesize)
-            // this.get()
+            var that = this;
+            var url = window.location.href;
+            that.id = url.substr(url.indexOf('=') + 1);
+            this.Search();
         },
         methods: {
             handleClick() {
-
+                this.Search()
             },
             Search() {
                 var that = this;
+                that.tableData = [];
                 that.axios.get('/user/queryUserAttesta', {
                     params: {userid: that.id}
                 }).then(res => {
@@ -97,6 +89,7 @@
                     result2.linkmanonephone = res.data.userAttestation.linkmantwophone;
                     result2.linkmanonerelation = res.data.userAttestation.linkmantworelation;
                     that.tableData.push(result2);
+                    that.tableDatas = res.data.listmaill
                 })
             }
         }

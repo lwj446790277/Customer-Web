@@ -6,13 +6,12 @@
             <h2>风控设置管理</h2>
             <div class="main">
                 <el-table border :data="tableData" style="width: 100%;line-height: 60px;">
-                    <el-table-column prop="rmmodlename" label="风控模型名" align="center"></el-table-column>
-                    <el-table-column prop="totalscore" label="总分段" align="center"></el-table-column>
-                    <el-table-column prop="atrntlfractionalsegment" label="机审拒绝不放款分数段" align="center"></el-table-column>
-                    <el-table-column prop="roatnptfractionalsegment" label="机审拒绝需人审分数段"
-                                     align="center"></el-table-column>
-                    <el-table-column prop="airappfractionalsegment" label="机审通过分数段" align="center"></el-table-column>
-                    <el-table-column label="操作" align="center">
+                    <el-table-column :resizable='false' prop="rmmodlename" label="风控模型名" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="totalscore" label="总分段" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="atrntlfractionalsegment" label="机审拒绝不放款分数段" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="roatnptfractionalsegment" label="机审拒绝需人审分数段" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="airappfractionalsegment" label="机审通过分数段" align="center"></el-table-column>
+                    <el-table-column :resizable='false' label="操作" align="center">
                         <template slot-scope="scope">
                             <el-button type="primary" @click="openEditDialog(scope.row)">编辑</el-button>
                         </template>
@@ -70,7 +69,7 @@
         },
         data() {
             return {
-                tableData: [{}],
+                tableData: [],
                 editDialogVisible: false,
                 editObject: {}
             };

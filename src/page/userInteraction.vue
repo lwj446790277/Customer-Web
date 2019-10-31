@@ -24,12 +24,12 @@
                     <el-button type="success" @click="batch" class="confire" style="background-color:#19b293">批量导入</el-button>
                 </el-form>
                 <el-table border :data="tableData" style="width: 100%">
-                    <el-table-column prop="name" label="姓名" align="center"></el-table-column>
-                    <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
-                    <el-table-column prop="idcard" label="身份证号" align="center"></el-table-column>
-                    <el-table-column prop="operationtime" label="最后编辑时间" align="center"></el-table-column>
-                    <el-table-column prop="account" label="操作成员" align="center"></el-table-column>
-                    <el-table-column label="操作" align="center">
+                    <el-table-column :resizable='false' prop="name" label="姓名" align="center" width="80"></el-table-column>
+                    <el-table-column :resizable='false' prop="phone" label="手机号" align="center" width="130"></el-table-column>
+                    <el-table-column :resizable='false' prop="idcard" label="身份证号" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="operationtime" label="最后编辑时间" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="account" label="操作成员" align="center"></el-table-column>
+                    <el-table-column :resizable='false' label="操作" align="center">
                         <template slot-scope="scope">
                             <span @click="editDialogShow(scope.row)" class="blue">编辑</span>
                             <span class="zhong">|</span>
@@ -115,7 +115,7 @@
                 <div class="block">
                     <el-pagination
                         :current-page="page"
-                        :page-size.sync="pageSize"
+                        :page-size="pageSize"
                         layout="total, prev, pager, next, jumper"
                         :page-count="totalPageCount"
                         :total="totalCount"
@@ -143,7 +143,7 @@
                 },
                 addObject: {id: undefined},
                 editObject: {name: ''},
-                tableData: [{id: 1}],
+                tableData: [],
                 page: 1,
                 pageSize: 10,
                 totalPageCount: 0,
@@ -298,7 +298,7 @@
         cursor: pointer;
     }
 
-    .zhong{
+    .zhong {
         margin-left: 5px;
         margin-right: 5px;
     }

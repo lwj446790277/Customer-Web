@@ -8,66 +8,63 @@
                 <el-form :model="formList" :inline="true" class="demo-form-inline">
                     <el-form-item>
                         <el-col>
-                            <el-date-picker type="date" placeholder="起始时间"
-                                            value-format="yyyy-MM-dd"
-                                            @change="dateChangeStart"
-                                            v-model="formList.dateStart"></el-date-picker>
-                            <el-date-picker type="date" placeholder="结束时间"
-                                            value-format="yyyy-MM-dd"
-                                            @change="dateChangeEnd"
-                                            v-model="formList.dateEnd"></el-date-picker>
+                            <el-date-picker type="date" placeholder="起始时间" value-format="yyyy-MM-dd" @change="dateChangeStart" v-model="formList.dateStart"></el-date-picker>
+                            <el-date-picker type="date" placeholder="结束时间" value-format="yyyy-MM-dd" @change="dateChangeEnd" v-model="formList.dateEnd"></el-date-picker>
                         </el-col>
                     </el-form-item>
                     <el-form-item>
                         <el-select v-model="formList.sourceid" placeholder="引流平台渠道" style="width:150px">
-                            <el-option v-for="source in sourcelist" :label="source.sourcename"
-                                    :value="source.id"></el-option>
+                            <el-option v-for="source in sourcelist" :label="source.sourcename" :value="source.id"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="warning" @click="Reset" style="background-color:#e3e4e7;border:transparent;color:#000">重置</el-button>
                         <el-button type="primary" @click="Search()">搜索</el-button>
+                        <el-button type="danger" @click="downloadSource">下载</el-button>
                     </el-form-item>
                 </el-form>
                 <el-table border :data="tableData" style="width: 100%;line-height: 60px;">
-                    <el-table-column prop="sourcename" label="渠道" align="center"></el-table-column>
-                    <el-table-column prop="uv" label="UV人数" align="center"></el-table-column>
-                    <el-table-column prop="registernum" label="注册人数" align="center"></el-table-column>
-                    <el-table-column prop="cvr" label="UV到注册转化率(%)" width="170" align="center"></el-table-column>
-                    <el-table-column prop="activatecount" label="激活人数" align="center"></el-table-column>
-                    <el-table-column prop="authencount" label="认证人数" width="100" align="center"></el-table-column>
-                    <el-table-column prop="applynum" label="申请人数" align="center"></el-table-column>
-                    <el-table-column prop="cvr1" label="注册到申请转化率(%)" width="175" align="center"></el-table-column>
-                    <el-table-column prop="machineauditpass" label="通过人数" width="100" align="center"></el-table-column>
-                    <el-table-column prop="orderpass" label="已借款人数" align="center"></el-table-column>
-                    <el-table-column prop="cvr2" label="注册到借款转化率(%)" width="175" align="center"></el-table-column>
-                    <el-table-column prop="address" label="操作" align="center">
+                    <el-table-column :resizable='false' prop="sourcename" label="渠道" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="uv" label="UV人数" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="registernum" label="正常注册人数" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="illegalityregisternum" label="非法注册人数" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="cvr" label="UV到注册转化率(%)" width="170" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="activatecount" label="激活人数" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="authencount" label="用户认证人数" width="100" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="authenbankcount" label="银行卡认证人数" width="130" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="authenoperacount" label="运营商认证人数" width="130" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="applynum" label="申请人数" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="cvr1" label="注册到申请转化率(%)" width="175" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="machineauditpass" label="通过人数" width="100" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="orderpass" label="已借款人数" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="cvr2" label="注册到借款转化率(%)" width="175" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="price" label="流量单价" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="flowcharge" label="流量总计" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="address" label="操作" align="center">
                         <template slot-scope="scope">
                             <el-button type="primary" @click="showDetail(scope.row)">时间段详情</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
-                <el-dialog :title="detailTableName" :visible.sync="detailTableVisible" center customClass="customWidth"
-                        style="line-height: 60px;">
+                <el-dialog :title="detailTableName" :visible.sync="detailTableVisible" center customClass="customWidth" style="line-height: 60px;">
                     <el-table border :data="detailTableData">
-                        <el-table-column prop="date" label="日期" align="center"></el-table-column>
-                        <el-table-column prop="uv" label="UV人数" align="center"></el-table-column>
-                        <el-table-column prop="registernum" label="注册人数" align="center"></el-table-column>
-                        <el-table-column prop="cvr" label="UV到注册转化率(%)" width="170" align="center"></el-table-column>
-                        <el-table-column prop="activatecount" label="激活人数" align="center"></el-table-column>
-                        <el-table-column prop="authencount" label="认证人数" width="100" align="center"></el-table-column>
-                        <el-table-column prop="activatecount" label="激活人数" align="center"></el-table-column>
-                        <el-table-column prop="applynum" label="申请人数" align="center"></el-table-column>
-                        <el-table-column prop="cvr1" label="注册到申请转化率(%)" width="175" align="center"></el-table-column>
-                        <el-table-column prop="machineauditpass" label="通过人数" width="100" align="center"></el-table-column>
-                        <el-table-column prop="orderpass" label="已借款人数" align="center"></el-table-column>
-                        <el-table-column prop="cvr2" label="注册到借款转化率(%)" width="175" align="center"></el-table-column>
+                        <el-table-column :resizable='false' prop="date" label="日期" align="center"></el-table-column>
+                        <el-table-column :resizable='false' prop="uv" label="UV人数" align="center"></el-table-column>
+                        <el-table-column :resizable='false' prop="registernum" label="注册人数" align="center"></el-table-column>
+                        <el-table-column :resizable='false' prop="cvr" label="UV到注册转化率(%)" width="170" align="center"></el-table-column>
+                        <el-table-column :resizable='false' prop="activatecount" label="激活人数" align="center"></el-table-column>
+                        <el-table-column :resizable='false' prop="authencount" label="认证人数" width="100" align="center"></el-table-column>
+                        <el-table-column :resizable='false' prop="applynum" label="申请人数" align="center"></el-table-column>
+                        <el-table-column :resizable='false' prop="cvr1" label="注册到申请转化率(%)" width="175" align="center"></el-table-column>
+                        <el-table-column :resizable='false' prop="machineauditpass" label="通过人数" width="100" align="center"></el-table-column>
+                        <el-table-column :resizable='false' prop="orderpass" label="已借款人数" align="center"></el-table-column>
+                        <el-table-column :resizable='false' prop="cvr2" label="注册到借款转化率(%)" width="175" align="center"></el-table-column>
                     </el-table>
                 </el-dialog>
                 <div class="block">
                     <el-pagination
                         :current-page="page"
-                        :page-size.sync="pageSize"
+                        :page-size="pageSize"
                         layout="total, prev, pager, next, jumper"
                         :page-count="totalPageCount"
                         :total="totalCount"
@@ -119,20 +116,36 @@
             })
         },
         methods: {
-            dateChangeStart(val){
+            dateChangeStart(val) {
                 var that = this;
                 that.formList.dateStart = val;
             },
-            dateChangeEnd(val){
+            dateChangeEnd(val) {
                 var that = this;
                 that.formList.dateEnd = val;
+            },
+            downloadSource() {
+                var that = this;
+                var date = new Date();
+                var dateString = date.getFullYear() + "-" + ('0' + (date.getMonth() + 1)).slice(-2) + "-" + ('0' + date.getDate()).slice(-2);
+                var param = that.formList;
+                if (!that.formList.dateStart && !that.formList.dateEnd) {
+                    param.dateStart = dateString;
+                    param.dateEnd = dateString;
+                } else if (!that.formList.dateStart) {
+                    param.dateStart = param.dateEnd;
+                } else if (!that.formList.dateEnd) {
+                    param.dateEnd = param.dateStart;
+                }
+                param.companyId = window.localStorage.getItem("companyid");
+                that.downloadExcel("/sourcetongji/exportSourceTongji.do", param, '渠道数据报表');
             },
             Search() {
                 var that = this;
                 if (!that.formList.sourceid && !that.formList.dateStart && !that.formList.dateEnd) {
                     var that = this;
                     that.axios.get('/sourcetongji/queryByToday', {
-                        params: {companyId: window.localStorage.getItem("companyid"), page: 1}
+                        params: {companyId: window.localStorage.getItem("companyid"), page: that.page}
                     }).then(res => {
                         that.tableData = res.data.listsourcepage;
                         that.page = res.data.pageutil.page;
@@ -149,9 +162,9 @@
                     if (!that.formList.dateStart && !that.formList.dateEnd) {
                         param.dateStart = dateString;
                         param.dateEnd = dateString;
-                    }else if(!that.formList.dateStart){
+                    } else if (!that.formList.dateStart) {
                         param.dateStart = param.dateEnd;
-                    }else if(!that.formList.dateEnd){
+                    } else if (!that.formList.dateEnd) {
                         param.dateEnd = param.dateStart;
                     }
                     param.companyId = window.localStorage.getItem("companyid");
@@ -219,9 +232,11 @@
         font-size: 20px;
         color: #333;
     }
-    .customWidth{
-        width:0%;
+
+    .customWidth {
+        width: 0%;
     }
+
     .main {
         padding: 20px;
         background-color: #fff;

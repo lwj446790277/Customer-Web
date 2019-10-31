@@ -6,31 +6,29 @@
             <h2>轮播图设置</h2>
             <div class="main">
                 <el-table :data="tableData" border style="width: 100%;line-height: 60px">
-                    <el-table-column prop="sort" label="排序" align="center">
+                    <el-table-column :resizable='false' prop="sort" label="排序" align="center">
                         <template slot-scope="scope">
                             {{scope.row.sort}}
                             <span class="blue el-icon-caret-top"
                                   @click="updateSortById(scope.row.id,scope.row.sort)"></span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="viewpagerpicture" label="图片" align="center">
+                    <el-table-column :resizable='false' prop="viewpagerpicture" label="图片" align="center">
                         <template scope="scope">
                             <img :src="scope.row.viewpagerpicture" width="40" height="40" class="head_pic"/>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="updatetime" label="更新时间" align="center"></el-table-column>
-                    <el-table-column label="编辑" align="center">
+                    <el-table-column :resizable='false' prop="updatetime" label="更新时间" align="center"></el-table-column>
+                    <el-table-column :resizable='false' label="编辑" align="center">
                         <template slot-scope="scope">
                             <el-button type="primary" @click="openEditBannerDialog(scope.row)">编辑</el-button>
                         </template>
                     </el-table-column>
-                    <el-table-column label="删除" align="center">
+                    <el-table-column  :resizable='false' label="删除" align="center">
                         <template slot-scope="scope">
                             <el-popover placement="bottom-end" width="300" trigger="click">
                                 <span class="content">确认删除该轮播图吗？</span>
-                                <el-button class="confire" type="success"
-                                           @click="deleteBanner(scope.row.id,scope.row.sort)">是的
-                                </el-button>
+                                <el-button class="confire" type="success" @click="deleteBanner(scope.row.id,scope.row.sort)">是的</el-button>
                                 <el-button type="danger" slot="reference" @click="deleteAlert(scope.row)">删除</el-button>
                             </el-popover>
                         </template>
@@ -45,7 +43,7 @@
                         class="upload-demo"
                         :on-success="uploadFileSuccess"
                         :show-file-list="false"
-                        action="http://39.98.83.65:8080/zhita_xiaodai_admin/homepage/PictureUpload"
+                        :action="uploadUrl"
                         accept=".jpg, .png"
                     >
                         <el-button size="small" type="primary" class="upload">点击上传</el-button>
@@ -65,7 +63,7 @@
                         class="upload-demo"
                         :on-success="uploadFileSuccess2"
                         :show-file-list="false"
-                        action="http://39.98.83.65:8080/zhita_xiaodai_admin/homepage/PictureUpload"
+                        :action="uploadUrl"
                         accept=".jpg, .png"
                     >
                         <el-button size="small" type="primary" class="upload">点击上传</el-button>
@@ -107,7 +105,8 @@
                 block: true,
                 block2: false,
                 hidden: false,
-                hidden2: true
+                hidden2: true,
+                uploadUrl: this.axios.defaults.baseURL + 'homepage/PictureUpload'
             };
         },
         beforeCreate() {

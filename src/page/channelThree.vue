@@ -1,7 +1,6 @@
 <template>
     <div class="fillcontain">
         <head-top></head-top>
-        <!-- <p class="explain_text">渠道3</p> -->
         <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
             <el-tab-pane label="逾前发送筛选" name="first">
                 <div class="back">
@@ -21,27 +20,23 @@
                             </el-form-item>
                         </el-form>
                         <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
-                            <el-table-column prop="collection_time" label="逾前还款日期" align="center"></el-table-column>
-                            <el-table-column prop="phonenum" label="已选用户条数" align="center"></el-table-column>
-                            <el-table-column label="发送历史批次" align="center">
+                            <el-table-column :resizable='false' prop="collection_time" label="逾前还款日期" align="center"></el-table-column>
+                            <el-table-column :resizable='false' prop="phonenum" label="已选用户条数" align="center"></el-table-column>
+                            <el-table-column :resizable='false' label="发送历史批次" align="center">
                                 <template slot-scope="scope">
-                                    <!-- <span class="blue" @click="open">{{scope.row.interestPenaltySum}}</span> -->
                                     <span class="blue" @click="open(scope.row.collection_time)">查看历史批次</span>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="操作" align="center">
+                            <el-table-column :resizable='false' label="操作" align="center">
                                 <template slot-scope="scope">
-                                    <span @click="next(scope.row.phonesa,scope.row.phonenum,scope.row.collection_time)"
-                                          class="blue">下一步</span>
+                                    <span @click="next(scope.row.phonesa,scope.row.phonenum,scope.row.collection_time)" class="blue">下一步</span>
                                 </template>
                             </el-table-column>
                         </el-table>
                         <el-dialog title="发送历史批次" :visible.sync="dialogTableVisible" center>
                             <el-table border :data="gridData">
-                                <!--								<el-table-column property="collection_time" label="第几批次" align="center"></el-table-column>-->
-                                <el-table-column property="send_time" label="操作时间" align="center"></el-table-column>
-                                <el-table-column property="phonenum" label="已选用户条数" align="center"></el-table-column>
-                                <!--								<el-table-column property="successnum" label="成功发送条数" align="center"></el-table-column>-->
+                                <el-table-column :resizable='false' property="send_time" label="操作时间" align="center"></el-table-column>
+                                <el-table-column :resizable='false' property="phonenum" label="已选用户条数" align="center"></el-table-column>
                             </el-table>
                         </el-dialog>
                         <el-dialog title="选择短信模板" :visible.sync="dialogVisible" customClass="dia" center>
@@ -49,11 +44,8 @@
                                 <tr>
                                     <th>短信模板</th>
                                     <td>
-                                        <el-select v-model="type" placeholder="短信模板1" style="width:90%"
-                                                   @change="change">
-                                            <el-option label="短信模板1" value="1"></el-option>
-                                            <el-option label="短信模板2" value="2"></el-option>
-                                            <el-option label="短信模板3" value="3"></el-option>
+                                        <el-select v-model="type" style="width:90%" @change="change">
+                                            <el-option v-for="(template, index) in templateList" :label="template.name" :value="index"></el-option>
                                         </el-select>
                                     </td>
                                 </tr>
@@ -70,16 +62,100 @@
                     </div>
                 </div>
             </el-tab-pane>
+            <el-tab-pane label="自动定时发送" name="third">
+                <div class="back">
+                    <h2>自动定时发送</h2>
+                    <div class="main">
+                        <el-table border :data="batchData" tooltip-effect="dark" style="width: 100%">
+                            <el-table-column :resizable='false' prop="overdueday" label="逾期天数" align="center"></el-table-column>
+                            <el-table-column :resizable='false' prop="timing" label="时间点" align="center"></el-table-column>
+                            <el-table-column :resizable='false' prop="name" label="模板名" align="center"></el-table-column>
+                            <el-table-column :resizable='false' prop="content" label="模板内容" align="center"></el-table-column>
+                            <el-table-column :resizable='false' label="操作" align="center">
+                                <template slot-scope="scope">
+                                    <el-button type="info" size="mini" slot="reference" @click="openEditDialog(scope.row.id)">编辑</el-button>
+                                    <el-popover :ref="`popover-${scope.$index}`" placement="bottom-end" width="200" trigger="click">
+                                        <span class="content">确认删除批量操作？</span>
+                                        <el-button class="confire" size="mini" type="danger" @click="deleteBatch(scope)">确认</el-button>
+                                        <el-button type="danger" size="mini" slot="reference">删除</el-button>
+                                    </el-popover>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                        <div class="open" @click="openAddDialog()">
+                            <i class="el-icon-plus"></i>
+                            <span>添加批量发送</span>
+                        </div>
+                        <div class="block">
+                            <el-pagination :current-page="page3" :page-size="pageSize3" layout="total, prev, pager, next, jumper" :page-count="totalPageCount3" :total="totalCount3"
+                                           @current-change="currentChange"></el-pagination>
+                        </div>
+                    </div>
+                </div>
+                <el-dialog title="添加批量发送" :visible.sync="addDialogVisible" customClass="customWidthe">
+                    <table cellspacing="0" cellpadding="15" class="bode">
+                        <tr>
+                            <th>逾期天数</th>
+                            <td>
+                                <el-input type="number" placeholder="请输入逾期天数" v-model="addObject.overdueday"></el-input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>时间点(例如 03:09 13:59)</th>
+                            <td>
+                                <el-input placeholder="请输入时间点" v-model="addObject.timing"></el-input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>选择模板</th>
+                            <td>
+                                <el-select v-model="addTemplateId">
+                                    <el-option v-for="(template, index) in templateList" :label="template.name" :value="template.id"></el-option>
+                                </el-select>
+                            </td>
+                        </tr>
+                    </table>
+                    <el-button type="primary" class="confire" @click="saveAdd()">保存</el-button>
+                    <el-button class="confire" @click="addDialogVisible=false">关闭</el-button>
+                    <br/>
+                </el-dialog>
+                <el-dialog title="编辑批量发送" :visible.sync="editDialogVisible" customClass="customWidthe">
+                    <table cellspacing="0" cellpadding="15" class="bode">
+                        <tr>
+                            <th>逾期天数</th>
+                            <td>
+                                <el-input type="number" placeholder="请输入逾期天数" v-model="editObject.overdueday"></el-input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>时间点(例如 03:09 13:59)</th>
+                            <td>
+                                <el-input placeholder="请输入时间点" v-model="editObject.timing"></el-input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>选择模板</th>
+                            <td>
+                                <el-select v-model="editTemplateId">
+                                    <el-option v-for="(template, index) in templateList" :label="template.name" :value="template.id" :key="template.id"></el-option>
+                                </el-select>
+                            </td>
+                        </tr>
+                    </table>
+                    <el-button type="primary" class="confire" @click="saveEdit()">保存</el-button>
+                    <el-button class="confire" @click="editDialogVisible=false">关闭</el-button>
+                    <br/>
+                </el-dialog>
+            </el-tab-pane>
             <el-tab-pane label="短信发送历史" name="second">
                 <div class="back">
                     <h2>短信发送历史</h2>
                     <div class="main">
                         <el-table border :data="tableDatas" tooltip-effect="dark" style="width: 100%">
-                            <el-table-column prop="send_time" label="最后操作时间" align="center"></el-table-column>
-                            <el-table-column prop="collection_time" label="逾前还款日期" align="center"></el-table-column>
-                            <el-table-column prop="phonenum" label="已选用户条数" align="center"></el-table-column>
-                            <!--							<el-table-column prop="successnum" label="成功发送条数" align="center"></el-table-column>-->
-                            <el-table-column prop="paymentmoney" label="发送历史批次" align="center">
+                            <el-table-column :resizable='false' prop="send_time" label="最后操作时间" align="center"></el-table-column>
+                            <el-table-column :resizable='false' prop="collection_time" label="逾前还款日期" align="center"></el-table-column>
+                            <el-table-column :resizable='false' prop="phonenum" label="已选用户条数" align="center"></el-table-column>
+                            <el-table-column :resizable='false' prop="paymentmoney" label="发送历史批次" align="center">
                                 <template slot-scope="scope">
                                     <span class="blue" @click="opens(scope.row.collection_time)">查看历史批次</span>
                                 </template>
@@ -87,19 +163,17 @@
                         </el-table>
                         <div class="block">
                             <el-pagination
-                                :current-page.sync="page"
-                                :page-size.sync="Pagesize"
+                                :current-page="page"
+                                :page-size="Pagesize"
                                 layout="total,  prev, pager, next, jumper"
                                 :page-count="totalPageCount"
-                                :total="totalCount"
-                            ></el-pagination>
+                                :total="totalCount">
+                            </el-pagination>
                         </div>
                         <el-dialog title="发送历史批次" :visible.sync="dialogTable" center>
                             <el-table border :data="sendData">
-                                <!--								<el-table-column property="collectionTime" label="第几批次" align="center"></el-table-column>-->
-                                <el-table-column property="send_time" label="操作时间" align="center"></el-table-column>
-                                <el-table-column property="phonenum" label="已选用户条数" align="center"></el-table-column>
-                                <!--								<el-table-column property="successnum" label="成功发送条数" align="center"></el-table-column>-->
+                                <el-table-column :resizable='false' property="send_time" label="操作时间" align="center"></el-table-column>
+                                <el-table-column :resizable='false' property="phonenum" label="已选用户条数" align="center"></el-table-column>
                             </el-table>
                         </el-dialog>
                     </div>
@@ -122,6 +196,8 @@
                 tableDatas: [],
                 gridData: [],
                 sendData: [],
+                batchData: [],
+                templateList: [],
                 dialogTableVisible: false,
                 dialogVisible: false,
                 dialogTable: false,
@@ -129,18 +205,102 @@
                 form: {
                     name: 0
                 },
-                type: "",
-                desc: "123",
+                type: undefined,
+                desc: undefined,
                 phonesa: "",
                 phonenum: "",
                 collection_time: "",
                 page: 1,
                 Pagesize: 10,
                 totalPageCount: 0,
-                totalCount: 0
+                totalCount: 0,
+                page3: 1,
+                pageSize3: 10,
+                totalCount3: 0,
+                totalPageCount3: 0,
+                addObject: {},
+                editObject: {},
+                addDialogVisible: false,
+                editDialogVisible: false,
+                addTemplateId: undefined,
+                editTemplateId: undefined,
             }
         },
+        created() {
+            this.axios.get('/overtextsetting/querytexttemp', {
+                params: {}
+            }).then(res => {
+                this.templateList = res.data;
+            })
+        },
         methods: {
+            deleteBatch(scope) {
+                var that = this;
+                var id = scope.row.id;
+                scope._self.$refs[`popover-${scope.$index}`].doClose();
+                that.axios.get('/overtextsetting/upaFalDel', {
+                    params: {id: id}
+                }).then(res => {
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功'
+                    });
+                    that.SearchBatchList();
+                });
+            },
+            saveEdit() {
+                var that = this;
+                this.editObject.companyid = window.localStorage.getItem("companyid");
+                this.editObject.templateid = this.editTemplateId;
+                this.axios.get('/overtextsetting/updateByPrimaryKey', {
+                    params: this.editObject
+                }).then(res => {
+                    that.$message({
+                        type: "success",
+                        message: "编辑成功"
+                    });
+                    that.SearchBatchList();
+                    that.editDialogVisible = false;
+                })
+            },
+            openEditDialog(id) {
+                var that = this;
+                that.axios.get('/overtextsetting/selectByPrimaryKey', {
+                    params: {id: id}
+                }).then(res => {
+                    that.editObject = res.data;
+                    that.editDialogVisible = true;
+                    that.editTemplateId = res.data.templateid;
+                });
+            },
+            currentChange(val) {
+                this.page3 = val;
+                this.SearchBatchList();
+            },
+            saveAdd() {
+                var that = this;
+                this.addObject.companyid = window.localStorage.getItem("companyid");
+                this.addObject.templateid = this.addTemplateId;
+                this.axios.get('/overtextsetting/insert', {
+                    params: this.addObject
+                }).then(res => {
+                    that.axios.get('/SendDateSms/SmsDatesend', {
+                        params: {companyid: window.localStorage.getItem("companyid")}
+                    }).then(res => {
+                        that.$message({
+                            type: "success",
+                            message: "添加成功"
+                        });
+                        that.SearchBatchList();
+                        that.addDialogVisible = false;
+                    })
+                })
+            },
+            openAddDialog() {
+                var that = this;
+                that.addObject = {};
+                that.addDialogVisible = true;
+            },
             open(collection_time) {
                 this.dialogTableVisible = true
                 this.axios.get('sms/AllCollection', {
@@ -153,7 +313,6 @@
             },
             next(phonesa, phonenum, collection_time) {
                 this.dialogVisible = true
-                // console.log(phonesa)
                 this.phonesa = phonesa
                 this.phonenum = phonenum
                 this.collection_time = collection_time
@@ -168,37 +327,49 @@
                     this.sendData = res.data.Shortmessage
                 })
             },
+            franchundercheckenuser() {
+                this.nonthcanlanbaby();
+                this.silybodykitckenzou = this.getData();
+
+            },
             change() {
-                if (this.type == "2") {
-                    this.desc = "222"
-                } else {
-                    if (this.type == "3") {
-                        this.desc = "333"
-                    } else {
-                        this.desc = "111"
-                    }
-                }
+                this.desc = this.templateList[this.type].content;
             },
             getData(page, Pagesize) {
-                this.axios
-                    .get("sms/AllShortMessage", {
-                        params: {
-                            companyid: window.localStorage.getItem("companyid"),
-                            page,
-                            Pagesize
-                        }
-                    })
-                    .then(res => {
-                        this.tableDatas = res.data.Shortmessage;
-                        this.page = res.data.Shortmessage.page;
-                        this.Pagesize = res.data.Shortmessage.Pagesize;
-                        this.totalCount = res.data.Shortmessage.length;
-                    });
+                this.axios.get("sms/AllShortMessage", {
+                    params: {
+                        companyid: window.localStorage.getItem("companyid"),
+                        page,
+                        Pagesize
+                    }
+                }).then(res => {
+                    this.tableDatas = res.data.Shortmessage;
+                    this.page = res.data.Shortmessage.page;
+                    this.Pagesize = res.data.Shortmessage.Pagesize;
+                    this.totalCount = res.data.Shortmessage.length;
+                });
             },
             handleClick() {
                 if (this.activeName == "second") {
                     this.getData(this.page, this.Pagesize)
                 }
+                if (this.activeName == "third") {
+                    this.SearchBatchList()
+                }
+            },
+            SearchBatchList() {
+                this.axios.get('/overtextsetting/queryAll', {
+                    params: {
+                        companyId: window.localStorage.getItem("companyid"),
+                        page: this.page3
+                    }
+                }).then(res => {
+                    this.batchData = res.data.overtextlist;
+                    this.page3 = res.data.pageutil.page
+                    this.pageSize3 = res.data.pageutil.pageSize
+                    this.totalPageCount3 = res.data.pageutil.totalPageCount
+                    this.totalCount3 = res.data.pageutil.totalCount
+                })
             },
             Search() {
                 this.axios.get('sms/DateAllPhone', {
@@ -211,15 +382,11 @@
                 })
             },
             send() {
-                // console.log(this.phonesa.join())
                 this.axios.get('sms/SendSms', {
                     params: {
                         companyid: window.localStorage.getItem("companyid"),
                         msg: this.desc,
                         phone: this.phonesa.join(),
-                        // phone: 15219990556,
-                        phonenum: this.phonenum,
-                        collection_time: this.collection_time
                     }
                 }).then(res => {
                     this.$confirm(res.data.desc, '提示', {
@@ -235,6 +402,16 @@
 <style lang="less">
     @import '../style/mixin';
 
+    .open {
+        width: 99.9%;
+        line-height: 60px;
+        border: 1px solid #dfe6ec;
+        margin-top: -1px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        text-align: center;
+    }
+
     .explain_text {
         margin-top: 20px;
         text-align: center;
@@ -244,6 +421,11 @@
 
     .el-tabs__header {
         margin: 0;
+    }
+
+    .customWidthe {
+        width: 500px;
+        text-align: center;
     }
 
     .main {

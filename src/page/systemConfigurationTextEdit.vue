@@ -10,22 +10,13 @@
                         <th>选择协议</th>
                         <td>
                             <el-radio-group v-model="selectedId" @change="selectedChange">
-                                <el-radio
-                                    v-for="(text, index) in textList"
-                                    :label="text.id"
-                                >{{text.agreementtype}}
-                                </el-radio>
+                                <el-radio v-for="(text, index) in textList" :label="text.id">{{text.agreementtype}}</el-radio>
                             </el-radio-group>
                         </td>
                     </tr>
                 </table>
                 <div class="edit_container">
-                    <quill-editor v-model="content"
-                                  ref="myQuillEditor"
-                                  class="editer"
-                                  :options="editorOption"
-                                  @ready="onEditorReady($event)">
-                    </quill-editor>
+                    <quill-editor v-model="content" ref="myQuillEditor" class="editer" :options="editorOption" @ready="onEditorReady($event)"></quill-editor>
                 </div>
                 <div class="submit_btn">
                     <el-button type="primary" @click="submit">提交</el-button>

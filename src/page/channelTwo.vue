@@ -6,24 +6,27 @@
             <h2>渠道设置管理</h2>
             <div class="main">
                 <el-table border :data="tableData" style="width: 100%">
-                    <el-table-column prop="sourcename" label="渠道名称" align="center"></el-table-column>
-                    <el-table-column prop="account" label="账户" align="center"></el-table-column>
-                    <el-table-column prop="link" label="链接" align="center"></el-table-column>
-                    <el-table-column prop="statusName" label="状态" align="center"></el-table-column>
-                    <el-table-column prop="discount" label="折扣率" align="center"></el-table-column>
-                    <el-table-column prop="rmmodlename" label="风控" align="center"></el-table-column>
-                    <el-table-column prop="name" label="模板" align="center"></el-table-column>
-                    <el-table-column prop="address" label="编辑" align="center">
+                    <el-table-column :resizable='false' prop="sourcename" label="渠道名称" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="account" label="账户" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="link" label="链接" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="statusName" label="状态" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="discount" label="折扣率" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="todaymaxuv" label="当日阈值" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="rmmodlename" label="风控" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="price" label="流量单价" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="clearingformName" label="流量结算方式" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="name" label="模板" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="address" label="编辑" align="center">
                         <template slot-scope="scope">
                             <el-button type="primary" @click="openEditChannelDialog(scope.row)">编辑</el-button>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="address" label="删除" align="center">
+                    <el-table-column :resizable='false' prop="address" label="删除" align="center">
                         <template slot-scope="scope">
                             <el-popover placement="bottom-end" width="300" trigger="click">
                                 <span class="content">确认删除该渠道吗？</span>
                                 <el-button class="confire" type="success" @click="deleteChannel(scope.row)">确认</el-button>
-                                <el-button type="danger" slot="reference" @click="openDeleteBox()">删除</el-button>
+                                <el-button type="danger" slot="reference">删除</el-button>
                             </el-popover>
                         </template>
                     </el-table-column>
@@ -63,10 +66,17 @@
                             <th>风控模型</th>
                             <td>
                                 <el-select v-model="addChannelObject.managecontrolid" placeholder="选择风控"
-                                        style="width: 100%;">
+                                           style="width: 100%;">
                                     <el-option v-for="model in modelList" :label="model.rmmodlename"
-                                            :value="model.id"></el-option>
+                                               :value="model.id"></el-option>
                                 </el-select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>当日最大阈值</th>
+                            <td>
+                                <el-input type="number" v-model="addChannelObject.todaymaxuv"
+                                          placeholder="请输入阈值"></el-input>
                             </td>
                         </tr>
                         <tr>
@@ -74,14 +84,30 @@
                             <td>
                                 <el-select v-model="addChannelObject.name" placeholder="选择模板" style="width: 100%;">
                                     <el-option v-for="template in templateList" :label="template.name"
-                                            :value="template.name"></el-option>
+                                               :value="template.name"></el-option>
                                 </el-select>
                             </td>
                         </tr>
                         <tr>
-                            <th>验证码</th>
+                            <th>后缀</th>
                             <td>
-                                <el-input v-model="addChannelObject.token" placeholder="请输入验证码"></el-input>
+                                <el-input v-model="addChannelObject.token" placeholder="请输入后缀"></el-input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>流量计算单价</th>
+                            <td>
+                                <el-input v-model="addChannelObject.price" placeholder="请输入单价"></el-input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>结算方式</th>
+                            <td>
+                                <el-select placeholder="结算方式" v-model="addChannelObject.clearingform">
+                                    <el-option label="uv" value="1"></el-option>
+                                    <el-option label="注册数 " value="2"></el-option>
+                                    <el-option label="已借款人数" value="3"></el-option>
+                                </el-select>
                             </td>
                         </tr>
                     </table>
@@ -101,7 +127,7 @@
                         <tr>
                             <th>折扣率%</th>
                             <td>
-                                <el-input v-model="editChannelObject.discount" placeholder="请输入折扣率"></el-input>
+                                <el-input type="number" v-model="editChannelObject.discount" placeholder="请输入折扣率"></el-input>
                             </td>
                         </tr>
                         <tr>
@@ -120,10 +146,17 @@
                             <th>风控模型</th>
                             <td>
                                 <el-select v-model="editChannelObject.managecontrolid" placeholder="选择风控"
-                                        style="width: 100%;">
+                                           style="width: 100%;">
                                     <el-option v-for="model in modelList" :label="model.rmmodlename"
-                                            :value="model.id"></el-option>
+                                               :value="model.id"></el-option>
                                 </el-select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>当日最大阈值</th>
+                            <td>
+                                <el-input type="number" v-model="editChannelObject.todaymaxuv"
+                                          placeholder="请输入阈值"></el-input>
                             </td>
                         </tr>
                         <tr>
@@ -131,14 +164,30 @@
                             <td>
                                 <el-select v-model="editChannelObject.name" placeholder="选择模板" style="width: 100%;">
                                     <el-option v-for="template in templateList" :label="template.name"
-                                            :value="template.name"></el-option>
+                                               :value="template.name"></el-option>
                                 </el-select>
                             </td>
                         </tr>
                         <tr>
-                            <th>验证码</th>
+                            <th>后缀</th>
                             <td>
-                                <el-input v-model="editChannelObject.token" placeholder="请输入验证码"></el-input>
+                                <el-input v-model="editChannelObject.token" placeholder="请输入后缀"></el-input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>流量计算单价</th>
+                            <td>
+                                <el-input v-model="editChannelObject.price" placeholder="请输入单价"></el-input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>流量结算方式</th>
+                            <td>
+                                <el-select placeholder="结算方式" v-model="editChannelObject.clearingform">
+                                    <el-option label="uv" value="1"></el-option>
+                                    <el-option label="注册数 " value="2"></el-option>
+                                    <el-option label="已借款人数" value="3"></el-option>
+                                </el-select>
                             </td>
                         </tr>
                         <tr>
@@ -159,11 +208,11 @@
                 <div class="block">
                     <el-pagination
                         :current-page="page"
-                        :page-size.sync="pageSize"
+                        :page-size="pageSize"
                         layout="total, prev, pager, next, jumper"
                         :page-count="totalPageCount"
                         :total="totalCount"
-                        @current-change="currentChange()"
+                        @current-change="currentChange"
                     ></el-pagination>
                 </div>
             </div>
@@ -202,9 +251,20 @@
                 that.page = res.data.pageutil.page;
                 that.totalPageCount = res.data.pageutil.totalPageCount;
                 that.totalCount = res.data.pageutil.totalCount;
-                if(!!that.tableData){
-                    for(var i =0;i<that.tableData.length;i++){
-                        that.tableData[i].statusName = that.tableData[i].status ==1?"开启":"关闭"
+                if (!!that.tableData) {
+                    for (var i = 0; i < that.tableData.length; i++) {
+                        that.tableData[i].statusName = that.tableData[i].status == 1 ? "开启" : "关闭";
+                        switch (that.tableData[i].clearingform) {
+                            case '1':
+                                that.tableData[i].clearingformName = 'uv'
+                                break;
+                            case '2':
+                                that.tableData[i].clearingformName = '注册数'
+                                break;
+                            case '3':
+                                that.tableData[i].clearingformName = '已借款人数'
+                                break;
+                        }
                     }
                 }
             })
@@ -222,30 +282,54 @@
                     this.Search();
                 })
             },
-            currentChange() {
-
-            },
-            Search(page) {
+            currentChange(val) {
                 var that = this;
-                if (!page) {
-                    page = 1;
-                }
+                that.page = val;
+                that.Search();
+            },
+            Search() {
+                var that = this;
                 that.axios.get('/source/queryAll', {
-                    params: {companyId: window.localStorage.getItem("companyid"), page: page}
+                    params: {companyId: window.localStorage.getItem("companyid"), page: that.page}
                 }).then(res => {
                     that.tableData = res.data.sourcelist;
                     that.page = res.data.pageutil.page;
                     that.totalPageCount = res.data.pageutil.totalPageCount;
                     that.totalCount = res.data.pageutil.totalCount;
-                    if(!!that.tableData){
-                        for(var i =0;i<that.tableData.length;i++){
-                            that.tableData[i].statusName = that.tableData[i].status ==1?"开启":"关闭"
+                    if (!!that.tableData) {
+                        for (var i = 0; i < that.tableData.length; i++) {
+                            that.tableData[i].statusName = that.tableData[i].status == 1 ? "开启" : "关闭";
+                            switch (that.tableData[i].clearingform) {
+                                case "1":
+                                    that.tableData[i].clearingformName = 'uv'
+                                    break;
+                                case "2":
+                                    that.tableData[i].clearingformName = '注册数'
+                                    break;
+                                case "3":
+                                    that.tableData[i].clearingformName = '已借款人数'
+                                    break;
+                            }
                         }
                     }
                 })
             },
             addChannel() {
                 var that = this;
+                if (!that.addChannelObject.token || that.addChannelObject.token.length != 6) {
+                    this.$message({
+                        type: 'error',
+                        message: '请输入6位验证码'
+                    });
+                    return false;
+                }
+                if (!that.addChannelObject.clearingform) {
+                    this.$message({
+                        type: 'error',
+                        message: '请选择流量结算方式'
+                    });
+                    return false;
+                }
                 that.addChannelObject.companyid = window.localStorage.getItem("companyid");
                 that.addChannelObject.discount = that.addChannelObject.discount + '%';
                 that.axios.get('/source/insert', {
@@ -261,7 +345,22 @@
             },
             editChannel() {
                 var that = this;
+                if (!that.editChannelObject.token || that.editChannelObject.token.length != 6) {
+                    this.$message({
+                        type: 'error',
+                        message: '请输入6位验证码'
+                    });
+                    return false;
+                }
+                if (!that.editChannelObject.clearingform) {
+                    this.$message({
+                        type: 'error',
+                        message: '请选择流量结算方式'
+                    });
+                    return false;
+                }
                 that.editChannelObject.companyid = window.localStorage.getItem("companyid");
+                that.editChannelObject.discount = that.editChannelObject.discount + '%'
                 that.axios.get('/source/updateByPrimaryKey', {
                     params: that.editChannelObject
                 }).then(res => {
@@ -286,17 +385,15 @@
             },
             openEditChannelDialog(object) {
                 var that = this;
-                that.axios.get('/source/queryAllCompany', {
-                    params: {companyId: window.localStorage.getItem("companyid")}
+                that.axios.get('/source/selectByPrimaryKey', {
+                    params: {companyId: window.localStorage.getItem("companyid"), id: object.id}
                 }).then(res => {
+                    that.editChannelObject = res.data.source;
                     that.templateList = res.data.listtemp;
                     that.modelList = res.data.listmanage;
-                    that.centerDialogVisibles = false;
+                    that.editChannelDialogVisible = true;
                 })
-                that.editChannelObject = object;
-                that.editChannelDialogVisible = true;
             },
-            openDeleteBox(){}
         }
     }
 </script>

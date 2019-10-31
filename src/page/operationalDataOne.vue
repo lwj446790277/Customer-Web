@@ -7,50 +7,45 @@
                 <el-form :model="form" :inline="true" class="demo-form-inline">
                     <el-form-item>
                         <el-col :span="11">
-                            <el-date-picker type="date" placeholder="起始时间" v-model="form.start"
-                                            value-format="yyyy-MM-dd" @change="timeChange"></el-date-picker>
+                            <el-date-picker type="date" placeholder="起始时间" v-model="form.start" value-format="yyyy-MM-dd" @change="timeChange"></el-date-picker>
                         </el-col>
                     </el-form-item>
                     <el-form-item class="single">
                         <el-col :span="11">
-                            <el-date-picker type="date" placeholder="结束时间" v-model="form.end" value-format="yyyy-MM-dd"
-                                            @change="endChange"></el-date-picker>
+                            <el-date-picker type="date" placeholder="结束时间" v-model="form.end" value-format="yyyy-MM-dd" @change="endChange"></el-date-picker>
                         </el-col>
                     </el-form-item>
                     <el-form-item>
                         <el-select placeholder="引流平台" v-model="form.platform">
-                            <el-option
-                                v-for="item in platform"
-                                :key="item.value"
-                                :label="item.drainageOfPlatformName"
-                                :value="item.id"
-                            ></el-option>
+                            <el-option v-for="item in platform" :key="item.value" :label="item.drainageOfPlatformName" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="warning" @click="Reset"
-                                   style="background-color:#e3e4e7;border:transparent;color:#000">重置
-                        </el-button>
+                        <el-button type="warning" @click="Reset" style="background-color:#e3e4e7;border:transparent;color:#000">重置</el-button>
                         <el-button type="primary" @click="Search">搜索</el-button>
+                        <el-button type="danger" @click="downloadSource">下载</el-button>
                     </el-form-item>
                 </el-form>
                 <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%" fit>
-                    <el-table-column prop="remittanceTime" label="日期" align="center"></el-table-column>
-                    <el-table-column prop="gesamtbetragderDarlehen" label="总放款金额" align="center"></el-table-column>
-                    <el-table-column prop="zahlderGesamtdarlehen" label="总放款笔数" align="center"></el-table-column>
-                    <el-table-column prop="gesamtbetragderRvckzahlung" label="总还款金额" align="center"></el-table-column>
-                    <el-table-column prop="gesamtbetragderNum" label="总还款笔数" align="center"></el-table-column>
-                    <el-table-column prop="gesamtbetraguberfalligerBetrag" label="总逾期金额"
-                                     align="center"></el-table-column>
-                    <el-table-column prop="gesamtbetraguberfallNum" label="总逾期笔数" align="center"></el-table-column>
-                    <el-table-column prop="amountofbaddebts" label="总坏账金额"
-                                     align="center"></el-table-column>
-                    <el-table-column prop="baddebt" label="总坏账笔数" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="remittanceTime" label="日期" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="gesamtbetragderDarlehen" label="总放款金额" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="zahlderGesamtdarlehen" label="总放款笔数" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="gesamtbetragderRvckzahlung" label="总还款金额" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="gesamtbetragderNum" label="总还款笔数" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="gesamtbetraguberfalligerBetrag" label="总逾期金额" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="gesamtbetraguberfallNum" label="总逾期笔数" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="amountofbaddebts" label="总坏账金额" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="baddebt" label="总坏账笔数" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="xianscount" label="线下减免条数" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="paymentNum" label="今日放款新科" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="paymentNumId" label="今日放款复贷" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="repaymentNum" label="今日还款新客" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="repaymentNumId" label="今日还款复客" align="center"></el-table-column>
                 </el-table>
                 <div class="block">
                     <el-pagination
-                        :current-page.sync="page"
-                        :page-size.sync="Pagesize"
+                        :current-page="page"
+                        :page-size="Pagesize"
                         layout="total, prev, pager, next, jumper"
                         :page-count="totalPageCount"
                         :total="totalCount"
@@ -90,6 +85,22 @@
             this.get();
         },
         methods: {
+            downloadSource() {
+                var that = this;
+                if (this.form.start != "") {
+                    var start = this.form.start + " " + "00:00:00"
+                }
+                if (this.form.end != "") {
+                    var end = this.form.end + " " + "23:59:59"
+                }
+                var param = {
+                    companyId: window.localStorage.getItem("companyid"),
+                    start_time: start,
+                    end_time: end,
+                    drainageOfPlatformId: this.form.platform
+                }
+                that.downloadExcel("/operation/PlatformsNumexport", param, '平台总数据');
+            },
             timeChange(val) {
                 // console.log(val)
                 this.form.start = val

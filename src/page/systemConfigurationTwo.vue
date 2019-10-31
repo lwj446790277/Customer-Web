@@ -10,42 +10,39 @@
                         <th>身份证及人脸认证</th>
                         <td>
                             <el-radio-group v-model="editObject.idcardfaceauthentication">
-                                <el-radio
-                                    v-for="(face, index) in facelist"
-                                    :label="face.name"
-                                    :value="face.name"
-                                ></el-radio>
+                                <el-radio v-for="(face, index) in facelist" :label="face.name" :value="face.name"></el-radio>
                             </el-radio-group>
-                            <!--<el-select v-model="editObject.idcardfaceauthentication">
-                                <el-option v-for="face in facelist" :label="face.name" :value="face.name"></el-option>
-                            </el-select>-->
                         </td>
                     </tr>
                     <tr>
                         <th>运营商认证</th>
                         <td>
                             <el-radio-group v-model="editObject.operatorsauthentication">
-                                <el-radio
-                                    v-for="(opera, index) in operalist"
-                                    :label="opera.name"
-                                    :value="opera.name"
-                                ></el-radio>
+                                <el-radio v-for="(opera, index) in operalist" :label="opera.name" :value="opera.name"></el-radio>
                             </el-radio-group>
-                           <!-- <el-select v-model="editObject.operatorsauthentication">
-                                <el-option v-for="opera in operalist" :label="opera.name"
-                                           :value="opera.name"></el-option>
-                            </el-select>-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>手机三要素认证</th>
+                        <td>
+                            <el-radio-group v-model="editObject.phonethreeelements">
+                                <el-radio v-for="(face, index) in phonethree" :label="face.name" :value="face.name"></el-radio>
+                            </el-radio-group>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>银行卡四要素认证</th>
+                        <td>
+                            <el-radio-group v-model="editObject.bankfourelements">
+                                <el-radio v-for="(face, index) in bankfour" :label="face.name" :value="face.name"></el-radio>
+                            </el-radio-group>
                         </td>
                     </tr>
                     <tr>
                         <th>放款渠道</th>
                         <td>
                             <el-radio-group v-model="editObject.loansource">
-                                <el-radio
-                                    v-for="(loan, index) in loanlist"
-                                    :label="loan.name"
-                                    :value="loan.name"
-                                ></el-radio>
+                                <el-radio v-for="(loan, index) in loanlist" :label="loan.name" :value="loan.name"></el-radio>
                             </el-radio-group>
                         </td>
                     </tr>
@@ -53,11 +50,7 @@
                         <th>回款渠道</th>
                         <td>
                             <el-radio-group v-model="editObject.repaymentsource">
-                                <el-radio
-                                    v-for="(repay, index) in repaylist"
-                                    :label="repay.name"
-                                    :value="repay.name"
-                                ></el-radio>
+                                <el-radio v-for="(repay, index) in repaylist" :label="repay.name" :value="repay.name"></el-radio>
                             </el-radio-group>
                         </td>
                     </tr>
@@ -87,49 +80,45 @@
                 facelist: [],
                 operalist: [],
                 loanlist: [],
-                repaylist: []
+                repaylist: [],
+                bankfour: [],
+                phonethree: [],
             };
         },
         beforeCreate() {
             var that = this;
-            that.axios
-                .get("/thirdpartyint/queryAllCompany", {
+            that.axios.get("/thirdpartyint/queryAllCompany", {
+                params: {companyId: window.localStorage.getItem("companyid")}
+            }).then(res => {
+                that.facelist = res.data.facelist;
+                that.operalist = res.data.operalist;
+                that.loanlist = res.data.loanlist;
+                that.repaylist = res.data.repaylist;
+                that.bankfour = res.data.bankfour;
+                that.phonethree = res.data.phonethree;
+                that.axios.get("/thirdpartyint/queryAll", {
                     params: {companyId: window.localStorage.getItem("companyid")}
-                })
-                .then(res => {
-                    that.facelist = res.data.facelist;
-                    that.operalist = res.data.operalist;
-                    that.loanlist = res.data.loanlist;
-                    that.repaylist = res.data.repaylist;
-                    that.axios
-                        .get("/thirdpartyint/queryAll", {
-                            params: {companyId: window.localStorage.getItem("companyid")}
-                        })
-                        .then(res => {
-                            that.editObject = res.data[0];
-                        });
+                }).then(res => {
+                    that.editObject = res.data[0];
                 });
+            });
         },
         methods: {
             Search() {
                 var that = this;
-                that.axios
-                    .get("/thirdpartyint/queryAllCompany", {
+                that.axios.get("/thirdpartyint/queryAllCompany", {
+                    params: {companyId: window.localStorage.getItem("companyid")}
+                }).then(res => {
+                    that.facelist = res.data.facelist;
+                    that.operalist = res.data.operalist;
+                    that.loanlist = res.data.loanlist;
+                    that.repaylist = res.data.repaylist;
+                    that.axios.get("/thirdpartyint/queryAll", {
                         params: {companyId: window.localStorage.getItem("companyid")}
-                    })
-                    .then(res => {
-                        that.facelist = res.data.facelist;
-                        that.operalist = res.data.operalist;
-                        that.loanlist = res.data.loanlist;
-                        that.repaylist = res.data.repaylist;
-                        that.axios
-                            .get("/thirdpartyint/queryAll", {
-                                params: {companyId: window.localStorage.getItem("companyid")}
-                            })
-                            .then(res => {
-                                that.editObject = res.data[0];
-                            });
+                    }).then(res => {
+                        that.editObject = res.data[0];
                     });
+                });
             },
             save() {
                 var that = this;
@@ -140,17 +129,17 @@
                 param.operatorsauthentication = that.editObject.operatorsauthentication;
                 param.loansource = that.editObject.loansource;
                 param.repaymentsource = that.editObject.repaymentsource;
-                that.axios
-                    .get("/thirdpartyint/updateByPrimaryKey", {
-                        params: param
-                    })
-                    .then(res => {
-                        this.$message({
-                            type: "success",
-                            message: "编辑成功"
-                        });
-                        that.Search();
+                param.phonethreeelements = that.editObject.phonethreeelements;
+                param.bankfourelements = that.editObject.bankfourelements;
+                that.axios.get("/thirdpartyint/updateByPrimaryKey", {
+                    params: param
+                }).then(res => {
+                    this.$message({
+                        type: "success",
+                        message: "编辑成功"
                     });
+                    that.Search();
+                });
             }
         }
     };

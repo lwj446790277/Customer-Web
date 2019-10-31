@@ -11,30 +11,14 @@
                             <tr>
                                 <th>联系方式</th>
                                 <td>
-                                    <input
-                                        autocomplete="off"
-                                        type="text"
-                                        rows="2"
-                                        validateevent="true"
-                                        class="el-input__inner nmsl"
-                                        v-model="left1.contactinformation"
-                                        placeholder="请输入联系方式"
-                                    />
+                                    <input autocomplete="off" type="text" rows="2" validateevent="true" class="el-input__inner nmsl" v-model="left1.contactinformation" placeholder="请输入联系方式"/>
                                 </td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <th>备注</th>
                                 <td>
-                                    <input
-                                        autocomplete="off"
-                                        type="text"
-                                        rows="2"
-                                        validateevent="true"
-                                        class="el-input__inner nmsl"
-                                        v-model="left1.remarks"
-                                        placeholder="请输入备注"
-                                    />
+                                    <input autocomplete="off" type="text" rows="2" validateevent="true" class="el-input__inner nmsl" v-model="left1.remarks" placeholder="请输入备注"/>
                                 </td>
                                 <td></td>
                             </tr>
@@ -43,10 +27,7 @@
                                 <td>
                                     <div class="cont">
                                         <img :src="left1.advertisingmap" class="hidden" width="150px" height="150px">
-                                        <el-upload class="upload-demo" :on-success="uploadFileSuccess1"
-                                                   action="http://39.98.83.65:8080/zhita_xiaodai_admin/homepage/PictureUpload"
-                                                   accept=".jpg, .png"
-                                                   :show-file-list="false">
+                                        <el-upload class="upload-demo" :on-success="uploadFileSuccess1" :action="uploadUrl" accept=".jpg, .png" :show-file-list="false">
                                             <el-button size="small" type="primary" class="upload">点击上传</el-button>
                                             <span>(支持jpg/png格式)</span>
                                         </el-upload>
@@ -59,10 +40,7 @@
                                 <td>
                                     <div class="cont">
                                         <img :src="left1.qrcode" class="hidden" width="150px" height="150px">
-                                        <el-upload class="upload-demo" :on-success="uploadFileSuccess2"
-                                                   action="http://39.98.83.65:8080/zhita_xiaodai_admin/homepage/PictureUpload"
-                                                   accept=".jpg, .png"
-                                                   :show-file-list="false">
+                                        <el-upload class="upload-demo" :on-success="uploadFileSuccess2" :action="uploadUrl" accept=".jpg, .png" :show-file-list="false">
                                             <el-button size="small" type="primary" class="upload">点击上传</el-button>
                                             <span>(支持jpg/png格式)</span>
                                         </el-upload>
@@ -89,30 +67,14 @@
                             <tr>
                                 <th>公司或产品全名</th>
                                 <td>
-                                    <input
-                                        autocomplete="off"
-                                        type="text"
-                                        rows="2"
-                                        validateevent="true"
-                                        class="el-input__inner nmsl"
-                                        v-model="right1.productname"
-                                        placeholder="请输入公司或产品全名"
-                                    />
+                                    <input autocomplete="off" type="text" rows="2" validateevent="true" class="el-input__inner nmsl" v-model="right1.productname" placeholder="请输入公司或产品全名"/>
                                 </td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <th>当前App的版本</th>
                                 <td>
-                                    <input
-                                        autocomplete="off"
-                                        type="text"
-                                        rows="2"
-                                        validateevent="true"
-                                        class="el-input__inner nmsl"
-                                        v-model="right1.appversion"
-                                        placeholder="请输入备注"
-                                    />
+                                    <input autocomplete="off" type="text" rows="2" validateevent="true" class="el-input__inner nmsl" v-model="right1.appversion" placeholder="请输入备注"/>
                                 </td>
                                 <td></td>
                             </tr>
@@ -121,14 +83,57 @@
                                 <td>
                                     <div class="cont">
                                         <img :src="right1.logo" class="hidden" width="150px" height="150px">
-                                        <el-upload class="upload-demo" :on-success="uploadFileSuccess3"
-                                                   action="http://39.98.83.65:8080/zhita_xiaodai_admin/homepage/PictureUpload"
-                                                   accept=".jpg, .png"
-                                                   :show-file-list="false">
+                                        <el-upload class="upload-demo" :on-success="uploadFileSuccess3" :action="uploadUrl" accept=".jpg, .png" :show-file-list="false">
                                             <el-button size="small" type="primary" class="upload">点击上传</el-button>
                                             <span>(支持jpg/png格式)</span>
                                         </el-upload>
                                     </div>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>是否强制更新</th>
+                                <td>
+                                    <el-radio-group v-model="right1.ifcoerceupdate">
+                                        <el-radio label="1">需要</el-radio>
+                                        <el-radio label="2">不需要</el-radio>
+                                    </el-radio-group>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>APP注册用户是否拉黑</th>
+                                <td>
+                                    <el-radio-group v-model="black.ifblacklist">
+                                        <el-radio label="1">拉黑</el-radio>
+                                        <el-radio label="2">不拉黑</el-radio>
+                                    </el-radio-group>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>是否让用户直接进入风控</th>
+                                <td>
+                                    <el-radio-group v-model="fk.iffengkong">
+                                        <el-radio label="1">进入</el-radio>
+                                        <el-radio label="2">不进入</el-radio>
+                                    </el-radio-group>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>安卓下载链接</th>
+                                <td>
+                                    <input autocomplete="off" type="text" rows="2" validateevent="true" class="el-input__inner nmsl"
+                                           v-model="right1.androidlink" placeholder="请输入安卓链接"/>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>IOS下载链接</th>
+                                <td>
+                                    <input autocomplete="off" type="text" rows="2" validateevent="true" class="el-input__inner nmsl" v-model="right1.ioslink"
+                                           placeholder="请输入IOS链接"/>
                                 </td>
                                 <td></td>
                             </tr>
@@ -160,30 +165,15 @@
             return {
                 activeName: "first",
                 left1: {},
-                right1: {},
+                right1: {ifcoerceupdate: undefined},
+                black: {ifblacklist: undefined},
+                fk: {iffengkong: undefined},
+                uploadUrl: this.axios.defaults.baseURL + 'homepage/PictureUpload',
             };
         },
-        beforeCreate() {
-            var that = this;
-            that.axios.get('/contact/queryAll', {
-                params: {companyId: window.localStorage.getItem("companyid")}
-            }).then(res => {
-                that.left1 = res.data[0];
-                if (!that.left1.qrcode) {
-                    that.left1.qrcode = defaultAddPicture;
-                }
-                if (!that.left1.advertisingmap) {
-                    that.left1.advertisingmap = defaultAddPicture;
-                }
-                that.axios.get('/aboutus/queryAll', {
-                    params: {companyId: window.localStorage.getItem("companyid")}
-                }).then(res => {
-                    that.right1 = res.data[0];
-                    if (!that.right1.logo) {
-                        that.right1.logo = defaultAddPicture;
-                    }
-                })
-            })
+        created() {
+            this.Search();
+            this.Search2();
         },
         methods: {
             handleClick() {
@@ -201,13 +191,26 @@
                     if (!that.left1.logo) {
                         that.left1.logo = defaultAddPicture;
                     }
-                    that.axios.get('/aboutus/queryAll', {
+                })
+            },
+            Search2() {
+                var that = this;
+                that.axios.get('/aboutus/queryAll', {
+                    params: {companyId: window.localStorage.getItem("companyid")}
+                }).then(res => {
+                    that.right1 = res.data[0];
+                    if (!that.right1.logo) {
+                        that.right1.logo = defaultAddPicture;
+                    }
+                    that.axios.get('/ifblacklist/queryAll', {
                         params: {companyId: window.localStorage.getItem("companyid")}
                     }).then(res => {
-                        that.right1 = res.data[0];
-                        if (!that.right1.logo) {
-                            that.right1.logo = defaultAddPicture;
-                        }
+                        that.black = res.data;
+                        that.axios.get('/iffengkong/queryAll', {
+                            params: {companyId: window.localStorage.getItem("companyid")}
+                        }).then(res => {
+                            that.fk = res.data;
+                        })
                     })
                 })
             },
@@ -237,11 +240,19 @@
                 that.axios.get('/aboutus/updateByPrimaryKey', {
                     params: that.right1
                 }).then(res => {
-                    this.$message({
-                        type: 'success',
-                        message: '编辑成功'
-                    });
-                    this.Search();
+                    that.axios.get('/ifblacklist/updateByPrimaryKey', {
+                        params: that.black
+                    }).then(res => {
+                        that.axios.get('/iffengkong/updateByPrimaryKey', {
+                            params: that.fk
+                        }).then(res => {
+                            this.$message({
+                                type: 'success',
+                                message: '编辑成功'
+                            });
+                            this.Search2();
+                        })
+                    })
                 })
             },
             uploadFileSuccess2(res) {

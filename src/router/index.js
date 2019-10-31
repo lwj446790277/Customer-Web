@@ -69,6 +69,15 @@ const systemConfigurationSix = r => require.ensure([], () => r(require('@/page/s
 const systemConfigurationSeven = r => require.ensure([], () => r(require('@/page/systemConfigurationSeven')), 'systemConfigurationSeven');
 const systemConfigurationEight = r => require.ensure([], () => r(require('@/page/systemConfigurationEight')), 'systemConfigurationEight');
 const systemConfigurationTextEdit = r => require.ensure([], () => r(require('@/page/systemConfigurationTextEdit')), 'systemConfigurationTextEdit');
+// 这里是报表查看
+const loanTable = r => require.ensure([], () => r(require('@/page/loanTable')), 'loanTable');
+const payTable = r => require.ensure([], () => r(require('@/page/payTable')), 'payTable');
+const delayTable = r => require.ensure([], () => r(require('@/page/delayTable')), 'delayTable');
+const overdueTable = r => require.ensure([], () => r(require('@/page/overdueTable')), 'overdueTable');
+const countTable = r => require.ensure([], () => r(require('@/page/countTable')), 'countTable');
+
+const feedback = r => require.ensure([], () => r(require('@/page/feedback')), 'feedback');
+const checkInfo = r => require.ensure([], () => r(require('@/page/checkInfo')), 'checkInfo');
 const routes = [
     {
         path: '/',
@@ -180,6 +189,10 @@ const routes = [
                 component: riskManagement,
                 meta: ['认证信息查看', '风控报告'],
             }, {
+                path: '/checkInfo',
+                component: checkInfo,
+                meta: ['认证信息查看', '反欺诈报告'],
+            }, {
                 path: '/collectionOne',
                 component: collectionOne,
                 meta: ['催收预警及管理', '已逾期未分配'],
@@ -236,6 +249,10 @@ const routes = [
                 component: windControlThree,
                 meta: ['APP管理设置', '联系客服和关于我们'],
             }, {
+                path: '/feedback',
+                component: feedback,
+                meta: ['APP管理设置', '反馈查看'],
+            }, {
                 path: '/channelOne',
                 component: channelOne,
                 meta: ['渠道管理', '渠道数据查询'],
@@ -283,6 +300,26 @@ const routes = [
                 path: '/systemConfigurationTextEdit',
                 component: systemConfigurationTextEdit,
                 meta: ['系统配置', '协议编辑'],
+            }, {
+                path: '/loanTable',
+                component: loanTable,
+                meta: ['报表查看', '放款表'],
+            }, {
+                path: '/payTable',
+                component: payTable,
+                meta: ['报表查看', '还款表'],
+            }, {
+                path: '/delayTable',
+                component: delayTable,
+                meta: ['报表查看', '续借表'],
+            }, {
+                path: '/overdueTable',
+                component: overdueTable,
+                meta: ['报表查看', '逾期表'],
+            }, {
+                path: '/countTable',
+                component: countTable,
+                meta: ['报表查看', '实时统计表'],
             }]
     }
 ]

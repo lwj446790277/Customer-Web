@@ -22,66 +22,49 @@
                     </el-form-item>
                 </el-form>
                 <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
-                    <el-table-column prop="orderNumber" label="订单编号" width="93" align="center"></el-table-column>
-                    <el-table-column prop="name" label="真实姓名" width="93" align="center"></el-table-column>
-                    <el-table-column prop="phone" label="手机号" width="130" align="center"></el-table-column>
-                    <el-table-column prop="borrowMoneyWay" label="贷款方式" width="93" align="center"></el-table-column>
-                    <el-table-column prop="borrowTimeLimit" label="还款期数" width="93" align="center"></el-table-column>
-                    <el-table-column prop="orderCreateTime" label="实借时间" width="175" align="center"></el-table-column>
-                    <el-table-column prop="realityBorrowMoney" label="实借总金额" width="120"
-                                     align="center"></el-table-column>
-                    <el-table-column prop="deferAfterReturntime" label="延期后应还时间" width="175" align="center"></el-table-column>
-                    <el-table-column prop="overdueNumberOfDays" label="逾期天数" width="93" align="center"></el-table-column>
-                    <el-table-column prop="overdueGrade" label="逾期等级" width="93" align="center"></el-table-column>
-                    <el-table-column prop="shouldReapyMoney" label="逾期罚金/含逾应还总金额" width="140" align="center">
-                        <template slot-scope="scope">
-                            <span>{{scope.row.interestPenaltySum}}/{{scope.row.order_money}}</span>
-                        </template>
+                    <el-table-column :resizable='false' prop="orderNumber" label="订单编号" width="93" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="name" label="真实姓名" width="93" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="phone" label="手机号" width="130" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="borrowMoneyWay" label="贷款方式" width="93" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="borrowTimeLimit" label="还款期数" width="93" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="orderCreateTime" label="实借时间" width="175" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="realityBorrowMoney" label="实借总金额" width="120" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="deferAfterReturntime" label="延期后应还时间" width="175" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="overdueNumberOfDays" label="逾期天数" width="93" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="overdueGrade" label="逾期等级" width="93" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="shouldReapyMoney" label="逾期罚金/含逾应还总金额" width="140" align="center">
+                        <template slot-scope="scope"><span>{{scope.row.interestPenaltySum}}/{{scope.row.order_money}}</span></template>
                     </el-table-column>
-                    <el-table-column prop="collectionTime" label="分配时间" width="175" align="center"></el-table-column>
-                    <el-table-column label="用户状态" width="150" align="center">
+                    <el-table-column :resizable='false' prop="collectionTime" label="分配时间" width="175" align="center"></el-table-column>
+                    <el-table-column :resizable='false' label="用户状态" width="150" align="center">
                         <template slot-scope="scope">
                             <el-select v-model="scope.row.ismg">
-                                <el-option
-                                    v-for="item in tableDatas"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value"
-                                ></el-option>
+                                <el-option v-for="item in tableDatas" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="promise_money" label="承诺还清部分金额" width="175" align="center"></el-table-column>
-                    <el-table-column label="操作" width="93" align="center">
+                    <el-table-column :resizable='false' label="承诺还清部分金额" width="175" align="center">
+                        <template slot-scope="scope">
+                            <el-input type="number" v-model="scope.row.promise_money"></el-input>
+                        </template>
+                    </el-table-column>
+                    <el-table-column :resizable='false' label="操作" width="93" align="center">
                         <template slot-scope="scope">
                             <el-popover placement="bottom-end" width="300" trigger="click">
-                                <div v-if="show">
-                                    <p>请先选择用户状态，再操作</p>
-                                    <!-- <el-button class="confire" type="success" @click="close(scope.row)">知道了</el-button> -->
-                                </div>
+                                <div v-if="show"><p>请先选择用户状态，再操作</p></div>
                                 <div v-if="hidden">
                                     <p>该用户的状态可在"已分配已催收"中查看</p>
-                                    <!-- <el-button @click="visible = !visible">返回</el-button> -->
                                     <el-button class="confire" type="success" @click="confire(scope.row.ismg,scope.row.promise_money,scope.row.collectionId)">好的
                                     </el-button>
                                 </div>
-                                <span
-                                    class="blue"
-                                    slot="reference"
-                                    @click="see(scope.row.ismg,scope.row.promise_money,scope.row.collectionId)"
-                                >完成联系</span>
+                                <span class="blue" slot="reference" @click="see(scope.row.ismg,scope.row.promise_money,scope.row.collectionId)">完成联系</span>
                             </el-popover>
                         </template>
                     </el-table-column>
                 </el-table>
                 <div class="block">
-                    <el-pagination
-                        :current-page.sync="page"
-                        :page-size.sync="Pagesize"
-                        layout="total, prev, pager, next, jumper"
-                        :page-count="totalPageCount"
-                        :total="totalCount"
-                    ></el-pagination>
+                    <el-pagination :current-page="page" :page-size="Pagesize" layout="total, prev, pager, next, jumper" :page-count="totalPageCount"
+                                   :total="totalCount"></el-pagination>
                 </div>
             </div>
         </div>
@@ -127,7 +110,7 @@
                         params: {
                             companyId: window.localStorage.getItem("companyid"),
                             // collectionMemberId: window.localStorage.getItem("userid"),
-                            collectionMemberId: 2,
+                            collectionMemberId: window.localStorage.getItem("userid"),
                             page,
                             Pagesize
                         }
@@ -182,7 +165,7 @@
                         }
                     })
                     .then(res => {
-                        if(res.data.code==200){
+                        if (res.data.code == 200) {
                             this.$confirm(res.data.desc, '提示', {
                                 type: 'warning',
                                 center: true

@@ -25,7 +25,7 @@
                         </td>
                         <td>
                             <div style="width: 200px; height:200px;">
-                                <img :src="user.headurl" width="100%" height="100%"/>
+                                <img :src="user.facePhoto" width="100%" height="100%"/>
                                 <div type="primary"
                                      style="margin-top:-5px;background-color:#0e85e0;width: 200px;height: 25px;text-align: center">
                                     <font color="white">人脸照</font></div>
@@ -33,63 +33,69 @@
                         </td>
                     </tr>
                 </table>
-                <ul class="bottom">
-                    <li>
-                        <span class="tit">身份证信息</span>
-                        <table border="1" cellspacing="0" cellpadding="20" class="news">
-                            <tr>
-                                <th>真实姓名</th>
-                                <td>{{user.truename}}</td>
-                            </tr>
-                            <tr>
-                                <th>身份证号</th>
-                                <td>{{user.idcardNumber}}</td>
-                            </tr>
-                            <tr>
-                                <th>年龄</th>
-                                <td>{{user.age}}</td>
-                            </tr>
-                            <tr>
-                                <th>省份</th>
-                                <td>{{user.province}}</td>
-                            </tr>
-                        </table>
-                    </li>
-                    <li class="cen">
-                        <span class="tit">定位信息</span>
-                        <table border="1" cellspacing="0" cellpadding="20" class="news">
-                            <tr>
-                                <th>注册登录手机号</th>
-                                <td>{{user.phone}}</td>
-                            </tr>
-                            <tr>
-                                <th>家庭地址</th>
-                                <td>{{user.address}}</td>
-                            </tr>
-                            <tr>
-                                <th>详细地址</th>
-                                <td>{{user.detailaddress}}</td>
-                            </tr>
-                        </table>
-                    </li>
-                    <li>
-                        <span class="tit">收款银行卡</span>
-                        <table border="1" cellspacing="0" cellpadding="20" class="news">
-                            <tr>
-                                <th>开户行</th>
-                                <td>{{card.bankcardTypeName}}</td>
-                            </tr>
-                            <tr>
-                                <th>银行卡号</th>
-                                <td>{{card.bankcardName}}</td>
-                            </tr>
-                            <tr>
-                                <th>绑定手机号</th>
-                                <td>{{card.tiedCardPhone}}</td>
-                            </tr>
-                        </table>
-                    </li>
-                </ul>
+                <el-card class="box-card" style="margin-left:30px;width: 30%;margin-top:50px;float:left">
+                    <div slot="header" class="clearfix">
+                        <span><font color="white">身份证信息</font></span>
+                    </div>
+                    <div class="text item">
+                        <div class='my-label'>真实姓名</div>
+                        <div class="my-text">{{user.truename}}</div>
+                    </div>
+                    <div class="text item">
+                        <div class='my-label'>身份证</div>
+                        <div class="my-text">{{user.idcardNumber}}</div>
+                    </div>
+                    <div class="text item">
+                        <div class='my-label'>年龄</div>
+                        <div class="my-text">{{user.age}}</div>
+                    </div>
+                    <div class="text item">
+                        <div class='my-label'>省份</div>
+                        <div class="my-text">{{user.province}}</div>
+                    </div>
+                </el-card>
+                <el-card class="box-card" style="margin-left:30px;width: 30%;margin-top:50px;float:left">
+                    <div slot="header" class="clearfix">
+                        <span><font color="white">定位信息</font></span>
+                    </div>
+                    <div class="text item">
+                        <div class='my-label'>注册登录手机号</div>
+                        <div class="my-text">{{user.phone}}</div>
+                    </div>
+                    <div class="text item">
+                        <div class='my-label'>家庭地址</div>
+                        <div class="my-text">{{user.address}}</div>
+                    </div>
+                    <div class="text item">
+                        <div class='my-label'>详细地址</div>
+                        <div class="my-text">{{user.detailaddress}}</div>
+                    </div>
+                    <div class="text item">
+                        <div class='my-label'></div>
+                        <div class="my-text"></div>
+                    </div>
+                </el-card>
+                <el-card class="box-card" style="margin-left:30px;width: 30%;margin-top:50px;float:left">
+                    <div slot="header" class="clearfix">
+                        <span><font color="white">收款银行卡</font></span>
+                    </div>
+                    <div class="text item">
+                        <div class='my-label'>开户行</div>
+                        <div class="my-text">{{card.bankcardTypeName}}</div>
+                    </div>
+                    <div class="text item">
+                        <div class='my-label'>银行卡号</div>
+                        <div class="my-text">{{card.bankcardName}}</div>
+                    </div>
+                    <div class="text item">
+                        <div class='my-label'>绑定手机号</div>
+                        <div class="my-text">{{card.tiedCardPhone}}</div>
+                    </div>
+                    <div class="text item">
+                        <div class='my-label'></div>
+                        <div class="my-text"></div>
+                    </div>
+                </el-card>
             </div>
         </div>
     </div>
@@ -97,6 +103,7 @@
 
 <script>
     import headTop from '../components/headTop'
+    import defaultAddPicture from '../assets/img/default_add.png'
 
     export default {
         components: {
@@ -120,24 +127,58 @@
         },
         beforeCreate() {
             var that = this;
+            that.user = {};
+            that.card = {};
             that.axios.get('/user/queryUserAttesta', {
                 params: {userid: that.$route.query.id}
             }).then(res => {
-                that.user = res.data.userAttestation;
-                that.card = res.data.bankcard;
+                that.user = !res.data.userAttestation ? {
+                    truename: '暂无',
+                    idcardNumber: '暂无',
+                    age: '暂无',
+                    province: '暂无',
+                    phone: '暂无',
+                    address: '暂无',
+                    detailaddress: '暂无',
+                    headurl: defaultAddPicture,
+                    nationalemblemurl: defaultAddPicture,
+                    facePhoto: defaultAddPicture,
+                } : res.data.userAttestation;
+                that.card = !res.data.bankcard ? {
+                    bankcardTypeName: '暂无',
+                    bankcardName: '暂无',
+                    tiedCardPhone: '暂无'
+                } : res.data.bankcard;
             })
         },
         methods: {
             searchById() {
                 var that = this;
-                if(!that.$route.query.id){
+                that.user = {};
+                that.card = {};
+                if (!that.$route.query.id) {
                     return false;
                 }
                 that.axios.get('/user/queryUserAttesta', {
                     params: {userid: that.$route.query.id}
                 }).then(res => {
-                    that.user = res.data.userAttestation;
-                    that.card = res.data.bankcard;
+                    that.user = !res.data.userAttestation ? {
+                        truename: '暂无',
+                        idcardNumber: '暂无',
+                        age: '暂无',
+                        province: '暂无',
+                        phone: '暂无',
+                        address: '暂无',
+                        detailaddress: '暂无',
+                        headurl: defaultAddPicture,
+                        nationalemblemurl: defaultAddPicture,
+                        facePhoto: defaultAddPicture,
+                    } : res.data.userAttestation;
+                    that.card = !res.data.bankcard ? {
+                        bankcardTypeName: '暂无',
+                        bankcardName: '暂无',
+                        tiedCardPhone: '暂无'
+                    } : res.data.bankcard;
                 })
             }
         }
@@ -146,6 +187,32 @@
 
 <style lang="less">
     @import '../style/mixin';
+
+    .el-card__header {
+        background-color: #0e85e0;
+    }
+
+    .my-label {
+        width: 50%;
+        margin-top: 5px;
+        float: left;
+        text-align: left;
+    }
+
+    .my-text {
+        width: 50%;
+        margin-top: 5px;
+        float: left;
+        text-align: left;
+    }
+
+    .text {
+        font-size: 14px;
+    }
+
+    .item {
+        padding: 18px 0;
+    }
 
     .explain_text {
         margin-top: 20px;

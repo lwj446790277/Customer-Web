@@ -1,10 +1,11 @@
 <template>
-    <div class="header_container">
+    <div class="header_container" style="background-color:#545c64;text-color:#fff">
 
         <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path: '/manage' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item v-for="(item, index) in $route.meta" :key="index">{{item}}</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/manage' }"><font color="#ffd04b">首页</font></el-breadcrumb-item>
+            <el-breadcrumb-item v-for="(item, index) in $route.meta" :key="index"><font color="#ffd04b">{{item}}</font></el-breadcrumb-item>
         </el-breadcrumb>
+        <span style="margin-right: 30px;"><center><font color="white">当前版本 1.0.102818</font></center></span>
         <el-dropdown @command="handleCommand" menu-align='start'>
             <span style="margin-right: 10px;"><font color="white">{{userName}}</font></span>
             <el-dropdown-menu slot="dropdown">
@@ -65,6 +66,7 @@
                     window.localStorage.removeItem("companyid")
                     window.localStorage.removeItem("account")
                     window.localStorage.removeItem("userid")
+                    window.localStorage.removeItem('role')
                     this.$router.push('/')
                 })
             }

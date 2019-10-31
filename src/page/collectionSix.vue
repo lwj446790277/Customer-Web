@@ -78,39 +78,36 @@
                 </ul>
                 </div>-->
                 <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
-                    <el-table-column prop="orderNumber" label="订单编号" width="70" align="center"
-                                     class="black"></el-table-column>
-                    <el-table-column prop="name" label="姓名" align="center"></el-table-column>
-                    <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
-                    <el-table-column prop="borrowMoneyWay" label="贷款方式" width="70" align="center"></el-table-column>
-                    <el-table-column prop="borrowTimeLimit" label="还款期数" width="70" align="center"></el-table-column>
-                    <el-table-column prop="orderCreateTime" label="实借时间" align="center"></el-table-column>
-                    <el-table-column prop="realityBorrowMoney" label="实借总金额" width="80"
-                                     align="center"></el-table-column>
-                    <el-table-column prop="deferAfterReturntime" label="延期后应还时间" width="83"
-                                     align="center"></el-table-column>
-                    <el-table-column prop="overdueNumberOfDays" label="逾期天数" align="center"></el-table-column>
-                    <el-table-column prop="overdueGrade" label="逾期等级" align="center"></el-table-column>
-                    <el-table-column prop="shouldReapyMoney" label="逾期罚金/含逾应还总金额" width="85" align="center">
+                    <el-table-column :resizable='false' prop="orderNumber" label="订单编号" width="70" align="center" class="black"></el-table-column>
+                    <el-table-column :resizable='false' prop="name" label="姓名" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="phone" label="手机号" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="borrowMoneyWay" label="贷款方式" width="70" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="borrowTimeLimit" label="还款期数" width="70" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="orderCreateTime" label="实借时间" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="realityBorrowMoney" label="实借总金额" width="80" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="deferAfterReturntime" label="延期后应还时间" width="83" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="overdueNumberOfDays" label="逾期天数" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="overdueGrade" label="逾期等级" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="shouldReapyMoney" label="逾期罚金/含逾应还总金额" width="85" align="center">
                         <template slot-scope="scope">
                             <span>{{scope.row.interestPenaltySum}}/{{scope.row.order_money}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="collectionStatus" label="用户状态" width="93" align="center"></el-table-column>
-                    <el-table-column prop="promise_money" label="承诺还清部分金额" width="95" align="center"></el-table-column>
-                    <el-table-column prop="collNum" label="催收次数" align="center"></el-table-column>
-                    <el-table-column prop="orderStatus" label="订单状态" align="center"></el-table-column>
-                    <el-table-column label="剩余还款金额/实还金额" width="115" align="center">
+                    <el-table-column :resizable='false' prop="collectionStatus" label="用户状态" width="93" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="promise_money" label="承诺还清部分金额" width="95" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="collNum" label="催收次数" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="orderStatusName" label="订单状态" align="center"></el-table-column>
+                    <el-table-column :resizable='false' label="实还金额" width="115" align="center">
                         <template slot-scope="scope">
-                            <span>{{scope.row.surplus_money}}/{{scope.row.realityAccount}}</span>
+                            <span>{{scope.row.realityAccount}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="address" label="新增催收" width="93" align="center">
+                    <el-table-column :resizable='false' prop="address" label="新增催收" width="93" align="center">
                         <template slot-scope="scope">
                             <span class="blue" @click="newAdd(scope.row.orderId,scope.row.name)">新增催收</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="address" label="结束催收" width="93" align="center">
+                    <el-table-column :resizable='false' prop="address" label="结束催收" width="93" align="center">
                         <template slot-scope="scope">
                             <el-popover placement="bottom-end" width="300" trigger="click">
                                 <p>确定结束催收该用户吗？</p>
@@ -139,19 +136,14 @@
                         </el-form-item>
                     </el-form>
                     <el-table border :data="gridData">
-                        <el-table-column property="collection_time" label="催收时间" align="center"></el-table-column>
-                        <el-table-column property="user_type" label="用户态度" align="center"></el-table-column>
-                        <el-table-column property="collectionmoney" label="承诺还款金额" align="center"></el-table-column>
+                        <el-table-column :resizable='false' property="collection_time" label="催收时间" align="center"></el-table-column>
+                        <el-table-column :resizable='false' property="user_type" label="用户态度" align="center"></el-table-column>
+                        <el-table-column :resizable='false' property="collectionmoney" label="承诺还款金额" align="center"></el-table-column>
                     </el-table>
                 </el-dialog>
                 <div class="block">
-                    <el-pagination
-                        :current-page.sync="page"
-                        :page-size.sync="Pagesize"
-                        layout="total, prev, pager, next, jumper"
-                        :page-count="totalPageCount"
-                        :total="totalCount"
-                    ></el-pagination>
+                    <el-pagination :current-page="page" :page-size="Pagesize" layout="total, prev, pager, next, jumper" :page-count="totalPageCount"
+                                   :total="totalCount"></el-pagination>
                 </div>
             </div>
         </div>
@@ -228,6 +220,26 @@
                     })
                     .then(res => {
                         this.tableData = res.data.Orderdetails;
+                        if (this.tableData.length) {
+                            for (var i = 0; i < this.tableData.length; i++) {
+                                if (this.tableData[i].orderStatus == 0) {
+                                    this.tableData[i].orderStatusName == '期限中';
+                                }
+                                if (this.tableData[i].orderStatus == 1) {
+                                    this.tableData[i].orderStatusName == '已逾期';
+                                }
+                                if (this.tableData[i].orderStatus == 2) {
+                                    this.tableData[i].orderStatusName == '已延期';
+                                }
+                                if (this.tableData[i].orderStatus == 3) {
+                                    this.tableData[i].orderStatusName == '已还款';
+                                }
+                                if (this.tableData[i].orderStatus == 4) {
+                                    this.tableData[i].orderStatusName == '已坏账';
+                                }
+                            }
+                        }
+
                         this.page = res.data.Orderdetails.page;
                         this.Pagesize = res.data.Orderdetails.Pagesize;
                         this.totalCount = res.data.Orderdetails.length;
@@ -249,13 +261,13 @@
                 this.orderId = orderId;
                 this.title = name;
                 this.axios.get("collection/Collectiondetails", {
-                        params: {
-                            orderId
-                        }
-                    }).then(res => {
-                        this.gridData = res.data.Orderdetails;
-                        this.collectionMemberId = res.data.Orderdetails.collectionMemberId;
-                    });
+                    params: {
+                        orderId
+                    }
+                }).then(res => {
+                    this.gridData = res.data.Orderdetails;
+                    this.collectionMemberId = res.data.Orderdetails.collectionMemberId;
+                });
             },
             add() {
                 console.log(this.collectionMemberId);

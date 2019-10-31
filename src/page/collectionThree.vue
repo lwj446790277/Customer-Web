@@ -7,49 +7,37 @@
                 <el-form :model="form" :inline="true" class="demo-form-inline">
                     <el-form-item>
                         <el-col :span="11">
-                            <el-date-picker type="date" placeholder="起始时间" v-model="form.start"
-                                            value-format="yyyy-MM-dd" @change="timeChange"></el-date-picker>
+                            <el-date-picker type="date" placeholder="起始时间" v-model="form.start" value-format="yyyy-MM-dd" @change="timeChange"></el-date-picker>
                         </el-col>
                     </el-form-item>
                     <el-form-item class="single">
                         <el-col :span="11">
-                            <el-date-picker type="date" placeholder="结束时间" v-model="form.end" value-format="yyyy-MM-dd"
-                                            @change="endChange"></el-date-picker>
+                            <el-date-picker type="date" placeholder="结束时间" v-model="form.end" value-format="yyyy-MM-dd" @change="endChange"></el-date-picker>
                         </el-col>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="warning" @click="Reset"
-                                   style="background-color:#e3e4e7;border:transparent;color:#000">重置
-                        </el-button>
+                        <el-button type="warning" @click="Reset" style="background-color:#e3e4e7;border:transparent;color:#000">重置</el-button>
                         <el-button type="primary" @click="Search">搜索</el-button>
+                        <el-button type="danger" @click="downloadSource">下载</el-button>
                     </el-form-item>
                 </el-form>
-                <el-table
-                    border
-                    :data="tableData"
-                    tooltip-effect="dark"
-                    style="width: 100%;line-height: 60px"
-                >
-                    <el-table-column prop="realtime" label="日期" align="center" class="red"></el-table-column>
-                    <el-table-column prop="orderNum" label="累计订单总数" align="center"></el-table-column>
-                    <el-table-column prop="collection_count" label="累计分配订单数" align="center"></el-table-column>
-                    <el-table-column prop="sameday" label="累计承诺还款订单数" align="center"></el-table-column>
-                    <el-table-column prop="paymentmade" label="累计未还清订单数" align="center"></el-table-column>
-                    <el-table-column prop="connected" label="累计坏账订单数" align="center"></el-table-column>
-                    <el-table-column prop="dataCol" label="累计催回率(%)" align="center">
-                        <!-- <template slot-scope="scope">
-                        <span>{{scope.row.collNumdata}}%</span>
-                        </template>-->
-                    </el-table-column>
+                <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%;line-height: 60px">
+                    <el-table-column :resizable='false' prop="realtime" label="日期" align="center" class="red" width="150"></el-table-column>
+                    <el-table-column :resizable='false' prop="orderNum" label="订单总数" align="center" width="150"></el-table-column>
+                    <el-table-column :resizable='false' prop="collection_count" label="分配订单数" width="150" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="sameday" label="承诺还款订单数" align="center" width="150"></el-table-column>
+                    <el-table-column :resizable='false' prop="paymentmade" label="未还清订单数" align="center" width="150"></el-table-column>
+                    <el-table-column :resizable='false' prop="connected" label="坏账订单数" align="center" width="150"></el-table-column>
+                    <el-table-column :resizable='false' prop="dataCol" label="催回率(%)" align="center" width="150"></el-table-column>
                 </el-table>
                 <div class="block">
                     <el-pagination
-                        :current-page.sync="page"
-                        :page-size.sync="Pagesize"
+                        :current-page="page"
+                        :page-size="Pagesize"
                         layout="total, prev, pager, next, jumper"
                         :page-count="totalPageCount"
-                        :total="totalCount"
-                    ></el-pagination>
+                        :total="totalCount">
+                    </el-pagination>
                 </div>
             </div>
         </div>
@@ -105,6 +93,21 @@
                     start: "",
                     end: ""
                 };
+            },
+            downloadSource() {
+                var that = this;
+                if (this.form.start != "") {
+                    var start = this.form.start + " " + "00:00:00"
+                }
+                if (this.form.end != "") {
+                    var end = this.form.end + " " + "23:59:59"
+                }
+                var param = {
+                    companyId: window.localStorage.getItem("companyid"),
+                    startu_time: start,
+                    end_time: end
+                }
+                that.downloadExcel("/collection/Collectiondetailsexport", param, '催收率报表');
             },
             Search() {
                 if (this.form.start != "") {

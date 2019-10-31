@@ -28,41 +28,27 @@
                     </el-form-item>
                     <el-form-item>
                         <el-select v-model="form.qudao" placeholder="还款渠道" style="width:150px" @change="change">
-                            <el-option
-                                v-for="item in Thirdparty_interface"
-                                :key="item.value"
-                                :label="item.name"
-                                :value="item.id"
-                            ></el-option>
+                            <el-option v-for="item in Thirdparty_interface" :key="item.value" :label="item.name" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item>
-                        <el-button
-                            type="warning"
-                            @click="Reset"
-                            style="background-color:#e3e4e7;border:transparent;color:#000"
-                        >重置
-                        </el-button>
+                        <el-button type="warning" @click="Reset" style="background-color:#e3e4e7;border:transparent;color:#000">重置</el-button>
                         <el-button type="primary" @click="Search">搜索</el-button>
+                        <el-button type="danger" @click="downloadSource">下载</el-button>
                     </el-form-item>
                 </el-form>
                 <el-table border :data="tableData" tooltip-effect="dark" style="width: 100%">
-                    <el-table-column prop="repaymentDate" label="流水号时间" align="center"></el-table-column>
-                    <el-table-column prop="thname" label="还款渠道" align="center"></el-table-column>
-                    <el-table-column prop="pipelinenumber" label="还款流水号" align="center"></el-table-column>
-                    <el-table-column prop="repaymentMoney" label="还款金额" align="center"></el-table-column>
-                    <el-table-column prop="orderNumber" label="订单编号" align="center"></el-table-column>
-                    <el-table-column prop="name" label="姓名" align="center"></el-table-column>
-                    <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="repaymentDate" label="流水号时间" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="thname" label="还款渠道" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="pipelinenumber" label="还款流水号" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="repaymentMoney" label="还款金额" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="orderNumber" label="订单编号" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="shouldReturnTime" label="应还时间" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="name" label="姓名" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="phone" label="手机号" align="center"></el-table-column>
                 </el-table>
                 <div class="block">
-                    <el-pagination
-                        :current-page.sync="page"
-                        :page-size.sync="Pagesize"
-                        layout="total, prev, pager, next, jumper"
-                        :page-count="totalPageCount"
-                        :total="totalCount"
-                    ></el-pagination>
+                    <el-pagination :current-page="page" @current-change="currentChange" :page-size="pageSize" layout="total, prev, pager, next, jumper" :page-count="totalPageCount" :total="totalCount"></el-pagination>
                 </div>
             </div>
         </div>
@@ -89,16 +75,20 @@
                     qudao: ""
                 },
                 page: 1,
-                Pagesize: 10,
+                pageSize: 10,
                 totalPageCount: 0,
                 totalCount: 0
             };
         },
         created() {
             this.get();
-            this.getData(this.page, this.Pagesize);
+            this.getData(this.page, this.pageSize);
         },
         methods: {
+            currentChange(val) {
+                this.page = val;
+                this.Search();
+            },
             timeChange(val) {
                 // console.log(val)
                 this.form.start = val
@@ -117,20 +107,19 @@
                         this.Thirdparty_interface = res.data.Repayment_setting;
                     });
             },
-            getData(page, Pagesize) {
-                this.axios
-                    .get("fina/HuanKuan", {
+            getData(page, pageSize) {
+                this.axios.get("fina/HuanKuan", {
                         params: {
                             companyId: window.localStorage.getItem("companyid"),
                             page,
-                            Pagesize
+                            pageSize
                         }
-                    })
-                    .then(res => {
+                    }).then(res => {
                         this.tableData = res.data.Repayment;
-                        this.page = res.data.Repayment.page;
-                        this.Pagesize = res.data.Repayment.Pagesize;
-                        this.totalCount = res.data.Repayment.length;
+                        this.page = res.data.pageutil.page;
+                        this.pageSize = res.data.pageutil.pageSize;
+                        this.totalCount = res.data.pageutil.totalCount;
+                        this.totalPageCount = res.data.pageutil.totalPageCount;
                     });
             },
             change(id) {
@@ -152,6 +141,25 @@
                     qudao: ""
                 };
             },
+            downloadSource() {
+                var that = this;
+                if (this.form.start != "") {
+                    var start = this.form.start + " " + "00:00:00"
+                }
+                if (this.form.end != "") {
+                    var end = this.form.end + " " + "23:59:59"
+                }
+                var param = {
+                    companyId: window.localStorage.getItem("companyid"),
+                    orderNumber: this.form.id,
+                    phone: this.form.phone,
+                    name: this.form.name,
+                    start_time: start,
+                    end_time: end,
+                    thirdparty_id: this.id
+                }
+                that.downloadExcel("/fina/HuanKuanexport", param, '还款实时流水');
+            },
             Search() {
                 if (this.form.start != "") {
                     var start = this.form.start + " " + "00:00:00"
@@ -167,13 +175,16 @@
                         name: this.form.name,
                         start_time: start,
                         end_time: end,
-                        thirdparty_id: this.id
+                        thirdparty_id: this.id,
+                        page:this.page
                     }
+                }).then(res => {
+                    this.tableData = res.data.Repayment;
+                    this.page = res.data.pageutil.page;
+                    this.pageSize = res.data.pageutil.pageSize;
+                    this.totalCount = res.data.pageutil.totalCount;
+                    this.totalPageCount = res.data.pageutil.totalPageCount;
                 })
-                    .then(res => {
-                        this.tableData = res.data.Repayment;
-                        this.totalCount = res.data.Repayment.length;
-                    })
             }
         }
     }

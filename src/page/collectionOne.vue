@@ -16,46 +16,31 @@
                         <el-input placeholder="手机号" v-model="form.phone"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="warning" @click="Reset"
-                                   style="background-color:#e3e4e7;border:transparent;color:#000">重置
-                        </el-button>
+                        <el-button type="warning" @click="Reset" style="background-color:#e3e4e7;border:transparent;color:#000">重置</el-button>
                         <el-button type="primary" @click="Search">搜索</el-button>
+                        <el-button type="danger" @click="downloadSource">下载</el-button>
                     </el-form-item>
                     <el-form-item class="right">
                         <el-select placeholder="分配催收员" v-model="form.person">
-                            <el-option
-                                v-for="item in person"
-                                :key="item.value"
-                                :label="item.reallyName"
-                                :value="item.collectionMemberId"
-                            ></el-option>
+                            <el-option v-for="item in person" :key="item.id" :label="item.reallyName" :value="item.id"></el-option>
                         </el-select>
-                        <el-button type="success" @click="Onekey">一键分配</el-button>
+                        <el-button type="success" @click="Onekey" size="small">一键分配</el-button>
                     </el-form-item>
                 </el-form>
-                <el-table
-                    border
-                    ref="multipleTable"
-                    :data="tableData"
-                    style="width: 100%"
-                    @selection-change="handleSelectionChange"
-                >
-                    <el-table-column type="selection" width="55" align="center"></el-table-column>
-                    <el-table-column prop="orderNumber" label="订单编号" width="120" align="center"></el-table-column>
-                    <el-table-column prop="name" label="姓名" width="120" align="center"></el-table-column>
-                    <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
-                    <el-table-column prop="borrowMoneyWay" label="贷款方式" align="center"></el-table-column>
-                    <el-table-column prop="borrowTimeLimit" label="还款期数" align="center"></el-table-column>
-                    <el-table-column prop="orderCreateTime" label="实借时间" align="center"></el-table-column>
-                    <el-table-column prop="realityBorrowMoney" label="实借总金额" align="center"></el-table-column>
-                    <el-table-column prop="deferAfterReturntime" label="延期后应还时间" align="center"></el-table-column>
-                    <el-table-column prop="overdueNumberOfDays" label="逾期天数" align="center"></el-table-column>
-                    <el-table-column prop="interestPenaltySum" label="逾期罚金/含逾应还总金额" align="center">
-                        <template slot-scope="scope">
-                            <span>{{scope.row.interestPenaltySum}}/{{scope.row.order_money}}</span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="操作" align="center">
+                <el-table border ref="multipleTable" :data="tableData" style="width: 100%" @selection-change="handleSelectionChange">
+                    <el-table-column :resizable='false' type="selection" width="55" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="orderCreateTime" label="实借时间" align="center" width="100"></el-table-column>
+                    <el-table-column :resizable='false' prop="name" label="姓名" width="120" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="phone" label="手机号" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="borrowTimeLimit" label="还款期数" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="realityBorrowMoney" label="放款金额" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="shouldReturnTime" label="应还时间" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="overdueNumberOfDays" label="逾期天数" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="interestPenaltySum" label="逾期罚金" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="order_money" label="含逾应还总金额" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="usernum" label="借款次数" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="defeNum" label="延期次数" align="center"></el-table-column>
+                    <el-table-column :resizable='false' label="操作" align="center">
                         <template slot-scope="scope">
                             <el-popover :ref="`popover+${scope.$index}`" placement="bottom-end" width="300" trigger="click">
                                 <div v-if="show">
@@ -73,8 +58,8 @@
                 </el-table>
                 <div class="block">
                     <el-pagination
-                        :current-page.sync="page"
-                        :page-size.sync="Pagesize"
+                        :current-page="page"
+                        :page-size="Pagesize"
                         layout="total, prev, pager, next, jumper"
                         :page-count="totalPageCount"
                         :total="totalCount"
@@ -128,38 +113,35 @@
         },
         methods: {
             getData(page, Pagesize) {
-                this.axios
-                    .get("collection/BeoverdueCollection", {
-                        params: {
-                            companyId: window.localStorage.getItem("companyid"),
-                            page,
-                            Pagesize
-                        }
-                    })
-                    .then(res => {
-                        this.tableData = res.data.Orderdetails;
-                        this.page = res.data.Orderdetails.page;
-                        this.Pagesize = res.data.Orderdetails.Pagesize;
-                        this.totalCount = res.data.Orderdetails.length;
-                        // this.totalPageCount = res.data.pageUtil.totalPageCount
-                    });
+                this.axios.get("collection/BeoverdueCollection", {
+                    params: {
+                        companyId: window.localStorage.getItem("companyid"),
+                        page,
+                        Pagesize
+                    }
+                }).then(res => {
+                    this.tableData = res.data.Orderdetails;
+                    this.Pagesize = res.data.pageutil.pageSize;
+                    this.totalPageCount = res.data.pageutil.totalPageCount;
+                    this.totalCount = res.data.pageutil.totalCount;
+                    // this.totalPageCount = res.data.pageUtil.totalPageCount
+                });
             },
             getPerson() {
-                this.axios
-                    .get("collection/collectionmember", {
-                        params: {
-                            companyId: window.localStorage.getItem("companyid")
-                        }
-                    })
-                    .then(res => {
-                        this.person = res.data.collection_member;
-                    });
+                this.axios.get("collection/collectionmember", {
+                    params: {
+                        companyId: window.localStorage.getItem("companyid")
+                    }
+                }).then(res => {
+                    this.person = res.data.collection_member;
+                });
             },
             sizeChange() {
                 this.getData(this.page, this.Pagesize);
             },
-            currentChange() {
-                this.getData(this.page, this.Pagesize);
+            currentChange(val) {
+                this.page = val
+                this.Search();
             },
             handleSelectionChange(val) {
                 this.multipleSelection = val;
@@ -173,20 +155,32 @@
                     id: "",
                 };
             },
+            downloadSource() {
+                var that = this;
+                var param = {
+                    companyId: window.localStorage.getItem("companyid"),
+                    orderNumber: this.form.id,
+                    name: this.form.name,
+                    phone: this.form.phone,
+                    page: this.page
+                }
+                that.downloadExcel("/collection/BeoverdueCollectionexport", param, '已逾期未分配');
+            },
             Search() {
-                this.axios
-                    .get("collection/BeoverdueCollection", {
-                        params: {
-                            companyId: window.localStorage.getItem("companyid"),
-                            orderNumber: this.form.id,
-                            name: this.form.name,
-                            phone: this.form.phone
-                        }
-                    })
-                    .then(res => {
-                        this.tableData = res.data.Orderdetails;
-                        this.totalCount = res.data.Orderdetails.length;
-                    })
+                this.axios.get("collection/BeoverdueCollection", {
+                    params: {
+                        companyId: window.localStorage.getItem("companyid"),
+                        orderNumber: this.form.id,
+                        name: this.form.name,
+                        phone: this.form.phone,
+                        page: this.page
+                    }
+                }).then(res => {
+                    this.tableData = res.data.Orderdetails;
+                    this.Pagesize = res.data.pageutil.pageSize;
+                    this.totalPageCount = res.data.pageutil.totalPageCount;
+                    this.totalCount = res.data.pageutil.totalCount;
+                })
             },
             see(orderId) {
                 if (this.form.person != "") {
@@ -197,26 +191,23 @@
                     this.hidden = false;
                 }
             },
-            confire(orderId,scope) {
+            confire(orderId, scope) {
                 scope._self.$refs[`popover+${scope.$index}`].doClose();
                 this.visible = false;
                 var order = [];
                 order.push(orderId);
-                this.axios
-                    .get("collection/AddCollection", {
-                        params: {
-                            orderIds: order.join(","),
-                            CollectionMemberId: this.form.person
-                        }
-                    })
-                    .then(res => {
-                        this.$confirm(res.data.desc, "提示", {
-                            type: "warning",
-                            center: true
-                        }).then(() => {
-                            this.getData(this.page, this.Pagesize);
-                        });
+                this.axios.get("collection/AddCollection", {
+                    params: {
+                        orderIds: order.join(","),
+                        CollectionMemberId: this.form.person
+                    }
+                }).then(res => {
+                    this.$message({
+                        type: 'success',
+                        message: '分配成功'
                     });
+                    this.getData(this.page, this.Pagesize);
+                });
             },
             Onekey() {
                 // console.log(this.form.person)

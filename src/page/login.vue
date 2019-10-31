@@ -3,44 +3,32 @@
         <div class="form-fade">
             <p class="manage_tip">用户登录</p>
             <p class="manage_but">USER LOGIN</p>
-            <el-form :model="loginForm" :rules="rules" ref="loginForm" class="loginForm">
+            <el-form :model="loginForm" ref="loginForm" class="loginForm">
                 <el-form-item prop="username">
-                    <el-input v-model="loginForm.username" placeholder="用户名" class="username"><span></span></el-input>
-                    <!-- <input v-model="loginForm.username" placeholder="用户名" class="username" /> -->
+                    <el-input v-model="loginForm.username" placeholder="手机号" class="username"><span></span></el-input>
+                </el-form-item>
+                <el-form-item prop="picture">
+                    <el-input v-model="loginForm.imageCode" placeholder="图形验证码" class="user-image-code"><span></span>
+                    </el-input>
+                    <img v-bind:src="imgUrl" class="imgReset" @click="getImgCode">
                 </el-form-item>
                 <el-form-item prop="password">
-                    <el-input type="password" @keyup.enter.native="submitForm" placeholder="密码" v-model="loginForm.password" class="password" @keyup.enter="submitForm('loginForm')"></el-input>
-                    <!-- <input v-model="loginForm.password" placeholder="密码" class="password" /> -->
+                    <el-input type="password" @keyup.enter.native="submitForm" placeholder="短信验证码" v-model="loginForm.password" class="password"
+                              @keyup.enter="submitForm('loginForm')"></el-input>
+                    <input type="button" class="send-short-message" @click="sendShortMessage" v-bind:value="sendText" :disabled="disableButton"/>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary"  @click="submitForm('loginForm')" class="submit_btn">登录</el-button>
+                    <el-button type="primary" @click="submitForm('loginForm')" class="submit_btn">登录</el-button>
                 </el-form-item>
             </el-form>
         </div>
-        <!-- <transition name="form-fade" mode="in-out">
-            <section class="form_contianer" v-show="showLogin">
-                <div class="manage_tip">
-                    <p>后台管理系统</p>
-                </div>
-                <el-form :model="loginForm" :rules="rules" ref="loginForm">
-                    <el-form-item prop="username">
-                        <el-input v-model="loginForm.username" placeholder="用户名"><span>dsfsf</span></el-input>
-                    </el-form-item>
-                    <el-form-item prop="password">
-                        <el-input type="password" placeholder="密码" v-model="loginForm.password"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" @click="submitForm('loginForm')" class="submit_btn">登陆</el-button>
-                    </el-form-item>
-                </el-form>
-            </section>
-        </transition> -->
     </div>
 </template>
 
 <script>
     import {login, getAdminInfo} from '@/api/getData'
     import {mapActions, mapState} from 'vuex'
+    import qs from 'qs'
 
     export default {
         data() {
@@ -48,17 +36,24 @@
                 loginForm: {
                     username: '',
                     password: '',
+                    imageCode: '',
+                    shortMessageCode: '',
                 },
-                rules: {
-                    username: [
-                        {required: true, message: '请输入用户名', trigger: 'blur'},
-                    ],
-                    password: [
-                        {required: true, message: '请输入密码', trigger: 'blur'}
-                    ],
-                },
+                imgUrl: '',
+                sessionId: '',
                 showLogin: false,
+                sendText: '发送',
+                disableButton: false
             }
+        },
+        created() {
+            var that = this;
+            this.axios.get("/login/initializationH5", {params: {}}).then(res => {
+                that.imgUrl = res.data.photoUrl;
+                that.sessionId = res.data.sessionId;
+            }).catch(res => {
+                console.log(res)
+            })
         },
         mounted() {
             this.showLogin = true;
@@ -72,8 +67,22 @@
         methods: {
             ...mapActions(['getAdminData']),
             async submitForm() {
-                this.axios.get('login/loginap', {
-                    params: {account: this.loginForm.username, pwd: this.loginForm.password}
+                if (!this.loginForm.username) {
+                    this.$message({
+                        type: "error",
+                        message: "请输入11位手机号"
+                    });
+                    return false;
+                }
+                if (this.loginForm.username.length != 11) {
+                    this.$message({
+                        type: "error",
+                        message: "请输入11位手机号"
+                    });
+                    return false;
+                }
+                this.axios.get('login/loginpc', {
+                    params: {phone: this.loginForm.username, code: this.loginForm.password}
                 }).then(res => {
                     if (!res.data.loginStatus) {
                         this.$message({
@@ -88,47 +97,54 @@
                         window.localStorage.setItem("companyid", res.data.companyid)
                         window.localStorage.setItem("account", res.data.account)
                         window.localStorage.setItem("userid", res.data.userid)
+                        window.localStorage.setItem("role", res.data.functionIdList)
                         this.$router.push('manage')
                     }
                 })
-                /*this.$refs[formName].validate(async (valid) => {
-                    if (valid) {
-
-                        res.status =1;
-                        if (res.status == 1) {
-                            this.$message({
-                                type: 'success',
-                                message: '登录成功'
-                            });
-                            this.$router.push('manage')
-                        }else{
-                            this.$message({
-                                type: 'error',
-                                message: res.message
-                            });
-                        }
-                    } else {
-                        this.$notify.error({
-                            title: '错误',
-                            message: '请输入正确的用户名密码',
-                            offset: 100
+            },
+            sendShortMessage() {
+                var that = this;
+                var data = {
+                    sessionId: that.sessionId,
+                    phone: that.loginForm.username,
+                    code: that.loginForm.imageCode
+                }
+                var time = 31;
+                that.axios.get("/login/sendH5ShortMessage", {params: data}).then(res => {
+                    if (res.data.msg != '提交成功') {
+                        this.$message({
+                            type: "error",
+                            message: res.data.msg
                         });
-                        return false;
+                    } else {
+                        var num = setInterval(function () {
+                            time--;
+                            that.sendText = time + "秒"
+                            that.disableButton = true;
+                            if (time == 0) {
+                                that.sendText = "再次发送"
+                                that.disableButton = false;
+                                clearInterval(num);
+                                time = 31
+                            }
+                        }, 1000)
                     }
-                });*/
+                }).catch(res => {
+                    console.log(res)
+                })
+            },
+            getImgCode: function () {
+                var that = this;
+                var data = {
+                    sessionId: that.sessionId
+                }
+                that.axios.get("/login/getH5Code", {params: data}).then(res => {
+                    that.imgUrl = res.data;
+                }).catch(res => {
+                    console.log(res)
+                })
             },
         },
-        /*watch: {
-            adminInfo: function (newValue){
-                if (newValue.id) {
-                    this.$message({
-                        type: 'success',
-                        message: '检测到您之前登录过，将自动登录'
-                    });
-                    this.$router.push('manage')
-                }
-            }
-        }*/
     }
 </script>
 
@@ -140,29 +156,29 @@
         background-image: url(../assets/img/login.png);
     }
 
-    .form-fade{
+    .form-fade {
         position: absolute;
         top: 26%;
         right: 20%;
     }
 
-    .manage_tip{
+    .manage_tip {
         font-size: 1.6rem;
         color: #396fff;
         text-align: left;
     }
 
-    .manage_but{
+    .manage_but {
         font-size: 1rem;
         color: #b3bbd3;
         text-align: left;
     }
 
-    .loginForm{
+    .loginForm {
         margin-top: 10%;
     }
 
-    .username{
+    .username {
         background: #fff url(../assets/img/name.png) 4px 4px no-repeat;
         background-size: 30px;
         width: 300px;
@@ -171,66 +187,52 @@
         margin-bottom: 20px;
     }
 
+    .user-image-code {
+        background: #fff url(../assets/img/shortMessage.png) 4px 4px no-repeat;
+        background-size: 25px;
+        width: 200px;
+        padding-left: 40px;
+        margin-bottom: 20px;
+    }
+
+    .user-image-code input.el-input__inner {
+        border: 0 none;
+    }
+
     .username input.el-input__inner {
         border: 0 none;
     }
 
-    .password{
+    .password {
         background: #fff url(../assets/img/password.png) 4px 4px no-repeat;
         background-size: 30px;
-        width: 300px;
+        width: 200px;
         line-height: 40px;
         padding-left: 40px;
         margin-bottom: 20px;
+    }
+
+    .send-short-message {
+        width: 100px;
+        line-height: 40px;
+        height: 40px;
+        vertical-align: middle;
+        text-align: center;
     }
 
     .password input.el-input__inner {
         border: 0 none;
     }
 
-    .submit_btn{
+    .submit_btn {
         width: 340px;
         background-color: #396fff;
         font-size: 1.2rem;
     }
 
-    // .manage_tip {
-    //     position: absolute;
-    //     width: 100%;
-    //     top: -100px;
-    //     left: 0;
-
-    //     p {
-    //         font-size: 34px;
-    //         color: #fff;
-    //     }
-    // }
-
-    // .form_contianer {
-    //     .wh(320px, 210px);
-    //     .ctp(320px, 210px);
-    //     padding: 25px;
-    //     border-radius: 5px;
-    //     text-align: center;
-    //     background-color: #fff;
-
-    //     .submit_btn {
-    //         width: 100%;
-    //         font-size: 16px;
-    //     }
-    // }
-
-    // .tip {
-    //     font-size: 12px;
-    //     color: red;
-    // }
-
-    // .form-fade-enter-active, .form-fade-leave-active {
-    //     transition: all 1s;
-    // }
-
-    // .form-fade-enter, .form-fade-leave-active {
-    //     transform: translate3d(0, -50px, 0);
-    //     opacity: 0;
-    // }
+    .imgReset {
+        height: 40px;
+        width: 100px;
+        vertical-align: middle
+    }
 </style>

@@ -43,15 +43,15 @@
                 </el-dialog>
                 <el-button type="success" @click="add" class="aps">添加短信</el-button>
                 <el-table border :data="tableData" style="width: 100%">
-                    <el-table-column prop="send_time" label="操作时间" align="center"></el-table-column>
-                    <el-table-column prop="user_type" label="客户端类型" align="center"></el-table-column>
-                    <el-table-column prop="usernum" label="已选注册用户" align="center"></el-table-column>
-                    <el-table-column prop="short_text" label="短信内容" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="send_time" label="操作时间" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="user_type" label="客户端类型" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="usernum" label="已选注册用户" align="center"></el-table-column>
+                    <el-table-column :resizable='false' prop="short_text" label="短信内容" align="center"></el-table-column>
                 </el-table>
                 <div class="block">
                     <el-pagination
                         :current-page="page"
-                        :page-size.sync="Pagesize"
+                        :page-size="Pagesize"
                         layout="total, prev, pager, next, jumper"
                         :page-count="totalPageCount"
                         :total="totalCount"
@@ -143,7 +143,7 @@
                         usernum: this.people,
                         short_text: this.content,
                         phone: this.phones.join(','),
-                        sys_userId:window.localStorage.getItem('userid')
+                        sys_userId: window.localStorage.getItem('userid')
                     }
                 }).then(res => {
                     if (res.data.code == 200)
